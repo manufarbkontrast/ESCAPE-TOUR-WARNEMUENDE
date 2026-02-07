@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Font Face Declarations */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/inter-var.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Playfair Display';
+    font-style: normal;
+    font-weight: 400 900;
+    font-display: swap;
+    src: url('/fonts/playfair-display-var.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 100 800;
+    font-display: swap;
+    src: url('/fonts/jetbrains-mono-var.woff2') format('woff2');
+  }
+
+  /* Root Variables */
+  :root {
+    --navy-50: 240 249 255;
+    --navy-100: 224 242 254;
+    --navy-200: 186 230 253;
+    --navy-300: 125 211 252;
+    --navy-400: 56 189 248;
+    --navy-500: 14 165 233;
+    --navy-600: 2 132 199;
+    --navy-700: 3 105 161;
+    --navy-800: 7 89 133;
+    --navy-900: 12 74 110;
+    --navy-950: 8 47 73;
+
+    --brass-50: 254 252 232;
+    --brass-100: 254 249 195;
+    --brass-200: 254 240 138;
+    --brass-300: 253 224 71;
+    --brass-400: 250 204 21;
+    --brass-500: 234 179 8;
+    --brass-600: 202 138 4;
+    --brass-700: 161 98 7;
+    --brass-800: 133 77 14;
+    --brass-900: 113 63 18;
+    --brass-950: 66 32 6;
+
+    --sand-50: 250 250 249;
+    --sand-100: 245 245 244;
+    --sand-200: 231 229 228;
+    --sand-300: 214 211 209;
+    --sand-400: 168 162 158;
+    --sand-500: 120 113 108;
+    --sand-600: 87 83 78;
+    --sand-700: 68 64 60;
+    --sand-800: 41 37 36;
+    --sand-900: 28 25 23;
+    --sand-950: 12 10 9;
+  }
+
+  /* Base Styles */
+  * {
+    @apply border-sand-200;
+  }
+
+  html {
+    @apply antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-navy-950 text-white;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold;
+  }
+
+  /* Focus Styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brass-400 ring-offset-2 ring-offset-navy-950;
+  }
+}
+
+@layer components {
+  /* Maritime Patterns */
+  .pattern-waves {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='%23f59e0b' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+
+  .pattern-anchor {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Button Styles */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-brass-500 text-navy-950 hover:bg-brass-400 focus-visible:ring-brass-400 focus-visible:ring-offset-navy-950;
+  }
+
+  .btn-secondary {
+    @apply bg-navy-800 text-white hover:bg-navy-700 focus-visible:ring-navy-500 focus-visible:ring-offset-navy-950;
+  }
+
+  .btn-ghost {
+    @apply bg-transparent text-white hover:bg-white/10 focus-visible:ring-white focus-visible:ring-offset-navy-950;
+  }
+
+  /* Card Styles */
+  .card {
+    @apply rounded-xl bg-navy-900/50 backdrop-blur-sm border border-navy-800 p-6 transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:bg-navy-900/70 hover:border-brass-500/50 hover:shadow-lg hover:shadow-brass-500/10;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Gradient Text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-brass-300 via-brass-400 to-brass-500 bg-clip-text text-transparent;
+  }
+
+  /* Nautical Divider */
+  .divider-nautical {
+    @apply relative h-px bg-gradient-to-r from-transparent via-brass-500/50 to-transparent;
+  }
+
+  .divider-nautical::before {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-brass-500;
+    content: '⚓';
+    font-size: 1rem;
+    background: rgb(8 47 73);
+    padding: 0 0.5rem;
+  }
+}
+
+@layer utilities {
+  /* Text Shadow */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Scrollbar Styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(202 138 4) rgb(12 74 110);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-navy-900;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-brass-600 rounded-full;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-brass-500;
+  }
+
+  /* Animation */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slide-in {
+    animation: slideIn 0.6s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
