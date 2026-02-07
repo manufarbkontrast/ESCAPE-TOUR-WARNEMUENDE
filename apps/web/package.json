@@ -10,15 +10,16 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "@escape-tour/shared": "workspace:*",
-    "@escape-tour/game-logic": "workspace:*",
     "@escape-tour/database": "workspace:*",
-    "@supabase/supabase-js": "^2.49.1",
+    "@escape-tour/game-logic": "workspace:*",
+    "@escape-tour/shared": "workspace:*",
     "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.1",
     "framer-motion": "^12.4.7",
     "howler": "^2.2.4",
     "mapbox-gl": "^3.9.4",
     "next": "14.2.25",
+    "next-pwa": "^5.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zustand": "^5.0.3"

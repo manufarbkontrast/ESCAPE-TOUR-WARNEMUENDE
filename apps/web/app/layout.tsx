@@ -18,6 +18,7 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Escape Tour Warnemünde – Das Vermächtnis des Lotsenkapitäns',
   description: 'Entdeckt Warnemünde auf eine ganz neue Art. Eine spannende Escape-Tour durch die maritime Geschichte des Ostseebades.',
+  manifest: '/manifest.json',
   keywords: ['Escape Tour', 'Warnemünde', 'Schnitzeljagd', 'Stadtführung', 'Rätsel', 'Ostsee'],
   authors: [{ name: 'Escape Tour Warnemünde' }],
   creator: 'Escape Tour Warnemünde',
@@ -26,6 +27,11 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false,
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Escape Tour',
   },
   metadataBase: new URL('https://escape-tour-warnemuende.de'),
   alternates: {
@@ -72,8 +78,8 @@ export const viewport: Viewport = {
   maximumScale: 5,
   userScalable: true,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#082f49' },
-    { media: '(prefers-color-scheme: dark)', color: '#082f49' },
+    { media: '(prefers-color-scheme: light)', color: '#c6952b' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a1628' },
   ],
 };
 

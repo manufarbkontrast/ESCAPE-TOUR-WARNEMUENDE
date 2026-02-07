@@ -4,6 +4,14 @@ import { useState } from 'react'
 import type { Puzzle, ValidationResult, AnswerRequest } from '@escape-tour/shared'
 import { CountPuzzle } from './puzzles/CountPuzzle'
 import { TextInputPuzzle } from './puzzles/TextInputPuzzle'
+import { PhotoSearchPuzzle } from './puzzles/PhotoSearchPuzzle'
+import { SymbolFindPuzzle } from './puzzles/SymbolFindPuzzle'
+import { CombinationPuzzle } from './puzzles/CombinationPuzzle'
+import { ARPuzzle } from './puzzles/ARPuzzle'
+import { AudioPuzzle } from './puzzles/AudioPuzzle'
+import { LogicPuzzle } from './puzzles/LogicPuzzle'
+import { NavigationPuzzle } from './puzzles/NavigationPuzzle'
+import { DocumentAnalysisPuzzle } from './puzzles/DocumentAnalysisPuzzle'
 
 interface PuzzleRendererProps {
   readonly puzzle: Puzzle
@@ -84,29 +92,39 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
     }
   }
 
+  const puzzleProps = { puzzle, language, onSubmit: handleSubmit, isSubmitting }
+
   const renderPuzzle = () => {
     switch (puzzle.puzzleType) {
       case 'count':
-        return (
-          <CountPuzzle
-            puzzle={puzzle}
-            language={language}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        )
+        return <CountPuzzle {...puzzleProps} />
+
+      case 'photo_search':
+        return <PhotoSearchPuzzle {...puzzleProps} />
 
       case 'symbol_find':
-      case 'text_analysis':
+        return <SymbolFindPuzzle {...puzzleProps} />
+
       case 'combination':
-        return (
-          <TextInputPuzzle
-            puzzle={puzzle}
-            language={language}
-            onSubmit={handleSubmit}
-            isSubmitting={isSubmitting}
-          />
-        )
+        return <CombinationPuzzle {...puzzleProps} />
+
+      case 'ar_puzzle':
+        return <ARPuzzle {...puzzleProps} />
+
+      case 'audio':
+        return <AudioPuzzle {...puzzleProps} />
+
+      case 'logic':
+        return <LogicPuzzle {...puzzleProps} />
+
+      case 'navigation':
+        return <NavigationPuzzle {...puzzleProps} />
+
+      case 'document_analysis':
+        return <DocumentAnalysisPuzzle {...puzzleProps} />
+
+      case 'text_analysis':
+        return <TextInputPuzzle {...puzzleProps} />
 
       default:
         return (

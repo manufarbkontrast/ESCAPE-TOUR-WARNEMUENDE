@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#0a1628"/>
+  <circle cx="256" cy="256" r="240" fill="none" stroke="#c6952b" stroke-width="4"/>
+
+  <!-- Compass rose outer ring -->
+  <circle cx="256" cy="256" r="200" fill="none" stroke="#c6952b" stroke-width="2" opacity="0.5"/>
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#c6952b" stroke-width="1" opacity="0.3"/>
+
+  <!-- Compass cardinal tick marks -->
+  <line x1="256" y1="56" x2="256" y2="80" stroke="#c6952b" stroke-width="3"/>
+  <line x1="256" y1="432" x2="256" y2="456" stroke="#c6952b" stroke-width="3"/>
+  <line x1="56" y1="256" x2="80" y2="256" stroke="#c6952b" stroke-width="3"/>
+  <line x1="432" y1="256" x2="456" y2="256" stroke="#c6952b" stroke-width="3"/>
+
+  <!-- Compass intercardinal tick marks -->
+  <line x1="114" y1="114" x2="131" y2="131" stroke="#c6952b" stroke-width="2" opacity="0.7"/>
+  <line x1="381" y1="381" x2="398" y2="398" stroke="#c6952b" stroke-width="2" opacity="0.7"/>
+  <line x1="398" y1="114" x2="381" y2="131" stroke="#c6952b" stroke-width="2" opacity="0.7"/>
+  <line x1="114" y1="398" x2="131" y2="381" stroke="#c6952b" stroke-width="2" opacity="0.7"/>
+
+  <!-- North pointer (brass/gold) -->
+  <polygon points="256,96 276,246 256,236 236,246" fill="#c6952b"/>
+  <!-- South pointer (lighter) -->
+  <polygon points="256,416 276,266 256,276 236,266" fill="#8b6914" opacity="0.8"/>
+  <!-- East pointer -->
+  <polygon points="416,256 266,236 276,256 266,276" fill="#8b6914" opacity="0.6"/>
+  <!-- West pointer -->
+  <polygon points="96,256 246,236 236,256 246,276" fill="#8b6914" opacity="0.6"/>
+
+  <!-- Center circle -->
+  <circle cx="256" cy="256" r="16" fill="#c6952b"/>
+  <circle cx="256" cy="256" r="10" fill="#0a1628"/>
+  <circle cx="256" cy="256" r="5" fill="#c6952b"/>
+
+  <!-- N letter -->
+  <text x="256" y="50" text-anchor="middle" fill="#c6952b" font-family="serif" font-size="28" font-weight="bold">N</text>
+  <!-- S letter -->
+  <text x="256" y="488" text-anchor="middle" fill="#c6952b" font-family="serif" font-size="22" opacity="0.7">S</text>
+  <!-- E letter -->
+  <text x="478" y="264" text-anchor="middle" fill="#c6952b" font-family="serif" font-size="22" opacity="0.7">O</text>
+  <!-- W letter -->
+  <text x="34" y="264" text-anchor="middle" fill="#c6952b" font-family="serif" font-size="22" opacity="0.7">W</text>
+
+  <!-- Anchor overlay (smaller, centered at bottom of compass) -->
+  <g transform="translate(256,320) scale(0.6)">
+    <!-- Anchor ring -->
+    <circle cx="0" cy="-60" r="16" fill="none" stroke="#e8d5a3" stroke-width="4"/>
+    <!-- Anchor shaft -->
+    <line x1="0" y1="-44" x2="0" y2="50" stroke="#e8d5a3" stroke-width="5"/>
+    <!-- Anchor crossbar -->
+    <line x1="-30" y1="-10" x2="30" y2="-10" stroke="#e8d5a3" stroke-width="4"/>
+    <!-- Anchor flukes -->
+    <path d="M-40,50 Q-20,30 0,50 Q20,30 40,50" fill="none" stroke="#e8d5a3" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>
