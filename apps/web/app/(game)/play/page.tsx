@@ -168,7 +168,7 @@ export default function PlayEntryPage() {
           </label>
 
           <CodeInput
-            length={4}
+            length={6}
             onComplete={handleCodeComplete}
             isSubmitting={isSubmitting}
             error={error}

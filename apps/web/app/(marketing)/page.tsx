@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
+import { FaqAccordion } from '@/components/marketing/FaqAccordion';
 
 /**
  * Tour variant card data type
@@ -129,6 +130,47 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
     </div>
   );
 }
+
+/**
+ * FAQ items for the accordion section
+ */
+const FAQ_ITEMS = [
+  {
+    question: 'Wie funktioniert die Escape Tour?',
+    answer:
+      'Ihr bucht online eure Tour und erhaltet einen Buchungscode. Am Startpunkt gebt ihr den Code ein und werdet von Station zu Station geleitet. An jeder Station wartet ein Rätsel auf euch, das ihr mit eurem Smartphone löst.',
+  },
+  {
+    question: 'Wie lange dauert die Tour?',
+    answer:
+      'Die Familien-Tour dauert ca. 2-3 Stunden, die Erwachsenen-Tour ca. 3-4 Stunden. Ihr könnt jederzeit Pausen einlegen und die Tour in eurem eigenen Tempo spielen.',
+  },
+  {
+    question: 'Ist die Tour auch bei Regen spielbar?',
+    answer:
+      'Die Tour ist grundsätzlich bei jedem Wetter spielbar. Bei starkem Regen empfehlen wir wetterfeste Kleidung. Einige Stationen bieten überdachte Bereiche.',
+  },
+  {
+    question: 'Für welches Alter ist die Tour geeignet?',
+    answer:
+      'Die Familien-Tour ist für Kinder ab 8 Jahren geeignet. Die Erwachsenen-Tour richtet sich an Jugendliche ab 14 Jahren und Erwachsene.',
+  },
+  {
+    question: 'Brauche ich eine Internetverbindung?',
+    answer:
+      'Ja, ihr benötigt ein Smartphone mit Internetverbindung. Die App funktioniert auch offline für kurze Zeit, aber für die beste Erfahrung empfehlen wir eine stabile Verbindung.',
+  },
+  {
+    question: 'Kann ich die Tour pausieren?',
+    answer:
+      'Ja! Ihr könnt die Tour jederzeit pausieren und später fortsetzen. Der Timer wird angehalten und eure Fortschritte werden gespeichert.',
+  },
+  {
+    question: 'Was passiert wenn ich nicht weiterkomme?',
+    answer:
+      'Für jedes Rätsel stehen euch bis zu drei Hinweise zur Verfügung. Die Hinweise kosten zwar Punkte, aber sie helfen euch weiterzukommen. Als letzte Option könnt ihr die Lösung anzeigen lassen.',
+  },
+] as const;
 
 /**
  * Landing page component
@@ -275,6 +317,24 @@ export default function HomePage() {
                 <p className="text-sm text-sand-300">{item.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 bg-navy-950">
+        <div className="container-custom">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="font-display text-3xl md:text-4xl font-bold">
+              Häufig gestellte <span className="text-gradient">Fragen</span>
+            </h2>
+            <p className="text-lg text-sand-300 max-w-2xl mx-auto">
+              Alles was ihr vor eurer Tour wissen müsst
+            </p>
+          </div>
+
+          <div className="max-w-3xl mx-auto">
+            <FaqAccordion items={FAQ_ITEMS} />
           </div>
         </div>
       </section>

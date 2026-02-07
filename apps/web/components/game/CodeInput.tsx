@@ -11,7 +11,7 @@ interface CodeInputProps {
 }
 
 export function CodeInput({
-  length = 4,
+  length = 6,
   onComplete,
   isSubmitting = false,
   error = null,
