@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { GeoPoint } from '@escape-tour/shared'
+import { GPS_DISABLED } from '@/lib/config'
 
 interface UserLocation {
   readonly lat: number
@@ -55,6 +56,15 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
     const state = get()
 
     if (state.isTracking) {
+      return
+    }
+
+    if (GPS_DISABLED) {
+      set({
+        isTracking: false,
+        watchId: null,
+        error: null,
+      })
       return
     }
 
@@ -122,6 +132,14 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
   },
 
   stopWatching: () => {
+    if (GPS_DISABLED) {
+      set({
+        watchId: null,
+        isTracking: false,
+      })
+      return
+    }
+
     const state = get()
 
     if (state.watchId !== null) {

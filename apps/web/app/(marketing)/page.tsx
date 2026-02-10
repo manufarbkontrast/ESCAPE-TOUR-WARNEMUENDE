@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
@@ -14,6 +15,20 @@ interface TourVariant {
   readonly difficulty: string;
   readonly features: ReadonlyArray<string>;
   readonly popular?: boolean;
+}
+
+interface ExperiencePillar {
+  readonly title: string;
+  readonly description: string;
+  readonly icon: string;
+  readonly detail: string;
+}
+
+interface RouteHighlight {
+  readonly title: string;
+  readonly description: string;
+  readonly tag: string;
+  readonly image: string;
 }
 
 /**
@@ -48,6 +63,48 @@ const TOUR_VARIANTS: ReadonlyArray<TourVariant> = [
       'Historische Tiefe',
       'Exklusive Bonus-Inhalte',
     ],
+  },
+] as const;
+
+const EXPERIENCE_PILLARS: ReadonlyArray<ExperiencePillar> = [
+  {
+    title: 'Story-getrieben',
+    description: 'Eine echte Geschichte führt euch Schritt für Schritt durch Warnemünde.',
+    icon: '📜',
+    detail: 'Kapitel statt Punktejagd',
+  },
+  {
+    title: 'Aktiv & draußen',
+    description: 'Ihr bewegt euch durch Hafen, Strand und Gassen – ohne Zeitdruck.',
+    icon: '🌊',
+    detail: 'Flexibles Tempo',
+  },
+  {
+    title: 'Gemeinsam lösen',
+    description: 'Rätsel, die für Teams gebaut sind – intuitiv, aber clever.',
+    icon: '🧩',
+    detail: 'Perfekt für Gruppen',
+  },
+] as const;
+
+const ROUTE_HIGHLIGHTS: ReadonlyArray<RouteHighlight> = [
+  {
+    title: 'Leuchtturm & Teepott',
+    description: 'Der ikonische Startpunkt, an dem das Vermächtnis beginnt.',
+    tag: 'Startpunkt',
+    image: '/graphics/location-lighthouse.svg',
+  },
+  {
+    title: 'Alter Strom',
+    description: 'Zwischen Booten, Brücken und Räucherfisch wartet das nächste Rätsel.',
+    tag: 'Maritimes Herz',
+    image: '/graphics/location-harbor.svg',
+  },
+  {
+    title: 'Promenade & Strand',
+    description: 'Weite Sicht, frische Luft und das Finale der Spurensuche.',
+    tag: 'Finale',
+    image: '/graphics/location-teapot.svg',
   },
 ] as const;
 
@@ -172,6 +229,64 @@ const FAQ_ITEMS = [
   },
 ] as const;
 
+function HeroVisual() {
+  return (
+    <div className="relative mx-auto w-full max-w-xl">
+      <div className="absolute -top-8 -left-6 h-40 w-40 rounded-full bg-brass-500/20 blur-3xl" />
+      <div className="absolute -bottom-10 -right-10 h-52 w-52 rounded-full bg-navy-700/30 blur-3xl" />
+
+      <div className="relative rounded-3xl border border-brass-500/30 bg-navy-900/70 p-6 shadow-2xl backdrop-blur hero-glow">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-brass-300">Live-Ansicht</p>
+            <h3 className="font-display text-xl font-semibold text-sand-50">Tour-Interface</h3>
+          </div>
+          <div className="rounded-full bg-brass-500/15 px-3 py-1 text-xs text-brass-300">
+            Kapitel 1/8
+          </div>
+        </div>
+
+        <div className="mt-5 overflow-hidden rounded-2xl border border-navy-700/60 bg-navy-950/80">
+          <Image
+            src="/graphics/hero-map.svg"
+            alt="Illustration der Route"
+            width={880}
+            height={520}
+            className="h-full w-full object-cover"
+            priority
+          />
+        </div>
+
+        <div className="mt-5 grid grid-cols-3 gap-3 text-xs">
+          {[
+            { label: 'Rätsel gelöst', value: '3/10' },
+            { label: 'Team-Punkte', value: '480' },
+            { label: 'Nächster Halt', value: 'Alter Strom' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-xl border border-navy-700/60 bg-navy-900/60 px-3 py-3 text-sand-200"
+            >
+              <p className="text-[10px] uppercase tracking-wide text-sand-400">{item.label}</p>
+              <p className="mt-1 font-semibold text-sand-50">{item.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="absolute -top-6 right-6 rounded-2xl border border-brass-500/40 bg-navy-950/90 px-4 py-3 text-xs text-sand-200 shadow-lg animate-float-slow">
+        <p className="text-[10px] uppercase tracking-wide text-brass-300">Hinweis</p>
+        <p className="mt-1 font-semibold">Schaut auf die Stufen</p>
+      </div>
+
+      <div className="absolute -bottom-6 left-8 rounded-2xl border border-navy-700 bg-navy-950/90 px-4 py-3 text-xs text-sand-200 shadow-lg animate-float-medium">
+        <p className="text-[10px] uppercase tracking-wide text-sand-400">Routen-Status</p>
+        <p className="mt-1 font-semibold text-brass-400">3 km bis Finale</p>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Landing page component
  * Main entry point for the marketing site
@@ -180,66 +295,157 @@ export default function HomePage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
-        <div className="absolute inset-0 bg-gradient-to-br from-brass-500/5 to-transparent" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 via-navy-950 to-navy-950 pattern-anchor">
+        <div className="absolute inset-0 hero-grid" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brass-500/10 via-transparent to-navy-900/60" />
 
-        <div className="container-custom relative py-20 md:py-32">
-          <div className="mx-auto max-w-3xl text-center space-y-8">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-brass-500/30 bg-brass-500/10 px-4 py-2 text-sm backdrop-blur">
-              <span className="text-brass-400">⚓</span>
-              <span className="text-brass-300">Das Vermächtnis des Lotsenkapitäns</span>
+        <div className="container-custom relative py-16 md:py-24 lg:py-28">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brass-500/30 bg-brass-500/10 px-4 py-2 text-sm backdrop-blur">
+                <span className="text-brass-400">⚓</span>
+                <span className="text-brass-300">Das Vermächtnis des Lotsenkapitäns</span>
+              </div>
+
+              <div className="space-y-4">
+                <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white text-shadow-lg">
+                  Entdeckt Warnemünde
+                  <span className="block text-gradient">als interaktives Abenteuer</span>
+                </h1>
+                <p className="text-lg md:text-xl text-sand-200 max-w-2xl">
+                  Eine Escape-Tour voller Rätsel, Story und echter Orte. Ihr spielt draußen,
+                  löst Hinweise im Team und erlebt das Ostseebad wie in einem Abenteuerfilm.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-center">
+                <Link href="#touren" className="btn btn-primary text-lg px-8 py-4">
+                  Tour buchen
+                </Link>
+                <Link href="/play" className="btn btn-ghost text-lg px-8 py-4">
+                  Demo starten
+                </Link>
+                <div className="rounded-full border border-brass-500/40 bg-brass-500/10 px-4 py-2 text-xs text-brass-300">
+                  Demo-Code: DEMO01
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4 pt-6 max-w-xl">
+                {[
+                  { value: '2-4h', label: 'Spielzeit' },
+                  { value: '10+', label: 'Stationen' },
+                  { value: '3-5km', label: 'Route' },
+                ].map((stat) => (
+                  <div key={stat.label} className="rounded-2xl border border-navy-800 bg-navy-900/60 px-4 py-4 text-center">
+                    <div className="font-display text-2xl md:text-3xl font-bold text-brass-400">
+                      {stat.value}
+                    </div>
+                    <div className="text-xs text-sand-400 mt-1 uppercase tracking-wider">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Headline */}
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white text-shadow-lg">
-              Entdeckt Warnemünde
-              <span className="block text-gradient">auf eine ganz neue Art</span>
-            </h1>
+            <HeroVisual />
+          </div>
+        </div>
 
-            {/* Description */}
-            <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
-              Begebt euch auf eine spannende Escape-Tour durch Warnemünde.
-              Löst Rätsel, entdeckt versteckte Orte und erlebt die maritime
-              Geschichte des Ostseebades hautnah.
-            </p>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-navy-950 pattern-waves" />
+      </section>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Link href="#touren" className="btn btn-primary text-lg px-8 py-4">
-                Tour buchen
-              </Link>
-              <Link href="#ablauf" className="btn btn-ghost text-lg px-8 py-4">
-                Mehr erfahren
-              </Link>
+      {/* Experience Section */}
+      <section className="py-20 bg-navy-950">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 items-center">
+            <div className="space-y-5">
+              <h2 className="font-display text-3xl md:text-4xl font-bold">
+                Das Spielgefühl
+                <span className="block text-gradient">zwischen Rätsel & Meer</span>
+              </h2>
+              <p className="text-lg text-sand-300 max-w-2xl">
+                Keine klassische Stadtführung, sondern ein Story-Game, das euch durch
+                Warnemünde führt. Ihr entscheidet das Tempo, das Spiel liefert den Flow.
+              </p>
+              <div className="grid gap-4">
+                {EXPERIENCE_PILLARS.map((pillar) => (
+                  <div key={pillar.title} className="rounded-2xl border border-navy-800 bg-navy-900/50 p-5 shadow-lg">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brass-500/15 text-2xl">
+                        {pillar.icon}
+                      </div>
+                      <div>
+                        <h3 className="font-display text-xl font-semibold text-sand-50">{pillar.title}</h3>
+                        <p className="mt-1 text-sm text-sand-300">{pillar.description}</p>
+                        <span className="mt-2 inline-flex rounded-full bg-brass-500/15 px-3 py-1 text-xs text-brass-300">
+                          {pillar.detail}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
-              <div>
-                <div className="font-display text-3xl md:text-4xl font-bold text-brass-400">
-                  2-4h
-                </div>
-                <div className="text-sm text-sand-300 mt-1">Spielzeit</div>
-              </div>
-              <div>
-                <div className="font-display text-3xl md:text-4xl font-bold text-brass-400">
-                  10+
-                </div>
-                <div className="text-sm text-sand-300 mt-1">Stationen</div>
-              </div>
-              <div>
-                <div className="font-display text-3xl md:text-4xl font-bold text-brass-400">
-                  3-5km
-                </div>
-                <div className="text-sm text-sand-300 mt-1">Route</div>
+            <div className="rounded-3xl border border-navy-800 bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900 p-8 shadow-2xl">
+              <h3 className="font-display text-2xl font-semibold text-sand-50">Spiel-Highlights</h3>
+              <p className="mt-2 text-sm text-sand-300">
+                Kombiniert Rätsel, Navigation und Storytelling zu einem Erlebnis, das sich wie
+                ein interaktiver Spaziergang anfühlt.
+              </p>
+              <div className="mt-6 space-y-4">
+                {[
+                  'Hinweis-System mit fairer Hilfe',
+                  'Atmosphärische Sounds & Illustrationen',
+                  'Story-Kapitel statt Punktejagd',
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3 rounded-xl border border-navy-700/60 bg-navy-900/70 px-4 py-3 text-sm text-sand-200">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brass-500/20 text-brass-300">✓</span>
+                    {item}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Wave Divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-navy-950 pattern-waves" />
+      {/* Route Highlights */}
+      <section className="py-20 bg-gradient-to-b from-navy-950 to-navy-900">
+        <div className="container-custom">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="font-display text-3xl md:text-4xl font-bold">
+              Eure Route durch <span className="text-gradient">Warnemünde</span>
+            </h2>
+            <p className="text-lg text-sand-300 max-w-2xl mx-auto">
+              Drei Highlights, viele Geheimnisse – mit echten Orten, die ihr neu entdeckt.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {ROUTE_HIGHLIGHTS.map((spot) => (
+              <div key={spot.title} className="card-hover flex flex-col overflow-hidden">
+                <div className="relative h-44 w-full overflow-hidden rounded-xl border border-navy-800 bg-navy-950">
+                  <Image
+                    src={spot.image}
+                    alt={spot.title}
+                    width={600}
+                    height={400}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="mt-5 space-y-2">
+                  <span className="inline-flex rounded-full bg-brass-500/15 px-3 py-1 text-xs text-brass-300">
+                    {spot.tag}
+                  </span>
+                  <h3 className="font-display text-xl font-semibold text-sand-50">{spot.title}</h3>
+                  <p className="text-sm text-sand-300">{spot.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Tour Variants Section */}
@@ -317,6 +523,29 @@ export default function HomePage() {
                 <p className="text-sm text-sand-300">{item.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-navy-950">
+        <div className="container-custom">
+          <div className="rounded-3xl border border-brass-500/20 bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900 p-10 md:p-14 text-center shadow-2xl">
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-sand-50">
+              Bereit für euer Abenteuer?
+            </h2>
+            <p className="mt-4 text-lg text-sand-300 max-w-2xl mx-auto">
+              Startet noch heute oder testet die Demo. Ihr braucht nur ein Smartphone,
+              Lust auf Rätsel und ein bisschen Seeluft.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+              <Link href="/buchen" className="btn btn-primary text-lg px-8 py-4">
+                Tour buchen
+              </Link>
+              <Link href="/play" className="btn btn-secondary text-lg px-8 py-4">
+                Demo starten
+              </Link>
+            </div>
           </div>
         </div>
       </section>

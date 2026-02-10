@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { Station, GeoPoint } from '@escape-tour/shared'
 import { useLocationStore } from '@/stores/locationStore'
+import { GPS_DISABLED } from '@/lib/config'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -169,7 +170,7 @@ const injectAnimationStyles = (): void => {
 // Sub-components
 // ---------------------------------------------------------------------------
 
-function MapLegend() {
+function MapLegend({ showUserLocation }: { readonly showUserLocation: boolean }) {
   return (
     <div className="absolute top-4 left-4 z-10 rounded-lg bg-navy-900/90 p-3 shadow-lg backdrop-blur-sm">
       <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-sand-300">
@@ -197,10 +198,12 @@ function MapLegend() {
           />
           Gesperrt
         </li>
-        <li className="flex items-center gap-2 text-xs text-sand-100">
-          <span className="inline-block h-3 w-3 rounded-full border-2 border-white bg-blue-500" />
-          Dein Standort
-        </li>
+        {showUserLocation && (
+          <li className="flex items-center gap-2 text-xs text-sand-100">
+            <span className="inline-block h-3 w-3 rounded-full border-2 border-white bg-blue-500" />
+            Dein Standort
+          </li>
+        )}
       </ul>
     </div>
   )
@@ -388,8 +391,11 @@ export function MapView({ stations, currentStationIndex }: MapViewProps) {
     }
   }, [])
 
-  // Start location tracking
+  // Start location tracking (disabled in test mode)
   useEffect(() => {
+    if (GPS_DISABLED) {
+      return
+    }
     if (!isTracking) {
       startWatching()
     }
@@ -488,7 +494,7 @@ export function MapView({ stations, currentStationIndex }: MapViewProps) {
       )}
 
       {/* Legend */}
-      {isMapLoaded && <MapLegend />}
+      {isMapLoaded && <MapLegend showUserLocation={!GPS_DISABLED} />}
 
       {/* Re-center button */}
       {isMapLoaded && currentStation && (
@@ -525,6 +531,12 @@ export function MapView({ stations, currentStationIndex }: MapViewProps) {
           distance={formattedDistance}
           stationNumber={currentStationIndex + 1}
         />
+      )}
+
+      {GPS_DISABLED && isMapLoaded && (
+        <div className="absolute bottom-4 right-4 z-10 rounded-full border border-yellow-500/40 bg-yellow-500/10 px-3 py-1 text-xs text-yellow-400 backdrop-blur-sm">
+          GPS deaktiviert (Testmodus)
+        </div>
       )}
     </div>
   )

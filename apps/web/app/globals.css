@@ -152,6 +152,22 @@
     background: rgb(8 47 73);
     padding: 0 0.5rem;
   }
+
+  .hero-grid {
+    background-image:
+      radial-gradient(circle at 25% 20%, rgba(234, 179, 8, 0.15), transparent 45%),
+      radial-gradient(circle at 80% 10%, rgba(56, 189, 248, 0.12), transparent 40%),
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 80px 80px, 80px 80px;
+    background-position: center;
+  }
+
+  .hero-glow {
+    box-shadow:
+      0 25px 80px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(234, 179, 8, 0.15) inset;
+  }
 }
 
 @layer utilities {
@@ -215,6 +231,39 @@
     to {
       opacity: 1;
       transform: translateX(0);
+    }
+  }
+
+  .animate-float-slow {
+    animation: floatSlow 6s ease-in-out infinite;
+  }
+
+  .animate-float-medium {
+    animation: floatMedium 4.5s ease-in-out infinite;
+  }
+
+  @keyframes floatSlow {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes floatMedium {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(8px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float-slow,
+    .animate-float-medium {
+      animation: none;
     }
   }
 }
