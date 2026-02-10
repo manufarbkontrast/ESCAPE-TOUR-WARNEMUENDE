@@ -6,6 +6,7 @@ import type { Station, Puzzle } from '@escape-tour/shared'
 import { PuzzleRenderer } from './PuzzleRenderer'
 import { Timer } from './Timer'
 import { HintSystem } from './HintSystem'
+import { isDemoSession } from '@/lib/demo/helpers'
 
 type StationState = 'intro' | 'story' | 'puzzle' | 'success' | 'transition'
 
@@ -48,6 +49,7 @@ export function StationView({
   const [showHints, setShowHints] = useState(false)
   const [completedPuzzles, setCompletedPuzzles] = useState<readonly string[]>([])
 
+  const isDemo = isDemoSession(sessionId)
   const currentPuzzle = puzzles[currentPuzzleIndex]
   const allPuzzlesCompleted = completedPuzzles.length === puzzles.length
 
@@ -79,7 +81,7 @@ export function StationView({
     setCurrentState('transition')
     setTimeout(() => {
       onComplete()
-    }, 2000)
+    }, isDemo ? 500 : 2000)
   }
 
   const stationName = language === 'de' ? station.nameDe : (station.nameEn ?? station.nameDe)
@@ -130,12 +132,22 @@ export function StationView({
                 </h2>
                 <p className="whitespace-pre-line text-sand-100">{introText}</p>
               </div>
-              <button
-                onClick={handleIntroComplete}
-                className="w-full rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
-              >
-                {language === 'de' ? 'Weiter' : 'Continue'}
-              </button>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleIntroComplete}
+                  className="flex-1 rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+                >
+                  {language === 'de' ? 'Weiter' : 'Continue'}
+                </button>
+                {isDemo && (
+                  <button
+                    onClick={() => setCurrentState('puzzle')}
+                    className="rounded-lg border-2 border-yellow-500/50 bg-yellow-500/10 px-4 py-3 text-sm font-medium text-yellow-400 transition-all hover:bg-yellow-500/20 active:scale-95"
+                  >
+                    {language === 'de' ? 'Zum Rätsel' : 'To Puzzle'} &raquo;
+                  </button>
+                )}
+              </div>
             </motion.div>
           )}
 
@@ -161,6 +173,11 @@ export function StationView({
               >
                 {language === 'de' ? 'Rätsel starten' : 'Start Puzzle'}
               </button>
+              {isDemo && (
+                <p className="text-center text-xs text-yellow-400/70">
+                  Demo: {language === 'de' ? 'Geschichte kann übersprungen werden' : 'Story can be skipped'}
+                </p>
+              )}
             </motion.div>
           )}
 

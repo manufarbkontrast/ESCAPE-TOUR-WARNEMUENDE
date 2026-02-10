@@ -10,6 +10,8 @@ import {
   toNextResponse,
 } from '@/lib/utils/api-response'
 import type { NextRequest } from 'next/server'
+import { isDemoPuzzle } from '@/lib/demo/helpers'
+import { DEMO_HINTS } from '@/lib/demo/data'
 
 interface RouteContext {
   readonly params: Promise<{ readonly puzzleId: string }>
@@ -21,6 +23,12 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     if (!puzzleId) {
       return toNextResponse(errorResponse('Missing puzzleId parameter'), 400)
+    }
+
+    // Demo mode: return mock hints without touching Supabase
+    if (isDemoPuzzle(puzzleId)) {
+      const hints = DEMO_HINTS.get(puzzleId) ?? []
+      return toNextResponse(successResponse(hints))
     }
 
     const supabase = await createClient()

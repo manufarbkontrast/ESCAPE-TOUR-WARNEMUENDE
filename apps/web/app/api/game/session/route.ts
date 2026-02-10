@@ -13,6 +13,8 @@ import {
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import type { Database } from '@escape-tour/database/src/types/supabase';
+import { isDemoBookingCode, isDemoSession } from '@/lib/demo/helpers';
+import { DEMO_SESSION_ID, DEMO_SESSION, DEMO_STATIONS, DEMO_PUZZLES } from '@/lib/demo/data';
 
 type GameSession = Database['public']['Tables']['game_sessions']['Row'];
 type Booking = Database['public']['Tables']['bookings']['Row'];
@@ -43,6 +45,17 @@ export async function GET(request: NextRequest) {
 
     if (!sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
+    }
+
+    // Demo mode: return mock data without touching Supabase
+    if (isDemoSession(sessionId)) {
+      return toNextResponse(
+        successResponse({
+          session: DEMO_SESSION,
+          stations: DEMO_STATIONS,
+          puzzles: DEMO_PUZZLES,
+        })
+      );
     }
 
     // Fetch session
@@ -80,6 +93,14 @@ export async function POST(request: NextRequest) {
 
     if (!body.bookingCode) {
       return toNextResponse(errorResponse('Missing booking code'), 400);
+    }
+
+    // Demo mode: return demo session without touching Supabase
+    if (isDemoBookingCode(body.bookingCode)) {
+      return toNextResponse(
+        successResponse({ sessionId: DEMO_SESSION_ID, id: DEMO_SESSION_ID, status: 'pending' }),
+        201
+      );
     }
 
     // Validate booking code format (6 uppercase alphanumeric)
@@ -192,6 +213,11 @@ export async function PATCH(request: NextRequest) {
 
     if (!body.sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
+    }
+
+    // Demo mode: accept update but return mock session
+    if (isDemoSession(body.sessionId)) {
+      return toNextResponse(successResponse(DEMO_SESSION));
     }
 
     // Build update object

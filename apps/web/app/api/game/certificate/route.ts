@@ -1,6 +1,7 @@
 /**
- * POST /api/game/certificate
- * Generate a completion certificate via Supabase Edge Function
+ * Game certificate API routes
+ * GET: Fetch certificate for a completed session
+ * POST: Generate a new certificate via Supabase Edge Function
  */
 
 import { createClient } from '@/lib/supabase/server';
@@ -11,6 +12,8 @@ import {
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import type { Database } from '@escape-tour/database/src/types/supabase';
+import { isDemoSession } from '@/lib/demo/helpers';
+import { DEMO_CERTIFICATE } from '@/lib/demo/data';
 
 type GenerateCertificateRequest = {
   readonly sessionId: string;
@@ -31,7 +34,63 @@ type CertificateData = {
 };
 
 /**
- * Generate a completion certificate for a game session
+ * GET /api/game/certificate?sessionId=xxx
+ * Fetch certificate for a completed game session
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const sessionId = request.nextUrl.searchParams.get('sessionId');
+
+    if (!sessionId) {
+      return toNextResponse(errorResponse('Missing sessionId parameter'), 400);
+    }
+
+    // Demo mode: return mock certificate without touching Supabase
+    if (isDemoSession(sessionId)) {
+      return toNextResponse(successResponse(DEMO_CERTIFICATE));
+    }
+
+    const supabase = await createClient();
+
+    // Look up existing certificate
+    const certResult = await supabase
+      .from('certificates')
+      .select('*')
+      .eq('session_id', sessionId)
+      .maybeSingle();
+
+    if (certResult.error) {
+      console.error('Certificate fetch error:', certResult.error);
+      return toNextResponse(errorResponse('Failed to fetch certificate'), 500);
+    }
+
+    const cert = certResult.data as Certificate | null;
+
+    if (!cert) {
+      return toNextResponse(errorResponse('Certificate not found'), 404);
+    }
+
+    return toNextResponse(
+      successResponse({
+        certificateId: cert.id,
+        verificationCode: cert.verification_code,
+        ...(cert.data as Record<string, unknown>),
+      })
+    );
+  } catch (error) {
+    console.error('GET certificate error:', error);
+    return toNextResponse(
+      errorResponse(
+        error instanceof Error ? error.message : 'Failed to fetch certificate'
+      ),
+      500
+    );
+  }
+}
+
+/**
+ * POST /api/game/certificate
+ * Generate a new completion certificate for a game session
  */
 export async function POST(request: NextRequest) {
   try {
@@ -42,6 +101,11 @@ export async function POST(request: NextRequest) {
 
     if (!body.sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
+    }
+
+    // Demo mode: return mock certificate without touching Supabase
+    if (isDemoSession(body.sessionId)) {
+      return toNextResponse(successResponse(DEMO_CERTIFICATE), 201);
     }
 
     // Verify session is completed

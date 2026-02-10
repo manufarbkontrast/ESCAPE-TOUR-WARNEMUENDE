@@ -5,6 +5,8 @@ import { TOTAL_STATIONS } from '@escape-tour/shared'
 import { useGameStore } from '@/stores'
 import { OfflineIndicator } from '@/components/ui/OfflineIndicator'
 import { GameMenu } from '@/components/game/GameMenu'
+import { isDemoSession } from '@/lib/demo/helpers'
+import { DEMO_STATIONS } from '@/lib/demo/data'
 
 interface GameLayoutProps {
   readonly children: React.ReactNode
@@ -16,7 +18,8 @@ interface GameLayoutProps {
 function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
   const session = useGameStore((s) => s.session)
   const stationIndex = session?.currentStationIndex ?? 0
-  const progressPercent = Math.round((stationIndex / TOTAL_STATIONS) * 100)
+  const totalStations = isDemoSession(session?.id ?? '') ? DEMO_STATIONS.length : TOTAL_STATIONS
+  const progressPercent = Math.round((stationIndex / totalStations) * 100)
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-navy-950/95 backdrop-blur border-b border-navy-800">
@@ -40,7 +43,7 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
               />
             </div>
             <span className="hidden sm:inline tabular-nums">
-              {stationIndex}/{TOTAL_STATIONS}
+              {stationIndex}/{totalStations}
             </span>
           </div>
 

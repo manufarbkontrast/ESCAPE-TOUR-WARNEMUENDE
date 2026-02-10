@@ -9,6 +9,7 @@ interface NavigationPuzzleProps {
   readonly language: 'de' | 'en'
   readonly onSubmit: (answer: { lat: number; lng: number }) => Promise<void>
   readonly isSubmitting: boolean
+  readonly isDemo?: boolean
 }
 
 const formatDistance = (meters: number): string => {
@@ -50,15 +51,24 @@ const calculateBearing = (
   return ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360
 }
 
-export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting }: NavigationPuzzleProps) {
-  const { userLocation, isTracking, error, startWatching, stopWatching } = useLocationStore()
+export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isDemo = false }: NavigationPuzzleProps) {
+  const { userLocation, isTracking, error, startWatching, stopWatching, setLocation } = useLocationStore()
   const target = puzzle.targetLocation
   const radius = puzzle.targetRadiusMeters ?? 20
 
   useEffect(() => {
+    if (isDemo && target) {
+      setLocation({
+        lat: target.lat,
+        lng: target.lng,
+        accuracy: 1,
+        timestamp: Date.now(),
+      })
+      return
+    }
     startWatching()
     return () => { stopWatching() }
-  }, [startWatching, stopWatching])
+  }, [isDemo, target, setLocation, startWatching, stopWatching])
 
   const { distance, bearing, isWithinRadius } = useMemo(() => {
     if (!userLocation || !target) {
@@ -150,10 +160,17 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting }: N
         <p className="text-sm text-red-400">{error}</p>
       )}
 
+      {/* Demo Mode Indicator */}
+      {isDemo && (
+        <div className="rounded-lg border border-yellow-500/40 bg-yellow-500/10 px-4 py-2 text-center text-sm text-yellow-400">
+          {language === 'de' ? 'Demo-Modus: GPS simuliert' : 'Demo mode: GPS simulated'}
+        </div>
+      )}
+
       {/* Arrival Button */}
       <button
         onClick={handleArrival}
-        disabled={isSubmitting || !isWithinRadius || !userLocation}
+        disabled={isSubmitting || (!isDemo && (!isWithinRadius || !userLocation))}
         className={`w-full rounded-lg px-6 py-4 font-semibold shadow-lg transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${
           isWithinRadius
             ? 'bg-green-500 text-navy-900 hover:bg-green-400'

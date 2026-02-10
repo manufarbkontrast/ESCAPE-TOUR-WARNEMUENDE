@@ -10,12 +10,14 @@ import {
   toNextResponse,
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
+import { isDemoSession, validateDemoAnswer } from '@/lib/demo/helpers';
 
 type ValidateAnswerRequest = {
   readonly sessionId: string;
   readonly puzzleId: string;
   readonly answer: string | string[];
-  readonly timeSeconds: number;
+  readonly timeSeconds?: number;
+  readonly timeSpentSeconds?: number;
 };
 
 type ValidateAnswerResponse = {
@@ -42,11 +44,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (typeof body.timeSeconds !== 'number' || body.timeSeconds < 0) {
+    const timeSeconds = body.timeSpentSeconds ?? body.timeSeconds ?? 0;
+
+    if (typeof timeSeconds !== 'number' || timeSeconds < 0) {
       return toNextResponse(
         errorResponse('Invalid timeSeconds: must be a non-negative number'),
         400
       );
+    }
+
+    // Demo mode: validate against local demo data without touching Supabase
+    if (isDemoSession(body.sessionId)) {
+      const result = validateDemoAnswer(body.puzzleId, body.answer, timeSeconds);
+      return toNextResponse(successResponse(result));
     }
 
     // Call Supabase Edge Function
@@ -57,7 +67,7 @@ export async function POST(request: NextRequest) {
           sessionId: body.sessionId,
           puzzleId: body.puzzleId,
           answer: body.answer,
-          timeSeconds: body.timeSeconds,
+          timeSeconds,
         },
       }
     );
