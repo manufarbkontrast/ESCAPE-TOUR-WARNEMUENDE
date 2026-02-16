@@ -13,6 +13,7 @@ export default defineConfig({
         'app/api/**/*.ts',
         'lib/utils/**/*.ts',
         'lib/demo/**/*.ts',
+        'stores/**/*.ts',
       ],
       exclude: [
         '**/*.test.ts',

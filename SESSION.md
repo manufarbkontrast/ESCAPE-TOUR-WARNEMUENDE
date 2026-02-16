@@ -1,8 +1,8 @@
 # Session State
 
-**Current Phase**: Phase 3
+**Current Phase**: Phase 4
 **Current Stage**: Pending
-**Last Checkpoint**: Phase 2 complete (2026-02-16)
+**Last Checkpoint**: Phase 3 complete (2026-02-16)
 **Planning Docs**: `docs/IMPLEMENTATION_PHASES.md`, `docs/DATABASE_SCHEMA.md`, `docs/API_ENDPOINTS.md`
 
 ---
@@ -34,19 +34,27 @@
 - [x] Used `vi.hoisted()` pattern to solve vi.mock factory hoisting issue
 - [x] Test `lib/utils/api-response.ts` — 10 tests (successResponse, errorResponse, toNextResponse)
 - [x] Test `lib/demo/helpers.ts` — 17 tests (isDemoSession, isDemoBookingCode, isDemoPuzzle, validateDemoAnswer)
-- [x] Test GET /api/game/session — 4 tests (missing ID, demo mode, not found, success)
-- [x] Test POST /api/game/session — 8 tests (missing code, demo, invalid format, booking not found/error/expired/not yet valid, existing session, new session, creation failure)
-- [x] Test PATCH /api/game/session — 4 tests (missing ID, demo mode, update success, update failure)
-- [x] Test POST /api/game/validate-answer — 12 tests (missing fields, invalid time, demo correct/incorrect, edge function call/error/no data, timeSpentSeconds preference, default time)
-- [x] Test GET /api/game/hints/[puzzleId] — 6 tests (demo hints, unknown demo, Supabase success/empty/error, correct query params)
-- [x] Test GET /api/game/certificate — 5 tests (missing sessionId, demo, success, not found, query error)
-- [x] Test POST /api/game/certificate — 8 tests (missing ID, demo, session not found/error/not completed/no timestamp, existing cert, edge function generate/error/no data, cert query error fallthrough)
+- [x] Test GET/POST/PATCH /api/game/session — 18 tests
+- [x] Test POST /api/game/validate-answer — 12 tests
+- [x] Test GET /api/game/hints/[puzzleId] — 6 tests
+- [x] Test GET/POST /api/game/certificate — 16 tests
 - [x] Coverage: 89.5% stmts, 83.21% branches, 94.73% functions, 89.34% lines ✅
 
 **Total: 79 tests in apps/web, all passing | 175 tests across monorepo**
 
-## Phase 3: Zustand Store Tests ⏸️
+## Phase 3: Zustand Store Tests ✅
+**Type**: Unit Testing | **Completed**: 2026-02-16
 **Spec**: `docs/IMPLEMENTATION_PHASES.md#phase-3`
+
+**Results**:
+- [x] gameStore — 37 tests (startSession, updateProgress, pause/resume with time tracking, completeStation with point accumulation, useHint, skipPuzzle, completeSession, setSession, clearSession, immutability checks)
+- [x] locationStore — 20 tests (startWatching with geolocation API, error handling for PERMISSION_DENIED/POSITION_UNAVAILABLE/TIMEOUT, stopWatching, checkProximity with Haversine, setLocation, setError)
+- [x] audioStore — 35 tests (playAmbient with loop/replace, playEffect concurrent, playVoice with replace, stopAll, stopTrack with currentTrack logic, volume clamping, toggleMute, direct state setters)
+- [x] Store coverage: audioStore 100%, locationStore 100%, gameStore 97.14% lines
+- [x] Overall web coverage: 93.16% stmts, 85.4% branches, 97.26% funcs, 92.78% lines ✅
+- [x] Added `stores/**/*.ts` to vitest coverage includes
+
+**Total: 173 tests in apps/web, all passing | 269 tests across monorepo**
 
 ## Phase 4: React Component Tests ⏸️
 **Spec**: `docs/IMPLEMENTATION_PHASES.md#phase-4`
