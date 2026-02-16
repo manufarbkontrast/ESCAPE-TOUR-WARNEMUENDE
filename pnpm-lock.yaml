@@ -75,6 +75,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.5
         version: 18.3.7(@types/react@18.3.28)
+      '@vitest/coverage-v8':
+        specifier: ^4.0.18
+        version: 4.0.18(vitest@4.0.18(@types/node@22.19.9)(jiti@1.21.7)(terser@5.46.0))
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.24(postcss@8.5.6)
@@ -93,6 +96,9 @@ importers:
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.0.18(@types/node@22.19.9)(jiti@1.21.7)(terser@5.46.0)
 
   packages/database:
     dependencies:
@@ -103,9 +109,18 @@ importers:
         specifier: ^2.49.1
         version: 2.95.3
     devDependencies:
+      '@types/node':
+        specifier: ^22.12.0
+        version: 22.19.9
+      '@vitest/coverage-v8':
+        specifier: ^4.0.18
+        version: 4.0.18(vitest@4.0.18(@types/node@22.19.9)(jiti@1.21.7)(terser@5.46.0))
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
+      vitest:
+        specifier: ^4.0.18
+        version: 4.0.18(@types/node@22.19.9)(jiti@1.21.7)(terser@5.46.0)
 
   packages/game-logic:
     dependencies:

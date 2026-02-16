@@ -76,6 +76,24 @@ describe('validateAnswer', () => {
       })
       expect(result).toBe(false)
     })
+
+    it('should match case sensitive contains', () => {
+      const result = validateAnswer('Der Leuchtturm ist gross', {
+        mode: 'contains',
+        correctAnswer: { answer: 'Leuchtturm' },
+        caseSensitive: true,
+      })
+      expect(result).toBe(true)
+    })
+
+    it('should reject wrong case when case sensitive', () => {
+      const result = validateAnswer('der leuchtturm ist gross', {
+        mode: 'contains',
+        correctAnswer: { answer: 'Leuchtturm' },
+        caseSensitive: true,
+      })
+      expect(result).toBe(false)
+    })
   })
 
   describe('regex mode', () => {
