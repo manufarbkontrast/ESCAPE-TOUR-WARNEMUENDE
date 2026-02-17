@@ -5,6 +5,7 @@ import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { Station, GeoPoint } from '@escape-tour/shared'
 import { useLocationStore } from '@/stores/locationStore'
+import { addLandmarkModels } from './map/addLandmarkModels'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -29,6 +30,10 @@ interface StationMarkerInfo {
 // ---------------------------------------------------------------------------
 
 const WARNEMUENDE_CENTER: [number, number] = [12.0853, 54.1797]
+const WARNEMUENDE_BOUNDS: mapboxgl.LngLatBoundsLike = [
+  [12.065, 54.165],   // Southwest (links-unten)
+  [12.110, 54.195],   // Northeast (rechts-oben)
+]
 const DEFAULT_ZOOM = 15
 const DEFAULT_PITCH = 60
 const DEFAULT_BEARING = -17.6
@@ -92,6 +97,21 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
   const labelText = String(info.index + 1)
   const pulseAnimation = info.status === 'current' ? 'animation: markerPulse 2s ease-in-out infinite;' : ''
   const circleContent = info.status === 'locked' ? LOCK_ICON_SVG : labelText
+  const showLabel = info.status === 'current'
+
+  const nameLabelHtml = showLabel
+    ? `<div style="
+        background: rgba(11, 25, 41, 0.85);
+        color: #f5e6c8;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      ">${info.station.nameDe}</div>`
+    : ''
 
   el.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
@@ -112,17 +132,7 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
         transition: transform 0.2s;
         ${pulseAnimation}
       ">${circleContent}</div>
-      <div style="
-        background: rgba(11, 25, 41, 0.85);
-        color: #f5e6c8;
-        padding: 2px 8px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: 600;
-        white-space: nowrap;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-      ">${info.station.nameDe}</div>
+      ${nameLabelHtml}
     </div>
   `
 
@@ -365,6 +375,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
         zoom: DEFAULT_ZOOM,
         pitch: DEFAULT_PITCH,
         bearing: DEFAULT_BEARING,
+        maxBounds: WARNEMUENDE_BOUNDS,
         attributionControl: false,
       })
 
@@ -390,8 +401,9 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
         // Enable 3D terrain (Warnemünde is flat → subtle exaggeration)
         map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
 
-        // Configure Standard style for daytime with 3D buildings
-        map.setConfigProperty('basemap', 'lightPreset', 'day')
+        // Vintage look: faded theme with warm dusk lighting
+        map.setConfigProperty('basemap', 'theme', 'faded')
+        map.setConfigProperty('basemap', 'lightPreset', 'dusk')
         map.setConfigProperty('basemap', 'show3dObjects', true)
 
         // Hide all non-game labels for a clean, game-focused map
@@ -399,6 +411,9 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
         map.setConfigProperty('basemap', 'showTransitLabels', false)
         map.setConfigProperty('basemap', 'showPlaceLabels', false)
         map.setConfigProperty('basemap', 'showRoadLabels', false)
+
+        // Add custom 3D landmark models (Leuchtturm, Teepott)
+        addLandmarkModels(map)
 
         setIsMapLoaded(true)
       })
@@ -441,7 +456,13 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
     markersRef.current.forEach((marker) => marker.remove())
     markersRef.current = []
 
-    const newMarkers = stationMarkers.map((info) => {
+    // Sort: locked first, completed second, current last (= rendered on top)
+    const sortedMarkers = [...stationMarkers].sort((a, b) => {
+      const order: Record<StationStatus, number> = { locked: 0, completed: 1, current: 2 }
+      return order[a.status] - order[b.status]
+    })
+
+    const newMarkers = sortedMarkers.map((info) => {
       const el = createStationMarkerElement(info)
 
       const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
