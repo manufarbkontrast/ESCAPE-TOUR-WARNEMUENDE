@@ -29,8 +29,8 @@ interface StationMarkerInfo {
 // ---------------------------------------------------------------------------
 
 const WARNEMUENDE_CENTER: [number, number] = [12.0853, 54.1797]
-const DEFAULT_ZOOM = 14
-const DEFAULT_PITCH = 45
+const DEFAULT_ZOOM = 15
+const DEFAULT_PITCH = 60
 const DEFAULT_BEARING = -17.6
 
 const MARKER_COLORS: Record<StationStatus, string> = {
@@ -39,7 +39,7 @@ const MARKER_COLORS: Record<StationStatus, string> = {
   locked: '#6b7280',
 } as const
 
-const MAP_STYLE = 'mapbox://styles/mapbox/dark-v11'
+const MAP_STYLE = 'mapbox://styles/mapbox/standard'
 
 // ---------------------------------------------------------------------------
 // Haversine distance utility
@@ -172,7 +172,7 @@ const injectAnimationStyles = (): void => {
 
 function MapLegend() {
   return (
-    <div className="absolute top-4 left-4 z-10 rounded-lg bg-navy-900/90 p-3 shadow-lg backdrop-blur-sm">
+    <div className="absolute top-4 left-4 z-10 rounded-lg bg-navy-900/95 p-3 shadow-lg backdrop-blur-sm">
       <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-sand-300">
         Legende
       </h3>
@@ -219,7 +219,7 @@ function StationInfoPanel({
   stationNumber,
 }: StationInfoPanelProps) {
   return (
-    <div className="absolute bottom-4 left-4 right-4 z-10 rounded-lg border border-brass-500/30 bg-navy-900/90 p-4 shadow-lg backdrop-blur-sm">
+    <div className="absolute bottom-4 left-4 right-4 z-10 rounded-lg border border-brass-500/30 bg-navy-900/95 p-4 shadow-lg backdrop-blur-sm">
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="mb-1 flex items-center gap-2">
@@ -362,7 +362,22 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
         'top-right',
       )
 
-      map.on('load', () => {
+      map.on('style.load', () => {
+        // Add terrain DEM source for 3D elevation
+        map.addSource('mapbox-dem', {
+          type: 'raster-dem',
+          url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+          tileSize: 512,
+          maxzoom: 14,
+        })
+
+        // Enable 3D terrain (Warnemünde is flat → subtle exaggeration)
+        map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+
+        // Configure Standard style for daytime with 3D buildings
+        map.setConfigProperty('basemap', 'lightPreset', 'day')
+        map.setConfigProperty('basemap', 'show3dObjects', true)
+
         setIsMapLoaded(true)
       })
 
@@ -452,7 +467,8 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
       center: [currentStation.location.lng, currentStation.location.lat],
       zoom: 16,
       pitch: DEFAULT_PITCH,
-      duration: 1500,
+      bearing: DEFAULT_BEARING,
+      duration: 2000,
     })
   }, [currentStation])
 
@@ -508,7 +524,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
       {isMapLoaded && currentStation && (
         <button
           onClick={centerOnCurrentStation}
-          className="absolute top-4 right-16 z-10 rounded-lg bg-navy-900/90 p-2.5 shadow-lg backdrop-blur-sm transition-colors hover:bg-navy-800"
+          className="absolute top-4 right-16 z-10 rounded-lg bg-navy-900/95 p-2.5 shadow-lg backdrop-blur-sm transition-colors hover:bg-navy-800"
           aria-label="Karte auf aktuelle Station zentrieren"
         >
           <svg

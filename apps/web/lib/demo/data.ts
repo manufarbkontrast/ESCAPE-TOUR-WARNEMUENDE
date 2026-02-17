@@ -55,7 +55,7 @@ export const DEMO_STATIONS: readonly Station[] = [
     nameEn: 'The Lighthouse',
     subtitleDe: 'Wo alles beginnt',
     subtitleEn: 'Where it all begins',
-    location: { lat: 54.1831, lng: 12.0878 },
+    location: { lat: 54.1814, lng: 12.0858 },
     locationName: 'Leuchtturm Warnemuende',
     radiusMeters: 50,
     introTextDe:
@@ -85,7 +85,7 @@ export const DEMO_STATIONS: readonly Station[] = [
     nameEn: 'The Old Channel',
     subtitleDe: 'Wo Fischer ihre Geheimnisse hueten',
     subtitleEn: 'Where fishermen keep their secrets',
-    location: { lat: 54.1773, lng: 12.0830 },
+    location: { lat: 54.1798, lng: 12.0876 },
     locationName: 'Alter Strom',
     radiusMeters: 50,
     introTextDe:
@@ -115,7 +115,7 @@ export const DEMO_STATIONS: readonly Station[] = [
     nameEn: 'The Teepott',
     subtitleDe: 'Das grosse Finale',
     subtitleEn: 'The grand finale',
-    location: { lat: 54.1825, lng: 12.0900 },
+    location: { lat: 54.1817, lng: 12.0858 },
     locationName: 'Teepott Warnemuende',
     radiusMeters: 50,
     introTextDe:
@@ -145,7 +145,7 @@ export const DEMO_STATIONS: readonly Station[] = [
     nameEn: 'At the Beach',
     subtitleDe: 'Spuren im Sand',
     subtitleEn: 'Traces in the sand',
-    location: { lat: 54.1796, lng: 12.0833 },
+    location: { lat: 54.1805, lng: 12.0845 },
     locationName: 'Strand Warnemuende',
     radiusMeters: 50,
     introTextDe:
@@ -175,7 +175,7 @@ export const DEMO_STATIONS: readonly Station[] = [
     nameEn: 'The Church Square',
     subtitleDe: 'Das letzte Vermaechtnis',
     subtitleEn: 'The final legacy',
-    location: { lat: 54.1770, lng: 12.0870 },
+    location: { lat: 54.1768, lng: 12.0850 },
     locationName: 'Kirchplatz Warnemuende',
     radiusMeters: 50,
     introTextDe:
