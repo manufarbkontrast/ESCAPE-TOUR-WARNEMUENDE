@@ -13,6 +13,7 @@ import { useLocationStore } from '@/stores/locationStore'
 interface MapViewProps {
   readonly stations: readonly Station[]
   readonly currentStationIndex: number
+  readonly onStationSelect?: (stationIndex: number) => void
 }
 
 type StationStatus = 'completed' | 'current' | 'locked'
@@ -274,7 +275,7 @@ function StationInfoPanel({
 // MapView component
 // ---------------------------------------------------------------------------
 
-export function MapView({ stations, currentStationIndex }: MapViewProps) {
+export function MapView({ stations, currentStationIndex, onStationSelect }: MapViewProps) {
   const mapContainerRef = useRef<HTMLDivElement | null>(null)
   const mapRef = useRef<mapboxgl.Map | null>(null)
   const markersRef = useRef<mapboxgl.Marker[]>([])
@@ -410,11 +411,24 @@ export function MapView({ stations, currentStationIndex }: MapViewProps) {
         .setLngLat([info.station.location.lng, info.station.location.lat])
         .addTo(mapRef.current!)
 
+      // Attach click listener to the Mapbox marker wrapper element
+      // so it captures all clicks regardless of internal DOM structure
+      const markerEl = marker.getElement()
+      if (info.status !== 'locked' && onStationSelect) {
+        markerEl.addEventListener('click', (e) => {
+          e.stopPropagation()
+          onStationSelect(info.index)
+        })
+        markerEl.style.cursor = 'pointer'
+      } else {
+        markerEl.style.cursor = info.status === 'locked' ? 'not-allowed' : 'pointer'
+      }
+
       return marker
     })
 
     markersRef.current = newMarkers
-  }, [stationMarkers, isMapLoaded])
+  }, [stationMarkers, isMapLoaded, onStationSelect])
 
   // Update user location marker
   useEffect(() => {

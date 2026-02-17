@@ -228,6 +228,7 @@ export default function GamePage() {
               <MapView
                 stations={stations}
                 currentStationIndex={currentStationIndex}
+                onStationSelect={() => setActiveView('station')}
               />
             </motion.div>
           )}
