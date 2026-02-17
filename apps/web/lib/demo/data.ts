@@ -85,7 +85,7 @@ export const DEMO_STATIONS: readonly Station[] = [
     nameEn: 'The Old Channel',
     subtitleDe: 'Wo Fischer ihre Geheimnisse hueten',
     subtitleEn: 'Where fishermen keep their secrets',
-    location: { lat: 54.1798, lng: 12.0876 },
+    location: { lat: 54.1782, lng: 12.0843 },
     locationName: 'Alter Strom',
     radiusMeters: 50,
     introTextDe:

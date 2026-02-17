@@ -78,35 +78,51 @@ const formatDistance = (meters: number): string => {
 // Marker creation helpers
 // ---------------------------------------------------------------------------
 
+const LOCK_ICON_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`
+
 const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
   const el = document.createElement('div')
   el.className = 'station-marker'
 
   const color = MARKER_COLORS[info.status]
-  const size = info.status === 'current' ? 36 : 28
+  const size = info.status === 'current' ? 48 : 38
+  const fontSize = info.status === 'current' ? '18px' : '14px'
+  const borderColor = info.status === 'current' ? '#f3c56c' : 'rgba(255,255,255,0.5)'
+  const textColor = info.status === 'locked' ? '#d1d5db' : '#0b1929'
   const labelText = String(info.index + 1)
+  const pulseAnimation = info.status === 'current' ? 'animation: markerPulse 2s ease-in-out infinite;' : ''
+  const circleContent = info.status === 'locked' ? LOCK_ICON_SVG : labelText
 
   el.innerHTML = `
-    <div
-      style="
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+      <div style="
         width: ${size}px;
         height: ${size}px;
         border-radius: 50%;
         background-color: ${color};
-        border: 3px solid ${info.status === 'current' ? '#f3c56c' : 'rgba(255,255,255,0.3)'};
+        border: 3px solid ${borderColor};
         display: flex;
         align-items: center;
         justify-content: center;
-        color: ${info.status === 'locked' ? '#d1d5db' : '#0b1929'};
+        color: ${textColor};
         font-weight: 700;
-        font-size: ${info.status === 'current' ? '14px' : '12px'};
-        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        font-size: ${fontSize};
+        box-shadow: 0 2px 12px rgba(0,0,0,0.5);
         cursor: pointer;
         transition: transform 0.2s;
-        ${info.status === 'current' ? 'animation: markerPulse 2s ease-in-out infinite;' : ''}
-      "
-    >
-      ${info.status === 'locked' ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>` : labelText}
+        ${pulseAnimation}
+      ">${circleContent}</div>
+      <div style="
+        background: rgba(11, 25, 41, 0.85);
+        color: #f5e6c8;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      ">${info.station.nameDe}</div>
     </div>
   `
 
@@ -378,6 +394,12 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
         map.setConfigProperty('basemap', 'lightPreset', 'day')
         map.setConfigProperty('basemap', 'show3dObjects', true)
 
+        // Hide all non-game labels for a clean, game-focused map
+        map.setConfigProperty('basemap', 'showPointOfInterestLabels', false)
+        map.setConfigProperty('basemap', 'showTransitLabels', false)
+        map.setConfigProperty('basemap', 'showPlaceLabels', false)
+        map.setConfigProperty('basemap', 'showRoadLabels', false)
+
         setIsMapLoaded(true)
       })
 
@@ -422,7 +444,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
     const newMarkers = stationMarkers.map((info) => {
       const el = createStationMarkerElement(info)
 
-      const marker = new mapboxgl.Marker({ element: el })
+      const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
         .setLngLat([info.station.location.lng, info.station.location.lat])
         .addTo(mapRef.current!)
 
