@@ -11,6 +11,14 @@ import {
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import { isDemoSession, validateDemoAnswer } from '@/lib/demo/helpers';
+import { verifyGameSession } from '@/lib/utils/verify-session';
+import { createRateLimiter } from '@/lib/utils/rate-limit';
+import { getClientIp } from '@/lib/utils/client-ip';
+
+const answerRateLimiter = createRateLimiter({
+  windowMs: 60_000,
+  maxRequests: 10,
+});
 
 type ValidateAnswerRequest = {
   readonly sessionId: string;
@@ -37,9 +45,28 @@ export async function POST(request: NextRequest) {
     // Parse and validate request body
     const body = (await request.json()) as ValidateAnswerRequest;
 
+    const MAX_ANSWER_LENGTH = 1000;
+
+    // Verify session ownership
+    if (body.sessionId) {
+      const auth = verifyGameSession(request, body.sessionId);
+      if (!auth.valid) {
+        return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
+      }
+    }
+
     if (!body.sessionId || !body.puzzleId || body.answer === undefined) {
       return toNextResponse(
         errorResponse('Missing required fields: sessionId, puzzleId, answer'),
+        400
+      );
+    }
+
+    // Validate answer size
+    const answerStr = Array.isArray(body.answer) ? body.answer.join('') : body.answer;
+    if (typeof answerStr === 'string' && answerStr.length > MAX_ANSWER_LENGTH) {
+      return toNextResponse(
+        errorResponse('Answer exceeds maximum length'),
         400
       );
     }
@@ -51,6 +78,21 @@ export async function POST(request: NextRequest) {
         errorResponse('Invalid timeSeconds: must be a non-negative number'),
         400
       );
+    }
+
+    // Rate limit answer attempts (skip for demo)
+    if (!isDemoSession(body.sessionId)) {
+      const ip = getClientIp(request);
+      const rateCheck = answerRateLimiter.check(`${ip}:${body.sessionId}`);
+      if (!rateCheck.allowed) {
+        const retryAfter = Math.ceil(rateCheck.retryAfterMs / 1000);
+        const res = toNextResponse(
+          errorResponse('Too many attempts. Please try again later.'),
+          429,
+        );
+        res.headers.set('Retry-After', String(retryAfter));
+        return res;
+      }
     }
 
     // Demo mode: validate against local demo data without touching Supabase
@@ -75,7 +117,7 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Edge function error:', error);
       return toNextResponse(
-        errorResponse(`Validation failed: ${error.message}`),
+        errorResponse('Validation failed'),
         500
       );
     }
@@ -92,9 +134,7 @@ export async function POST(request: NextRequest) {
     console.error('Validate answer error:', error);
     return toNextResponse(
       errorResponse(
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred'
+        'An unexpected error occurred'
       ),
       500
     );

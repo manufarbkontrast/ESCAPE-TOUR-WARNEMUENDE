@@ -102,10 +102,13 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
       })
     }
 
+    const GEOLOCATION_TIMEOUT_MS = 10_000
+    const GEOLOCATION_MAX_AGE_MS = 5_000
+
     const options: PositionOptions = {
       enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 5000,
+      timeout: GEOLOCATION_TIMEOUT_MS,
+      maximumAge: GEOLOCATION_MAX_AGE_MS,
     }
 
     const watchId = navigator.geolocation.watchPosition(

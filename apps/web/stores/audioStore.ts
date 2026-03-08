@@ -33,9 +33,11 @@ interface AudioActions {
 
 type AudioStore = AudioState & AudioActions
 
+const DEFAULT_VOLUME = 0.7
+
 const initialState: AudioState = {
   currentTrack: null,
-  volume: 0.7,
+  volume: DEFAULT_VOLUME,
   isMuted: false,
   isPlaying: false,
   activeTracks: [],

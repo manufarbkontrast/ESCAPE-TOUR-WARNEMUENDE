@@ -2,6 +2,7 @@
  * Tests for GET /api/game/hints/[puzzleId] route
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 import { createMockQueryBuilder } from '../../helpers/mock-supabase'
 import { parseResponse } from '../../helpers/mock-request'
 
@@ -59,6 +60,11 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue(mockClient),
 }))
 
+// Mock verify-session to allow all requests by default
+vi.mock('@/lib/utils/verify-session', () => ({
+  verifyGameSession: vi.fn().mockReturnValue({ valid: true }),
+}))
+
 // Import after mocks are set up
 import { GET } from '@/app/api/game/hints/[puzzleId]/route'
 
@@ -82,9 +88,9 @@ function createRouteContext(puzzleId: string) {
 
 describe('GET /api/game/hints/[puzzleId]', () => {
   it('should return demo hints for demo puzzle ID', async () => {
-    const request = new Request('http://localhost/api/game/hints/demo-puzzle-001')
+    const request = new NextRequest('http://localhost/api/game/hints/demo-puzzle-001')
     const context = createRouteContext('demo-puzzle-001')
-    const response = await GET(request as any, context)
+    const response = await GET(request, context)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
@@ -98,9 +104,9 @@ describe('GET /api/game/hints/[puzzleId]', () => {
   })
 
   it('should return empty array for unknown demo puzzle', async () => {
-    const request = new Request('http://localhost/api/game/hints/demo-puzzle-999')
+    const request = new NextRequest('http://localhost/api/game/hints/demo-puzzle-999')
     const context = createRouteContext('demo-puzzle-999')
-    const response = await GET(request as any, context)
+    const response = await GET(request, context)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
@@ -121,9 +127,9 @@ describe('GET /api/game/hints/[puzzleId]', () => {
     })
     mockClient.from.mockReturnValueOnce(hintsBuilder)
 
-    const request = new Request('http://localhost/api/game/hints/puzzle-1')
+    const request = new NextRequest('http://localhost/api/game/hints/puzzle-1')
     const context = createRouteContext('puzzle-1')
-    const response = await GET(request as any, context)
+    const response = await GET(request, context)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
@@ -138,9 +144,9 @@ describe('GET /api/game/hints/[puzzleId]', () => {
     })
     mockClient.from.mockReturnValueOnce(hintsBuilder)
 
-    const request = new Request('http://localhost/api/game/hints/puzzle-no-hints')
+    const request = new NextRequest('http://localhost/api/game/hints/puzzle-no-hints')
     const context = createRouteContext('puzzle-no-hints')
-    const response = await GET(request as any, context)
+    const response = await GET(request, context)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
@@ -155,15 +161,15 @@ describe('GET /api/game/hints/[puzzleId]', () => {
     })
     mockClient.from.mockReturnValueOnce(hintsBuilder)
 
-    const request = new Request('http://localhost/api/game/hints/puzzle-1')
+    const request = new NextRequest('http://localhost/api/game/hints/puzzle-1')
     const context = createRouteContext('puzzle-1')
-    const response = await GET(request as any, context)
+    const response = await GET(request, context)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(500)
     expect(body).toMatchObject({
       success: false,
-      error: 'Failed to fetch hints: connection refused',
+      error: 'Failed to fetch hints',
     })
   })
 
@@ -174,7 +180,7 @@ describe('GET /api/game/hints/[puzzleId]', () => {
     })
     mockClient.from.mockReturnValueOnce(hintsBuilder)
 
-    const request = new Request('http://localhost/api/game/hints/puzzle-abc')
+    const request = new NextRequest('http://localhost/api/game/hints/puzzle-abc')
     const context = createRouteContext('puzzle-abc')
     await GET(request as any, context)
 

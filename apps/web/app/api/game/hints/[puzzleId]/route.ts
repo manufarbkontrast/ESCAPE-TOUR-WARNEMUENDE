@@ -12,6 +12,7 @@ import {
 import type { NextRequest } from 'next/server'
 import { isDemoPuzzle } from '@/lib/demo/helpers'
 import { DEMO_HINTS } from '@/lib/demo/data'
+import { verifyGameSession } from '@/lib/utils/verify-session'
 
 interface RouteContext {
   readonly params: Promise<{ readonly puzzleId: string }>
@@ -23,6 +24,15 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     if (!puzzleId) {
       return toNextResponse(errorResponse('Missing puzzleId parameter'), 400)
+    }
+
+    // Verify session ownership via query param
+    const sessionId = request.nextUrl.searchParams.get('sessionId')
+    if (sessionId) {
+      const auth = verifyGameSession(request, sessionId)
+      if (!auth.valid) {
+        return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401)
+      }
     }
 
     // Demo mode: return mock hints without touching Supabase
@@ -42,7 +52,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     if (error) {
       console.error('Hints fetch error:', error)
       return toNextResponse(
-        errorResponse(`Failed to fetch hints: ${error.message}`),
+        errorResponse('Failed to fetch hints'),
         500,
       )
     }
@@ -52,9 +62,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     console.error('Hints endpoint error:', error)
     return toNextResponse(
       errorResponse(
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred',
+        'An unexpected error occurred',
       ),
       500,
     )

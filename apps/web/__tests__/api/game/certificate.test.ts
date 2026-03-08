@@ -60,8 +60,24 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue(mockClient),
 }))
 
+// Mock verify-session to allow all requests by default
+vi.mock('@/lib/utils/verify-session', () => ({
+  verifyGameSession: vi.fn().mockReturnValue({ valid: true }),
+}))
+
 // Import after mocks are set up
 import { GET, POST } from '@/app/api/game/certificate/route'
+
+// Valid UUID constants for tests
+const SESS_1 = '00000000-0000-0000-0000-000000000001'
+const SESS_NO_CERT = '00000000-0000-0000-0000-000000000002'
+const SESS_NONEXISTENT = '00000000-0000-0000-0000-000000000003'
+const SESS_ACTIVE = '00000000-0000-0000-0000-000000000004'
+const SESS_NO_TIME = '00000000-0000-0000-0000-000000000005'
+const SESS_NEW = '00000000-0000-0000-0000-000000000006'
+const SESS_FAIL = '00000000-0000-0000-0000-000000000007'
+const SESS_EMPTY = '00000000-0000-0000-0000-000000000008'
+const SESS_FALLBACK = '00000000-0000-0000-0000-000000000009'
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -100,7 +116,7 @@ describe('GET /api/game/certificate', () => {
   it('should return certificate from Supabase on success', async () => {
     const certData = {
       id: 'cert-1',
-      session_id: 'sess-1',
+      session_id: SESS_1,
       verification_code: 'VERIFY-123',
       data: { teamName: 'Team A', rank: 'gold' },
     }
@@ -111,7 +127,7 @@ describe('GET /api/game/certificate', () => {
     mockClient.from.mockReturnValueOnce(certBuilder)
 
     const request = new NextRequest(
-      'http://localhost/api/game/certificate?sessionId=sess-1',
+      `http://localhost/api/game/certificate?sessionId=${SESS_1}`,
     )
     const response = await GET(request)
     const { status, body } = await parseResponse(response)
@@ -131,7 +147,7 @@ describe('GET /api/game/certificate', () => {
     mockClient.from.mockReturnValueOnce(certBuilder)
 
     const request = new NextRequest(
-      'http://localhost/api/game/certificate?sessionId=sess-no-cert',
+      `http://localhost/api/game/certificate?sessionId=${SESS_NO_CERT}`,
     )
     const response = await GET(request)
     const { status, body } = await parseResponse(response)
@@ -151,7 +167,7 @@ describe('GET /api/game/certificate', () => {
     mockClient.from.mockReturnValueOnce(certBuilder)
 
     const request = new NextRequest(
-      'http://localhost/api/game/certificate?sessionId=sess-1',
+      `http://localhost/api/game/certificate?sessionId=${SESS_1}`,
     )
     const response = await GET(request)
     const { status, body } = await parseResponse(response)
@@ -209,7 +225,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'nonexistent' }),
+      body: JSON.stringify({ sessionId: SESS_NONEXISTENT }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -231,7 +247,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-1' }),
+      body: JSON.stringify({ sessionId: SESS_1 }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -253,7 +269,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-active' }),
+      body: JSON.stringify({ sessionId: SESS_ACTIVE }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -275,7 +291,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-no-time' }),
+      body: JSON.stringify({ sessionId: SESS_NO_TIME }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -294,7 +310,7 @@ describe('POST /api/game/certificate', () => {
     })
     const existingCert = {
       id: 'existing-cert',
-      session_id: 'sess-1',
+      session_id: SESS_1,
       verification_code: 'EXISTING-CODE',
       data: { teamName: 'Winners', rank: 'silver' },
     }
@@ -310,7 +326,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-1' }),
+      body: JSON.stringify({ sessionId: SESS_1 }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -352,7 +368,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-new' }),
+      body: JSON.stringify({ sessionId: SESS_NEW }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -364,7 +380,7 @@ describe('POST /api/game/certificate', () => {
     })
     expect(mockClient.functions.invoke).toHaveBeenCalledWith(
       'generate-certificate',
-      { body: { sessionId: 'sess-new' } },
+      { body: { sessionId: SESS_NEW } },
     )
   })
 
@@ -390,7 +406,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-fail' }),
+      body: JSON.stringify({ sessionId: SESS_FAIL }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -398,7 +414,7 @@ describe('POST /api/game/certificate', () => {
     expect(status).toBe(500)
     expect(body).toMatchObject({
       success: false,
-      error: 'Certificate generation failed: PDF generation failed',
+      error: 'Certificate generation failed',
     })
   })
 
@@ -424,7 +440,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-empty' }),
+      body: JSON.stringify({ sessionId: SESS_EMPTY }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)
@@ -468,7 +484,7 @@ describe('POST /api/game/certificate', () => {
     const request = new Request('http://localhost/api/game/certificate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-fallback' }),
+      body: JSON.stringify({ sessionId: SESS_FALLBACK }),
     })
     const response = await POST(request as any)
     const { status, body } = await parseResponse(response)

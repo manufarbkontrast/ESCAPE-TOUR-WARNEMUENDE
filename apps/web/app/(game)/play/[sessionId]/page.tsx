@@ -91,7 +91,12 @@ export default function GamePage() {
           throw new Error('Failed to fetch session data')
         }
 
-        const result: ApiResponse<SessionData> = await response.json()
+        let result: ApiResponse<SessionData>
+        try {
+          result = await response.json()
+        } catch {
+          throw new Error('Invalid response')
+        }
 
         if (!result.success || !result.data) {
           setErrorMessage(result.error ?? 'Fehler beim Laden der Sitzung.')

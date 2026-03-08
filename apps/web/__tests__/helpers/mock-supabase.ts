@@ -7,24 +7,27 @@
  * an explicit terminal method (`.single()`, `.maybeSingle()`) resolve to
  * `{ data, error }` when awaited.
  */
-import { vi } from 'vitest'
+import { type Mock, vi } from 'vitest'
 
 export interface MockQueryResult<T = unknown> {
   readonly data: T | null
   readonly error: { message: string; code?: string } | null
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyMock = Mock<(...args: any[]) => any>
+
 export interface MockQueryBuilder {
-  readonly select: ReturnType<typeof vi.fn>
-  readonly insert: ReturnType<typeof vi.fn>
-  readonly update: ReturnType<typeof vi.fn>
-  readonly delete: ReturnType<typeof vi.fn>
-  readonly eq: ReturnType<typeof vi.fn>
-  readonly in: ReturnType<typeof vi.fn>
-  readonly order: ReturnType<typeof vi.fn>
-  readonly single: ReturnType<typeof vi.fn>
-  readonly maybeSingle: ReturnType<typeof vi.fn>
-  readonly then: ReturnType<typeof vi.fn>
+  readonly select: AnyMock
+  readonly insert: AnyMock
+  readonly update: AnyMock
+  readonly delete: AnyMock
+  readonly eq: AnyMock
+  readonly in: AnyMock
+  readonly order: AnyMock
+  readonly single: AnyMock
+  readonly maybeSingle: AnyMock
+  readonly then: AnyMock
 }
 
 /**

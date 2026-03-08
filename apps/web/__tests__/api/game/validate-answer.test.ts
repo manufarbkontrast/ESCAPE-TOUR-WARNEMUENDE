@@ -58,6 +58,19 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue(mockClient),
 }))
 
+// Mock verify-session to allow all requests by default
+vi.mock('@/lib/utils/verify-session', () => ({
+  verifyGameSession: vi.fn().mockReturnValue({ valid: true }),
+}))
+
+// Mock rate-limit to allow all requests by default
+vi.mock('@/lib/utils/rate-limit', () => ({
+  createRateLimiter: vi.fn().mockReturnValue({
+    check: vi.fn().mockReturnValue({ allowed: true, retryAfterMs: 0 }),
+    reset: vi.fn(),
+  }),
+}))
+
 // Import after mocks are set up
 import { POST } from '@/app/api/game/validate-answer/route'
 
@@ -294,7 +307,7 @@ describe('POST /api/game/validate-answer', () => {
     expect(status).toBe(500)
     expect(body).toMatchObject({
       success: false,
-      error: 'Validation failed: Edge function timeout',
+      error: 'Validation failed',
     })
   })
 

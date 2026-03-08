@@ -62,8 +62,25 @@ vi.mock('@/lib/supabase/server', () => ({
   createClient: vi.fn().mockResolvedValue(mockClient),
 }))
 
+// Mock verify-session to allow all requests by default
+vi.mock('@/lib/utils/verify-session', () => ({
+  verifyGameSession: vi.fn().mockReturnValue({ valid: true }),
+}))
+
+// Mock rate-limit to allow all requests by default
+vi.mock('@/lib/utils/rate-limit', () => ({
+  createRateLimiter: vi.fn().mockReturnValue({
+    check: vi.fn().mockReturnValue({ allowed: true, retryAfterMs: 0 }),
+    reset: vi.fn(),
+  }),
+}))
+
 // Import after mocks are set up
 import { GET, POST, PATCH } from '@/app/api/game/session/route'
+
+// Valid UUID constants for tests
+const TEST_SESSION_ID = '00000000-0000-0000-0000-000000000001'
+const TEST_SESSION_ID_2 = '00000000-0000-0000-0000-000000000002'
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -100,7 +117,7 @@ describe('GET /api/game/session', () => {
     })
     mockClient.from.mockReturnValueOnce(sessionsBuilder)
 
-    const request = new NextRequest('http://localhost/api/game/session?id=nonexistent')
+    const request = new NextRequest(`http://localhost/api/game/session?id=${TEST_SESSION_ID_2}`)
     const response = await GET(request)
     const { status, body } = await parseResponse(response)
 
@@ -109,21 +126,21 @@ describe('GET /api/game/session', () => {
   })
 
   it('should return session data on success', async () => {
-    const sessionData = { id: 'sess-1', status: 'active', total_points: 100 }
+    const sessionData = { id: TEST_SESSION_ID, status: 'active', total_points: 100 }
     const sessionsBuilder = createMockQueryBuilder({
       data: sessionData,
       error: null,
     })
     mockClient.from.mockReturnValueOnce(sessionsBuilder)
 
-    const request = new NextRequest('http://localhost/api/game/session?id=sess-1')
+    const request = new NextRequest(`http://localhost/api/game/session?id=${TEST_SESSION_ID}`)
     const response = await GET(request)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
     expect(body).toMatchObject({
       success: true,
-      data: { id: 'sess-1', status: 'active', total_points: 100 },
+      data: { id: TEST_SESSION_ID, status: 'active', total_points: 100 },
     })
   })
 })
@@ -426,7 +443,7 @@ describe('PATCH /api/game/session', () => {
 
   it('should update session successfully', async () => {
     const updatedSession = {
-      id: 'sess-1',
+      id: TEST_SESSION_ID,
       status: 'paused',
       total_points: 200,
     }
@@ -440,9 +457,8 @@ describe('PATCH /api/game/session', () => {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        sessionId: 'sess-1',
+        sessionId: TEST_SESSION_ID,
         status: 'paused',
-        totalPoints: 200,
       }),
     })
     const response = await PATCH(request as any)
@@ -462,7 +478,7 @@ describe('PATCH /api/game/session', () => {
     const request = new Request('http://localhost/api/game/session', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: 'sess-1', status: 'completed' }),
+      body: JSON.stringify({ sessionId: TEST_SESSION_ID, status: 'completed' }),
     })
     const response = await PATCH(request as any)
     const { status, body } = await parseResponse(response)

@@ -14,6 +14,9 @@ import type { NextRequest } from 'next/server';
 import type { Database } from '@escape-tour/database/src/types/supabase';
 import { isDemoSession } from '@/lib/demo/helpers';
 import { DEMO_CERTIFICATE } from '@/lib/demo/data';
+import { verifyGameSession } from '@/lib/utils/verify-session';
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 type GenerateCertificateRequest = {
   readonly sessionId: string;
@@ -43,6 +46,17 @@ export async function GET(request: NextRequest) {
 
     if (!sessionId) {
       return toNextResponse(errorResponse('Missing sessionId parameter'), 400);
+    }
+
+    // Validate ID format (UUID or demo session)
+    if (!isDemoSession(sessionId) && !UUID_REGEX.test(sessionId)) {
+      return toNextResponse(errorResponse('Invalid session ID format'), 400);
+    }
+
+    // Verify session ownership
+    const auth = verifyGameSession(request, sessionId);
+    if (!auth.valid) {
+      return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
     }
 
     // Demo mode: return mock certificate without touching Supabase
@@ -81,7 +95,7 @@ export async function GET(request: NextRequest) {
     console.error('GET certificate error:', error);
     return toNextResponse(
       errorResponse(
-        error instanceof Error ? error.message : 'Failed to fetch certificate'
+        'Failed to fetch certificate'
       ),
       500
     );
@@ -101,6 +115,17 @@ export async function POST(request: NextRequest) {
 
     if (!body.sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
+    }
+
+    // Validate ID format (UUID or demo session)
+    if (!isDemoSession(body.sessionId) && !UUID_REGEX.test(body.sessionId)) {
+      return toNextResponse(errorResponse('Invalid session ID format'), 400);
+    }
+
+    // Verify session ownership
+    const auth = verifyGameSession(request, body.sessionId);
+    if (!auth.valid) {
+      return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
     }
 
     // Demo mode: return mock certificate without touching Supabase
@@ -176,7 +201,7 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Edge function error:', error);
       return toNextResponse(
-        errorResponse(`Certificate generation failed: ${error.message}`),
+        errorResponse('Certificate generation failed'),
         500
       );
     }
@@ -193,9 +218,7 @@ export async function POST(request: NextRequest) {
     console.error('Generate certificate error:', error);
     return toNextResponse(
       errorResponse(
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred'
+        'An unexpected error occurred'
       ),
       500
     );

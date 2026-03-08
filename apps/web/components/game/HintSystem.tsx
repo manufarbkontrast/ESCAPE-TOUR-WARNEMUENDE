@@ -26,9 +26,11 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
   const [revealedHints, setRevealedHints] = useState<readonly number[]>([])
   const [confirmingLevel, setConfirmingLevel] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchHints = async () => {
+      setFetchError(null)
       try {
         const response = await fetch(`/api/game/hints/${puzzleId}`)
         if (!response.ok) throw new Error('Failed to fetch hints')
@@ -39,13 +41,14 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         }
       } catch (error) {
         console.error('Error fetching hints:', error)
+        setFetchError(language === 'de' ? 'Hinweise konnten nicht geladen werden' : 'Failed to load hints')
       } finally {
         setIsLoading(false)
       }
     }
 
     fetchHints()
-  }, [puzzleId])
+  }, [puzzleId, language])
 
   const getElapsedSeconds = () => {
     if (!session?.startedAt) return 0
@@ -102,6 +105,11 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
             <div className="py-8 text-center">
               <div className="mb-2 text-2xl">⏳</div>
               <p className="text-sand-300">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+            </div>
+          ) : fetchError ? (
+            <div className="py-8 text-center">
+              <div className="mb-2 text-2xl">⚠️</div>
+              <p className="text-red-400">{fetchError}</p>
             </div>
           ) : hints.length === 0 ? (
             <div className="py-8 text-center">

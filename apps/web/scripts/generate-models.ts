@@ -59,13 +59,12 @@ if (typeof globalThis.FileReader === 'undefined') {
 
 // Ensure document is available (Three.js checks for it in some paths)
 if (typeof globalThis.document === 'undefined') {
-  // @ts-expect-error — minimal document stub
   globalThis.document = {
     createElementNS: () => ({
       setAttribute: () => {},
       getContext: () => null,
     }),
-  }
+  } as unknown as Document
 }
 
 import { writeFileSync, mkdirSync, existsSync } from 'fs'

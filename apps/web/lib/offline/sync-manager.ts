@@ -111,7 +111,13 @@ class OfflineSyncManager {
             await this.updateRetryCount(action)
           }
         } catch (error) {
+          // Network error — increment retry count so it's retried later
           console.error('Sync error for action:', action.id, error)
+          if (action.retryCount >= OFFLINE_MAX_RETRIES) {
+            await this.deleteAction(action.id)
+          } else {
+            await this.updateRetryCount(action)
+          }
         }
       }
     } finally {
@@ -129,6 +135,12 @@ class OfflineSyncManager {
         fetch(`/api/game/tour/${tourId}/puzzles`),
         fetch(`/api/game/tour/${tourId}/hints`),
       ])
+
+      const responses = [tourRes, stationsRes, puzzlesRes, hintsRes]
+      const failedResponse = responses.find((r) => !r.ok)
+      if (failedResponse) {
+        throw new Error(`Failed to fetch game data (status ${failedResponse.status})`)
+      }
 
       const [tour, stations, puzzles, hints] = await Promise.all([
         tourRes.json(),

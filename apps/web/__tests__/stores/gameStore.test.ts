@@ -1,7 +1,7 @@
 /**
  * Tests for gameStore — main game state management with localStorage persistence
  */
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { afterEach, describe, it, expect, beforeEach, vi } from 'vitest'
 import { useGameStore } from '@/stores/gameStore'
 import type { GameSession, StationProgress } from '@escape-tour/shared'
 

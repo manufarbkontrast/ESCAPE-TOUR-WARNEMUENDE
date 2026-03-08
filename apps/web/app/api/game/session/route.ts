@@ -10,15 +10,29 @@ import {
   successResponse,
   errorResponse,
   toNextResponse,
+  toNextResponseWithCookies,
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import type { Database } from '@escape-tour/database/src/types/supabase';
 import { isDemoBookingCode, isDemoSession } from '@/lib/demo/helpers';
 import { DEMO_SESSION_ID, DEMO_SESSION, DEMO_STATIONS, DEMO_PUZZLES } from '@/lib/demo/data';
+import { createSessionToken, createDemoToken, SESSION_COOKIE_NAME } from '@/lib/utils/session-token';
+import { verifyGameSession } from '@/lib/utils/verify-session';
+import { createRateLimiter } from '@/lib/utils/rate-limit';
+import { getClientIp } from '@/lib/utils/client-ip';
+
+const SESSION_COOKIE_MAX_AGE = 86_400; // 24 hours
+
+const bookingRateLimiter = createRateLimiter({
+  windowMs: 60_000,
+  maxRequests: 5,
+});
 
 type GameSession = Database['public']['Tables']['game_sessions']['Row'];
 type Booking = Database['public']['Tables']['bookings']['Row'];
 type SessionStatus = Database['public']['Enums']['session_status'];
+
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 type CreateSessionRequest = {
   readonly bookingCode: string;
@@ -29,9 +43,6 @@ type UpdateSessionRequest = {
   readonly sessionId: string;
   readonly status?: SessionStatus;
   readonly currentStationIndex?: number;
-  readonly totalPoints?: number;
-  readonly hintsUsed?: number;
-  readonly puzzlesSkipped?: number;
 };
 
 /**
@@ -45,6 +56,17 @@ export async function GET(request: NextRequest) {
 
     if (!sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
+    }
+
+    // Validate ID format (UUID or demo session)
+    if (!isDemoSession(sessionId) && !UUID_REGEX.test(sessionId)) {
+      return toNextResponse(errorResponse('Invalid session ID format'), 400);
+    }
+
+    // Verify session ownership
+    const auth = verifyGameSession(request, sessionId);
+    if (!auth.valid) {
+      return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
     }
 
     // Demo mode: return mock data without touching Supabase
@@ -75,7 +97,7 @@ export async function GET(request: NextRequest) {
     console.error('GET session error:', error);
     return toNextResponse(
       errorResponse(
-        error instanceof Error ? error.message : 'Failed to fetch session'
+        'Failed to fetch session'
       ),
       500
     );
@@ -97,10 +119,33 @@ export async function POST(request: NextRequest) {
 
     // Demo mode: return demo session without touching Supabase
     if (isDemoBookingCode(body.bookingCode)) {
-      return toNextResponse(
+      const sessionCookie = {
+        name: SESSION_COOKIE_NAME,
+        value: createDemoToken(DEMO_SESSION_ID),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax' as const,
+        path: '/',
+        maxAge: SESSION_COOKIE_MAX_AGE,
+      };
+      return toNextResponseWithCookies(
         successResponse({ sessionId: DEMO_SESSION_ID, id: DEMO_SESSION_ID, status: 'pending' }),
-        201
+        201,
+        [sessionCookie],
       );
+    }
+
+    // Rate limit booking code attempts
+    const ip = getClientIp(request);
+    const rateCheck = bookingRateLimiter.check(ip);
+    if (!rateCheck.allowed) {
+      const retryAfter = Math.ceil(rateCheck.retryAfterMs / 1000);
+      const res = toNextResponse(
+        errorResponse('Too many attempts. Please try again later.'),
+        429,
+      );
+      res.headers.set('Retry-After', String(retryAfter));
+      return res;
     }
 
     // Validate booking code format (6 uppercase alphanumeric)
@@ -163,8 +208,22 @@ export async function POST(request: NextRequest) {
       .in('status', ['pending', 'active', 'paused'])
       .maybeSingle();
 
-    if (existingResult.data) {
-      return toNextResponse(successResponse(existingResult.data));
+    const existingSession = existingResult.data as { id: string; status: string } | null;
+    if (existingSession) {
+      const sessionCookie = {
+        name: SESSION_COOKIE_NAME,
+        value: createSessionToken(existingSession.id),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax' as const,
+        path: '/',
+        maxAge: SESSION_COOKIE_MAX_AGE,
+      };
+      return toNextResponseWithCookies(
+        successResponse(existingSession),
+        200,
+        [sessionCookie],
+      );
     }
 
     // Create new session
@@ -190,12 +249,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return toNextResponse(successResponse(createResult.data as GameSession), 201);
+    const createdSession = createResult.data as GameSession;
+    const sessionCookie = {
+      name: SESSION_COOKIE_NAME,
+      value: createSessionToken(createdSession.id),
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax' as const,
+      path: '/',
+      maxAge: SESSION_COOKIE_MAX_AGE,
+    };
+    return toNextResponseWithCookies(
+      successResponse(createdSession),
+      201,
+      [sessionCookie],
+    );
   } catch (error) {
     console.error('POST session error:', error);
     return toNextResponse(
       errorResponse(
-        error instanceof Error ? error.message : 'Failed to create session'
+        'Failed to create session'
       ),
       500
     );
@@ -213,6 +286,17 @@ export async function PATCH(request: NextRequest) {
 
     if (!body.sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
+    }
+
+    // Validate ID format (UUID or demo session)
+    if (!isDemoSession(body.sessionId) && !UUID_REGEX.test(body.sessionId)) {
+      return toNextResponse(errorResponse('Invalid session ID format'), 400);
+    }
+
+    // Verify session ownership
+    const auth = verifyGameSession(request, body.sessionId);
+    if (!auth.valid) {
+      return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
     }
 
     // Demo mode: accept update but return mock session
@@ -245,17 +329,8 @@ export async function PATCH(request: NextRequest) {
       updates.current_station_index = body.currentStationIndex;
     }
 
-    if (body.totalPoints !== undefined) {
-      updates.total_points = body.totalPoints;
-    }
-
-    if (body.hintsUsed !== undefined) {
-      updates.hints_used = body.hintsUsed;
-    }
-
-    if (body.puzzlesSkipped !== undefined) {
-      updates.puzzles_skipped = body.puzzlesSkipped;
-    }
+    // Note: totalPoints, hintsUsed, puzzlesSkipped are only updated server-side
+    // via the validate-answer edge function to prevent client-side manipulation.
 
     // Update session
     // Type workaround: postgrest-js has difficulty inferring Update types
@@ -276,7 +351,7 @@ export async function PATCH(request: NextRequest) {
     console.error('PATCH session error:', error);
     return toNextResponse(
       errorResponse(
-        error instanceof Error ? error.message : 'Failed to update session'
+        'Failed to update session'
       ),
       500
     );

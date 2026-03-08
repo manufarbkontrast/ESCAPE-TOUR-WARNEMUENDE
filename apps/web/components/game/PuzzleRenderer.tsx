@@ -116,8 +116,12 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
         throw new Error(language === 'de' ? 'Netzwerkfehler' : 'Network error')
       }
 
-      const result: { readonly data: ValidationResult | null; readonly error: string | null } =
-        await response.json()
+      let result: { readonly data: ValidationResult | null; readonly error: string | null }
+      try {
+        result = await response.json()
+      } catch {
+        throw new Error(language === 'de' ? 'Ungültige Serverantwort' : 'Invalid server response')
+      }
 
       if (result.error) {
         throw new Error(result.error)

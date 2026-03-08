@@ -37,6 +37,11 @@ const WARNEMUENDE_BOUNDS: mapboxgl.LngLatBoundsLike = [
 const DEFAULT_ZOOM = 15
 const DEFAULT_PITCH = 60
 const DEFAULT_BEARING = -17.6
+const MARKER_SIZE_CURRENT = 48
+const MARKER_SIZE_OTHER = 38
+const FLY_TO_DURATION_MS = 2_000
+const TERRAIN_EXAGGERATION = 1.5
+const DEM_MAX_ZOOM = 14
 
 const MARKER_COLORS: Record<StationStatus, string> = {
   completed: '#22c55e',
@@ -90,7 +95,7 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
   el.className = 'station-marker'
 
   const color = MARKER_COLORS[info.status]
-  const size = info.status === 'current' ? 48 : 38
+  const size = info.status === 'current' ? MARKER_SIZE_CURRENT : MARKER_SIZE_OTHER
   const fontSize = info.status === 'current' ? '18px' : '14px'
   const borderColor = info.status === 'current' ? '#f3c56c' : 'rgba(255,255,255,0.5)'
   const textColor = info.status === 'locked' ? '#d1d5db' : '#0b1929'
@@ -110,7 +115,7 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
         white-space: nowrap;
         text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-      ">${info.station.nameDe}</div>`
+      ">${info.station.nameDe.replace(/[<>&"']/g, (c: string) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' })[c] ?? c)}</div>`
     : ''
 
   el.innerHTML = `
@@ -395,11 +400,11 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
           type: 'raster-dem',
           url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
           tileSize: 512,
-          maxzoom: 14,
+          maxzoom: DEM_MAX_ZOOM,
         })
 
         // Enable 3D terrain (Warnemünde is flat → subtle exaggeration)
-        map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+        map.setTerrain({ source: 'mapbox-dem', exaggeration: TERRAIN_EXAGGERATION })
 
         // Vintage look: faded theme with warm dusk lighting
         map.setConfigProperty('basemap', 'theme', 'faded')
@@ -511,7 +516,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
       zoom: 16,
       pitch: DEFAULT_PITCH,
       bearing: DEFAULT_BEARING,
-      duration: 2000,
+      duration: FLY_TO_DURATION_MS,
     })
   }, [currentStation])
 

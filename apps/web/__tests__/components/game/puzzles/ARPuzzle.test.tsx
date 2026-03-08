@@ -100,7 +100,7 @@ describe('ARPuzzle', () => {
       puzzleType: 'ar_puzzle',
       instructionDe: null,
       instructionEn: null,
-      arContent: { targetDescription: 'Look for the lighthouse marker', overlayText: null },
+      arContent: { targetDescription: 'Look for the lighthouse marker', overlayText: '', markerUrl: null },
     })
     render(
       <ARPuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
@@ -292,7 +292,7 @@ describe('ARPuzzle', () => {
     const user = userEvent.setup()
     const puzzle = createMockPuzzle({
       puzzleType: 'ar_puzzle',
-      arContent: { overlayText: 'Scan the QR code', targetDescription: null },
+      arContent: { overlayText: 'Scan the QR code', targetDescription: '', markerUrl: null },
     })
     render(
       <ARPuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
