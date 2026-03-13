@@ -222,8 +222,8 @@ export default function BookingPage() {
                 <div
                   className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-200"
                   style={{
-                    background: isActive ? 'rgba(230, 146, 30, 0.9)' : 'rgba(255, 255, 255, 0.05)',
-                    color: isActive ? '#050d17' : 'rgba(255, 255, 255, 0.3)',
+                    background: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.05)',
+                    color: isActive ? '#0a1628' : 'rgba(255, 255, 255, 0.3)',
                   }}
                 >
                   {i + 1}
@@ -233,7 +233,7 @@ export default function BookingPage() {
                     className="h-px w-8 sm:w-12"
                     style={{
                       background: i < stepIndex
-                        ? 'rgba(230, 146, 30, 0.4)'
+                        ? 'rgba(255, 255, 255, 0.3)'
                         : 'rgba(255, 255, 255, 0.06)',
                     }}
                   />
@@ -263,10 +263,10 @@ export default function BookingPage() {
                       className="text-left rounded-2xl p-6 transition-all duration-200"
                       style={{
                         background: isSelected
-                          ? 'rgba(230, 146, 30, 0.06)'
+                          ? 'rgba(255, 255, 255, 0.04)'
                           : 'rgba(11, 25, 41, 0.5)',
                         border: isSelected
-                          ? '2px solid rgba(230, 146, 30, 0.35)'
+                          ? '2px solid rgba(255, 255, 255, 0.25)'
                           : '2px solid rgba(255, 255, 255, 0.04)',
                       }}
                     >
@@ -278,11 +278,11 @@ export default function BookingPage() {
                         <div
                           className="h-6 w-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1"
                           style={{
-                            borderColor: isSelected ? '#edaa3b' : 'rgba(255, 255, 255, 0.15)',
+                            borderColor: isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.15)',
                           }}
                         >
                           {isSelected && (
-                            <div className="h-3 w-3 rounded-full bg-brass-400" />
+                            <div className="h-3 w-3 rounded-full bg-white" />
                           )}
                         </div>
                       </div>
@@ -296,15 +296,15 @@ export default function BookingPage() {
                       <ul className="space-y-1.5 mb-4">
                         {info.features.map((f) => (
                           <li key={f} className="text-sm text-sand-400 flex items-center gap-2">
-                            <div className="h-1.5 w-1.5 rounded-full bg-brass-500/60 flex-shrink-0" />
+                            <div className="h-1.5 w-1.5 rounded-full bg-sand-500 flex-shrink-0" />
                             {f}
                           </li>
                         ))}
                       </ul>
 
-                      <div className="text-2xl font-display font-bold text-brass-400">
+                      <div className="text-2xl font-display font-bold text-white">
                         {formatPrice(info.priceCents)} €
-                        <span className="text-sm font-normal text-sand-500 ml-1">/ Person</span>
+                        <span className="text-sm font-normal text-sand-400 ml-1">/ Person</span>
                       </div>
                     </button>
                   )
@@ -313,7 +313,7 @@ export default function BookingPage() {
 
               <button
                 onClick={() => setStep('details')}
-                className="btn btn-primary w-full py-4 text-base mt-4"
+                className="btn w-full py-4 text-base mt-4 bg-white text-navy-950 font-semibold hover:bg-sand-100 rounded-full"
               >
                 Weiter
                 <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -362,7 +362,7 @@ export default function BookingPage() {
               {/* Email */}
               <div className="card p-6">
                 <label htmlFor="email" className="text-sm font-semibold text-sand-200 mb-2 block">
-                  E-Mail-Adresse <span className="text-brass-400">*</span>
+                  E-Mail-Adresse <span className="text-red-400">*</span>
                 </label>
                 <input
                   id="email"
@@ -400,7 +400,7 @@ export default function BookingPage() {
               {/* Date */}
               <div className="card p-6">
                 <label htmlFor="date" className="text-sm font-semibold text-sand-200 mb-2 block">
-                  Wunschdatum <span className="text-brass-400">*</span>
+                  Wunschdatum <span className="text-red-400">*</span>
                 </label>
                 <input
                   id="date"
@@ -430,7 +430,7 @@ export default function BookingPage() {
                 </button>
                 <button
                   onClick={handleDetailsNext}
-                  className="btn btn-primary flex-1 py-4 text-base"
+                  className="btn flex-1 py-4 text-base bg-white text-navy-950 font-semibold hover:bg-sand-100 rounded-full"
                 >
                   Weiter zur Zusammenfassung
                   <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -499,7 +499,7 @@ export default function BookingPage() {
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-lg font-semibold text-sand-50">Gesamt</span>
-                  <span className="font-display text-3xl font-bold text-brass-400">
+                  <span className="font-display text-3xl font-bold text-white">
                     {formatPrice(totalCents)} €
                   </span>
                 </div>
@@ -527,7 +527,7 @@ export default function BookingPage() {
                 <button
                   onClick={handleCheckout}
                   disabled={isSubmitting}
-                  className="btn btn-primary flex-1 py-4 text-base"
+                  className="btn flex-1 py-4 text-base bg-white text-navy-950 font-semibold hover:bg-sand-100 rounded-full disabled:opacity-40"
                 >
                   {isSubmitting ? (
                     <>
