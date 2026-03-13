@@ -36,14 +36,18 @@ export function Header() {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 group">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brass-500 text-navy-950 font-bold text-xl transition-transform group-hover:scale-105">
-                ⚓
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-navy-950 transition-transform group-hover:scale-105">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="5" r="3" />
+                  <line x1="12" y1="8" x2="12" y2="22" />
+                  <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+                </svg>
               </div>
               <div className="flex flex-col">
                 <span className="font-display font-bold text-lg leading-none">
                   Escape Tour
                 </span>
-                <span className="text-xs text-brass-400">Warnemünde</span>
+                <span className="text-xs text-sand-400">Warnemünde</span>
               </div>
             </Link>
 
@@ -53,7 +57,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-sand-200 hover:text-brass-400 transition-colors"
+                  className="text-sm font-medium text-sand-200 hover:text-white transition-colors"
                 >
                   {link.label}
                 </Link>

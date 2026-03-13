@@ -59,20 +59,20 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
     <div
       className={cn(
         'card-hover relative',
-        variant.popular && 'ring-2 ring-brass-500'
+        variant.popular && 'ring-2 ring-white/30'
       )}
     >
       {variant.popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center rounded-full bg-brass-500 px-3 py-1 text-xs font-semibold text-navy-950">
-            ⭐ Beliebteste Wahl
+          <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-navy-950">
+            Beliebteste Wahl
           </span>
         </div>
       )}
 
       <div className="space-y-4">
         <div>
-          <h3 className="font-display text-2xl font-bold text-brass-400">
+          <h3 className="font-display text-2xl font-bold text-white">
             {variant.name}
           </h3>
           <p className="mt-2 text-sm text-sand-300">{variant.description}</p>
@@ -100,7 +100,7 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
           {variant.features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2 text-sm">
               <svg
-                className="h-5 w-5 text-brass-500 flex-shrink-0 mt-0.5"
+                className="h-5 w-5 text-sand-400 flex-shrink-0 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -181,20 +181,24 @@ export default function HomePage() {
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
-        <div className="absolute inset-0 bg-gradient-to-br from-brass-500/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
 
         <div className="container-custom relative py-20 md:py-32">
           <div className="mx-auto max-w-3xl text-center space-y-8">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-brass-500/30 bg-brass-500/10 px-4 py-2 text-sm backdrop-blur">
-              <span className="text-brass-400">⚓</span>
-              <span className="text-brass-300">Das Vermächtnis des Lotsenkapitäns</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm backdrop-blur">
+              <svg className="h-4 w-4 text-sand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="5" r="3" />
+                <line x1="12" y1="8" x2="12" y2="22" />
+                <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+              </svg>
+              <span className="text-sand-200">Das Vermächtnis des Lotsenkapitäns</span>
             </div>
 
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white text-shadow-lg">
               Entdeckt Warnemünde
-              <span className="block text-gradient">auf eine ganz neue Art</span>
+              <span className="block text-sand-200">auf eine ganz neue Art</span>
             </h1>
 
             {/* Description */}
@@ -217,19 +221,19 @@ export default function HomePage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
               <div>
-                <div className="font-display text-3xl md:text-4xl font-bold text-brass-400">
+                <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   2-4h
                 </div>
                 <div className="text-sm text-sand-300 mt-1">Spielzeit</div>
               </div>
               <div>
-                <div className="font-display text-3xl md:text-4xl font-bold text-brass-400">
+                <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   10+
                 </div>
                 <div className="text-sm text-sand-300 mt-1">Stationen</div>
               </div>
               <div>
-                <div className="font-display text-3xl md:text-4xl font-bold text-brass-400">
+                <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   3-5km
                 </div>
                 <div className="text-sm text-sand-300 mt-1">Route</div>
@@ -247,7 +251,7 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Wählt eure <span className="text-gradient">perfekte Tour</span>
+              Wählt eure <span className="text-sand-200">perfekte Tour</span>
             </h2>
             <p className="text-lg text-sand-300 max-w-2xl mx-auto">
               Ob als Familie mit Kindern oder als anspruchsvolle Herausforderung –
@@ -268,7 +272,7 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              So <span className="text-gradient">funktioniert's</span>
+              So <span className="text-sand-200">funktioniert's</span>
             </h2>
             <p className="text-lg text-sand-300 max-w-2xl mx-auto">
               In vier einfachen Schritten zu eurem Abenteuer
@@ -281,34 +285,44 @@ export default function HomePage() {
                 step: '1',
                 title: 'Buchen',
                 description: 'Wählt eure Tour und bucht online',
-                icon: '🎫',
+                svgPath: 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 0 0-2 2v3a2 2 0 1 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 1 1 0-4V7a2 2 0 0 0-2-2H5z',
               },
               {
                 step: '2',
                 title: 'Starten',
                 description: 'Startet am Leuchtturm wann ihr wollt',
-                icon: '🗺️',
+                svgPath: 'M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.618a1 1 0 0 1 1.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0 0 21 18.382V7.618a1 1 0 0 0-.553-.894L15 4m0 13V4m0 0L9 7',
               },
               {
                 step: '3',
                 title: 'Rätseln',
                 description: 'Löst Rätsel an historischen Orten',
-                icon: '🔍',
+                svgPath: 'M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z',
               },
               {
                 step: '4',
                 title: 'Entdecken',
                 description: 'Erlebt Warnemünde aus neuer Perspektive',
-                icon: '⚓',
+                svgPath: 'M12 2L12 8M12 8C8 8 5 12 2 12C5 12 8 16 12 22C16 16 19 12 22 12C19 12 16 8 12 8Z',
+                isCompass: true,
               },
             ].map((item) => (
               <div key={item.step} className="text-center space-y-4">
                 <div className="flex justify-center">
                   <div className="relative">
-                    <div className="h-20 w-20 rounded-full bg-brass-500/10 border-2 border-brass-500 flex items-center justify-center text-3xl">
-                      {item.icon}
+                    <div className="h-20 w-20 rounded-full bg-white/5 border border-white/15 flex items-center justify-center">
+                      {item.isCompass ? (
+                        <svg className="h-8 w-8 text-sand-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="12" cy="12" r="10" />
+                          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" opacity="0.15" stroke="currentColor" />
+                        </svg>
+                      ) : (
+                        <svg className="h-8 w-8 text-sand-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                          <path d={item.svgPath} />
+                        </svg>
+                      )}
                     </div>
-                    <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-brass-500 text-navy-950 font-bold flex items-center justify-center text-sm">
+                    <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-white text-navy-950 font-bold flex items-center justify-center text-sm">
                       {item.step}
                     </div>
                   </div>
@@ -326,7 +340,7 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Häufig gestellte <span className="text-gradient">Fragen</span>
+              Häufig gestellte <span className="text-sand-200">Fragen</span>
             </h2>
             <p className="text-lg text-sand-300 max-w-2xl mx-auto">
               Alles was ihr vor eurer Tour wissen müsst
