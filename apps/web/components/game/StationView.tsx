@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronRight, BookOpen, Sparkles, Anchor, HelpCircle } from 'lucide-react'
 import type { Station, Puzzle } from '@escape-tour/shared'
 import { PuzzleRenderer } from './PuzzleRenderer'
 import { Timer } from './Timer'
@@ -28,8 +29,8 @@ const AudioPlayer = ({ url }: { readonly url: string | null }) => {
   if (!url) return null
   return (
     <div className="fixed bottom-20 right-4 z-10">
-      <div className="rounded-full bg-navy-800/80 p-3 shadow-lg backdrop-blur-sm">
-        <svg className="h-6 w-6 text-brass-400" fill="currentColor" viewBox="0 0 20 20">
+      <div className="btn-icon-lg flex items-center justify-center text-brass-400">
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
         </svg>
       </div>
@@ -92,12 +93,12 @@ export function StationView({
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-navy-900 to-navy-800">
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 z-20 border-b border-navy-700/50 bg-navy-900/95 backdrop-blur-sm">
+      <header className="fixed top-0 left-0 right-0 z-20 border-b border-white/[0.04] bg-navy-900/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex-1">
-            <h1 className="text-lg font-semibold text-sand-50">{stationName}</h1>
-            <p className="text-xs text-sand-300">
-              Station {station.orderIndex + 1} • {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
+            <h1 className="text-lg font-semibold text-sand-50 tracking-tight">{stationName}</h1>
+            <p className="text-xs text-sand-500 font-medium">
+              Station {station.orderIndex + 1} · {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
             </p>
           </div>
           <Timer sessionId={sessionId} />
@@ -105,7 +106,7 @@ export function StationView({
       </header>
 
       {/* Content Area */}
-      <main className="mx-auto w-full max-w-2xl flex-1 px-4 pt-20 pb-24">
+      <main className="mx-auto w-full max-w-3xl flex-1 flex flex-col justify-center px-6 pt-20 pb-24">
         <AnimatePresence mode="wait">
           {currentState === 'intro' && (
             <motion.div
@@ -115,10 +116,10 @@ export function StationView({
               animate="animate"
               exit="exit"
               transition={{ duration: 0.4 }}
-              className="space-y-6 py-6"
+              className="space-y-5 py-6"
             >
               {station.headerImageUrl && (
-                <div className="overflow-hidden rounded-lg">
+                <div className="overflow-hidden rounded-2xl">
                   <img
                     src={station.headerImageUrl}
                     alt={stationName}
@@ -126,25 +127,26 @@ export function StationView({
                   />
                 </div>
               )}
-              <div className="rounded-lg bg-navy-800/50 p-6 shadow-xl backdrop-blur-sm">
-                <h2 className="mb-4 text-2xl font-display font-bold text-brass-400">
+              <div className="card p-8">
+                <h2 className="mb-4 text-3xl font-display font-bold text-brass-400 tracking-tight">
                   {language === 'de' ? 'Willkommen' : 'Welcome'}
                 </h2>
-                <p className="whitespace-pre-line text-sand-100">{introText}</p>
+                <p className="whitespace-pre-line text-lg leading-relaxed text-sand-200">{introText}</p>
               </div>
               <div className="flex gap-3">
                 <button
                   onClick={handleIntroComplete}
-                  className="flex-1 rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+                  className="btn btn-primary flex-1 py-4 text-base"
                 >
                   {language === 'de' ? 'Weiter' : 'Continue'}
+                  <ChevronRight className="h-4 w-4" strokeWidth={2} />
                 </button>
                 {isDemo && (
                   <button
                     onClick={() => setCurrentState('puzzle')}
-                    className="rounded-lg border-2 border-yellow-500/50 bg-yellow-500/10 px-4 py-3 text-sm font-medium text-yellow-400 transition-all hover:bg-yellow-500/20 active:scale-95"
+                    className="btn btn-secondary px-5 text-sm"
                   >
-                    {language === 'de' ? 'Zum Rätsel' : 'To Puzzle'} &raquo;
+                    {language === 'de' ? 'Zum Rätsel' : 'To Puzzle'}
                   </button>
                 )}
               </div>
@@ -159,22 +161,26 @@ export function StationView({
               animate="animate"
               exit="exit"
               transition={{ duration: 0.4 }}
-              className="space-y-6 py-6"
+              className="space-y-5 py-6"
             >
-              <div className="rounded-lg bg-navy-800/50 p-6 shadow-xl backdrop-blur-sm">
-                <h2 className="mb-4 text-xl font-display font-bold text-brass-400">
-                  {language === 'de' ? 'Die Geschichte' : 'The Story'}
-                </h2>
-                <p className="whitespace-pre-line text-sand-100 leading-relaxed">{storyText}</p>
+              <div className="card p-8">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <BookOpen className="h-5 w-5 text-brass-500/60" strokeWidth={1.5} />
+                  <h2 className="text-3xl font-display font-bold text-brass-400 tracking-tight">
+                    {language === 'de' ? 'Die Geschichte' : 'The Story'}
+                  </h2>
+                </div>
+                <p className="whitespace-pre-line text-lg text-sand-200 leading-relaxed">{storyText}</p>
               </div>
               <button
                 onClick={handleStoryComplete}
-                className="w-full rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+                className="btn btn-primary w-full py-4 text-base"
               >
+                <Sparkles className="h-4 w-4" strokeWidth={2} />
                 {language === 'de' ? 'Rätsel starten' : 'Start Puzzle'}
               </button>
               {isDemo && (
-                <p className="text-center text-xs text-yellow-400/70">
+                <p className="text-center text-xs text-sand-600">
                   Demo: {language === 'de' ? 'Geschichte kann übersprungen werden' : 'Story can be skipped'}
                 </p>
               )}
@@ -208,20 +214,25 @@ export function StationView({
               animate="animate"
               exit="exit"
               transition={{ duration: 0.4 }}
-              className="space-y-6 py-6"
+              className="space-y-5 py-6"
             >
-              <div className="rounded-lg bg-gradient-to-br from-brass-500 to-brass-600 p-8 text-center shadow-xl">
-                <div className="mb-4 text-6xl">🎉</div>
-                <h2 className="mb-2 text-2xl font-display font-bold text-navy-900">
+              <div className="rounded-2xl p-8 text-center" style={{
+                background: 'linear-gradient(135deg, rgba(230, 146, 30, 0.15), rgba(230, 146, 30, 0.05))',
+                border: '1px solid rgba(230, 146, 30, 0.15)',
+                boxShadow: '0 0 40px rgba(230, 146, 30, 0.08)',
+              }}>
+                <Sparkles className="mx-auto mb-4 h-12 w-12 text-brass-400" strokeWidth={1.5} />
+                <h2 className="mb-2 text-2xl font-display font-bold text-sand-50 tracking-tight">
                   {language === 'de' ? 'Geschafft!' : 'Success!'}
                 </h2>
-                <p className="text-navy-800">{completionText}</p>
+                <p className="text-base text-sand-300">{completionText}</p>
               </div>
               <button
                 onClick={handleStationComplete}
-                className="w-full rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+                className="btn btn-primary w-full py-4 text-base"
               >
                 {language === 'de' ? 'Weiter zur nächsten Station' : 'Continue to Next Station'}
+                <ChevronRight className="h-4 w-4" strokeWidth={2} />
               </button>
             </motion.div>
           )}
@@ -237,8 +248,8 @@ export function StationView({
               className="flex min-h-[50vh] items-center justify-center"
             >
               <div className="text-center">
-                <div className="mb-4 animate-pulse text-4xl text-brass-400">⚓</div>
-                <p className="text-sand-200">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+                <Anchor className="mx-auto mb-4 h-8 w-8 animate-pulse text-brass-400" strokeWidth={1.5} />
+                <p className="text-sm text-sand-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
               </div>
             </motion.div>
           )}
@@ -247,13 +258,14 @@ export function StationView({
 
       {/* Footer with Hint Button */}
       {currentState === 'puzzle' && currentPuzzle && (
-        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-navy-700/50 bg-navy-900/95 backdrop-blur-sm">
+        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-white/[0.04] bg-navy-900/90 backdrop-blur-xl">
           <div className="mx-auto max-w-2xl px-4 py-3">
             <button
               onClick={() => setShowHints(true)}
-              className="w-full rounded-lg border-2 border-brass-500 px-4 py-2 font-medium text-brass-400 transition-all hover:bg-brass-500/10 active:scale-95"
+              className="btn btn-secondary w-full py-3"
             >
-              💡 {language === 'de' ? 'Hinweis anzeigen' : 'Show Hint'}
+              <HelpCircle className="h-4 w-4" strokeWidth={1.5} />
+              {language === 'de' ? 'Hinweis anzeigen' : 'Show Hint'}
             </button>
           </div>
         </footer>

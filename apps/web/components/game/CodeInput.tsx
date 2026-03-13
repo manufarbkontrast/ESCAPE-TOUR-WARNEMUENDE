@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { AlertCircle } from 'lucide-react'
 
 interface CodeInputProps {
   readonly length?: number
@@ -84,7 +85,7 @@ export function CodeInput({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2.5">
         {Array.from({ length }, (_, index) => (
           <input
             key={index}
@@ -99,28 +100,47 @@ export function CodeInput({
             onPaste={handlePaste}
             onFocus={() => handleFocus(index)}
             disabled={isSubmitting}
-            className={`h-14 w-12 rounded-lg border-2 bg-navy-900 text-center text-2xl font-bold uppercase shadow-lg transition-all focus:outline-none focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed ${
-              error
-                ? 'border-red-500 text-red-400 focus:border-red-400 focus:ring-red-400/50'
-                : 'border-brass-500 text-brass-400 focus:border-brass-400 focus:ring-brass-400/50'
-            }`}
+            className="h-14 w-12 rounded-xl text-center text-xl font-bold uppercase transition-all duration-150 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+            style={{
+              background: 'rgba(11, 25, 41, 0.6)',
+              border: `1.5px solid ${error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(230, 146, 30, 0.2)'}`,
+              color: error ? 'rgba(239, 68, 68, 0.8)' : '#edaa3b',
+              boxShadow: error
+                ? '0 0 0 3px rgba(239, 68, 68, 0.06)'
+                : '0 0 0 3px rgba(230, 146, 30, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.1)',
+            }}
+            onFocusCapture={(e) => {
+              const el = e.currentTarget
+              el.style.borderColor = error ? 'rgba(239, 68, 68, 0.6)' : 'rgba(230, 146, 30, 0.5)'
+              el.style.boxShadow = error
+                ? '0 0 0 3px rgba(239, 68, 68, 0.1)'
+                : '0 0 0 3px rgba(230, 146, 30, 0.1), 0 0 12px rgba(230, 146, 30, 0.08)'
+            }}
+            onBlurCapture={(e) => {
+              const el = e.currentTarget
+              el.style.borderColor = error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(230, 146, 30, 0.2)'
+              el.style.boxShadow = error
+                ? '0 0 0 3px rgba(239, 68, 68, 0.06)'
+                : '0 0 0 3px rgba(230, 146, 30, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.1)'
+            }}
             aria-label={`${language === 'de' ? 'Zeichen' : 'Character'} ${index + 1}`}
           />
         ))}
       </div>
 
       {error && (
-        <div className="flex items-center justify-center gap-2 text-sm text-red-400">
-          <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-          </svg>
+        <div className="flex items-center justify-center gap-2 text-sm text-red-400/80">
+          <AlertCircle className="h-3.5 w-3.5" strokeWidth={1.5} />
           <span>{error}</span>
         </div>
       )}
 
       {isSubmitting && (
-        <div className="text-center text-sm text-sand-400">
-          {language === 'de' ? 'Wird überprüft...' : 'Checking...'}
+        <div className="flex items-center justify-center gap-2">
+          <div className="h-4 w-4 animate-spin rounded-full border-[1.5px] border-brass-500 border-t-transparent" />
+          <span className="text-sm text-sand-500">
+            {language === 'de' ? 'Wird überprüft...' : 'Checking...'}
+          </span>
         </div>
       )}
     </div>

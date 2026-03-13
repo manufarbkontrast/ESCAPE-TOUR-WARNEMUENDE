@@ -70,8 +70,8 @@ describe('validateDemoAnswer', () => {
     expect(result.feedback.messageDe).toContain('nicht gefunden')
   })
 
-  it('should handle case-insensitive text answers (puzzle 003)', () => {
-    const result = validateDemoAnswer('demo-puzzle-003', 'warnemuende', 60)
+  it('should validate combination answer (puzzle 003)', () => {
+    const result = validateDemoAnswer('demo-puzzle-003', '1903', 60)
     expect(result.isCorrect).toBe(true)
   })
 

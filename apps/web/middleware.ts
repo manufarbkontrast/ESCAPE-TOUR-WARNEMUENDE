@@ -3,22 +3,27 @@
  * Refreshes auth session and protects game routes
  */
 
-import { type NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+
+/** Routes that require an authenticated Supabase user */
+const ADMIN_ROUTES = ['/dashboard', '/buchungen'];
 
 /**
  * Middleware to handle auth session refresh and route protection
  */
 export async function middleware(request: NextRequest) {
-  const { supabaseResponse } = await updateSession(request);
+  const { supabaseResponse, user } = await updateSession(request);
 
-  // Protected routes that require a valid booking session
-  const isPlayRoute = request.nextUrl.pathname.startsWith('/play/');
+  const pathname = request.nextUrl.pathname;
 
-  if (isPlayRoute) {
-    // Session validation will be handled by the page component
-    // which will redirect if the session is invalid
-    // Middleware just ensures auth cookies are fresh
+  // Protect admin routes — redirect to /login if not authenticated
+  const isAdminRoute = ADMIN_ROUTES.some((r) => pathname.startsWith(r));
+
+  if (isAdminRoute && !user) {
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect', pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return supabaseResponse;

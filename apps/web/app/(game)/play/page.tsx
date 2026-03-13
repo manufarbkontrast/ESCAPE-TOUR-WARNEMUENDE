@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { Anchor } from 'lucide-react'
 import { CodeInput } from '@/components/game/CodeInput'
 
 // ---------------------------------------------------------------------------
@@ -32,7 +33,6 @@ const LABELS = {
     invalidCode: 'Ungültiger Buchungscode. Bitte versucht es erneut.',
     networkError: 'Netzwerkfehler. Bitte prüft eure Verbindung.',
     serverError: 'Serverfehler. Bitte versucht es später erneut.',
-    decorativeAlt: 'Maritime Dekoration',
   },
   en: {
     title: 'Start Escape Tour',
@@ -42,7 +42,6 @@ const LABELS = {
     invalidCode: 'Invalid booking code. Please try again.',
     networkError: 'Network error. Please check your connection.',
     serverError: 'Server error. Please try again later.',
-    decorativeAlt: 'Maritime decoration',
   },
 } as const
 
@@ -59,7 +58,7 @@ const pageVariants = {
   },
 } as const
 
-const anchorVariants = {
+const iconVariants = {
   initial: { opacity: 0, scale: 0.8, rotate: -10 },
   animate: {
     opacity: 1,
@@ -131,39 +130,34 @@ export default function PlayEntryPage() {
       >
         {/* Anchor icon */}
         <motion.div
-          variants={anchorVariants}
+          variants={iconVariants}
           initial="initial"
           animate="animate"
           className="flex justify-center"
         >
-          <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-brass-500/10 shadow-lg">
-            <svg
-              className="h-10 w-10 text-brass-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 2a3 3 0 100 6 3 3 0 000-6zM12 8v13M5 12H2l3.5 9H12M19 12h3l-3.5 9H12"
-              />
-            </svg>
+          <div
+            className="flex h-20 w-20 items-center justify-center rounded-3xl"
+            style={{
+              background: 'rgba(230, 146, 30, 0.08)',
+              border: '1px solid rgba(230, 146, 30, 0.1)',
+              boxShadow: '0 0 40px rgba(230, 146, 30, 0.08)',
+            }}
+          >
+            <Anchor className="h-9 w-9 text-brass-400" strokeWidth={1.5} />
           </div>
         </motion.div>
 
         {/* Title */}
         <div className="text-center">
-          <h1 className="font-display text-3xl font-bold text-sand-50">
+          <h1 className="font-display text-3xl font-bold text-sand-50 tracking-tight">
             {labels.title}
           </h1>
-          <p className="mt-2 text-sand-300">{labels.subtitle}</p>
+          <p className="mt-2 text-sand-400 text-sm">{labels.subtitle}</p>
         </div>
 
         {/* Code input card */}
-        <div className="rounded-xl border border-navy-700/50 bg-navy-800/50 p-8 shadow-2xl backdrop-blur-sm">
-          <label className="mb-4 block text-center text-sm font-medium text-sand-200">
+        <div className="card p-8">
+          <label className="mb-5 block text-center text-xs font-medium text-sand-400 uppercase tracking-wide">
             {labels.inputLabel}
           </label>
 
@@ -175,22 +169,16 @@ export default function PlayEntryPage() {
             language={language}
           />
 
-          <p className="mt-4 text-center text-xs text-sand-400">
+          <p className="mt-5 text-center text-xs text-sand-600">
             {labels.helpText}
           </p>
         </div>
 
-        {/* Decorative bottom wave */}
-        <div className="flex items-center justify-center gap-2 pt-4">
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-brass-500/30" />
-          <svg
-            className="h-4 w-4 text-brass-500/40"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-          </svg>
-          <div className="h-px w-16 bg-gradient-to-l from-transparent to-brass-500/30" />
+        {/* Decorative divider */}
+        <div className="flex items-center justify-center gap-3 pt-2">
+          <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.15)' }} />
+          <Anchor className="h-3.5 w-3.5 text-brass-500/30" strokeWidth={1.5} />
+          <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.15)' }} />
         </div>
       </motion.div>
     </div>

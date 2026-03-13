@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Menu, Compass } from 'lucide-react'
 import { TOTAL_STATIONS } from '@escape-tour/shared'
 import { useGameStore } from '@/stores'
 import { OfflineIndicator } from '@/components/ui/OfflineIndicator'
@@ -22,27 +23,31 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
   const progressPercent = Math.round((stationIndex / totalStations) * 100)
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-navy-950/95 backdrop-blur border-b border-navy-800">
-      <div className="flex items-center justify-between h-14 px-4">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.04] bg-navy-900/90 backdrop-blur-xl">
+      <div className="flex items-center justify-between h-16 px-4">
         {/* Logo */}
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-brass-500 text-navy-950 font-bold flex items-center justify-center text-lg">
-            ⚓
+        <div className="flex items-center gap-3">
+          <div className="btn-icon-lg flex items-center justify-center text-brass-400">
+            <Compass className="h-6 w-6" strokeWidth={1.5} />
           </div>
-          <span className="font-display font-semibold text-sm">Escape Tour</span>
+          <span className="font-display font-semibold text-lg text-sand-50 tracking-tight">Escape Tour</span>
         </div>
 
         {/* Game Status Indicators */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {/* Progress Indicator */}
-          <div className="flex items-center gap-2 text-xs text-sand-300">
-            <div className="h-2 w-24 rounded-full bg-navy-800 overflow-hidden">
+          <div className="flex items-center gap-2.5">
+            <div className="h-2 w-28 rounded-full bg-navy-800 overflow-hidden">
               <div
-                className="h-full bg-brass-500 rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${progressPercent}%` }}
+                className="h-full rounded-full transition-all duration-500 ease-out"
+                style={{
+                  width: `${progressPercent}%`,
+                  background: 'linear-gradient(90deg, rgba(230, 146, 30, 0.7), rgba(230, 146, 30, 1))',
+                  boxShadow: '0 0 8px rgba(230, 146, 30, 0.4)',
+                }}
               />
             </div>
-            <span className="hidden sm:inline tabular-nums">
+            <span className="tabular-nums font-semibold text-sm text-sand-300">
               {stationIndex}/{totalStations}
             </span>
           </div>
@@ -51,22 +56,10 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
           <button
             type="button"
             onClick={onMenuToggle}
-            className="p-2 rounded-lg hover:bg-navy-800 transition-colors"
+            className="btn-icon-md text-sand-200"
             aria-label="Menü"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+            <Menu className="h-5 w-5" strokeWidth={1.5} />
           </button>
         </div>
       </div>
@@ -82,7 +75,7 @@ export default function GameLayout({ children }: GameLayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-navy-950 via-navy-900 to-navy-800">
       <OfflineIndicator />
       <GameHeader onMenuToggle={() => setIsMenuOpen((prev) => !prev)} />
 
@@ -93,7 +86,7 @@ export default function GameLayout({ children }: GameLayoutProps) {
       />
 
       {/* Main content area with top padding for fixed header */}
-      <main className="flex-1 pt-14">
+      <main className="flex-1 pt-16">
         {children}
       </main>
     </div>

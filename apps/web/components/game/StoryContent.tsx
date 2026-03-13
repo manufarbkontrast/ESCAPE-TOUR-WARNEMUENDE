@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
+import { ChevronRight, Anchor } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -113,12 +114,13 @@ export function StoryContent({
     return (
       <div className="flex min-h-[50vh] items-center justify-center px-4">
         <div className="text-center">
-          <p className="text-sand-400">{labels.noContent}</p>
+          <p className="text-sm text-sand-500">{labels.noContent}</p>
           <button
             onClick={onContinue}
-            className="mt-6 rounded-lg bg-brass-500 px-8 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+            className="btn btn-primary mt-6"
           >
             {labels.continue}
+            <ChevronRight className="h-4 w-4" strokeWidth={2} />
           </button>
         </div>
       </div>
@@ -146,12 +148,12 @@ export function StoryContent({
           className="mx-auto max-w-2xl space-y-6"
         >
           {/* Story text with word-by-word fade-in */}
-          <div className="rounded-lg bg-navy-800/60 p-6 shadow-xl backdrop-blur-sm">
+          <div className="card p-6">
             <div className="space-y-4">
               {segments.map((segment) => (
                 <p
                   key={segment.paragraphIndex}
-                  className="text-base leading-relaxed text-sand-100"
+                  className="text-lg leading-relaxed text-sand-200"
                 >
                   {segment.words.map((word, wordIndex) => (
                     <motion.span
@@ -172,24 +174,19 @@ export function StoryContent({
             variants={buttonVariants}
             className="flex items-center justify-center gap-3"
           >
-            <div className="h-px w-12 bg-brass-500/40" />
-            <svg
-              className="h-5 w-5 text-brass-500/60"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-            <div className="h-px w-12 bg-brass-500/40" />
+            <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.2)' }} />
+            <Anchor className="h-4 w-4 text-brass-500/40" strokeWidth={1.5} />
+            <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.2)' }} />
           </motion.div>
 
           {/* Continue button */}
           <motion.div variants={buttonVariants}>
             <button
               onClick={onContinue}
-              className="w-full rounded-lg bg-brass-500 px-8 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+              className="btn btn-primary w-full"
             >
               {labels.continue}
+              <ChevronRight className="h-4 w-4" strokeWidth={2} />
             </button>
           </motion.div>
         </motion.div>

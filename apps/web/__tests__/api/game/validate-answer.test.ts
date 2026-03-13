@@ -180,7 +180,7 @@ describe('POST /api/game/validate-answer', () => {
       body: JSON.stringify({
         sessionId: 'demo-session-001',
         puzzleId: 'demo-puzzle-003',
-        answer: 'WARNEMUENDE',
+        answer: '1903',
         timeSeconds: 30,
       }),
     })

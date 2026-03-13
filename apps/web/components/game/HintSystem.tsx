@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { X, Lightbulb, Search, MapPin, Target } from 'lucide-react'
 import type { Hint } from '@escape-tour/shared'
 import { useGameStore } from '@/stores/gameStore'
 
@@ -13,10 +14,10 @@ interface HintSystemProps {
 }
 
 const hintLevels = [
-  { level: 1, label: 'Kleiner Hinweis', labelEn: 'Small Hint', icon: '💡' },
-  { level: 2, label: 'Mittlerer Hinweis', labelEn: 'Medium Hint', icon: '🔍' },
-  { level: 3, label: 'Großer Hinweis', labelEn: 'Big Hint', icon: '📍' },
-  { level: 4, label: 'Lösung anzeigen', labelEn: 'Show Solution', icon: '🎯' },
+  { level: 1, label: 'Kleiner Hinweis', labelEn: 'Small Hint', icon: Lightbulb },
+  { level: 2, label: 'Mittlerer Hinweis', labelEn: 'Medium Hint', icon: Search },
+  { level: 3, label: 'Großer Hinweis', labelEn: 'Big Hint', icon: MapPin },
+  { level: 4, label: 'Lösung anzeigen', labelEn: 'Show Solution', icon: Target },
 ] as const
 
 export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSystemProps) {
@@ -79,22 +80,26 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 100 }}
-        className="w-full max-w-lg rounded-t-2xl bg-navy-900 shadow-2xl sm:rounded-2xl"
+        className="w-full max-w-lg rounded-t-3xl sm:rounded-3xl"
+        style={{
+          background: 'rgba(11, 25, 41, 0.95)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.04)',
+          boxShadow: '0 -4px 40px rgba(0, 0, 0, 0.3)',
+        }}
       >
         {/* Header */}
-        <div className="border-b border-navy-700 p-4">
+        <div className="border-b border-white/[0.04] p-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-display font-bold text-sand-50">
+            <h2 className="text-lg font-display font-bold text-sand-50 tracking-tight">
               {language === 'de' ? 'Hinweise' : 'Hints'}
             </h2>
             <button
               onClick={onClose}
-              className="text-sand-400 hover:text-sand-200"
+              className="btn-icon-sm text-sand-500"
               aria-label={language === 'de' ? 'Schließen' : 'Close'}
             >
-              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
+              <X className="h-4 w-4" strokeWidth={1.5} />
             </button>
           </div>
         </div>
@@ -103,8 +108,8 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         <div className="max-h-[70vh] overflow-y-auto p-4">
           {isLoading ? (
             <div className="py-8 text-center">
-              <div className="mb-2 text-2xl">⏳</div>
-              <p className="text-sand-300">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+              <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-brass-500 border-t-transparent" />
+              <p className="text-sm text-sand-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
             </div>
           ) : fetchError ? (
             <div className="py-8 text-center">
@@ -113,12 +118,12 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
             </div>
           ) : hints.length === 0 ? (
             <div className="py-8 text-center">
-              <p className="text-sand-300">
+              <p className="text-sm text-sand-500">
                 {language === 'de' ? 'Keine Hinweise verfügbar' : 'No hints available'}
               </p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {hintLevels.map((levelInfo) => {
                 const hint = hints.find((h) => h.hintLevel === levelInfo.level)
                 if (!hint) return null
@@ -128,25 +133,32 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                 const isConfirming = confirmingLevel === levelInfo.level
                 const label = language === 'de' ? levelInfo.label : levelInfo.labelEn
                 const hintText = language === 'de' ? hint.textDe : (hint.textEn ?? hint.textDe)
+                const Icon = levelInfo.icon
 
                 return (
                   <div
                     key={levelInfo.level}
-                    className={`rounded-lg border-2 p-4 transition-all ${
+                    className={`rounded-2xl p-4 transition-all duration-150 ${
                       isAvailable
-                        ? 'border-brass-500/50 bg-navy-800/50'
-                        : 'border-navy-700/50 bg-navy-800/30 opacity-60'
+                        ? ''
+                        : 'opacity-40'
                     }`}
+                    style={{
+                      background: isAvailable ? 'rgba(230, 146, 30, 0.04)' : 'rgba(255, 255, 255, 0.02)',
+                      border: `1px solid ${isAvailable ? 'rgba(230, 146, 30, 0.1)' : 'rgba(255, 255, 255, 0.03)'}`,
+                    }}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1">
-                        <div className="mb-1 flex items-center gap-2">
-                          <span className="text-xl">{levelInfo.icon}</span>
-                          <h3 className="font-semibold text-sand-50">{label}</h3>
+                        <div className="mb-1 flex items-center gap-2.5">
+                          <div className="btn-icon-sm flex items-center justify-center text-brass-400" style={{ background: 'rgba(230, 146, 30, 0.08)', borderColor: 'rgba(230, 146, 30, 0.1)' }}>
+                            <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
+                          </div>
+                          <h3 className="font-medium text-sand-100 text-sm">{label}</h3>
                         </div>
 
                         {!isAvailable && (
-                          <p className="text-xs text-sand-400">
+                          <p className="ml-[46px] text-xs text-sand-600">
                             {language === 'de' ? 'Verfügbar in' : 'Available in'}{' '}
                             {Math.ceil((hint.availableAfterSeconds - elapsedSeconds) / 60)}{' '}
                             {language === 'de' ? 'Min' : 'min'}
@@ -154,16 +166,16 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                         )}
 
                         {isRevealed && (
-                          <p className="mt-2 text-sm text-sand-200">{hintText}</p>
+                          <p className="ml-[46px] mt-2 text-sm text-sand-300 leading-relaxed">{hintText}</p>
                         )}
                       </div>
 
                       <div className="text-right">
-                        <div className="mb-1 text-sm text-brass-400">-{hint.pointPenalty}pts</div>
+                        <div className="mb-1.5 text-xs font-medium text-brass-500/70 tabular-nums">-{hint.pointPenalty}pts</div>
                         {isAvailable && !isRevealed && !isConfirming && (
                           <button
                             onClick={() => handleRevealHint(levelInfo.level)}
-                            className="rounded bg-brass-500 px-3 py-1 text-sm font-medium text-navy-900 transition-all hover:bg-brass-400 active:scale-95"
+                            className="btn btn-secondary px-4 py-1.5 text-xs"
                           >
                             {language === 'de' ? 'Anzeigen' : 'Reveal'}
                           </button>
@@ -178,9 +190,9 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="mt-3 border-t border-navy-700 pt-3"
+                          className="mt-3 border-t border-white/[0.04] pt-3"
                         >
-                          <p className="mb-3 text-sm text-sand-300">
+                          <p className="mb-3 text-sm text-sand-400">
                             {language === 'de'
                               ? `Dieser Hinweis kostet ${hint.pointPenalty} Punkte. Fortfahren?`
                               : `This hint costs ${hint.pointPenalty} points. Continue?`}
@@ -188,13 +200,13 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                           <div className="flex gap-2">
                             <button
                               onClick={() => confirmReveal(levelInfo.level)}
-                              className="flex-1 rounded bg-brass-500 px-3 py-2 text-sm font-medium text-navy-900 transition-all hover:bg-brass-400"
+                              className="btn btn-primary flex-1 py-2 text-sm"
                             >
                               {language === 'de' ? 'Ja' : 'Yes'}
                             </button>
                             <button
                               onClick={cancelReveal}
-                              className="flex-1 rounded bg-navy-700 px-3 py-2 text-sm font-medium text-sand-200 transition-all hover:bg-navy-600"
+                              className="btn btn-secondary flex-1 py-2 text-sm"
                             >
                               {language === 'de' ? 'Nein' : 'No'}
                             </button>

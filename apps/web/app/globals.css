@@ -104,30 +104,91 @@
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f59e0b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* Button Styles */
+  /* Button Styles — Modern pill-form with inner glow */
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg px-6 py-3 font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-semibold transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.97];
   }
 
   .btn-primary {
     @apply bg-brass-500 text-navy-950 hover:bg-brass-400 focus-visible:ring-brass-400 focus-visible:ring-offset-navy-950;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.15),
+      0 0 12px rgba(230, 146, 30, 0.15);
+  }
+
+  .btn-primary:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 0 20px rgba(230, 146, 30, 0.25);
   }
 
   .btn-secondary {
-    @apply bg-navy-800 text-white hover:bg-navy-700 focus-visible:ring-navy-500 focus-visible:ring-offset-navy-950;
+    @apply bg-transparent text-sand-100 border border-sand-700/40 hover:border-brass-500/50 hover:text-sand-50 focus-visible:ring-brass-400 focus-visible:ring-offset-navy-950;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  .btn-secondary:hover {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 0 12px rgba(230, 146, 30, 0.08);
   }
 
   .btn-ghost {
-    @apply bg-transparent text-white hover:bg-white/10 focus-visible:ring-white focus-visible:ring-offset-navy-950;
+    @apply bg-transparent text-sand-300 hover:text-sand-50 hover:bg-white/5 rounded-full focus-visible:ring-white focus-visible:ring-offset-navy-950;
   }
 
-  /* Card Styles */
+  /* Icon button — circular glass control */
+  .btn-icon {
+    @apply inline-flex items-center justify-center rounded-full transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brass-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950 active:scale-[0.95];
+    background: rgba(11, 25, 41, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .btn-icon:hover {
+    background: rgba(11, 25, 41, 0.9);
+    border-color: rgba(230, 146, 30, 0.3);
+    box-shadow: 0 0 12px rgba(230, 146, 30, 0.1);
+  }
+
+  .btn-icon-sm {
+    @apply btn-icon h-9 w-9;
+  }
+
+  .btn-icon-md {
+    @apply btn-icon h-11 w-11;
+  }
+
+  .btn-icon-lg {
+    @apply btn-icon h-12 w-12;
+  }
+
+  /* Card Styles — subtle layered surfaces */
   .card {
-    @apply rounded-xl bg-navy-900/50 backdrop-blur-sm border border-navy-800 p-6 transition-all duration-200;
+    @apply rounded-2xl p-6 transition-all duration-200;
+    background: rgba(11, 25, 41, 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow:
+      0 0 0 0.5px rgba(255, 255, 255, 0.03),
+      0 1px 2px rgba(0, 0, 0, 0.08),
+      0 2px 4px rgba(0, 0, 0, 0.04);
   }
 
   .card-hover {
-    @apply card hover:bg-navy-900/70 hover:border-brass-500/50 hover:shadow-lg hover:shadow-brass-500/10;
+    @apply card cursor-pointer;
+  }
+
+  .card-hover:hover {
+    background: rgba(11, 25, 41, 0.65);
+    border-color: rgba(230, 146, 30, 0.15);
+    box-shadow:
+      0 0 0 0.5px rgba(230, 146, 30, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      0 0 20px rgba(230, 146, 30, 0.04);
   }
 
   /* Container */

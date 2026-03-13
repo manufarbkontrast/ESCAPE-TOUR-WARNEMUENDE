@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Star, CheckCircle2, XCircle, AlertCircle } from 'lucide-react'
 import type { Puzzle, ValidationResult, AnswerRequest } from '@escape-tour/shared'
 import { isDemoPuzzle } from '@/lib/demo/helpers'
 import { playSuccessSound, playErrorSound } from '@/lib/sounds'
@@ -24,10 +25,10 @@ interface PuzzleRendererProps {
 }
 
 const difficultyConfig = {
-  easy: { label: 'Leicht', labelEn: 'Easy', color: 'text-green-400', bg: 'bg-green-400/10' },
-  medium: { label: 'Mittel', labelEn: 'Medium', color: 'text-yellow-400', bg: 'bg-yellow-400/10' },
-  hard: { label: 'Schwer', labelEn: 'Hard', color: 'text-red-400', bg: 'bg-red-400/10' },
-  finale: { label: 'Finale', labelEn: 'Finale', color: 'text-brass-400', bg: 'bg-brass-400/10' },
+  easy: { label: 'Leicht', labelEn: 'Easy', color: 'text-green-400', bg: 'rgba(34, 197, 94, 0.08)', border: 'rgba(34, 197, 94, 0.12)' },
+  medium: { label: 'Mittel', labelEn: 'Medium', color: 'text-yellow-400', bg: 'rgba(250, 204, 21, 0.08)', border: 'rgba(250, 204, 21, 0.12)' },
+  hard: { label: 'Schwer', labelEn: 'Hard', color: 'text-red-400', bg: 'rgba(239, 68, 68, 0.08)', border: 'rgba(239, 68, 68, 0.12)' },
+  finale: { label: 'Finale', labelEn: 'Finale', color: 'text-brass-400', bg: 'rgba(230, 146, 30, 0.08)', border: 'rgba(230, 146, 30, 0.12)' },
 } as const
 
 /**
@@ -40,7 +41,7 @@ function MiniCelebration() {
     y: -(Math.random() * 150 + 50),
     rotation: Math.random() * 360,
     scale: Math.random() * 0.5 + 0.5,
-    color: ['#F59E0B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6'][i % 5],
+    color: ['#e6921e', '#22c55e', '#3b82f6', '#f59e0b', '#a855f7'][i % 5],
   }))
 
   return (
@@ -190,11 +191,11 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
       default:
         return (
-          <div className="rounded-lg border-2 border-dashed border-navy-600 bg-navy-800/30 p-8 text-center">
-            <p className="text-sand-300">
+          <div className="card p-8 text-center" style={{ borderStyle: 'dashed' }}>
+            <p className="text-sm text-sand-400">
               {language === 'de' ? 'Rätseltyp wird noch entwickelt' : 'Puzzle type in development'}
             </p>
-            <p className="mt-2 text-sm text-sand-400">{puzzle.puzzleType}</p>
+            <p className="mt-1 text-xs text-sand-600 font-mono">{puzzle.puzzleType}</p>
           </div>
         )
     }
@@ -211,7 +212,12 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.1 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="absolute inset-0 z-30 flex items-center justify-center rounded-xl bg-green-500/20 backdrop-blur-sm"
+            className="absolute inset-0 z-30 flex items-center justify-center rounded-2xl"
+            style={{
+              background: 'rgba(34, 197, 94, 0.08)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(34, 197, 94, 0.1)',
+            }}
           >
             <div className="text-center">
               <motion.div
@@ -219,15 +225,13 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.1, type: 'spring', stiffness: 300 }}
               >
-                <svg className="mx-auto h-20 w-20 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+                <CheckCircle2 className="mx-auto h-16 w-16 text-green-400" strokeWidth={1.5} />
               </motion.div>
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="mt-3 text-2xl font-display font-bold text-green-400"
+                className="mt-3 text-xl font-display font-bold text-green-400"
               >
                 {language === 'de' ? 'Richtig!' : 'Correct!'}
               </motion.p>
@@ -236,7 +240,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.35 }}
-                  className="mt-1 text-lg font-semibold text-brass-400"
+                  className="mt-1 text-base font-semibold text-brass-400"
                 >
                   +{successPoints} {language === 'de' ? 'Punkte' : 'Points'}
                 </motion.p>
@@ -249,28 +253,29 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
       {/* Header with Difficulty and Points */}
       <div className="flex items-center justify-between">
-        <div className={`rounded-full px-3 py-1 text-sm font-medium ${difficultyInfo.bg} ${difficultyInfo.color}`}>
+        <div
+          className={`rounded-full px-3.5 py-1 text-xs font-semibold ${difficultyInfo.color}`}
+          style={{ background: difficultyInfo.bg, border: `1px solid ${difficultyInfo.border}` }}
+        >
           {difficultyLabel}
         </div>
-        <div className="flex items-center gap-2 text-brass-400">
-          <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-          </svg>
-          <span className="font-semibold">{puzzle.basePoints}</span>
+        <div className="flex items-center gap-1.5 text-brass-400">
+          <Star className="h-4 w-4" strokeWidth={1.5} fill="currentColor" />
+          <span className="font-semibold text-sm tabular-nums">{puzzle.basePoints}</span>
         </div>
       </div>
 
       {/* Question and Instructions */}
-      <div className="rounded-lg bg-navy-800/50 p-6 shadow-xl backdrop-blur-sm">
-        <h3 className="mb-2 text-xl font-display font-bold text-sand-50">{question}</h3>
+      <div className="card p-6">
+        <h3 className="mb-2 text-xl font-display font-bold text-sand-50 tracking-tight">{question}</h3>
         {instruction && (
-          <p className="mt-3 text-sm text-sand-300 italic">{instruction}</p>
+          <p className="mt-2 text-sm text-sand-400 italic leading-relaxed">{instruction}</p>
         )}
       </div>
 
       {/* Puzzle Image if available */}
       {puzzle.imageUrl && (
-        <div className="overflow-hidden rounded-lg">
+        <div className="overflow-hidden rounded-2xl">
           <img
             src={puzzle.imageUrl}
             alt={question}
@@ -280,7 +285,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       )}
 
       {/* Puzzle Input */}
-      <div className="rounded-lg bg-navy-800/30 p-6">
+      <div className="rounded-2xl p-5" style={{ background: 'rgba(11, 25, 41, 0.3)' }}>
         {renderPuzzle()}
       </div>
 
@@ -292,16 +297,18 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
             initial={{ x: 0 }}
             animate={{ x: [0, -10, 10, -10, 10, 0] }}
             transition={{ duration: 0.5 }}
-            className="rounded-lg border border-red-500/50 bg-red-500/10 p-4"
+            className="rounded-2xl p-4"
+            style={{
+              background: 'rgba(239, 68, 68, 0.06)',
+              border: '1px solid rgba(239, 68, 68, 0.12)',
+            }}
           >
             <div className="flex items-start gap-3">
-              <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
+              <XCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-400/80" strokeWidth={1.5} />
               <div className="flex-1">
-                <p className="text-sm font-medium text-red-400">{error}</p>
+                <p className="text-sm text-red-400/90">{error}</p>
                 {attempts >= 2 && (
-                  <p className="mt-1 text-xs text-red-300">
+                  <p className="mt-1 text-xs text-red-400/50">
                     {language === 'de' ? 'Benötigen Sie einen Hinweis?' : 'Need a hint?'}
                   </p>
                 )}
@@ -313,7 +320,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
       {/* Attempt Counter */}
       {attempts > 0 && (
-        <div className="text-center text-sm text-sand-400">
+        <div className="text-center text-xs text-sand-600 font-medium">
           {language === 'de' ? 'Versuche' : 'Attempts'}: {attempts}
         </div>
       )}
@@ -322,7 +329,8 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       {isDemoPuzzle(puzzle.id) && (
         <button
           onClick={onComplete}
-          className="w-full rounded-lg border-2 border-yellow-500/50 bg-yellow-500/10 px-6 py-3 text-sm font-medium text-yellow-400 transition-all hover:bg-yellow-500/20 active:scale-95"
+          className="btn btn-secondary w-full py-3 text-sm"
+          style={{ borderColor: 'rgba(250, 204, 21, 0.2)', color: 'rgba(250, 204, 21, 0.7)' }}
         >
           {language === 'de' ? 'Rätsel überspringen (Demo)' : 'Skip Puzzle (Demo)'}
         </button>

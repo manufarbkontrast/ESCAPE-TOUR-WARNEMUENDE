@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
+import { Suspense } from 'react';
 import { Inter, Playfair_Display } from 'next/font/google';
+import { PostHogProvider } from '@/lib/analytics/provider';
 import './globals.css';
 
 const inter = Inter({
@@ -92,7 +94,11 @@ interface RootLayoutProps {
  * Will wrap the app with context providers (theme, auth, etc.)
  */
 function Providers({ children }: { readonly children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <Suspense fallback={null}>
+      <PostHogProvider>{children}</PostHogProvider>
+    </Suspense>
+  );
 }
 
 /**
