@@ -3,18 +3,7 @@
 import { useState, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
-import {
-  Users,
-  Mail,
-  Calendar,
-  ChevronRight,
-  Anchor,
-  Clock,
-  MapPin,
-  Minus,
-  Plus,
-  AlertCircle,
-} from 'lucide-react'
+import { ChevronRight, ChevronLeft, Minus, Plus } from 'lucide-react'
 import type { TourVariant } from '@escape-tour/shared'
 
 // ---------------------------------------------------------------------------
@@ -29,6 +18,11 @@ interface BookingFormState {
   readonly contactEmail: string
   readonly teamName: string
   readonly scheduledDate: string
+}
+
+interface FieldErrors {
+  readonly contactEmail?: string
+  readonly scheduledDate?: string
 }
 
 // ---------------------------------------------------------------------------
@@ -86,7 +80,27 @@ const stepVariants = {
 } as const
 
 // ---------------------------------------------------------------------------
-// BookingPage component
+// Validation
+// ---------------------------------------------------------------------------
+
+function validateDetailsStep(form: BookingFormState): FieldErrors {
+  const errors: Record<string, string> = {}
+
+  if (!form.contactEmail.trim()) {
+    errors.contactEmail = 'Bitte gebt eure E-Mail-Adresse ein'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.contactEmail)) {
+    errors.contactEmail = 'Bitte gebt eine gültige E-Mail-Adresse ein'
+  }
+
+  if (!form.scheduledDate) {
+    errors.scheduledDate = 'Bitte wählt ein Datum aus'
+  }
+
+  return errors
+}
+
+// ---------------------------------------------------------------------------
+// BookingPage
 // ---------------------------------------------------------------------------
 
 export default function BookingPage() {
@@ -102,6 +116,7 @@ export default function BookingPage() {
     teamName: '',
     scheduledDate: '',
   })
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(wasCancelled ? 'Zahlung abgebrochen. Versucht es erneut.' : null)
 
@@ -112,15 +127,30 @@ export default function BookingPage() {
 
   const updateForm = useCallback((updates: Partial<BookingFormState>) => {
     setForm((prev) => ({ ...prev, ...updates }))
+    // Clear field error when user starts typing
+    const keys = Object.keys(updates) as (keyof FieldErrors)[]
+    setFieldErrors((prev) => {
+      const next = { ...prev }
+      for (const key of keys) {
+        delete next[key]
+      }
+      return next
+    })
     setError(null)
   }, [])
 
-  const handleCheckout = useCallback(async () => {
-    if (!form.contactEmail || !form.scheduledDate) {
-      setError('Bitte füllt alle Pflichtfelder aus.')
+  const handleDetailsNext = useCallback(() => {
+    const errors = validateDetailsStep(form)
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors)
       return
     }
+    setFieldErrors({})
+    setError(null)
+    setStep('checkout')
+  }, [form])
 
+  const handleCheckout = useCallback(async () => {
     setIsSubmitting(true)
     setError(null)
 
@@ -144,7 +174,6 @@ export default function BookingPage() {
         return
       }
 
-      // Redirect to Stripe Checkout
       window.location.href = result.data.url
     } catch {
       setError('Netzwerkfehler. Bitte prüft eure Verbindung.')
@@ -152,6 +181,18 @@ export default function BookingPage() {
       setIsSubmitting(false)
     }
   }, [form])
+
+  // Input styling helpers
+  const inputBase =
+    'w-full rounded-xl px-4 py-3.5 text-base text-sand-50 placeholder:text-sand-600 focus:outline-none transition-all'
+  const inputNormal = {
+    background: 'rgba(11, 25, 41, 0.6)',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+  }
+  const inputError = {
+    background: 'rgba(11, 25, 41, 0.6)',
+    border: '1px solid rgba(239, 68, 68, 0.5)',
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950">
@@ -163,53 +204,51 @@ export default function BookingPage() {
       >
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center mb-10">
-          <div
-            className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl"
-            style={{
-              background: 'rgba(230, 146, 30, 0.08)',
-              border: '1px solid rgba(230, 146, 30, 0.1)',
-            }}
-          >
-            <Anchor className="h-7 w-7 text-brass-400" strokeWidth={1.5} />
-          </div>
-          <h1 className="font-display text-3xl sm:text-4xl font-bold text-sand-50 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-bold text-sand-50 tracking-tight">
             Tour buchen
           </h1>
-          <p className="mt-2 text-sand-400 text-sm">
+          <p className="mt-3 text-sand-300 text-base">
             Das Vermächtnis des Lotsenkapitäns — Escape Tour Warnemünde
           </p>
         </div>
 
         {/* Step indicator */}
         <div className="mx-auto mb-10 flex max-w-xs items-center justify-center gap-2">
-          {(['tour', 'details', 'checkout'] as const).map((s, i) => (
-            <div key={s} className="flex items-center gap-2">
-              <div
-                className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all duration-200"
-                style={{
-                  background: step === s || i < ['tour', 'details', 'checkout'].indexOf(step)
-                    ? 'rgba(230, 146, 30, 0.9)'
-                    : 'rgba(255, 255, 255, 0.05)',
-                  color: step === s || i < ['tour', 'details', 'checkout'].indexOf(step)
-                    ? '#050d17'
-                    : 'rgba(255, 255, 255, 0.3)',
-                }}
-              >
-                {i + 1}
+          {(['tour', 'details', 'checkout'] as const).map((s, i) => {
+            const stepIndex = ['tour', 'details', 'checkout'].indexOf(step)
+            const isActive = i <= stepIndex
+            return (
+              <div key={s} className="flex items-center gap-2">
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-200"
+                  style={{
+                    background: isActive ? 'rgba(230, 146, 30, 0.9)' : 'rgba(255, 255, 255, 0.05)',
+                    color: isActive ? '#050d17' : 'rgba(255, 255, 255, 0.3)',
+                  }}
+                >
+                  {i + 1}
+                </div>
+                {i < 2 && (
+                  <div
+                    className="h-px w-8 sm:w-12"
+                    style={{
+                      background: i < stepIndex
+                        ? 'rgba(230, 146, 30, 0.4)'
+                        : 'rgba(255, 255, 255, 0.06)',
+                    }}
+                  />
+                )}
               </div>
-              {i < 2 && (
-                <div className="h-px w-8 sm:w-12" style={{ background: 'rgba(255, 255, 255, 0.06)' }} />
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Content */}
         <div className="mx-auto max-w-2xl">
           {/* Step 1: Tour selection */}
           {step === 'tour' && (
-            <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-4">
-              <h2 className="font-display text-xl font-bold text-sand-50 mb-4 tracking-tight">Tour wählen</h2>
+            <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
+              <h2 className="font-display text-2xl font-bold text-sand-50 mb-5">Tour wählen</h2>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {(['family', 'adult'] as const).map((variant) => {
@@ -221,50 +260,51 @@ export default function BookingPage() {
                       key={variant}
                       type="button"
                       onClick={() => updateForm({ tourVariant: variant })}
-                      className="card-hover text-left p-5"
-                      style={isSelected ? {
-                        background: 'rgba(230, 146, 30, 0.06)',
-                        borderColor: 'rgba(230, 146, 30, 0.25)',
-                        boxShadow: '0 0 20px rgba(230, 146, 30, 0.06)',
-                      } : undefined}
+                      className="text-left rounded-2xl p-6 transition-all duration-200"
+                      style={{
+                        background: isSelected
+                          ? 'rgba(230, 146, 30, 0.06)'
+                          : 'rgba(11, 25, 41, 0.5)',
+                        border: isSelected
+                          ? '2px solid rgba(230, 146, 30, 0.35)'
+                          : '2px solid rgba(255, 255, 255, 0.04)',
+                      }}
                     >
-                      <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-start justify-between mb-4">
                         <div>
-                          <h3 className="font-display font-bold text-sand-50 tracking-tight">{info.name}</h3>
-                          <p className="text-xs text-sand-500">{info.subtitle}</p>
+                          <h3 className="font-display text-xl font-bold text-sand-50">{info.name}</h3>
+                          <p className="text-sm text-sand-400 mt-0.5">{info.subtitle}</p>
                         </div>
                         <div
-                          className="h-5 w-5 rounded-full border-2 flex items-center justify-center"
+                          className="h-6 w-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1"
                           style={{
-                            borderColor: isSelected ? '#edaa3b' : 'rgba(255, 255, 255, 0.1)',
+                            borderColor: isSelected ? '#edaa3b' : 'rgba(255, 255, 255, 0.15)',
                           }}
                         >
                           {isSelected && (
-                            <div className="h-2.5 w-2.5 rounded-full bg-brass-400" />
+                            <div className="h-3 w-3 rounded-full bg-brass-400" />
                           )}
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-3 mb-3 text-xs text-sand-400">
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3" strokeWidth={1.5} /> {info.duration}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <MapPin className="h-3 w-3" strokeWidth={1.5} /> {info.distance}
-                        </span>
+                      <div className="flex items-center gap-4 mb-4 text-sm text-sand-300">
+                        <span>{info.duration}</span>
+                        <span className="text-sand-600">·</span>
+                        <span>{info.distance}</span>
                       </div>
 
-                      <ul className="space-y-1 mb-3">
+                      <ul className="space-y-1.5 mb-4">
                         {info.features.map((f) => (
-                          <li key={f} className="text-xs text-sand-400 flex items-center gap-1.5">
-                            <div className="h-1 w-1 rounded-full bg-brass-500/50" />
+                          <li key={f} className="text-sm text-sand-400 flex items-center gap-2">
+                            <div className="h-1.5 w-1.5 rounded-full bg-brass-500/60 flex-shrink-0" />
                             {f}
                           </li>
                         ))}
                       </ul>
 
-                      <div className="text-lg font-display font-bold text-brass-400">
-                        {formatPrice(info.priceCents)} € <span className="text-xs font-normal text-sand-500">/ Person</span>
+                      <div className="text-2xl font-display font-bold text-brass-400">
+                        {formatPrice(info.priceCents)} €
+                        <span className="text-sm font-normal text-sand-500 ml-1">/ Person</span>
                       </div>
                     </button>
                   )
@@ -273,10 +313,10 @@ export default function BookingPage() {
 
               <button
                 onClick={() => setStep('details')}
-                className="btn btn-primary w-full py-4 mt-4"
+                className="btn btn-primary w-full py-4 text-base mt-4"
               >
                 Weiter
-                <ChevronRight className="h-4 w-4" strokeWidth={2} />
+                <ChevronRight className="h-5 w-5" strokeWidth={2} />
               </button>
             </motion.div>
           )}
@@ -284,12 +324,11 @@ export default function BookingPage() {
           {/* Step 2: Details */}
           {step === 'details' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-xl font-bold text-sand-50 mb-4 tracking-tight">Eure Details</h2>
+              <h2 className="font-display text-2xl font-bold text-sand-50 mb-5">Eure Details</h2>
 
               {/* Participant count */}
-              <div className="card p-5">
-                <label className="text-xs font-medium text-sand-400 uppercase tracking-wide mb-3 block">
-                  <Users className="inline h-3.5 w-3.5 mr-1" strokeWidth={1.5} />
+              <div className="card p-6">
+                <label className="text-sm font-semibold text-sand-200 mb-4 block">
                   Teilnehmer
                 </label>
                 <div className="flex items-center justify-between">
@@ -299,9 +338,9 @@ export default function BookingPage() {
                     className="btn-icon-md text-sand-300"
                     disabled={form.participantCount <= 1}
                   >
-                    <Minus className="h-4 w-4" strokeWidth={1.5} />
+                    <Minus className="h-5 w-5" strokeWidth={2} />
                   </button>
-                  <span className="font-display text-3xl font-bold text-sand-50 tabular-nums w-16 text-center">
+                  <span className="font-display text-4xl font-bold text-sand-50 tabular-nums w-20 text-center">
                     {form.participantCount}
                   </span>
                   <button
@@ -310,21 +349,20 @@ export default function BookingPage() {
                     className="btn-icon-md text-sand-300"
                     disabled={form.participantCount >= 20}
                   >
-                    <Plus className="h-4 w-4" strokeWidth={1.5} />
+                    <Plus className="h-5 w-5" strokeWidth={2} />
                   </button>
                 </div>
                 {discount > 0 && (
-                  <p className="mt-2 text-center text-xs text-green-400/80 font-medium">
+                  <p className="mt-3 text-center text-sm text-green-400 font-medium">
                     {Math.round(discount * 100)}% Gruppenrabatt
                   </p>
                 )}
               </div>
 
               {/* Email */}
-              <div className="card p-5">
-                <label htmlFor="email" className="text-xs font-medium text-sand-400 uppercase tracking-wide mb-2 block">
-                  <Mail className="inline h-3.5 w-3.5 mr-1" strokeWidth={1.5} />
-                  E-Mail *
+              <div className="card p-6">
+                <label htmlFor="email" className="text-sm font-semibold text-sand-200 mb-2 block">
+                  E-Mail-Adresse <span className="text-brass-400">*</span>
                 </label>
                 <input
                   id="email"
@@ -333,22 +371,20 @@ export default function BookingPage() {
                   onChange={(e) => updateForm({ contactEmail: e.target.value })}
                   placeholder="team@beispiel.de"
                   required
-                  className="w-full rounded-xl px-4 py-3 text-sm text-sand-100 placeholder:text-sand-600 focus:outline-none transition-all"
-                  style={{
-                    background: 'rgba(11, 25, 41, 0.6)',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
-                  }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(230, 146, 30, 0.3)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)' }}
+                  className={inputBase}
+                  style={fieldErrors.contactEmail ? inputError : inputNormal}
                 />
-                <p className="mt-1.5 text-[11px] text-sand-600">Euer Buchungscode wird an diese Adresse gesendet</p>
+                {fieldErrors.contactEmail ? (
+                  <p className="mt-2 text-sm text-red-400">{fieldErrors.contactEmail}</p>
+                ) : (
+                  <p className="mt-2 text-sm text-sand-500">Euer Buchungscode wird an diese Adresse gesendet</p>
+                )}
               </div>
 
               {/* Team name (optional) */}
-              <div className="card p-5">
-                <label htmlFor="team" className="text-xs font-medium text-sand-400 uppercase tracking-wide mb-2 block">
-                  <Users className="inline h-3.5 w-3.5 mr-1" strokeWidth={1.5} />
-                  Teamname (optional)
+              <div className="card p-6">
+                <label htmlFor="team" className="text-sm font-semibold text-sand-200 mb-2 block">
+                  Teamname <span className="text-sand-600 font-normal">(optional)</span>
                 </label>
                 <input
                   id="team"
@@ -356,21 +392,15 @@ export default function BookingPage() {
                   value={form.teamName}
                   onChange={(e) => updateForm({ teamName: e.target.value })}
                   placeholder="z.B. Die Seeräuber"
-                  className="w-full rounded-xl px-4 py-3 text-sm text-sand-100 placeholder:text-sand-600 focus:outline-none transition-all"
-                  style={{
-                    background: 'rgba(11, 25, 41, 0.6)',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
-                  }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(230, 146, 30, 0.3)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)' }}
+                  className={inputBase}
+                  style={inputNormal}
                 />
               </div>
 
               {/* Date */}
-              <div className="card p-5">
-                <label htmlFor="date" className="text-xs font-medium text-sand-400 uppercase tracking-wide mb-2 block">
-                  <Calendar className="inline h-3.5 w-3.5 mr-1" strokeWidth={1.5} />
-                  Wunschdatum *
+              <div className="card p-6">
+                <label htmlFor="date" className="text-sm font-semibold text-sand-200 mb-2 block">
+                  Wunschdatum <span className="text-brass-400">*</span>
                 </label>
                 <input
                   id="date"
@@ -379,15 +409,15 @@ export default function BookingPage() {
                   onChange={(e) => updateForm({ scheduledDate: e.target.value })}
                   min={getMinDate()}
                   required
-                  className="w-full rounded-xl px-4 py-3 text-sm text-sand-100 focus:outline-none transition-all"
+                  className={inputBase}
                   style={{
-                    background: 'rgba(11, 25, 41, 0.6)',
-                    border: '1px solid rgba(255, 255, 255, 0.06)',
+                    ...(fieldErrors.scheduledDate ? inputError : inputNormal),
                     colorScheme: 'dark',
                   }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = 'rgba(230, 146, 30, 0.3)' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)' }}
                 />
+                {fieldErrors.scheduledDate && (
+                  <p className="mt-2 text-sm text-red-400">{fieldErrors.scheduledDate}</p>
+                )}
               </div>
 
               <div className="flex gap-3 pt-2">
@@ -395,21 +425,15 @@ export default function BookingPage() {
                   onClick={() => setStep('tour')}
                   className="btn btn-secondary"
                 >
+                  <ChevronLeft className="h-5 w-5" strokeWidth={2} />
                   Zurück
                 </button>
                 <button
-                  onClick={() => {
-                    if (!form.contactEmail || !form.scheduledDate) {
-                      setError('Bitte füllt alle Pflichtfelder aus.')
-                      return
-                    }
-                    setError(null)
-                    setStep('checkout')
-                  }}
-                  className="btn btn-primary flex-1 py-4"
+                  onClick={handleDetailsNext}
+                  className="btn btn-primary flex-1 py-4 text-base"
                 >
                   Weiter zur Zusammenfassung
-                  <ChevronRight className="h-4 w-4" strokeWidth={2} />
+                  <ChevronRight className="h-5 w-5" strokeWidth={2} />
                 </button>
               </div>
             </motion.div>
@@ -418,40 +442,40 @@ export default function BookingPage() {
           {/* Step 3: Summary & Checkout */}
           {step === 'checkout' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-xl font-bold text-sand-50 mb-4 tracking-tight">Zusammenfassung</h2>
+              <h2 className="font-display text-2xl font-bold text-sand-50 mb-5">Zusammenfassung</h2>
 
               <div className="card p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-sand-400">Tour</span>
-                  <span className="text-sm font-medium text-sand-100">{tourInfo.name}</span>
+                  <span className="text-base text-sand-400">Tour</span>
+                  <span className="text-base font-medium text-sand-50">{tourInfo.name}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-sand-400">Teilnehmer</span>
-                  <span className="text-sm font-medium text-sand-100">{form.participantCount}</span>
+                  <span className="text-base text-sand-400">Teilnehmer</span>
+                  <span className="text-base font-medium text-sand-50">{form.participantCount}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-sand-400">E-Mail</span>
-                  <span className="text-sm font-medium text-sand-100">{form.contactEmail}</span>
+                  <span className="text-base text-sand-400">E-Mail</span>
+                  <span className="text-base font-medium text-sand-50">{form.contactEmail}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 {form.teamName && (
                   <>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-sand-400">Teamname</span>
-                      <span className="text-sm font-medium text-sand-100">{form.teamName}</span>
+                      <span className="text-base text-sand-400">Teamname</span>
+                      <span className="text-base font-medium text-sand-50">{form.teamName}</span>
                     </div>
                     <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
                   </>
                 )}
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-sand-400">Datum</span>
-                  <span className="text-sm font-medium text-sand-100">
+                  <span className="text-base text-sand-400">Datum</span>
+                  <span className="text-base font-medium text-sand-50">
                     {new Date(form.scheduledDate).toLocaleDateString('de-DE', {
                       weekday: 'long',
                       day: 'numeric',
@@ -463,19 +487,19 @@ export default function BookingPage() {
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-sand-400">Preis pro Person</span>
-                  <span className="text-sm text-sand-100">
+                  <span className="text-base text-sand-400">Preis pro Person</span>
+                  <span className="text-base text-sand-50">
                     {formatPrice(unitPrice)} €
                     {discount > 0 && (
-                      <span className="ml-1.5 text-xs text-green-400/80">(-{Math.round(discount * 100)}%)</span>
+                      <span className="ml-2 text-sm text-green-400 font-medium">(-{Math.round(discount * 100)}%)</span>
                     )}
                   </span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
-                <div className="flex items-center justify-between pt-1">
-                  <span className="font-medium text-sand-100">Gesamt</span>
-                  <span className="font-display text-2xl font-bold text-brass-400">
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-lg font-semibold text-sand-50">Gesamt</span>
+                  <span className="font-display text-3xl font-bold text-brass-400">
                     {formatPrice(totalCents)} €
                   </span>
                 </div>
@@ -484,11 +508,10 @@ export default function BookingPage() {
               {/* Error */}
               {error && (
                 <div
-                  className="rounded-2xl p-4 flex items-center gap-3"
-                  style={{ background: 'rgba(239, 68, 68, 0.06)', border: '1px solid rgba(239, 68, 68, 0.12)' }}
+                  className="rounded-2xl p-4 flex items-start gap-3"
+                  style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.2)' }}
                 >
-                  <AlertCircle className="h-4 w-4 text-red-400/80 flex-shrink-0" strokeWidth={1.5} />
-                  <p className="text-sm text-red-400/90">{error}</p>
+                  <p className="text-base text-red-400">{error}</p>
                 </div>
               )}
 
@@ -498,28 +521,29 @@ export default function BookingPage() {
                   className="btn btn-secondary"
                   disabled={isSubmitting}
                 >
+                  <ChevronLeft className="h-5 w-5" strokeWidth={2} />
                   Zurück
                 </button>
                 <button
                   onClick={handleCheckout}
                   disabled={isSubmitting}
-                  className="btn btn-primary flex-1 py-4"
+                  className="btn btn-primary flex-1 py-4 text-base"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-950 border-t-transparent" />
+                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-navy-950 border-t-transparent" />
                       Wird verarbeitet...
                     </>
                   ) : (
                     <>
                       Jetzt bezahlen
-                      <ChevronRight className="h-4 w-4" strokeWidth={2} />
+                      <ChevronRight className="h-5 w-5" strokeWidth={2} />
                     </>
                   )}
                 </button>
               </div>
 
-              <p className="text-center text-[11px] text-sand-600">
+              <p className="text-center text-sm text-sand-500">
                 Sichere Zahlung über Stripe. Ihr werdet weitergeleitet.
               </p>
             </motion.div>
