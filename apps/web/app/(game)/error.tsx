@@ -23,7 +23,7 @@ export default function GameError({ error, reset }: GameErrorProps) {
         {/* Compass icon */}
         <div className="flex justify-center">
           <svg
-            className="h-16 w-16 text-brass-500"
+            className="h-16 w-16 text-white"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

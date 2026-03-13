@@ -98,7 +98,7 @@ export default function ConfirmationPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900 px-4">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-brass-500 border-t-transparent" />
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-transparent" />
           <p className="text-sm text-sand-400">
             {loadState === 'processing' ? 'Buchung wird verarbeitet...' : 'Wird geladen...'}
           </p>
@@ -165,16 +165,16 @@ export default function ConfirmationPage() {
           <div
             className="rounded-3xl p-8 mb-6"
             style={{
-              background: 'rgba(230, 146, 30, 0.05)',
-              border: '1px solid rgba(230, 146, 30, 0.15)',
-              boxShadow: '0 0 40px rgba(230, 146, 30, 0.06)',
+              background: 'rgba(255, 255, 255, 0.025)',
+              border: '1px solid rgba(255, 255, 255, 0.075)',
+              boxShadow: '0 0 40px rgba(255, 255, 255, 0.03)',
             }}
           >
             <p className="text-xs font-medium text-sand-500 uppercase tracking-wide mb-3">
               Euer Buchungscode
             </p>
             <div className="flex items-center justify-center gap-3">
-              <span className="font-mono text-4xl sm:text-5xl font-bold text-brass-400 tracking-[0.2em]">
+              <span className="font-mono text-4xl sm:text-5xl font-bold text-white tracking-[0.2em]">
                 {booking.bookingCode}
               </span>
               <button
@@ -222,7 +222,7 @@ export default function ConfirmationPage() {
             )}
             <div className="flex justify-between">
               <span className="text-xs text-sand-500">Bezahlt</span>
-              <span className="text-xs font-medium text-brass-400">
+              <span className="text-xs font-medium text-white">
                 {(booking.amountCents / 100).toFixed(2).replace('.', ',')} €
               </span>
             </div>

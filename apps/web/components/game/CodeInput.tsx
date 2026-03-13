@@ -103,25 +103,25 @@ export function CodeInput({
             className="h-14 w-12 rounded-xl text-center text-xl font-bold uppercase transition-all duration-150 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
               background: 'rgba(11, 25, 41, 0.6)',
-              border: `1.5px solid ${error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(230, 146, 30, 0.2)'}`,
-              color: error ? 'rgba(239, 68, 68, 0.8)' : '#edaa3b',
+              border: `1.5px solid ${error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`,
+              color: error ? 'rgba(239, 68, 68, 0.8)' : '#ffffff',
               boxShadow: error
                 ? '0 0 0 3px rgba(239, 68, 68, 0.06)'
-                : '0 0 0 3px rgba(230, 146, 30, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.1)',
+                : '0 0 0 3px rgba(255, 255, 255, 0.02), inset 0 1px 2px rgba(0, 0, 0, 0.1)',
             }}
             onFocusCapture={(e) => {
               const el = e.currentTarget
-              el.style.borderColor = error ? 'rgba(239, 68, 68, 0.6)' : 'rgba(230, 146, 30, 0.5)'
+              el.style.borderColor = error ? 'rgba(239, 68, 68, 0.6)' : 'rgba(255, 255, 255, 0.25)'
               el.style.boxShadow = error
                 ? '0 0 0 3px rgba(239, 68, 68, 0.1)'
-                : '0 0 0 3px rgba(230, 146, 30, 0.1), 0 0 12px rgba(230, 146, 30, 0.08)'
+                : '0 0 0 3px rgba(255, 255, 255, 0.05), 0 0 12px rgba(255, 255, 255, 0.04)'
             }}
             onBlurCapture={(e) => {
               const el = e.currentTarget
-              el.style.borderColor = error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(230, 146, 30, 0.2)'
+              el.style.borderColor = error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.1)'
               el.style.boxShadow = error
                 ? '0 0 0 3px rgba(239, 68, 68, 0.06)'
-                : '0 0 0 3px rgba(230, 146, 30, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.1)'
+                : '0 0 0 3px rgba(255, 255, 255, 0.02), inset 0 1px 2px rgba(0, 0, 0, 0.1)'
             }}
             aria-label={`${language === 'de' ? 'Zeichen' : 'Character'} ${index + 1}`}
           />
@@ -137,7 +137,7 @@ export function CodeInput({
 
       {isSubmitting && (
         <div className="flex items-center justify-center gap-2">
-          <div className="h-4 w-4 animate-spin rounded-full border-[1.5px] border-brass-500 border-t-transparent" />
+          <div className="h-4 w-4 animate-spin rounded-full border-[1.5px] border-white/20 border-t-transparent" />
           <span className="text-sm text-sand-500">
             {language === 'de' ? 'Wird überprüft...' : 'Checking...'}
           </span>

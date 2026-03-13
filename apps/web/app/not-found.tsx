@@ -23,7 +23,7 @@ export default function NotFound() {
           {/* Anchor icon */}
           <div className="flex justify-center">
             <svg
-              className="h-24 w-24 text-brass-500/20"
+              className="h-24 w-24 text-white/10"
               fill="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -49,7 +49,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/touren"
-              className="text-brass-400 hover:text-brass-300 transition-colors text-sm font-medium"
+              className="text-white hover:text-sand-100 transition-colors text-sm font-medium"
             >
               Zur Tour-Uebersicht
             </Link>

@@ -32,7 +32,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Search Hint */}
       <div className="flex items-start gap-3 rounded-lg bg-navy-800 p-4">
-        <svg className="mt-0.5 h-6 w-6 flex-shrink-0 text-brass-500" fill="currentColor" viewBox="0 0 20 20">
+        <svg className="mt-0.5 h-6 w-6 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
         </svg>
         <p className="text-sm text-sand-300">
@@ -42,7 +42,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
 
       {/* Reference Image */}
       {puzzle.imageUrl && (
-        <div className="overflow-hidden rounded-lg border-2 border-brass-500/30 shadow-lg">
+        <div className="overflow-hidden rounded-lg border-2 border-white/10 shadow-lg">
           <img
             src={puzzle.imageUrl}
             alt={language === 'de' ? 'Hinweisbild' : 'Hint image'}
@@ -59,7 +59,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={placeholder}
         disabled={isSubmitting}
-        className="w-full rounded-lg border-2 border-brass-500 bg-navy-900 px-4 py-4 text-center text-2xl font-bold tracking-widest text-brass-400 placeholder-sand-500 shadow-lg transition-all focus:border-brass-400 focus:outline-none focus:ring-2 focus:ring-brass-400/50 disabled:opacity-50"
+        className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-center text-2xl font-bold tracking-widest text-white placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
         autoComplete="off"
         autoCorrect="off"
         spellCheck={false}
@@ -76,7 +76,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-brass-500 px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitLabel}
       </button>

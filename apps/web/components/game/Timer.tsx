@@ -53,7 +53,7 @@ export function Timer({ sessionId }: TimerProps) {
   return (
     <div className="flex items-center gap-2">
       <svg
-        className={`h-5 w-5 ${isPaused ? 'text-sand-400' : 'text-brass-400'}`}
+        className={`h-5 w-5 ${isPaused ? 'text-sand-400' : 'text-white'}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >

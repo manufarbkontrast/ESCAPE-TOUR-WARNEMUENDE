@@ -200,7 +200,7 @@ export default function AGBPage() {
           unserer{' '}
           <Link
             href="/datenschutz"
-            className="text-brass-400 underline underline-offset-2 hover:text-brass-300 transition-colors"
+            className="text-white underline underline-offset-2 hover:text-sand-100 transition-colors"
           >
             Datenschutzerklaerung
           </Link>

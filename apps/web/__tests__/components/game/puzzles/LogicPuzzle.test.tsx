@@ -47,7 +47,7 @@ describe('LogicPuzzle', () => {
       )
       const optionA = screen.getByText('Option A')
       await user.click(optionA)
-      expect(optionA.className).toContain('border-brass-500')
+      expect(optionA.className).toContain('border-white/20')
     })
 
     it('should disable submit when no option selected', () => {

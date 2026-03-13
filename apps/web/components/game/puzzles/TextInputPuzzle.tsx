@@ -34,7 +34,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
           onChange={(e) => setAnswer(e.target.value)}
           placeholder={placeholder}
           disabled={isSubmitting}
-          className="w-full rounded-lg border-2 border-brass-500 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-brass-400 focus:outline-none focus:ring-2 focus:ring-brass-400/50 disabled:opacity-50"
+          className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
           autoComplete="off"
           autoCorrect="off"
           spellCheck="false"
@@ -64,7 +64,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-brass-500 px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {submitLabel}
       </button>

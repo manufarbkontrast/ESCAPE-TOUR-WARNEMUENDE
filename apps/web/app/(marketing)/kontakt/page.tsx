@@ -93,7 +93,7 @@ const CONTACT_INFO: ReadonlyArray<ContactInfoItem> = [
 function ContactInfoCard({ item }: { readonly item: ContactInfoItem }) {
   const content = (
     <div className="flex items-start gap-4">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brass-500/10 text-brass-400">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-white/5 text-white">
         {item.icon}
       </div>
       <div>
@@ -107,7 +107,7 @@ function ContactInfoCard({ item }: { readonly item: ContactInfoItem }) {
     return (
       <a
         href={item.href}
-        className="card-hover block hover:text-brass-400 transition-colors"
+        className="card-hover block hover:text-white transition-colors"
       >
         {content}
       </a>
@@ -126,11 +126,11 @@ export default function KontaktPage() {
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
-        <div className="absolute inset-0 bg-gradient-to-br from-brass-500/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              <span className="text-gradient">Kontakt</span>
+              <span className="text-sand-200">Kontakt</span>
             </h1>
             <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
               Habt ihr Fragen zu unseren Touren, wollt eine Gruppenanfrage stellen
@@ -169,7 +169,7 @@ export default function KontaktPage() {
                 <div className="aspect-video bg-navy-800 flex items-center justify-center rounded-lg">
                   <div className="text-center space-y-3">
                     <svg
-                      className="h-12 w-12 mx-auto text-brass-400"
+                      className="h-12 w-12 mx-auto text-white"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

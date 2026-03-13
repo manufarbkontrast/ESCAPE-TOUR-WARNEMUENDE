@@ -20,7 +20,7 @@ interface StatCardProps {
 // StatCard
 // ---------------------------------------------------------------------------
 
-function StatCard({ label, value, icon: Icon, accent = 'rgba(230, 146, 30, 0.08)' }: StatCardProps) {
+function StatCard({ label, value, icon: Icon, accent = 'rgba(255, 255, 255, 0.04)' }: StatCardProps) {
   return (
     <div
       className="rounded-2xl p-5"
@@ -35,7 +35,7 @@ function StatCard({ label, value, icon: Icon, accent = 'rgba(230, 146, 30, 0.08)
           className="flex h-8 w-8 items-center justify-center rounded-lg"
           style={{ background: accent }}
         >
-          <Icon className="h-4 w-4 text-brass-400" strokeWidth={1.5} />
+          <Icon className="h-4 w-4 text-white" strokeWidth={1.5} />
         </div>
       </div>
       <p className="text-2xl font-bold text-sand-50">{value}</p>
@@ -75,7 +75,7 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
               className="border-b hover:bg-white/[0.01] transition-colors"
               style={{ borderColor: 'rgba(255, 255, 255, 0.03)' }}
             >
-              <td className="py-3 px-4 font-mono text-sm text-brass-400 font-medium">{b.booking_code}</td>
+              <td className="py-3 px-4 font-mono text-sm text-white font-medium">{b.booking_code}</td>
               <td className="py-3 px-4 text-sm text-sand-300">{b.contact_email}</td>
               <td className="py-3 px-4 text-sm text-sand-400">{b.team_name ?? '–'}</td>
               <td className="py-3 px-4 text-sm text-sand-300">{b.participant_count}</td>

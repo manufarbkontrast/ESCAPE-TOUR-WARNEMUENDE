@@ -72,7 +72,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Instruction / Target Description */}
       <div className="flex items-start gap-3 rounded-lg bg-navy-800 p-3">
-        <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brass-500" fill="currentColor" viewBox="0 0 20 20">
+        <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
           <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
           <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
         </svg>
@@ -84,7 +84,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
       </div>
 
       {/* Camera View */}
-      <div className="relative overflow-hidden rounded-lg border-2 border-brass-500/30 bg-navy-900">
+      <div className="relative overflow-hidden rounded-lg border-2 border-white/10 bg-navy-900">
         {cameraActive ? (
           <div className="relative">
             <video
@@ -96,10 +96,10 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
             />
             {/* AR Overlay Frame */}
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <div className="h-48 w-48 rounded-lg border-2 border-dashed border-brass-500/60" />
+              <div className="h-48 w-48 rounded-lg border-2 border-dashed border-white/20" />
             </div>
             {overlayText && (
-              <div className="absolute bottom-2 left-2 right-2 rounded bg-navy-900/80 px-3 py-1.5 text-center text-sm text-brass-400">
+              <div className="absolute bottom-2 left-2 right-2 rounded bg-navy-900/80 px-3 py-1.5 text-center text-sm text-white">
                 {overlayText}
               </div>
             )}
@@ -119,7 +119,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
             type="button"
             onClick={startCamera}
             disabled={isSubmitting}
-            className="flex w-full flex-col items-center justify-center gap-3 py-16 text-sand-400 transition-colors hover:text-brass-400 disabled:opacity-50"
+            className="flex w-full flex-col items-center justify-center gap-3 py-16 text-sand-400 transition-colors hover:text-white disabled:opacity-50"
           >
             <svg className="h-12 w-12" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
@@ -143,7 +143,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={placeholder}
         disabled={isSubmitting}
-        className="w-full rounded-lg border-2 border-brass-500 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-brass-400 focus:outline-none focus:ring-2 focus:ring-brass-400/50 disabled:opacity-50"
+        className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
         autoComplete="off"
         autoCorrect="off"
         spellCheck={false}
@@ -153,7 +153,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-brass-500 px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitLabel}
       </button>

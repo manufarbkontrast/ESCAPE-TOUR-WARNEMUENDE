@@ -101,7 +101,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
       {/* Instruction */}
       {instruction && (
         <div className="flex items-start gap-3 rounded-lg bg-navy-800 p-3">
-          <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brass-500" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
           </svg>
           <p className="text-sm text-sand-300">{instruction}</p>
@@ -109,12 +109,12 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
       )}
 
       {/* Compass / Direction Indicator */}
-      <div className="flex flex-col items-center gap-4 rounded-lg border-2 border-brass-500/30 bg-navy-800 p-6">
+      <div className="flex flex-col items-center gap-4 rounded-lg border-2 border-white/10 bg-navy-800 p-6">
         {/* Compass Arrow */}
-        <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-2 border-brass-500/40 bg-navy-900">
+        <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/20 bg-navy-900">
           {userLocation ? (
             <svg
-              className="h-16 w-16 text-brass-500 transition-transform duration-300"
+              className="h-16 w-16 text-white transition-transform duration-300"
               style={{ transform: `rotate(${bearing}deg)` }}
               fill="currentColor"
               viewBox="0 0 24 24"
@@ -130,7 +130,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
         {/* Distance Display */}
         {distance !== null ? (
           <div className="text-center">
-            <p className={`text-3xl font-bold ${isWithinRadius ? 'text-green-400' : 'text-brass-400'}`}>
+            <p className={`text-3xl font-bold ${isWithinRadius ? 'text-green-400' : 'text-white'}`}>
               {formatDistance(distance)}
             </p>
             <p className="mt-1 text-sm text-sand-400">
@@ -174,7 +174,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
         className={`w-full rounded-lg px-6 py-4 font-semibold shadow-lg transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${
           isWithinRadius
             ? 'bg-green-500 text-navy-900 hover:bg-green-400'
-            : 'bg-brass-500 text-navy-900 hover:bg-brass-400'
+            : 'bg-white text-navy-900 hover:bg-sand-100'
         }`}
       >
         {submitLabel}

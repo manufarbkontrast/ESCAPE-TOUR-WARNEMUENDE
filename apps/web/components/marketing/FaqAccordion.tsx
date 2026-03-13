@@ -38,7 +38,7 @@ const contentVariants: Variants = {
 function ChevronIcon({ isOpen }: { readonly isOpen: boolean }) {
   return (
     <motion.svg
-      className="h-5 w-5 text-brass-400 flex-shrink-0"
+      className="h-5 w-5 text-white flex-shrink-0"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"

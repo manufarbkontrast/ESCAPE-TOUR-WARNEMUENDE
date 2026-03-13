@@ -29,7 +29,7 @@ const AudioPlayer = ({ url }: { readonly url: string | null }) => {
   if (!url) return null
   return (
     <div className="fixed bottom-20 right-4 z-10">
-      <div className="btn-icon-lg flex items-center justify-center text-brass-400">
+      <div className="btn-icon-lg flex items-center justify-center text-white">
         <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
         </svg>
@@ -128,7 +128,7 @@ export function StationView({
                 </div>
               )}
               <div className="card p-8">
-                <h2 className="mb-4 text-3xl font-display font-bold text-brass-400 tracking-tight">
+                <h2 className="mb-4 text-3xl font-display font-bold text-white tracking-tight">
                   {language === 'de' ? 'Willkommen' : 'Welcome'}
                 </h2>
                 <p className="whitespace-pre-line text-lg leading-relaxed text-sand-200">{introText}</p>
@@ -165,8 +165,8 @@ export function StationView({
             >
               <div className="card p-8">
                 <div className="flex items-center gap-2.5 mb-4">
-                  <BookOpen className="h-5 w-5 text-brass-500/60" strokeWidth={1.5} />
-                  <h2 className="text-3xl font-display font-bold text-brass-400 tracking-tight">
+                  <BookOpen className="h-5 w-5 text-sand-400" strokeWidth={1.5} />
+                  <h2 className="text-3xl font-display font-bold text-white tracking-tight">
                     {language === 'de' ? 'Die Geschichte' : 'The Story'}
                   </h2>
                 </div>
@@ -217,11 +217,11 @@ export function StationView({
               className="space-y-5 py-6"
             >
               <div className="rounded-2xl p-8 text-center" style={{
-                background: 'linear-gradient(135deg, rgba(230, 146, 30, 0.15), rgba(230, 146, 30, 0.05))',
-                border: '1px solid rgba(230, 146, 30, 0.15)',
-                boxShadow: '0 0 40px rgba(230, 146, 30, 0.08)',
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025))',
+                border: '1px solid rgba(255, 255, 255, 0.075)',
+                boxShadow: '0 0 40px rgba(255, 255, 255, 0.04)',
               }}>
-                <Sparkles className="mx-auto mb-4 h-12 w-12 text-brass-400" strokeWidth={1.5} />
+                <Sparkles className="mx-auto mb-4 h-12 w-12 text-white" strokeWidth={1.5} />
                 <h2 className="mb-2 text-2xl font-display font-bold text-sand-50 tracking-tight">
                   {language === 'de' ? 'Geschafft!' : 'Success!'}
                 </h2>
@@ -248,7 +248,7 @@ export function StationView({
               className="flex min-h-[50vh] items-center justify-center"
             >
               <div className="text-center">
-                <Anchor className="mx-auto mb-4 h-8 w-8 animate-pulse text-brass-400" strokeWidth={1.5} />
+                <Anchor className="mx-auto mb-4 h-8 w-8 animate-pulse text-white" strokeWidth={1.5} />
                 <p className="text-sm text-sand-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
               </div>
             </motion.div>

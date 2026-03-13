@@ -53,7 +53,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
             value={count}
             onChange={(e) => handleChange(e.target.value)}
             disabled={isSubmitting}
-            className="h-20 w-32 rounded-lg border-2 border-brass-500 bg-navy-900 text-center text-4xl font-bold text-brass-400 shadow-xl focus:border-brass-400 focus:outline-none focus:ring-2 focus:ring-brass-400/50 disabled:opacity-50"
+            className="h-20 w-32 rounded-lg border-2 border-white/20 bg-navy-900 text-center text-4xl font-bold text-white shadow-xl focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
             min="0"
           />
         </div>
@@ -72,7 +72,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
       <button
         onClick={handleSubmit}
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-brass-500 px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting
           ? (language === 'de' ? 'Wird überprüft...' : 'Checking...')

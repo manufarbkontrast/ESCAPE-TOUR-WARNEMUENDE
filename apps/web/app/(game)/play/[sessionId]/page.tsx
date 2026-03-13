@@ -163,7 +163,7 @@ export default function GamePage() {
     return (
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-brass-500 border-t-transparent" />
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
           <p className="text-sand-400 text-sm">
             {language === 'de' ? 'Tour wird geladen...' : 'Loading tour...'}
           </p>
@@ -262,12 +262,12 @@ export default function GamePage() {
                 onClick={() => handleViewChange(item.view)}
                 className={`flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 transition-all duration-150 ${
                   isActive
-                    ? 'text-brass-400'
+                    ? 'text-white'
                     : 'text-sand-500 hover:text-sand-300'
                 }`}
                 style={isActive ? {
-                  background: 'rgba(230, 146, 30, 0.08)',
-                  boxShadow: '0 0 16px rgba(230, 146, 30, 0.06)',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  boxShadow: '0 0 16px rgba(255, 255, 255, 0.03)',
                 } : undefined}
                 aria-label={label}
                 aria-current={isActive ? 'page' : undefined}

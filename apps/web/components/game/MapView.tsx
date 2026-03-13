@@ -46,7 +46,7 @@ const DEM_MAX_ZOOM = 14
 
 const MARKER_COLORS: Record<StationStatus, string> = {
   completed: '#22c55e',
-  current: '#edaa3b',
+  current: '#ffffff',
   locked: '#6b7280',
 } as const
 
@@ -98,7 +98,7 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
   const color = MARKER_COLORS[info.status]
   const size = info.status === 'current' ? MARKER_SIZE_CURRENT : MARKER_SIZE_OTHER
   const fontSize = info.status === 'current' ? '18px' : '14px'
-  const borderColor = info.status === 'current' ? '#f3c56c' : 'rgba(255,255,255,0.5)'
+  const borderColor = info.status === 'current' ? '#e7e5e4' : 'rgba(255,255,255,0.5)'
   const textColor = info.status === 'locked' ? '#d1d5db' : '#0b1929'
   const labelText = String(info.index + 1)
   const pulseAnimation = info.status === 'current' ? 'animation: markerPulse 2s ease-in-out infinite;' : ''
@@ -187,8 +187,8 @@ const injectAnimationStyles = (): void => {
   style.id = 'mapview-animations'
   style.textContent = `
     @keyframes markerPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(237, 170, 59, 0.4); }
-      50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(237, 170, 59, 0); }
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2); }
+      50% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
     }
     @keyframes userPulse {
       0%, 100% { transform: scale(1); opacity: 0.6; }
@@ -227,7 +227,7 @@ function MapLegend() {
         <li className="flex items-center gap-2 text-xs text-sand-300">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: MARKER_COLORS.current, boxShadow: '0 0 6px rgba(237, 170, 59, 0.4)' }}
+            style={{ backgroundColor: MARKER_COLORS.current, boxShadow: '0 0 6px rgba(255, 255, 255, 0.2)' }}
           />
           Aktuelle Station
         </li>
@@ -264,8 +264,8 @@ function StationInfoPanel({
       style={{
         background: 'rgba(11, 25, 41, 0.88)',
         backdropFilter: 'blur(16px)',
-        border: '1px solid rgba(230, 146, 30, 0.1)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25), 0 0 20px rgba(230, 146, 30, 0.04)',
+        border: '1px solid rgba(255, 255, 255, 0.05)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.02)',
       }}
     >
       <div className="flex items-start justify-between">
@@ -274,8 +274,8 @@ function StationInfoPanel({
             <span
               className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-navy-900"
               style={{
-                background: '#edaa3b',
-                boxShadow: '0 0 8px rgba(237, 170, 59, 0.3)',
+                background: '#ffffff',
+                boxShadow: '0 0 8px rgba(255, 255, 255, 0.15)',
               }}
             >
               {stationNumber}
@@ -300,12 +300,12 @@ function StationInfoPanel({
           <div
             className="ml-4 flex flex-col items-center rounded-xl px-3 py-2"
             style={{
-              background: 'rgba(230, 146, 30, 0.06)',
-              border: '1px solid rgba(230, 146, 30, 0.08)',
+              background: 'rgba(255, 255, 255, 0.03)',
+              border: '1px solid rgba(255, 255, 255, 0.04)',
             }}
           >
-            <MapPin className="mb-1 h-3.5 w-3.5 text-brass-400" strokeWidth={1.5} />
-            <span className="text-sm font-bold text-brass-400 tabular-nums">{distance}</span>
+            <MapPin className="mb-1 h-3.5 w-3.5 text-white" strokeWidth={1.5} />
+            <span className="text-sm font-bold text-white tabular-nums">{distance}</span>
             <span className="text-[10px] text-sand-600">Entfernung</span>
           </div>
         )}
@@ -556,7 +556,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
       {!isMapLoaded && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-navy-900">
           <div className="text-center">
-            <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-brass-500 border-t-transparent" />
+            <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
             <p className="text-sm text-sand-300">Karte wird geladen...</p>
           </div>
         </div>
@@ -569,7 +569,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
       {isMapLoaded && currentStation && (
         <button
           onClick={centerOnCurrentStation}
-          className="absolute top-4 right-16 z-10 btn-icon-md text-brass-400"
+          className="absolute top-4 right-16 z-10 btn-icon-md text-white"
           aria-label="Karte auf aktuelle Station zentrieren"
         >
           <LocateFixed className="h-4.5 w-4.5" strokeWidth={1.5} />

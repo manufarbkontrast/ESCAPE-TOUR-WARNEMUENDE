@@ -99,7 +99,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Audio Player */}
       {puzzle.audioUrl ? (
-        <div className="rounded-lg border-2 border-brass-500/30 bg-navy-800 p-4">
+        <div className="rounded-lg border-2 border-white/10 bg-navy-800 p-4">
           <audio
             ref={audioRef}
             src={puzzle.audioUrl}
@@ -114,7 +114,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
               type="button"
               onClick={togglePlayback}
               disabled={isSubmitting}
-              className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-brass-500 text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:opacity-50"
+              className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:opacity-50"
               aria-label={isPlaying ? (language === 'de' ? 'Pause' : 'Pause') : (language === 'de' ? 'Abspielen' : 'Play')}
             >
               {isPlaying ? (
@@ -139,7 +139,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
                 aria-valuemax={100}
               >
                 <div
-                  className="h-full rounded-full bg-brass-500 transition-[width] duration-100"
+                  className="h-full rounded-full bg-white transition-[width] duration-100"
                   style={{ width: `${progress * 100}%` }}
                 />
               </div>
@@ -161,7 +161,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={placeholder}
         disabled={isSubmitting}
-        className="w-full rounded-lg border-2 border-brass-500 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-brass-400 focus:outline-none focus:ring-2 focus:ring-brass-400/50 disabled:opacity-50"
+        className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
         autoComplete="off"
         autoCorrect="off"
         spellCheck={false}
@@ -178,7 +178,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-brass-500 px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitLabel}
       </button>

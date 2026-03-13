@@ -27,7 +27,7 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
       <div className="flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="btn-icon-lg flex items-center justify-center text-brass-400">
+          <div className="btn-icon-lg flex items-center justify-center text-white">
             <Compass className="h-6 w-6" strokeWidth={1.5} />
           </div>
           <span className="font-display font-semibold text-lg text-sand-50 tracking-tight">Escape Tour</span>
@@ -42,8 +42,8 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
                 className="h-full rounded-full transition-all duration-500 ease-out"
                 style={{
                   width: `${progressPercent}%`,
-                  background: 'linear-gradient(90deg, rgba(230, 146, 30, 0.7), rgba(230, 146, 30, 1))',
-                  boxShadow: '0 0 8px rgba(230, 146, 30, 0.4)',
+                  background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.5))',
+                  boxShadow: '0 0 8px rgba(255, 255, 255, 0.2)',
                 }}
               />
             </div>

@@ -120,7 +120,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                       </>
                     ) : (
                       <>
-                        <div className="btn-icon-sm flex items-center justify-center text-brass-400" style={{ background: 'rgba(230, 146, 30, 0.08)', borderColor: 'rgba(230, 146, 30, 0.1)' }}>
+                        <div className="btn-icon-sm flex items-center justify-center text-sand-100" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
                           <Pause className="h-4 w-4" strokeWidth={1.5} />
                         </div>
                         <span className="text-sm font-medium">Tour pausieren</span>
@@ -144,7 +144,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                     </>
                   ) : (
                     <>
-                      <div className="btn-icon-sm flex items-center justify-center text-brass-400" style={{ background: 'rgba(230, 146, 30, 0.08)', borderColor: 'rgba(230, 146, 30, 0.1)' }}>
+                      <div className="btn-icon-sm flex items-center justify-center text-sand-100" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
                         <Volume2 className="h-4 w-4" strokeWidth={1.5} />
                       </div>
                       <span className="text-sm font-medium">Ton ausschalten</span>
@@ -157,11 +157,11 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
 
                 {/* Points display */}
                 {session && (
-                  <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(230, 146, 30, 0.04)', border: '1px solid rgba(230, 146, 30, 0.08)' }}>
+                  <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
                     <div className="text-xs text-sand-500 mb-1.5 font-medium tracking-wide uppercase">Punkte</div>
                     <div className="flex items-center gap-2.5">
-                      <Star className="h-5 w-5 text-brass-400" strokeWidth={1.5} fill="currentColor" />
-                      <span className="font-display text-2xl font-bold text-brass-400 tabular-nums">
+                      <Star className="h-5 w-5 text-white" strokeWidth={1.5} fill="currentColor" />
+                      <span className="font-display text-2xl font-bold text-white tabular-nums">
                         {session.totalPoints}
                       </span>
                     </div>

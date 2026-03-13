@@ -126,7 +126,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               >
                 <Link
                   href={link.href}
-                  className="text-2xl font-display font-semibold text-sand-200 hover:text-brass-400 transition-colors"
+                  className="text-2xl font-display font-semibold text-sand-200 hover:text-white transition-colors"
                   onClick={onClose}
                 >
                   {link.label}

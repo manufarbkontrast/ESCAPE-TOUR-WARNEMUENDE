@@ -121,14 +121,14 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Code, E-Mail oder Team suchen..."
-            className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-brass-500/20"
+            className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-white/20"
             style={inputStyle}
           />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-xl px-4 py-2.5 text-sm text-sand-300 focus:outline-none focus:ring-1 focus:ring-brass-500/20"
+          className="rounded-xl px-4 py-2.5 text-sm text-sand-300 focus:outline-none focus:ring-1 focus:ring-white/20"
           style={inputStyle}
         >
           <option value="all">Alle Status</option>
@@ -176,7 +176,7 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                     style={{ borderColor: 'rgba(255, 255, 255, 0.03)' }}
                   >
                     <td className="py-3 px-4">
-                      <span className="font-mono text-sm text-brass-400 font-medium">{b.booking_code}</span>
+                      <span className="font-mono text-sm text-white font-medium">{b.booking_code}</span>
                       <CopyButton text={b.booking_code} />
                     </td>
                     <td className="py-3 px-4 text-sm text-sand-300">{b.contact_email}</td>

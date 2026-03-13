@@ -55,7 +55,7 @@ const CONFETTI_PARTICLES = Array.from({ length: 30 }, (_, i) => ({
   duration: 2 + Math.random() * 3,
   size: 4 + Math.random() * 8,
   rotation: Math.random() * 360,
-  color: ['#edaa3b', '#22c55e', '#3b82f6', '#f3c56c', '#e6921e'][
+  color: ['#ffffff', '#22c55e', '#3b82f6', '#e7e5e4', '#d6d3d1'][
     Math.floor(Math.random() * 5)
   ],
 }))
@@ -151,7 +151,7 @@ interface StatCardProps {
 function StatCard({ labelDe, labelEn, value, language, icon }: StatCardProps) {
   return (
     <div className="rounded-lg bg-navy-800/50 p-4 text-center shadow-lg backdrop-blur-sm">
-      <div className="mb-2 flex justify-center text-brass-400">{icon}</div>
+      <div className="mb-2 flex justify-center text-white">{icon}</div>
       <p className="text-2xl font-bold text-sand-50">{value}</p>
       <p className="text-xs text-sand-400">
         {language === 'de' ? labelDe : labelEn}
@@ -276,7 +276,7 @@ export default function CompletePage() {
     return (
       <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-brass-500 border-t-transparent" />
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
           <p className="text-sand-300">
             {language === 'de'
               ? 'Zertifikat wird geladen...'
@@ -310,7 +310,7 @@ export default function CompletePage() {
           <p className="mb-6 text-sand-300">{errorMessage}</p>
           <button
             onClick={() => router.push('/')}
-            className="rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+            className="rounded-lg bg-white px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95"
           >
             {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
           </button>
@@ -352,7 +352,7 @@ export default function CompletePage() {
           <h1 className="font-display text-3xl font-bold text-sand-50">
             {language === 'de' ? 'Geschafft!' : 'Congratulations!'}
           </h1>
-          <p className="mt-2 text-lg text-brass-400">
+          <p className="mt-2 text-lg text-white">
             {language === 'de'
               ? `${badgeConfig.labelDe}-Abzeichen`
               : `${badgeConfig.labelEn} Badge`}
@@ -362,11 +362,11 @@ export default function CompletePage() {
         {/* Certificate card */}
         <motion.div
           variants={itemVariants}
-          className="overflow-hidden rounded-xl border border-brass-500/30 bg-navy-800/50 shadow-2xl backdrop-blur-sm"
+          className="overflow-hidden rounded-xl border border-white/10 bg-navy-800/50 shadow-2xl backdrop-blur-sm"
         >
           {/* Certificate header */}
-          <div className="border-b border-brass-500/20 bg-gradient-to-r from-brass-500/10 to-transparent px-6 py-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-brass-400">
+          <div className="border-b border-white/10 bg-gradient-to-r from-white/5 to-transparent px-6 py-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-white">
               {language === 'de' ? 'Zertifikat' : 'Certificate'}
             </p>
           </div>
@@ -469,7 +469,7 @@ export default function CompletePage() {
           {/* Share button */}
           <button
             onClick={handleShare}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-brass-500 px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95"
           >
             <svg
               className="h-5 w-5"
@@ -490,7 +490,7 @@ export default function CompletePage() {
           {/* Back to home */}
           <button
             onClick={() => router.push('/')}
-            className="w-full rounded-lg border-2 border-navy-700 px-6 py-3 font-medium text-sand-300 transition-all hover:border-brass-500/50 hover:text-sand-100 active:scale-95"
+            className="w-full rounded-lg border-2 border-navy-700 px-6 py-3 font-medium text-sand-300 transition-all hover:border-white/20 hover:text-sand-100 active:scale-95"
           >
             {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
           </button>

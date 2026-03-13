@@ -58,11 +58,11 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
           <div
             className="flex h-9 w-9 items-center justify-center rounded-xl"
             style={{
-              background: 'rgba(230, 146, 30, 0.08)',
-              border: '1px solid rgba(230, 146, 30, 0.12)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
             }}
           >
-            <Anchor className="h-4 w-4 text-brass-400" strokeWidth={1.5} />
+            <Anchor className="h-4 w-4 text-white" strokeWidth={1.5} />
           </div>
           <div>
             <p className="text-sm font-semibold text-sand-100">Admin</p>
@@ -81,14 +81,14 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
                 href={item.href}
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
                   isActive
-                    ? 'text-brass-400 font-medium'
+                    ? 'text-white font-medium'
                     : 'text-sand-500 hover:text-sand-300'
                 }`}
                 style={
                   isActive
                     ? {
-                        background: 'rgba(230, 146, 30, 0.06)',
-                        border: '1px solid rgba(230, 146, 30, 0.08)',
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        border: '1px solid rgba(255, 255, 255, 0.04)',
                       }
                     : undefined
                 }

@@ -138,12 +138,12 @@ export default function PlayEntryPage() {
           <div
             className="flex h-20 w-20 items-center justify-center rounded-3xl"
             style={{
-              background: 'rgba(230, 146, 30, 0.08)',
-              border: '1px solid rgba(230, 146, 30, 0.1)',
-              boxShadow: '0 0 40px rgba(230, 146, 30, 0.08)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              boxShadow: '0 0 40px rgba(255, 255, 255, 0.04)',
             }}
           >
-            <Anchor className="h-9 w-9 text-brass-400" strokeWidth={1.5} />
+            <Anchor className="h-9 w-9 text-white" strokeWidth={1.5} />
           </div>
         </motion.div>
 
@@ -176,9 +176,9 @@ export default function PlayEntryPage() {
 
         {/* Decorative divider */}
         <div className="flex items-center justify-center gap-3 pt-2">
-          <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.15)' }} />
-          <Anchor className="h-3.5 w-3.5 text-brass-500/30" strokeWidth={1.5} />
-          <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.15)' }} />
+          <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
+          <Anchor className="h-3.5 w-3.5 text-sand-500" strokeWidth={1.5} />
+          <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
         </div>
       </motion.div>
     </div>

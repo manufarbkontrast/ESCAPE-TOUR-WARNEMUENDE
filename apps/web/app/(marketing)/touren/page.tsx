@@ -192,15 +192,15 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
     <div className="space-y-12">
       {/* Tour Header */}
       <div className={cn('max-w-3xl', isReversed ? 'ml-auto text-right' : '')}>
-        <div className="inline-flex items-center gap-2 rounded-full border border-brass-500/30 bg-brass-500/10 px-4 py-2 text-sm backdrop-blur mb-4">
-          <span className="text-brass-400">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm backdrop-blur mb-4">
+          <span className="text-white">
             {tour.difficulty} &middot; {tour.distance} &middot; {tour.duration}
           </span>
         </div>
         <h2 className="font-display text-3xl md:text-4xl font-bold text-sand-50">
           {tour.name}
         </h2>
-        <p className="text-brass-400 font-medium mt-2">{tour.tagline}</p>
+        <p className="text-white font-medium mt-2">{tour.tagline}</p>
         <p className="text-sand-200 mt-4 leading-relaxed">{tour.description}</p>
       </div>
 
@@ -213,10 +213,10 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
           {tour.highlights.map((highlight, index) => (
             <div key={highlight.name} className="card-hover space-y-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brass-500 text-navy-950 font-bold text-sm">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-navy-950 font-bold text-sm">
                   {index + 1}
                 </div>
-                <h4 className="font-display text-lg font-semibold text-brass-400">
+                <h4 className="font-display text-lg font-semibold text-white">
                   {highlight.name}
                 </h4>
               </div>
@@ -235,7 +235,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
           {tour.expectations.map((item) => (
             <li key={item} className="flex items-start gap-3">
               <svg
-                className="h-5 w-5 text-brass-500 flex-shrink-0 mt-0.5"
+                className="h-5 w-5 text-white flex-shrink-0 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -274,7 +274,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
 function FeatureHighlightCard({ feature }: { readonly feature: FeatureCard }) {
   return (
     <div className="card-hover space-y-4">
-      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-brass-500/10 border border-brass-500/30 text-brass-400">
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white">
         {feature.icon}
       </div>
       <h3 className="font-display text-xl font-semibold text-sand-50">
@@ -294,11 +294,11 @@ export default function TourenPage() {
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
-        <div className="absolute inset-0 bg-gradient-to-br from-brass-500/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-gradient">Touren</span>
+              Unsere <span className="text-sand-200">Touren</span>
             </h1>
             <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
               Entdeckt Warnemünde mit einer interaktiven GPS-Escape-Tour.
@@ -339,7 +339,7 @@ export default function TourenPage() {
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Was macht unsere Tour{' '}
-              <span className="text-gradient">besonders?</span>
+              <span className="text-sand-200">besonders?</span>
             </h2>
             <p className="text-lg text-sand-300 max-w-2xl mx-auto">
               Modernste Technologie trifft auf spannende Geschichten. Das
@@ -361,7 +361,7 @@ export default function TourenPage() {
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Bereit für euer{' '}
-              <span className="text-gradient">Abenteuer?</span>
+              <span className="text-sand-200">Abenteuer?</span>
             </h2>
             <p className="text-lg text-sand-200">
               Wählt eure Tour und startet wann immer ihr wollt. Die Rätsel des

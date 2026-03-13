@@ -28,7 +28,7 @@ const difficultyConfig = {
   easy: { label: 'Leicht', labelEn: 'Easy', color: 'text-green-400', bg: 'rgba(34, 197, 94, 0.08)', border: 'rgba(34, 197, 94, 0.12)' },
   medium: { label: 'Mittel', labelEn: 'Medium', color: 'text-yellow-400', bg: 'rgba(250, 204, 21, 0.08)', border: 'rgba(250, 204, 21, 0.12)' },
   hard: { label: 'Schwer', labelEn: 'Hard', color: 'text-red-400', bg: 'rgba(239, 68, 68, 0.08)', border: 'rgba(239, 68, 68, 0.12)' },
-  finale: { label: 'Finale', labelEn: 'Finale', color: 'text-brass-400', bg: 'rgba(230, 146, 30, 0.08)', border: 'rgba(230, 146, 30, 0.12)' },
+  finale: { label: 'Finale', labelEn: 'Finale', color: 'text-white', bg: 'rgba(255, 255, 255, 0.04)', border: 'rgba(255, 255, 255, 0.06)' },
 } as const
 
 /**
@@ -41,7 +41,7 @@ function MiniCelebration() {
     y: -(Math.random() * 150 + 50),
     rotation: Math.random() * 360,
     scale: Math.random() * 0.5 + 0.5,
-    color: ['#e6921e', '#22c55e', '#3b82f6', '#f59e0b', '#a855f7'][i % 5],
+    color: ['#d6d3d1', '#22c55e', '#3b82f6', '#e7e5e4', '#a855f7'][i % 5],
   }))
 
   return (
@@ -240,7 +240,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.35 }}
-                  className="mt-1 text-base font-semibold text-brass-400"
+                  className="mt-1 text-base font-semibold text-white"
                 >
                   +{successPoints} {language === 'de' ? 'Punkte' : 'Points'}
                 </motion.p>
@@ -259,7 +259,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
         >
           {difficultyLabel}
         </div>
-        <div className="flex items-center gap-1.5 text-brass-400">
+        <div className="flex items-center gap-1.5 text-white">
           <Star className="h-4 w-4" strokeWidth={1.5} fill="currentColor" />
           <span className="font-semibold text-sm tabular-nums">{puzzle.basePoints}</span>
         </div>

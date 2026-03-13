@@ -9,7 +9,7 @@ import { useOnlineStatus } from '@/lib/hooks/useOnlineStatus'
  * loses network connectivity. Uses the `useOnlineStatus` hook to
  * track connectivity and automatically hides when back online.
  *
- * The banner uses an amber/brass color scheme consistent with the
+ * The banner uses a white/sand color scheme consistent with the
  * maritime theme and slides in/out with a CSS animation.
  *
  * @example
@@ -31,7 +31,7 @@ export function OfflineIndicator() {
       aria-live="assertive"
       className="fixed top-0 inset-x-0 z-50 animate-slide-down"
     >
-      <div className="flex items-center justify-center gap-2 bg-brass-500/95 px-4 py-2.5 text-sm font-medium text-navy-950 backdrop-blur-sm">
+      <div className="flex items-center justify-center gap-2 bg-white/95 px-4 py-2.5 text-sm font-medium text-navy-950 backdrop-blur-sm">
         <OfflineIcon />
         <span>Ihr seid offline &ndash; Daten werden automatisch synchronisiert</span>
       </div>

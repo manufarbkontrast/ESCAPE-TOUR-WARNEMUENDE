@@ -174,9 +174,9 @@ export function StoryContent({
             variants={buttonVariants}
             className="flex items-center justify-center gap-3"
           >
-            <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.2)' }} />
-            <Anchor className="h-4 w-4 text-brass-500/40" strokeWidth={1.5} />
-            <div className="h-px w-12" style={{ background: 'rgba(230, 146, 30, 0.2)' }} />
+            <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
+            <Anchor className="h-4 w-4 text-sand-500" strokeWidth={1.5} />
+            <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
           </motion.div>
 
           {/* Continue button */}

@@ -53,11 +53,11 @@ export default function AdminLoginPage() {
           <div
             className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl"
             style={{
-              background: 'rgba(230, 146, 30, 0.08)',
-              border: '1px solid rgba(230, 146, 30, 0.12)',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: '1px solid rgba(255, 255, 255, 0.06)',
             }}
           >
-            <Anchor className="h-7 w-7 text-brass-400" strokeWidth={1.5} />
+            <Anchor className="h-7 w-7 text-white" strokeWidth={1.5} />
           </div>
           <h1 className="font-display text-2xl font-bold text-sand-50">Admin</h1>
           <p className="text-sm text-sand-500 mt-1">Escape Tour Warnemünde</p>
@@ -87,7 +87,7 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-brass-500/20"
+              className="w-full rounded-xl px-4 py-3 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-white/20"
               style={inputStyle}
               placeholder="admin@escape-tour.de"
             />
@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-brass-500/20"
+              className="w-full rounded-xl px-4 py-3 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-white/20"
               style={inputStyle}
               placeholder="••••••••"
             />

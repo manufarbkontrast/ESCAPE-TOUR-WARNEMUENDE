@@ -118,7 +118,7 @@ export function ContactForm() {
     background: 'rgba(255, 255, 255, 0.03)',
     border: '1px solid rgba(255, 255, 255, 0.06)',
   }
-  const inputFocusClass = 'focus:border-brass-500/40 focus:ring-1 focus:ring-brass-500/20'
+  const inputFocusClass = 'focus:border-white/20 focus:ring-1 focus:ring-white/20'
 
   return (
     <form onSubmit={handleSubmit} className="card space-y-5 p-6 sm:p-8">

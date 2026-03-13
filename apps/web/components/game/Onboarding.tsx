@@ -218,7 +218,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
           onClick={handleNext}
           className="btn btn-primary w-full max-w-xs py-4 text-base"
           style={isLastStep ? {
-            boxShadow: `inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 20px rgba(230, 146, 30, 0.25)`,
+            boxShadow: `inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 3px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 255, 255, 0.12)`,
           } : undefined}
         >
           {isLastStep ? (

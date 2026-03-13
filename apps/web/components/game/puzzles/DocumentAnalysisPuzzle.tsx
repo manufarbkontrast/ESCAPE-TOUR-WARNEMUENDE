@@ -36,7 +36,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Instruction */}
       <div className="flex items-start gap-3 rounded-lg bg-navy-800 p-3">
-        <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-brass-500" fill="currentColor" viewBox="0 0 20 20">
+        <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
         </svg>
         <p className="text-sm text-sand-300">
@@ -50,7 +50,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
           <button
             type="button"
             onClick={() => setIsZoomed((prev) => !prev)}
-            className="w-full overflow-hidden rounded-lg border-2 border-brass-500/30 shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-brass-400/50"
+            className="w-full overflow-hidden rounded-lg border-2 border-white/10 shadow-lg transition-all focus:outline-none focus:ring-2 focus:ring-white/30"
             aria-label={isZoomed
               ? (language === 'de' ? 'Verkleinern' : 'Zoom out')
               : (language === 'de' ? 'Vergrößern' : 'Zoom in')}
@@ -85,7 +85,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={placeholder}
         disabled={isSubmitting}
-        className="w-full rounded-lg border-2 border-brass-500 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-brass-400 focus:outline-none focus:ring-2 focus:ring-brass-400/50 disabled:opacity-50"
+        className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
         autoComplete="off"
         autoCorrect="off"
         spellCheck={false}
@@ -102,7 +102,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-brass-500 px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-brass-400 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitLabel}
       </button>

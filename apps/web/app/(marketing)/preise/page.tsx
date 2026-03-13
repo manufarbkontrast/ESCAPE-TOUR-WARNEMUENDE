@@ -150,12 +150,12 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
     <div
       className={cn(
         'card-hover relative flex flex-col',
-        tour.popular && 'ring-2 ring-brass-500'
+        tour.popular && 'ring-2 ring-white/30'
       )}
     >
       {tour.popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center rounded-full bg-brass-500 px-3 py-1 text-xs font-semibold text-navy-950">
+          <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-navy-950">
             Beliebteste Wahl
           </span>
         </div>
@@ -164,7 +164,7 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
       <div className="flex flex-col flex-1 space-y-6">
         {/* Tour Name */}
         <div>
-          <h3 className="font-display text-2xl font-bold text-brass-400">
+          <h3 className="font-display text-2xl font-bold text-white">
             {tour.name}
           </h3>
         </div>
@@ -210,7 +210,7 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
           {tour.features.map((feature) => (
             <li key={feature} className="flex items-start gap-3 text-sm">
               <svg
-                className="h-5 w-5 text-brass-500 flex-shrink-0 mt-0.5"
+                className="h-5 w-5 text-white flex-shrink-0 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -249,7 +249,7 @@ function IncludedCard({ item }: { readonly item: IncludedItem }) {
   return (
     <div className="card-hover text-center space-y-4">
       <div className="flex justify-center">
-        <div className="h-16 w-16 rounded-full bg-brass-500/10 border border-brass-500/30 flex items-center justify-center text-brass-400">
+        <div className="h-16 w-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white">
           {item.icon}
         </div>
       </div>
@@ -270,11 +270,11 @@ export default function PreisePage() {
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
-        <div className="absolute inset-0 bg-gradient-to-br from-brass-500/5 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-gradient">Preise</span>
+              Unsere <span className="text-sand-200">Preise</span>
             </h1>
             <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
               Transparent und fair. Wählt die Tour, die am besten zu euch passt,
@@ -302,9 +302,9 @@ export default function PreisePage() {
           <div className="max-w-3xl mx-auto">
             <div className="card-hover text-center space-y-6">
               <div className="flex justify-center">
-                <div className="h-16 w-16 rounded-full bg-brass-500/10 border-2 border-brass-500 flex items-center justify-center">
+                <div className="h-16 w-16 rounded-full bg-white/5 border-2 border-white/20 flex items-center justify-center">
                   <svg
-                    className="h-8 w-8 text-brass-400"
+                    className="h-8 w-8 text-white"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -320,19 +320,19 @@ export default function PreisePage() {
               </div>
 
               <h2 className="font-display text-3xl md:text-4xl font-bold">
-                <span className="text-gradient">Gruppenrabatt</span>
+                <span className="text-sand-200">Gruppenrabatt</span>
               </h2>
 
               <div className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="rounded-xl bg-navy-800/50 border border-navy-700 p-6">
-                    <div className="font-display text-3xl font-bold text-brass-400">
+                    <div className="font-display text-3xl font-bold text-white">
                       10%
                     </div>
                     <p className="text-sand-300 mt-2">ab 6 Personen</p>
                   </div>
                   <div className="rounded-xl bg-navy-800/50 border border-navy-700 p-6">
-                    <div className="font-display text-3xl font-bold text-brass-400">
+                    <div className="font-display text-3xl font-bold text-white">
                       15%
                     </div>
                     <p className="text-sand-300 mt-2">ab 10 Personen</p>
@@ -358,7 +358,7 @@ export default function PreisePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Das ist <span className="text-gradient">inklusive</span>
+              Das ist <span className="text-sand-200">inklusive</span>
             </h2>
             <p className="text-lg text-sand-300 max-w-2xl mx-auto">
               Bei jeder Tour sind diese Leistungen bereits im Preis enthalten.

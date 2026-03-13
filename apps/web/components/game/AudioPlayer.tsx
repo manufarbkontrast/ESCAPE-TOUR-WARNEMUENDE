@@ -113,7 +113,7 @@ export function AudioPlayer({
     >
       {showSpeaker && (
         <svg
-          className="h-5 w-5 text-brass-400"
+          className="h-5 w-5 text-white"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
