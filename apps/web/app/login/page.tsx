@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900 px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div
@@ -59,8 +59,8 @@ export default function AdminLoginPage() {
           >
             <Anchor className="h-7 w-7 text-white" strokeWidth={1.5} />
           </div>
-          <h1 className="font-display text-2xl font-bold text-sand-50">Admin</h1>
-          <p className="text-sm text-sand-500 mt-1">Escape Tour Warnemünde</p>
+          <h1 className="font-display text-2xl font-bold text-white">Admin</h1>
+          <p className="text-sm text-dark-500 mt-1">Escape Tour Warnemünde</p>
         </div>
 
         <form onSubmit={handleLogin} className="card p-6 space-y-4">
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
           )}
 
           <div>
-            <label htmlFor="admin-email" className="block text-xs font-medium text-sand-400 mb-2">
+            <label htmlFor="admin-email" className="block text-xs font-medium text-dark-400 mb-2">
               E-Mail
             </label>
             <input
@@ -87,14 +87,14 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-white/20"
+              className="w-full rounded-xl px-4 py-3 text-sm text-dark-200 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
               style={inputStyle}
               placeholder="admin@escape-tour.de"
             />
           </div>
 
           <div>
-            <label htmlFor="admin-password" className="block text-xs font-medium text-sand-400 mb-2">
+            <label htmlFor="admin-password" className="block text-xs font-medium text-dark-400 mb-2">
               Passwort
             </label>
             <input
@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-white/20"
+              className="w-full rounded-xl px-4 py-3 text-sm text-dark-200 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
               style={inputStyle}
               placeholder="••••••••"
             />
@@ -112,7 +112,7 @@ export default function AdminLoginPage() {
           <button type="submit" disabled={loading} className="btn btn-primary w-full">
             {loading ? (
               <>
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-950 border-t-transparent" />
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-dark-950 border-t-transparent" />
                 Anmelden...
               </>
             ) : (

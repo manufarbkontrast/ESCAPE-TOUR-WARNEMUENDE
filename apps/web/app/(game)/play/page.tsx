@@ -121,7 +121,7 @@ export default function PlayEntryPage() {
   )
 
   return (
-    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 px-4">
+    <div className="flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950 px-4">
       <motion.div
         variants={pageVariants}
         initial="initial"
@@ -149,15 +149,15 @@ export default function PlayEntryPage() {
 
         {/* Title */}
         <div className="text-center">
-          <h1 className="font-display text-3xl font-bold text-sand-50 tracking-tight">
+          <h1 className="font-display text-3xl font-bold text-white tracking-tight">
             {labels.title}
           </h1>
-          <p className="mt-2 text-sand-400 text-sm">{labels.subtitle}</p>
+          <p className="mt-2 text-dark-400 text-sm">{labels.subtitle}</p>
         </div>
 
         {/* Code input card */}
         <div className="card p-8">
-          <label className="mb-5 block text-center text-xs font-medium text-sand-400 uppercase tracking-wide">
+          <label className="mb-5 block text-center text-xs font-medium text-dark-400 uppercase tracking-wide">
             {labels.inputLabel}
           </label>
 
@@ -169,7 +169,7 @@ export default function PlayEntryPage() {
             language={language}
           />
 
-          <p className="mt-5 text-center text-xs text-sand-600">
+          <p className="mt-5 text-center text-xs text-dark-600">
             {labels.helpText}
           </p>
         </div>
@@ -177,7 +177,7 @@ export default function PlayEntryPage() {
         {/* Decorative divider */}
         <div className="flex items-center justify-center gap-3 pt-2">
           <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
-          <Anchor className="h-3.5 w-3.5 text-sand-500" strokeWidth={1.5} />
+          <Anchor className="h-3.5 w-3.5 text-dark-500" strokeWidth={1.5} />
           <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
         </div>
       </motion.div>

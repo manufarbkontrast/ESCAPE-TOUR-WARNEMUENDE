@@ -192,10 +192,10 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       default:
         return (
           <div className="card p-8 text-center" style={{ borderStyle: 'dashed' }}>
-            <p className="text-sm text-sand-400">
+            <p className="text-sm text-dark-400">
               {language === 'de' ? 'Rätseltyp wird noch entwickelt' : 'Puzzle type in development'}
             </p>
-            <p className="mt-1 text-xs text-sand-600 font-mono">{puzzle.puzzleType}</p>
+            <p className="mt-1 text-xs text-dark-600 font-mono">{puzzle.puzzleType}</p>
           </div>
         )
     }
@@ -267,9 +267,9 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
       {/* Question and Instructions */}
       <div className="card p-6">
-        <h3 className="mb-2 text-xl font-display font-bold text-sand-50 tracking-tight">{question}</h3>
+        <h3 className="mb-2 text-xl font-display font-bold text-white tracking-tight">{question}</h3>
         {instruction && (
-          <p className="mt-2 text-sm text-sand-400 italic leading-relaxed">{instruction}</p>
+          <p className="mt-2 text-sm text-dark-400 italic leading-relaxed">{instruction}</p>
         )}
       </div>
 
@@ -285,7 +285,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       )}
 
       {/* Puzzle Input */}
-      <div className="rounded-2xl p-5" style={{ background: 'rgba(11, 25, 41, 0.3)' }}>
+      <div className="rounded-2xl p-5" style={{ background: 'rgba(10, 10, 10, 0.3)' }}>
         {renderPuzzle()}
       </div>
 
@@ -320,7 +320,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
       {/* Attempt Counter */}
       {attempts > 0 && (
-        <div className="text-center text-xs text-sand-600 font-medium">
+        <div className="text-center text-xs text-dark-600 font-medium">
           {language === 'de' ? 'Versuche' : 'Attempts'}: {attempts}
         </div>
       )}

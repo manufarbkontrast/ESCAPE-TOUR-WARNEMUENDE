@@ -82,7 +82,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         exit={{ opacity: 0, y: 100 }}
         className="w-full max-w-lg rounded-t-3xl sm:rounded-3xl"
         style={{
-          background: 'rgba(11, 25, 41, 0.95)',
+          background: 'rgba(10, 10, 10, 0.95)',
           backdropFilter: 'blur(20px)',
           border: '1px solid rgba(255, 255, 255, 0.04)',
           boxShadow: '0 -4px 40px rgba(0, 0, 0, 0.3)',
@@ -91,12 +91,12 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         {/* Header */}
         <div className="border-b border-white/[0.04] p-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-display font-bold text-sand-50 tracking-tight">
+            <h2 className="text-lg font-display font-bold text-white tracking-tight">
               {language === 'de' ? 'Hinweise' : 'Hints'}
             </h2>
             <button
               onClick={onClose}
-              className="btn-icon-sm text-sand-500"
+              className="btn-icon-sm text-dark-500"
               aria-label={language === 'de' ? 'Schließen' : 'Close'}
             >
               <X className="h-4 w-4" strokeWidth={1.5} />
@@ -109,7 +109,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
           {isLoading ? (
             <div className="py-8 text-center">
               <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-              <p className="text-sm text-sand-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+              <p className="text-sm text-dark-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
             </div>
           ) : fetchError ? (
             <div className="py-8 text-center">
@@ -118,7 +118,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
             </div>
           ) : hints.length === 0 ? (
             <div className="py-8 text-center">
-              <p className="text-sm text-sand-500">
+              <p className="text-sm text-dark-500">
                 {language === 'de' ? 'Keine Hinweise verfügbar' : 'No hints available'}
               </p>
             </div>
@@ -154,11 +154,11 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                           <div className="btn-icon-sm flex items-center justify-center text-white" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
                             <Icon className="h-3.5 w-3.5" strokeWidth={1.5} />
                           </div>
-                          <h3 className="font-medium text-sand-100 text-sm">{label}</h3>
+                          <h3 className="font-medium text-dark-100 text-sm">{label}</h3>
                         </div>
 
                         {!isAvailable && (
-                          <p className="ml-[46px] text-xs text-sand-600">
+                          <p className="ml-[46px] text-xs text-dark-600">
                             {language === 'de' ? 'Verfügbar in' : 'Available in'}{' '}
                             {Math.ceil((hint.availableAfterSeconds - elapsedSeconds) / 60)}{' '}
                             {language === 'de' ? 'Min' : 'min'}
@@ -166,12 +166,12 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                         )}
 
                         {isRevealed && (
-                          <p className="ml-[46px] mt-2 text-sm text-sand-300 leading-relaxed">{hintText}</p>
+                          <p className="ml-[46px] mt-2 text-sm text-dark-300 leading-relaxed">{hintText}</p>
                         )}
                       </div>
 
                       <div className="text-right">
-                        <div className="mb-1.5 text-xs font-medium text-sand-400 tabular-nums">-{hint.pointPenalty}pts</div>
+                        <div className="mb-1.5 text-xs font-medium text-dark-400 tabular-nums">-{hint.pointPenalty}pts</div>
                         {isAvailable && !isRevealed && !isConfirming && (
                           <button
                             onClick={() => handleRevealHint(levelInfo.level)}
@@ -192,7 +192,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                           exit={{ opacity: 0, height: 0 }}
                           className="mt-3 border-t border-white/[0.04] pt-3"
                         >
-                          <p className="mb-3 text-sm text-sand-400">
+                          <p className="mb-3 text-sm text-dark-400">
                             {language === 'de'
                               ? `Dieser Hinweis kostet ${hint.pointPenalty} Punkte. Fortfahren?`
                               : `This hint costs ${hint.pointPenalty} points. Continue?`}

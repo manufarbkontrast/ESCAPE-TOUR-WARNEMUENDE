@@ -44,12 +44,12 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
   }
 
   return (
-    <div className="flex min-h-screen bg-navy-950">
+    <div className="flex min-h-screen bg-dark-950">
       {/* Sidebar */}
       <aside
         className="fixed inset-y-0 left-0 z-30 w-56 flex flex-col"
         style={{
-          background: 'rgba(11, 25, 41, 0.95)',
+          background: 'rgba(10, 10, 10, 0.95)',
           borderRight: '1px solid rgba(255, 255, 255, 0.04)',
         }}
       >
@@ -65,8 +65,8 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
             <Anchor className="h-4 w-4 text-white" strokeWidth={1.5} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-sand-100">Admin</p>
-            <p className="text-[10px] text-sand-600">Escape Tour</p>
+            <p className="text-sm font-semibold text-dark-100">Admin</p>
+            <p className="text-[10px] text-dark-600">Escape Tour</p>
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
                 className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
                   isActive
                     ? 'text-white font-medium'
-                    : 'text-sand-500 hover:text-sand-300'
+                    : 'text-dark-500 hover:text-dark-300'
                 }`}
                 style={
                   isActive
@@ -102,10 +102,10 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
 
         {/* User / Logout */}
         <div className="px-3 py-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-          <p className="px-3 text-[11px] text-sand-600 truncate mb-2">{userEmail}</p>
+          <p className="px-3 text-[11px] text-dark-600 truncate mb-2">{userEmail}</p>
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-sand-500 hover:text-red-400 transition-colors"
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-dark-500 hover:text-red-400 transition-colors"
           >
             <LogOut className="h-4 w-4" strokeWidth={1.5} />
             Abmelden

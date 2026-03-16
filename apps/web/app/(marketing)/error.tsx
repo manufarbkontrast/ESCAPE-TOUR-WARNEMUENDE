@@ -18,7 +18,7 @@ export default function MarketingError({ error, reset }: MarketingErrorProps) {
   }, [error]);
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4 bg-navy-950 pattern-waves">
+    <div className="min-h-[60vh] flex items-center justify-center px-4 bg-dark-950 pattern-waves">
       <div className="text-center max-w-md mx-auto space-y-6">
         {/* Warning icon */}
         <div className="flex justify-center">
@@ -39,12 +39,12 @@ export default function MarketingError({ error, reset }: MarketingErrorProps) {
         </div>
 
         {/* Title */}
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-sand-50">
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-white">
           Etwas ist schiefgelaufen
         </h1>
 
         {/* Message */}
-        <p className="text-sand-300 leading-relaxed">
+        <p className="text-dark-300 leading-relaxed">
           Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es
           erneut oder kehren Sie zur Startseite zurueck.
         </p>

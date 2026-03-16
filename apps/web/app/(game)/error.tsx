@@ -18,7 +18,7 @@ export default function GameError({ error, reset }: GameErrorProps) {
   }, [error]);
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4 bg-navy-950">
+    <div className="min-h-[60vh] flex items-center justify-center px-4 bg-dark-950">
       <div className="text-center max-w-md mx-auto space-y-6">
         {/* Compass icon */}
         <div className="flex justify-center">
@@ -39,12 +39,12 @@ export default function GameError({ error, reset }: GameErrorProps) {
         </div>
 
         {/* Title */}
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-sand-50">
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-white">
           Stoerung im Kompass!
         </h1>
 
         {/* Message */}
-        <p className="text-sand-300 leading-relaxed">
+        <p className="text-dark-300 leading-relaxed">
           Ein Fehler ist aufgetreten. Keine Sorge, euer Spielstand wurde
           gespeichert.
         </p>

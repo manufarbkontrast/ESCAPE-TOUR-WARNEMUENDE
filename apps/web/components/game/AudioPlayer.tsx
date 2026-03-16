@@ -102,7 +102,7 @@ export function AudioPlayer({
   return (
     <button
       onClick={handleToggle}
-      className="fixed bottom-20 right-4 z-30 rounded-full bg-navy-800/80 p-3 shadow-lg backdrop-blur-sm transition-all hover:bg-navy-700/80 active:scale-95"
+      className="fixed bottom-20 right-4 z-30 rounded-full bg-dark-800/80 p-3 shadow-lg backdrop-blur-sm transition-all hover:bg-dark-700/80 active:scale-95"
       aria-label={
         showPlay
           ? 'Audio abspielen'
@@ -128,7 +128,7 @@ export function AudioPlayer({
       )}
       {showMuted && (
         <svg
-          className="h-5 w-5 text-sand-400"
+          className="h-5 w-5 text-dark-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -148,7 +148,7 @@ export function AudioPlayer({
       )}
       {showPlay && (
         <svg
-          className="h-5 w-5 text-sand-400"
+          className="h-5 w-5 text-dark-400"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

@@ -21,8 +21,8 @@ export default async function BookingsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display text-2xl font-bold text-sand-50">Buchungen</h1>
-        <p className="text-sm text-sand-500">{bookings.length} Buchungen gesamt</p>
+        <h1 className="font-display text-2xl font-bold text-white">Buchungen</h1>
+        <p className="text-sm text-dark-500">{bookings.length} Buchungen gesamt</p>
       </div>
 
       <BookingsTable bookings={bookings} />

@@ -91,13 +91,13 @@ export function StationView({
   const completionText = language === 'de' ? station.completionTextDe : (station.completionTextEn ?? station.completionTextDe)
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-b from-navy-900 to-navy-800">
+    <div className="flex min-h-screen flex-col bg-gradient-to-b from-dark-900 to-dark-800">
       {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 z-20 border-b border-white/[0.04] bg-navy-900/90 backdrop-blur-xl">
+      <header className="fixed top-0 left-0 right-0 z-20 border-b border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
           <div className="flex-1">
-            <h1 className="text-lg font-semibold text-sand-50 tracking-tight">{stationName}</h1>
-            <p className="text-xs text-sand-500 font-medium">
+            <h1 className="text-lg font-semibold text-white tracking-tight">{stationName}</h1>
+            <p className="text-xs text-dark-500 font-medium">
               Station {station.orderIndex + 1} · {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
             </p>
           </div>
@@ -131,7 +131,7 @@ export function StationView({
                 <h2 className="mb-4 text-3xl font-display font-bold text-white tracking-tight">
                   {language === 'de' ? 'Willkommen' : 'Welcome'}
                 </h2>
-                <p className="whitespace-pre-line text-lg leading-relaxed text-sand-200">{introText}</p>
+                <p className="whitespace-pre-line text-lg leading-relaxed text-dark-200">{introText}</p>
               </div>
               <div className="flex gap-3">
                 <button
@@ -165,12 +165,12 @@ export function StationView({
             >
               <div className="card p-8">
                 <div className="flex items-center gap-2.5 mb-4">
-                  <BookOpen className="h-5 w-5 text-sand-400" strokeWidth={1.5} />
+                  <BookOpen className="h-5 w-5 text-dark-400" strokeWidth={1.5} />
                   <h2 className="text-3xl font-display font-bold text-white tracking-tight">
                     {language === 'de' ? 'Die Geschichte' : 'The Story'}
                   </h2>
                 </div>
-                <p className="whitespace-pre-line text-lg text-sand-200 leading-relaxed">{storyText}</p>
+                <p className="whitespace-pre-line text-lg text-dark-200 leading-relaxed">{storyText}</p>
               </div>
               <button
                 onClick={handleStoryComplete}
@@ -180,7 +180,7 @@ export function StationView({
                 {language === 'de' ? 'Rätsel starten' : 'Start Puzzle'}
               </button>
               {isDemo && (
-                <p className="text-center text-xs text-sand-600">
+                <p className="text-center text-xs text-dark-600">
                   Demo: {language === 'de' ? 'Geschichte kann übersprungen werden' : 'Story can be skipped'}
                 </p>
               )}
@@ -222,10 +222,10 @@ export function StationView({
                 boxShadow: '0 0 40px rgba(255, 255, 255, 0.04)',
               }}>
                 <Sparkles className="mx-auto mb-4 h-12 w-12 text-white" strokeWidth={1.5} />
-                <h2 className="mb-2 text-2xl font-display font-bold text-sand-50 tracking-tight">
+                <h2 className="mb-2 text-2xl font-display font-bold text-white tracking-tight">
                   {language === 'de' ? 'Geschafft!' : 'Success!'}
                 </h2>
-                <p className="text-base text-sand-300">{completionText}</p>
+                <p className="text-base text-dark-300">{completionText}</p>
               </div>
               <button
                 onClick={handleStationComplete}
@@ -249,7 +249,7 @@ export function StationView({
             >
               <div className="text-center">
                 <Anchor className="mx-auto mb-4 h-8 w-8 animate-pulse text-white" strokeWidth={1.5} />
-                <p className="text-sm text-sand-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+                <p className="text-sm text-dark-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
               </div>
             </motion.div>
           )}
@@ -258,7 +258,7 @@ export function StationView({
 
       {/* Footer with Hint Button */}
       {currentState === 'puzzle' && currentPuzzle && (
-        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-white/[0.04] bg-navy-900/90 backdrop-blur-xl">
+        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
           <div className="mx-auto max-w-2xl px-4 py-3">
             <button
               onClick={() => setShowHints(true)}

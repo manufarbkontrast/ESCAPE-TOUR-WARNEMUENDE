@@ -135,7 +135,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
       exit="exit"
       className="fixed inset-0 z-[80] flex flex-col items-center justify-center px-6"
       style={{
-        background: 'radial-gradient(ellipse at center, rgba(11, 25, 41, 0.97) 0%, rgba(5, 13, 23, 0.99) 100%)',
+        background: 'radial-gradient(ellipse at center, rgba(10, 10, 10, 0.97) 0%, rgba(5, 5, 5, 0.99) 100%)',
         backdropFilter: 'blur(20px)',
       }}
     >
@@ -143,7 +143,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
       {!isLastStep && (
         <button
           onClick={handleSkip}
-          className="absolute top-6 right-6 text-xs font-medium text-sand-600 hover:text-sand-400 transition-colors duration-150"
+          className="absolute top-6 right-6 text-xs font-medium text-dark-600 hover:text-dark-400 transition-colors duration-150"
         >
           {language === 'de' ? 'Überspringen' : 'Skip'}
         </button>
@@ -180,12 +180,12 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
             </motion.div>
 
             {/* Title */}
-            <h2 className="mb-3 text-2xl font-display font-bold text-sand-50 tracking-tight">
+            <h2 className="mb-3 text-2xl font-display font-bold text-white tracking-tight">
               {language === 'de' ? step.titleDe : step.titleEn}
             </h2>
 
             {/* Description */}
-            <p className="text-base leading-relaxed text-sand-400 max-w-xs">
+            <p className="text-base leading-relaxed text-dark-400 max-w-xs">
               {language === 'de' ? step.descriptionDe : step.descriptionEn}
             </p>
           </motion.div>

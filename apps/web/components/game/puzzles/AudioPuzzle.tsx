@@ -99,7 +99,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Audio Player */}
       {puzzle.audioUrl ? (
-        <div className="rounded-lg border-2 border-white/10 bg-navy-800 p-4">
+        <div className="rounded-lg border-2 border-white/10 bg-dark-800 p-4">
           <audio
             ref={audioRef}
             src={puzzle.audioUrl}
@@ -114,7 +114,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
               type="button"
               onClick={togglePlayback}
               disabled={isSubmitting}
-              className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-white text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:opacity-50"
+              className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-white text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:opacity-50"
               aria-label={isPlaying ? (language === 'de' ? 'Pause' : 'Pause') : (language === 'de' ? 'Abspielen' : 'Play')}
             >
               {isPlaying ? (
@@ -131,7 +131,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
             {/* Progress Bar and Time */}
             <div className="flex flex-1 flex-col gap-1">
               <div
-                className="h-2 cursor-pointer rounded-full bg-navy-700"
+                className="h-2 cursor-pointer rounded-full bg-dark-700"
                 onClick={handleProgressClick}
                 role="progressbar"
                 aria-valuenow={Math.round(progress * 100)}
@@ -143,7 +143,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
                   style={{ width: `${progress * 100}%` }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-sand-400">
+              <div className="flex justify-between text-xs text-dark-400">
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
@@ -151,7 +151,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
           </div>
         </div>
       ) : (
-        <p className="text-center text-sm text-sand-400">{noAudioMessage}</p>
+        <p className="text-center text-sm text-dark-400">{noAudioMessage}</p>
       )}
 
       {/* Answer Input */}
@@ -161,7 +161,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={placeholder}
         disabled={isSubmitting}
-        className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+        className="w-full rounded-lg border-2 border-white/20 bg-dark-900 px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
         autoComplete="off"
         autoCorrect="off"
         spellCheck={false}
@@ -169,7 +169,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
 
       {/* Case Sensitive Hint */}
       {puzzle.caseSensitive && (
-        <p className="text-xs italic text-sand-400">
+        <p className="text-xs italic text-dark-400">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}
@@ -178,7 +178,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitLabel}
       </button>

@@ -41,7 +41,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
         <button
           onClick={handleDecrement}
           disabled={isSubmitting || count === 0}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-700 text-2xl font-bold text-sand-50 shadow-lg transition-all hover:bg-navy-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700 text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label={language === 'de' ? 'Verringern' : 'Decrease'}
         >
           −
@@ -53,7 +53,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
             value={count}
             onChange={(e) => handleChange(e.target.value)}
             disabled={isSubmitting}
-            className="h-20 w-32 rounded-lg border-2 border-white/20 bg-navy-900 text-center text-4xl font-bold text-white shadow-xl focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+            className="h-20 w-32 rounded-lg border-2 border-white/20 bg-dark-900 text-center text-4xl font-bold text-white shadow-xl focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
             min="0"
           />
         </div>
@@ -61,7 +61,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
         <button
           onClick={handleIncrement}
           disabled={isSubmitting}
-          className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-700 text-2xl font-bold text-sand-50 shadow-lg transition-all hover:bg-navy-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700 text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label={language === 'de' ? 'Erhöhen' : 'Increase'}
         >
           +
@@ -72,7 +72,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
       <button
         onClick={handleSubmit}
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isSubmitting
           ? (language === 'de' ? 'Wird überprüft...' : 'Checking...')

@@ -197,30 +197,30 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
             {tour.difficulty} &middot; {tour.distance} &middot; {tour.duration}
           </span>
         </div>
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-sand-50">
+        <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
           {tour.name}
         </h2>
         <p className="text-white font-medium mt-2">{tour.tagline}</p>
-        <p className="text-sand-200 mt-4 leading-relaxed">{tour.description}</p>
+        <p className="text-dark-200 mt-4 leading-relaxed">{tour.description}</p>
       </div>
 
       {/* Route Highlights */}
       <div>
-        <h3 className="font-display text-xl font-semibold text-sand-50 mb-6">
+        <h3 className="font-display text-xl font-semibold text-white mb-6">
           Route Highlights
         </h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {tour.highlights.map((highlight, index) => (
             <div key={highlight.name} className="card-hover space-y-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-navy-950 font-bold text-sm">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-dark-950 font-bold text-sm">
                   {index + 1}
                 </div>
                 <h4 className="font-display text-lg font-semibold text-white">
                   {highlight.name}
                 </h4>
               </div>
-              <p className="text-sm text-sand-300">{highlight.description}</p>
+              <p className="text-sm text-dark-300">{highlight.description}</p>
             </div>
           ))}
         </div>
@@ -228,7 +228,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
 
       {/* What to Expect */}
       <div className="card-hover">
-        <h3 className="font-display text-xl font-semibold text-sand-50 mb-4">
+        <h3 className="font-display text-xl font-semibold text-white mb-4">
           Was euch erwartet
         </h3>
         <ul className="space-y-3">
@@ -247,7 +247,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span className="text-sand-200">{item}</span>
+              <span className="text-dark-200">{item}</span>
             </li>
           ))}
         </ul>
@@ -277,10 +277,10 @@ function FeatureHighlightCard({ feature }: { readonly feature: FeatureCard }) {
       <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white">
         {feature.icon}
       </div>
-      <h3 className="font-display text-xl font-semibold text-sand-50">
+      <h3 className="font-display text-xl font-semibold text-white">
         {feature.title}
       </h3>
-      <p className="text-sand-300 leading-relaxed">{feature.description}</p>
+      <p className="text-dark-300 leading-relaxed">{feature.description}</p>
     </div>
   );
 }
@@ -293,20 +293,20 @@ export default function TourenPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
+      <section className="relative overflow-hidden bg-gradient-to-b from-dark-900 to-dark-950 pattern-grid">
         <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-sand-200">Touren</span>
+              Unsere <span className="text-dark-200">Touren</span>
             </h1>
-            <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-dark-200 max-w-2xl mx-auto">
               Entdeckt Warnemünde mit einer interaktiven GPS-Escape-Tour.
               Zwei Tourvarianten, ein unvergessliches Erlebnis.
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-navy-950 pattern-waves" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-dark-950 pattern-waves" />
       </section>
 
       {/* Tour Detail Sections */}
@@ -316,8 +316,8 @@ export default function TourenPage() {
           className={cn(
             'py-20',
             index % 2 === 0
-              ? 'bg-navy-950'
-              : 'bg-gradient-to-b from-navy-950 to-navy-900'
+              ? 'bg-dark-950'
+              : 'bg-gradient-to-b from-dark-950 to-dark-900'
           )}
         >
           <div className="container-custom">
@@ -327,21 +327,21 @@ export default function TourenPage() {
           {/* Divider between tours */}
           {index < TOUR_DETAILS.length - 1 && (
             <div className="container-custom mt-20">
-              <div className="divider-nautical" />
+              <div className="divider-neon" />
             </div>
           )}
         </section>
       ))}
 
       {/* What Makes Us Special */}
-      <section className="py-20 bg-navy-900">
+      <section className="py-20 bg-dark-900">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Was macht unsere Tour{' '}
-              <span className="text-sand-200">besonders?</span>
+              <span className="text-dark-200">besonders?</span>
             </h2>
-            <p className="text-lg text-sand-300 max-w-2xl mx-auto">
+            <p className="text-lg text-dark-300 max-w-2xl mx-auto">
               Modernste Technologie trifft auf spannende Geschichten. Das
               unterscheidet uns von einer gewöhnlichen Stadtführung.
             </p>
@@ -356,14 +356,14 @@ export default function TourenPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-b from-navy-900 to-navy-950">
+      <section className="py-20 bg-gradient-to-b from-dark-900 to-dark-950">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Bereit für euer{' '}
-              <span className="text-sand-200">Abenteuer?</span>
+              <span className="text-dark-200">Abenteuer?</span>
             </h2>
-            <p className="text-lg text-sand-200">
+            <p className="text-lg text-dark-200">
               Wählt eure Tour und startet wann immer ihr wollt. Die Rätsel des
               Lotsenkapitäns warten auf euch.
             </p>

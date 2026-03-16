@@ -102,7 +102,7 @@ export function CodeInput({
             disabled={isSubmitting}
             className="h-14 w-12 rounded-xl text-center text-xl font-bold uppercase transition-all duration-150 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             style={{
-              background: 'rgba(11, 25, 41, 0.6)',
+              background: 'rgba(10, 10, 10, 0.6)',
               border: `1.5px solid ${error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`,
               color: error ? 'rgba(239, 68, 68, 0.8)' : '#ffffff',
               boxShadow: error
@@ -138,7 +138,7 @@ export function CodeInput({
       {isSubmitting && (
         <div className="flex items-center justify-center gap-2">
           <div className="h-4 w-4 animate-spin rounded-full border-[1.5px] border-white/20 border-t-transparent" />
-          <span className="text-sm text-sand-500">
+          <span className="text-sm text-dark-500">
             {language === 'de' ? 'Wird überprüft...' : 'Checking...'}
           </span>
         </div>

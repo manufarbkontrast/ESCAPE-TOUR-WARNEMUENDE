@@ -99,7 +99,7 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
   const size = info.status === 'current' ? MARKER_SIZE_CURRENT : MARKER_SIZE_OTHER
   const fontSize = info.status === 'current' ? '18px' : '14px'
   const borderColor = info.status === 'current' ? '#e7e5e4' : 'rgba(255,255,255,0.5)'
-  const textColor = info.status === 'locked' ? '#d1d5db' : '#0b1929'
+  const textColor = info.status === 'locked' ? '#d1d5db' : 'rgb(10,10,10)'
   const labelText = String(info.index + 1)
   const pulseAnimation = info.status === 'current' ? 'animation: markerPulse 2s ease-in-out infinite;' : ''
   const circleContent = info.status === 'locked' ? LOCK_ICON_SVG : labelText
@@ -107,8 +107,8 @@ const createStationMarkerElement = (info: StationMarkerInfo): HTMLElement => {
 
   const nameLabelHtml = showLabel
     ? `<div style="
-        background: rgba(11, 25, 41, 0.85);
-        color: #f5e6c8;
+        background: rgba(10, 10, 10, 0.85);
+        color: #ffffff;
         padding: 2px 8px;
         border-radius: 4px;
         font-size: 11px;
@@ -207,38 +207,38 @@ function MapLegend() {
     <div
       className="absolute top-4 left-4 z-10 rounded-2xl p-3"
       style={{
-        background: 'rgba(11, 25, 41, 0.85)',
+        background: 'rgba(10, 10, 10, 0.85)',
         backdropFilter: 'blur(12px)',
         border: '1px solid rgba(255, 255, 255, 0.04)',
         boxShadow: '0 2px 12px rgba(0, 0, 0, 0.2)',
       }}
     >
-      <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-sand-500">
+      <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-dark-500">
         Legende
       </h3>
       <ul className="space-y-1.5">
-        <li className="flex items-center gap-2 text-xs text-sand-300">
+        <li className="flex items-center gap-2 text-xs text-dark-300">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: MARKER_COLORS.completed }}
           />
           Abgeschlossen
         </li>
-        <li className="flex items-center gap-2 text-xs text-sand-300">
+        <li className="flex items-center gap-2 text-xs text-dark-300">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: MARKER_COLORS.current, boxShadow: '0 0 6px rgba(255, 255, 255, 0.2)' }}
           />
           Aktuelle Station
         </li>
-        <li className="flex items-center gap-2 text-xs text-sand-300">
+        <li className="flex items-center gap-2 text-xs text-dark-300">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: MARKER_COLORS.locked }}
           />
           Gesperrt
         </li>
-        <li className="flex items-center gap-2 text-xs text-sand-300">
+        <li className="flex items-center gap-2 text-xs text-dark-300">
           <span className="inline-block h-2.5 w-2.5 rounded-full border-[1.5px] border-white bg-blue-500" />
           Dein Standort
         </li>
@@ -262,7 +262,7 @@ function StationInfoPanel({
     <div
       className="absolute bottom-4 left-4 right-4 z-10 rounded-2xl p-4"
       style={{
-        background: 'rgba(11, 25, 41, 0.88)',
+        background: 'rgba(10, 10, 10, 0.88)',
         backdropFilter: 'blur(16px)',
         border: '1px solid rgba(255, 255, 255, 0.05)',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25), 0 0 20px rgba(255, 255, 255, 0.02)',
@@ -272,7 +272,7 @@ function StationInfoPanel({
         <div className="flex-1">
           <div className="mb-1 flex items-center gap-2.5">
             <span
-              className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-navy-900"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-dark-950"
               style={{
                 background: '#ffffff',
                 boxShadow: '0 0 8px rgba(255, 255, 255, 0.15)',
@@ -280,17 +280,17 @@ function StationInfoPanel({
             >
               {stationNumber}
             </span>
-            <h3 className="font-display text-base font-semibold text-sand-50 tracking-tight">
+            <h3 className="font-display text-base font-semibold text-white tracking-tight">
               {station.nameDe}
             </h3>
           </div>
           {station.subtitleDe && (
-            <p className="ml-[38px] mb-1 text-xs text-sand-400">
+            <p className="ml-[38px] mb-1 text-xs text-dark-400">
               {station.subtitleDe}
             </p>
           )}
           {station.locationName && (
-            <p className="ml-[38px] text-[11px] text-sand-600">
+            <p className="ml-[38px] text-[11px] text-dark-600">
               {station.locationName}
             </p>
           )}
@@ -306,7 +306,7 @@ function StationInfoPanel({
           >
             <MapPin className="mb-1 h-3.5 w-3.5 text-white" strokeWidth={1.5} />
             <span className="text-sm font-bold text-white tabular-nums">{distance}</span>
-            <span className="text-[10px] text-sand-600">Entfernung</span>
+            <span className="text-[10px] text-dark-600">Entfernung</span>
           </div>
         )}
       </div>
@@ -538,7 +538,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
   // Error state
   if (mapError) {
     return (
-      <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl p-8" style={{ background: 'rgba(11, 25, 41, 0.5)' }}>
+      <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl p-8" style={{ background: 'rgba(10, 10, 10, 0.5)' }}>
         <div className="text-center">
           <AlertTriangle className="mx-auto mb-4 h-10 w-10 text-red-400/70" strokeWidth={1.5} />
           <p className="text-sm text-red-400/80">{mapError}</p>
@@ -554,10 +554,10 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
 
       {/* Loading overlay */}
       {!isMapLoaded && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-navy-900">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-dark-900">
           <div className="text-center">
             <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-            <p className="text-sm text-sand-300">Karte wird geladen...</p>
+            <p className="text-sm text-dark-300">Karte wird geladen...</p>
           </div>
         </div>
       )}

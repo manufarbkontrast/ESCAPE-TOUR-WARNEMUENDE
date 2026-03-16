@@ -81,7 +81,7 @@ export const viewport: Viewport = {
   userScalable: true,
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#c6952b' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a1628' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
   ],
 };
 
@@ -114,7 +114,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="min-h-screen bg-navy-950 text-white font-sans antialiased">
+      <body className="min-h-screen bg-dark-950 text-white font-sans antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

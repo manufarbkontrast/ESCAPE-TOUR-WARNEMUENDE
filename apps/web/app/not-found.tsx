@@ -6,14 +6,14 @@ import Link from 'next/link';
  */
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-navy-950 pattern-anchor flex items-center justify-center px-4">
+    <div className="min-h-screen bg-dark-950 pattern-grid flex items-center justify-center px-4">
       <div className="relative text-center max-w-lg mx-auto">
         {/* Large faded 404 background text */}
         <div
           className="absolute inset-0 flex items-center justify-center select-none pointer-events-none"
           aria-hidden="true"
         >
-          <span className="text-[12rem] md:text-[16rem] font-display font-bold text-navy-800 leading-none">
+          <span className="text-[12rem] md:text-[16rem] font-display font-bold text-dark-800 leading-none">
             404
           </span>
         </div>
@@ -33,12 +33,12 @@ export default function NotFound() {
           </div>
 
           {/* Title */}
-          <h1 className="font-display text-4xl md:text-5xl font-bold text-sand-50">
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-white">
             Schiff versenkt!
           </h1>
 
           {/* Subtitle */}
-          <p className="text-sand-300 text-lg">
+          <p className="text-dark-300 text-lg">
             Die Seite wurde leider nicht gefunden.
           </p>
 
@@ -49,7 +49,7 @@ export default function NotFound() {
             </Link>
             <Link
               href="/touren"
-              className="text-white hover:text-sand-100 transition-colors text-sm font-medium"
+              className="text-white hover:text-dark-100 transition-colors text-sm font-medium"
             >
               Zur Tour-Uebersicht
             </Link>

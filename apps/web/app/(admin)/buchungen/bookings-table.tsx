@@ -66,7 +66,7 @@ function CopyButton({ text }: { readonly text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="ml-1.5 text-sand-600 hover:text-sand-400 transition-colors"
+      className="ml-1.5 text-dark-600 hover:text-dark-400 transition-colors"
       aria-label="Kopieren"
     >
       {copied ? (
@@ -115,20 +115,20 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-4">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-sand-600" strokeWidth={1.5} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-dark-600" strokeWidth={1.5} />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Code, E-Mail oder Team suchen..."
-            className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm text-sand-200 placeholder:text-sand-600 focus:outline-none focus:ring-1 focus:ring-white/20"
+            className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm text-dark-200 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
             style={inputStyle}
           />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-xl px-4 py-2.5 text-sm text-sand-300 focus:outline-none focus:ring-1 focus:ring-white/20"
+          className="rounded-xl px-4 py-2.5 text-sm text-dark-300 focus:outline-none focus:ring-1 focus:ring-white/20"
           style={inputStyle}
         >
           <option value="all">Alle Status</option>
@@ -148,7 +148,7 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
         }}
       >
         {filtered.length === 0 ? (
-          <p className="text-sm text-sand-600 py-12 text-center">
+          <p className="text-sm text-dark-600 py-12 text-center">
             {search || statusFilter !== 'all'
               ? 'Keine Buchungen für diesen Filter gefunden.'
               : 'Noch keine Buchungen vorhanden.'}
@@ -158,14 +158,14 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Code</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">E-Mail</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Team</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Teilnehmer</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Datum</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Status</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide text-right">Betrag</th>
-                  <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Gebucht am</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Code</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">E-Mail</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Team</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Teilnehmer</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Datum</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Status</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide text-right">Betrag</th>
+                  <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Gebucht am</th>
                 </tr>
               </thead>
               <tbody>
@@ -179,10 +179,10 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                       <span className="font-mono text-sm text-white font-medium">{b.booking_code}</span>
                       <CopyButton text={b.booking_code} />
                     </td>
-                    <td className="py-3 px-4 text-sm text-sand-300">{b.contact_email}</td>
-                    <td className="py-3 px-4 text-sm text-sand-400">{b.team_name ?? '–'}</td>
-                    <td className="py-3 px-4 text-sm text-sand-300">{b.participant_count}</td>
-                    <td className="py-3 px-4 text-sm text-sand-400">
+                    <td className="py-3 px-4 text-sm text-dark-300">{b.contact_email}</td>
+                    <td className="py-3 px-4 text-sm text-dark-400">{b.team_name ?? '–'}</td>
+                    <td className="py-3 px-4 text-sm text-dark-300">{b.participant_count}</td>
+                    <td className="py-3 px-4 text-sm text-dark-400">
                       {new Date(b.scheduled_date).toLocaleDateString('de-DE', {
                         day: '2-digit',
                         month: '2-digit',
@@ -192,10 +192,10 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                     <td className="py-3 px-4">
                       <StatusBadge status={b.status} />
                     </td>
-                    <td className="py-3 px-4 text-sm text-sand-300 text-right font-medium">
+                    <td className="py-3 px-4 text-sm text-dark-300 text-right font-medium">
                       {(b.amount_cents / 100).toFixed(2).replace('.', ',')} €
                     </td>
-                    <td className="py-3 px-4 text-sm text-sand-500">
+                    <td className="py-3 px-4 text-sm text-dark-500">
                       {b.created_at
                         ? new Date(b.created_at).toLocaleDateString('de-DE', {
                             day: '2-digit',

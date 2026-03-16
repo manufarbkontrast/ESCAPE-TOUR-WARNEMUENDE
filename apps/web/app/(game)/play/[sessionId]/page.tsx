@@ -161,10 +161,10 @@ export default function GamePage() {
   // Loading state
   if (loadingState === 'loading') {
     return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-          <p className="text-sand-400 text-sm">
+          <p className="text-dark-400 text-sm">
             {language === 'de' ? 'Tour wird geladen...' : 'Loading tour...'}
           </p>
         </div>
@@ -175,15 +175,15 @@ export default function GamePage() {
   // Error state
   if (loadingState === 'error') {
     return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900 px-4">
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900 px-4">
         <div className="w-full max-w-md text-center">
           <div className="mx-auto mb-5 btn-icon-lg flex items-center justify-center text-red-400" style={{ background: 'rgba(239, 68, 68, 0.08)', borderColor: 'rgba(239, 68, 68, 0.1)' }}>
             <AlertCircle className="h-6 w-6" strokeWidth={1.5} />
           </div>
-          <h2 className="mb-2 font-display text-xl font-bold text-sand-50">
+          <h2 className="mb-2 font-display text-xl font-bold text-white">
             {language === 'de' ? 'Fehler' : 'Error'}
           </h2>
-          <p className="mb-6 text-sand-400 text-sm">{errorMessage}</p>
+          <p className="mb-6 text-dark-400 text-sm">{errorMessage}</p>
           <button
             onClick={() => router.push('/play')}
             className="btn btn-primary"
@@ -207,7 +207,7 @@ export default function GamePage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] flex-col bg-navy-950">
+    <div className="flex min-h-[calc(100vh-4rem)] flex-col bg-dark-950">
       {/* Main content area */}
       <div className="flex-1 pb-20">
         <AnimatePresence mode="wait">
@@ -249,7 +249,7 @@ export default function GamePage() {
       </div>
 
       {/* Bottom navigation bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.04] bg-navy-900/90 backdrop-blur-xl">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-lg gap-3 px-4 py-2.5">
           {NAV_ITEMS.map((item) => {
             const isActive = activeView === item.view
@@ -263,7 +263,7 @@ export default function GamePage() {
                 className={`flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 transition-all duration-150 ${
                   isActive
                     ? 'text-white'
-                    : 'text-sand-500 hover:text-sand-300'
+                    : 'text-dark-500 hover:text-dark-300'
                 }`}
                 style={isActive ? {
                   background: 'rgba(255, 255, 255, 0.04)',

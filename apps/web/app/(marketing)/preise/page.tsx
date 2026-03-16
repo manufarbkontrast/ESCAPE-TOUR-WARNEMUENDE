@@ -155,7 +155,7 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
     >
       {tour.popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-navy-950">
+          <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold text-dark-950">
             Beliebteste Wahl
           </span>
         </div>
@@ -174,32 +174,32 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
           <span className="font-display text-5xl font-bold text-white">
             {tour.price}€
           </span>
-          <span className="text-sand-400">pro Person</span>
+          <span className="text-dark-400">pro Person</span>
         </div>
 
         {/* Tour Details Grid */}
-        <div className="grid grid-cols-3 gap-4 py-4 border-y border-navy-800">
+        <div className="grid grid-cols-3 gap-4 py-4 border-y border-dark-800">
           <div>
-            <div className="text-xs text-sand-400 uppercase tracking-wide">
+            <div className="text-xs text-dark-400 uppercase tracking-wide">
               Dauer
             </div>
-            <div className="mt-1 text-sm font-semibold text-sand-200">
+            <div className="mt-1 text-sm font-semibold text-dark-200">
               {tour.duration}
             </div>
           </div>
           <div>
-            <div className="text-xs text-sand-400 uppercase tracking-wide">
+            <div className="text-xs text-dark-400 uppercase tracking-wide">
               Schwierigkeit
             </div>
-            <div className="mt-1 text-sm font-semibold text-sand-200">
+            <div className="mt-1 text-sm font-semibold text-dark-200">
               {tour.difficulty}
             </div>
           </div>
           <div>
-            <div className="text-xs text-sand-400 uppercase tracking-wide">
+            <div className="text-xs text-dark-400 uppercase tracking-wide">
               Distanz
             </div>
-            <div className="mt-1 text-sm font-semibold text-sand-200">
+            <div className="mt-1 text-sm font-semibold text-dark-200">
               {tour.distance}
             </div>
           </div>
@@ -222,7 +222,7 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span className="text-sand-200">{feature}</span>
+              <span className="text-dark-200">{feature}</span>
             </li>
           ))}
         </ul>
@@ -253,10 +253,10 @@ function IncludedCard({ item }: { readonly item: IncludedItem }) {
           {item.icon}
         </div>
       </div>
-      <h3 className="font-display text-lg font-semibold text-sand-50">
+      <h3 className="font-display text-lg font-semibold text-white">
         {item.title}
       </h3>
-      <p className="text-sm text-sand-300">{item.description}</p>
+      <p className="text-sm text-dark-300">{item.description}</p>
     </div>
   );
 }
@@ -269,24 +269,24 @@ export default function PreisePage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
+      <section className="relative overflow-hidden bg-gradient-to-b from-dark-900 to-dark-950 pattern-grid">
         <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-sand-200">Preise</span>
+              Unsere <span className="text-dark-200">Preise</span>
             </h1>
-            <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-dark-200 max-w-2xl mx-auto">
               Transparent und fair. Wählt die Tour, die am besten zu euch passt,
               und startet euer Abenteuer in Warnemünde.
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-navy-950 pattern-waves" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-dark-950 pattern-waves" />
       </section>
 
       {/* Pricing Cards */}
-      <section className="py-20 bg-navy-950">
+      <section className="py-20 bg-dark-950">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {TOUR_PRICING.map((tour) => (
@@ -297,7 +297,7 @@ export default function PreisePage() {
       </section>
 
       {/* Group Discount Section */}
-      <section className="py-20 bg-gradient-to-b from-navy-950 to-navy-900">
+      <section className="py-20 bg-gradient-to-b from-dark-950 to-dark-900">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
             <div className="card-hover text-center space-y-6">
@@ -320,26 +320,26 @@ export default function PreisePage() {
               </div>
 
               <h2 className="font-display text-3xl md:text-4xl font-bold">
-                <span className="text-sand-200">Gruppenrabatt</span>
+                <span className="text-dark-200">Gruppenrabatt</span>
               </h2>
 
               <div className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="rounded-xl bg-navy-800/50 border border-navy-700 p-6">
+                  <div className="rounded-xl bg-dark-800/50 border border-dark-700 p-6">
                     <div className="font-display text-3xl font-bold text-white">
                       10%
                     </div>
-                    <p className="text-sand-300 mt-2">ab 6 Personen</p>
+                    <p className="text-dark-300 mt-2">ab 6 Personen</p>
                   </div>
-                  <div className="rounded-xl bg-navy-800/50 border border-navy-700 p-6">
+                  <div className="rounded-xl bg-dark-800/50 border border-dark-700 p-6">
                     <div className="font-display text-3xl font-bold text-white">
                       15%
                     </div>
-                    <p className="text-sand-300 mt-2">ab 10 Personen</p>
+                    <p className="text-dark-300 mt-2">ab 10 Personen</p>
                   </div>
                 </div>
 
-                <p className="text-sand-200">
+                <p className="text-dark-200">
                   Kontaktiert uns für individuelle Gruppenangebote bei
                   Firmenevents, Teambuilding oder Geburtstagsfeiern.
                 </p>
@@ -354,13 +354,13 @@ export default function PreisePage() {
       </section>
 
       {/* What's Included Section */}
-      <section className="py-20 bg-navy-900">
+      <section className="py-20 bg-dark-900">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Das ist <span className="text-sand-200">inklusive</span>
+              Das ist <span className="text-dark-200">inklusive</span>
             </h2>
-            <p className="text-lg text-sand-300 max-w-2xl mx-auto">
+            <p className="text-lg text-dark-300 max-w-2xl mx-auto">
               Bei jeder Tour sind diese Leistungen bereits im Preis enthalten.
             </p>
           </div>

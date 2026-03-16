@@ -31,7 +31,7 @@ export function OfflineIndicator() {
       aria-live="assertive"
       className="fixed top-0 inset-x-0 z-50 animate-slide-down"
     >
-      <div className="flex items-center justify-center gap-2 bg-white/95 px-4 py-2.5 text-sm font-medium text-navy-950 backdrop-blur-sm">
+      <div className="flex items-center justify-center gap-2 bg-white/95 px-4 py-2.5 text-sm font-medium text-dark-950 backdrop-blur-sm">
         <OfflineIcon />
         <span>Ihr seid offline &ndash; Daten werden automatisch synchronisiert</span>
       </div>

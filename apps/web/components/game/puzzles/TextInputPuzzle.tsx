@@ -34,7 +34,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
           onChange={(e) => setAnswer(e.target.value)}
           placeholder={placeholder}
           disabled={isSubmitting}
-          className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+          className="w-full rounded-lg border-2 border-white/20 bg-dark-900 px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
           autoComplete="off"
           autoCorrect="off"
           spellCheck="false"
@@ -43,7 +43,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
           <button
             type="button"
             onClick={() => setAnswer('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-sand-400 hover:text-sand-200"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-200"
             aria-label={language === 'de' ? 'Löschen' : 'Clear'}
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -55,7 +55,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
 
       {/* Helper Text */}
       {puzzle.caseSensitive && (
-        <p className="text-xs text-sand-400 italic">
+        <p className="text-xs text-dark-400 italic">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}
@@ -64,7 +64,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
       <button
         type="submit"
         disabled={isSubmitting || !answer.trim()}
-        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {submitLabel}
       </button>

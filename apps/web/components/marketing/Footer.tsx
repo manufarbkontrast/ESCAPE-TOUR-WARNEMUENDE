@@ -26,13 +26,13 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-navy-800 bg-navy-950 pattern-waves">
+    <footer className="w-full border-t border-dark-800 bg-dark-950 pattern-waves">
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Column */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-navy-950">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-dark-950">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="5" r="3" />
                   <line x1="12" y1="8" x2="12" y2="22" />
@@ -43,10 +43,10 @@ export function Footer() {
                 <span className="font-display font-bold text-lg leading-none">
                   Escape Tour
                 </span>
-                <span className="text-xs text-sand-200">Warnemünde</span>
+                <span className="text-xs text-dark-200">Warnemünde</span>
               </div>
             </div>
-            <p className="text-sm text-sand-300 max-w-md">
+            <p className="text-sm text-dark-300 max-w-md">
               Entdeckt Warnemünde auf eine ganz neue Art. Löst Rätsel, erkundet
               historische Orte und erlebt eine unvergessliche Tour durch das Ostseebad.
             </p>
@@ -54,13 +54,13 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-sand-200">Quick Links</h3>
+            <h3 className="font-semibold mb-4 text-dark-200">Quick Links</h3>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-sand-300 hover:text-sand-200 transition-colors"
+                    className="text-sm text-dark-300 hover:text-dark-200 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -71,13 +71,13 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-semibold mb-4 text-sand-200">Rechtliches</h3>
+            <h3 className="font-semibold mb-4 text-dark-200">Rechtliches</h3>
             <ul className="space-y-2">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-sand-300 hover:text-sand-200 transition-colors"
+                    className="text-sm text-dark-300 hover:text-dark-200 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -87,14 +87,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="divider-nautical my-8" />
+        <div className="divider-neon my-8" />
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-sand-400">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-dark-400">
           <p>© {currentYear} Escape Tour Warnemünde. Alle Rechte vorbehalten.</p>
           <div className="flex items-center space-x-4">
             <a
               href="mailto:info@escape-tour-warnemuende.de"
-              className="hover:text-sand-200 transition-colors"
+              className="hover:text-dark-200 transition-colors"
             >
               info@escape-tour-warnemuende.de
             </a>

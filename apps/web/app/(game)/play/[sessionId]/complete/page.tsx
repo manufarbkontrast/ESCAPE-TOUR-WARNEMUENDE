@@ -150,10 +150,10 @@ interface StatCardProps {
 
 function StatCard({ labelDe, labelEn, value, language, icon }: StatCardProps) {
   return (
-    <div className="rounded-lg bg-navy-800/50 p-4 text-center shadow-lg backdrop-blur-sm">
+    <div className="rounded-lg bg-dark-800/50 p-4 text-center shadow-lg backdrop-blur-sm">
       <div className="mb-2 flex justify-center text-white">{icon}</div>
-      <p className="text-2xl font-bold text-sand-50">{value}</p>
-      <p className="text-xs text-sand-400">
+      <p className="text-2xl font-bold text-white">{value}</p>
+      <p className="text-xs text-dark-400">
         {language === 'de' ? labelDe : labelEn}
       </p>
     </div>
@@ -274,10 +274,10 @@ export default function CompletePage() {
   // Loading state
   if (loadingState === 'loading') {
     return (
-      <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900">
+      <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-          <p className="text-sand-300">
+          <p className="text-dark-300">
             {language === 'de'
               ? 'Zertifikat wird geladen...'
               : 'Loading certificate...'}
@@ -290,7 +290,7 @@ export default function CompletePage() {
   // Error state
   if (loadingState === 'error' || !certificate || !badgeConfig) {
     return (
-      <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900 px-4">
+      <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900 px-4">
         <div className="w-full max-w-md text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10">
             <svg
@@ -307,10 +307,10 @@ export default function CompletePage() {
               />
             </svg>
           </div>
-          <p className="mb-6 text-sand-300">{errorMessage}</p>
+          <p className="mb-6 text-dark-300">{errorMessage}</p>
           <button
             onClick={() => router.push('/')}
-            className="rounded-lg bg-white px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95"
+            className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95"
           >
             {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
           </button>
@@ -320,7 +320,7 @@ export default function CompletePage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 px-4 py-8">
+    <div className="min-h-[calc(100vh-3.5rem)] bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950 px-4 py-8">
       {/* Confetti */}
       {showConfetti && <ConfettiEffect />}
 
@@ -349,7 +349,7 @@ export default function CompletePage() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="text-center">
-          <h1 className="font-display text-3xl font-bold text-sand-50">
+          <h1 className="font-display text-3xl font-bold text-white">
             {language === 'de' ? 'Geschafft!' : 'Congratulations!'}
           </h1>
           <p className="mt-2 text-lg text-white">
@@ -362,7 +362,7 @@ export default function CompletePage() {
         {/* Certificate card */}
         <motion.div
           variants={itemVariants}
-          className="overflow-hidden rounded-xl border border-white/10 bg-navy-800/50 shadow-2xl backdrop-blur-sm"
+          className="overflow-hidden rounded-xl border border-white/10 bg-dark-800/50 shadow-2xl backdrop-blur-sm"
         >
           {/* Certificate header */}
           <div className="border-b border-white/10 bg-gradient-to-r from-white/5 to-transparent px-6 py-4">
@@ -374,21 +374,21 @@ export default function CompletePage() {
           <div className="space-y-4 p-6">
             {/* Team name */}
             <div className="text-center">
-              <p className="text-xs text-sand-400">
+              <p className="text-xs text-dark-400">
                 {language === 'de' ? 'Teamname' : 'Team Name'}
               </p>
-              <p className="font-display text-2xl font-bold text-sand-50">
+              <p className="font-display text-2xl font-bold text-white">
                 {certificate.teamName}
               </p>
             </div>
 
             {/* Tour info */}
             <div className="text-center">
-              <p className="text-xs text-sand-400">
+              <p className="text-xs text-dark-400">
                 {language === 'de' ? 'Tour' : 'Tour'}
               </p>
-              <p className="text-sand-200">{certificate.tourName}</p>
-              <p className="mt-1 text-xs text-sand-400">
+              <p className="text-dark-200">{certificate.tourName}</p>
+              <p className="mt-1 text-xs text-dark-400">
                 {new Date(certificate.date).toLocaleDateString(
                   language === 'de' ? 'de-DE' : 'en-US',
                   {
@@ -401,11 +401,11 @@ export default function CompletePage() {
             </div>
 
             {/* Verification code */}
-            <div className="rounded-lg bg-navy-900/50 px-4 py-2 text-center">
-              <p className="text-[10px] text-sand-500">
+            <div className="rounded-lg bg-dark-900/50 px-4 py-2 text-center">
+              <p className="text-[10px] text-dark-500">
                 {language === 'de' ? 'Verifizierungscode' : 'Verification Code'}
               </p>
-              <p className="font-mono text-sm tracking-wider text-sand-300">
+              <p className="font-mono text-sm tracking-wider text-dark-300">
                 {certificate.verificationCode}
               </p>
             </div>
@@ -469,7 +469,7 @@ export default function CompletePage() {
           {/* Share button */}
           <button
             onClick={handleShare}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95"
           >
             <svg
               className="h-5 w-5"
@@ -490,7 +490,7 @@ export default function CompletePage() {
           {/* Back to home */}
           <button
             onClick={() => router.push('/')}
-            className="w-full rounded-lg border-2 border-navy-700 px-6 py-3 font-medium text-sand-300 transition-all hover:border-white/20 hover:text-sand-100 active:scale-95"
+            className="w-full rounded-lg border-2 border-dark-700 px-6 py-3 font-medium text-dark-300 transition-all hover:border-white/20 hover:text-dark-100 active:scale-95"
           >
             {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
           </button>

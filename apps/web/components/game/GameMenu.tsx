@@ -71,7 +71,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 z-[60] bg-navy-950/60 backdrop-blur-sm"
+            className="fixed inset-0 z-[60] bg-dark-950/60 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -83,7 +83,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
             animate="visible"
             exit="exit"
             className="fixed top-0 right-0 z-[70] h-full w-72 border-l border-white/[0.04] shadow-2xl"
-            style={{ background: 'rgba(11, 25, 41, 0.95)', backdropFilter: 'blur(20px)' }}
+            style={{ background: 'rgba(10, 10, 10, 0.95)', backdropFilter: 'blur(20px)' }}
             role="dialog"
             aria-modal="true"
             aria-label="Spielmenü"
@@ -91,11 +91,11 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-white/[0.04]">
-                <h2 className="font-display font-semibold text-sand-50">Menü</h2>
+                <h2 className="font-display font-semibold text-white">Menü</h2>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="btn-icon-sm text-sand-400"
+                  className="btn-icon-sm text-dark-400"
                   aria-label="Menü schließen"
                 >
                   <X className="h-4 w-4" strokeWidth={1.5} />
@@ -109,7 +109,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                   <button
                     type="button"
                     onClick={handlePauseToggle}
-                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sand-200 hover:bg-white/[0.04] transition-all duration-150"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-dark-200 hover:bg-white/[0.04] transition-all duration-150"
                   >
                     {isPaused ? (
                       <>
@@ -120,7 +120,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                       </>
                     ) : (
                       <>
-                        <div className="btn-icon-sm flex items-center justify-center text-sand-100" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
+                        <div className="btn-icon-sm flex items-center justify-center text-dark-100" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
                           <Pause className="h-4 w-4" strokeWidth={1.5} />
                         </div>
                         <span className="text-sm font-medium">Tour pausieren</span>
@@ -133,18 +133,18 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                 <button
                   type="button"
                   onClick={toggleMute}
-                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-sand-200 hover:bg-white/[0.04] transition-all duration-150"
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-dark-200 hover:bg-white/[0.04] transition-all duration-150"
                 >
                   {isMuted ? (
                     <>
-                      <div className="btn-icon-sm flex items-center justify-center text-sand-500">
+                      <div className="btn-icon-sm flex items-center justify-center text-dark-500">
                         <VolumeX className="h-4 w-4" strokeWidth={1.5} />
                       </div>
                       <span className="text-sm font-medium">Ton einschalten</span>
                     </>
                   ) : (
                     <>
-                      <div className="btn-icon-sm flex items-center justify-center text-sand-100" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
+                      <div className="btn-icon-sm flex items-center justify-center text-dark-100" style={{ background: 'rgba(255, 255, 255, 0.04)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
                         <Volume2 className="h-4 w-4" strokeWidth={1.5} />
                       </div>
                       <span className="text-sm font-medium">Ton ausschalten</span>
@@ -158,7 +158,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                 {/* Points display */}
                 {session && (
                   <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
-                    <div className="text-xs text-sand-500 mb-1.5 font-medium tracking-wide uppercase">Punkte</div>
+                    <div className="text-xs text-dark-500 mb-1.5 font-medium tracking-wide uppercase">Punkte</div>
                     <div className="flex items-center gap-2.5">
                       <Star className="h-5 w-5 text-white" strokeWidth={1.5} fill="currentColor" />
                       <span className="font-display text-2xl font-bold text-white tabular-nums">

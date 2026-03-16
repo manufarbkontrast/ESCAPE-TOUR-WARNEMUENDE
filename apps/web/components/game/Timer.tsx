@@ -53,7 +53,7 @@ export function Timer({ sessionId }: TimerProps) {
   return (
     <div className="flex items-center gap-2">
       <svg
-        className={`h-5 w-5 ${isPaused ? 'text-sand-400' : 'text-white'}`}
+        className={`h-5 w-5 ${isPaused ? 'text-dark-400' : 'text-white'}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -63,11 +63,11 @@ export function Timer({ sessionId }: TimerProps) {
           clipRule="evenodd"
         />
       </svg>
-      <span className={`font-mono text-sm font-semibold ${isPaused ? 'text-sand-400' : 'text-sand-50'}`}>
+      <span className={`font-mono text-sm font-semibold ${isPaused ? 'text-dark-400' : 'text-white'}`}>
         {formatTime(elapsedSeconds)}
       </span>
       {isPaused && (
-        <span className="ml-1 text-xs text-sand-400">(paused)</span>
+        <span className="ml-1 text-xs text-dark-400">(paused)</span>
       )}
     </div>
   )

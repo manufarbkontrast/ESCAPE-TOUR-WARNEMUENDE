@@ -10,33 +10,35 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Maritime theme colors
-        navy: {
-          50: '#eef2f7',
-          100: '#d5dfeb',
-          200: '#abbfda',
-          300: '#7d9cc4',
-          400: '#5479ac',
-          500: '#3a5f92',
-          600: '#2d4b74',
-          700: '#1e3655',
-          800: '#142642',
-          900: '#0b1929',
-          950: '#050d17',
+        // Dark theme — true blacks
+        dark: {
+          50: '#f5f5f5',
+          100: '#e5e5e5',
+          200: '#d4d4d4',
+          300: '#a3a3a3',
+          400: '#737373',
+          500: '#525252',
+          600: '#404040',
+          700: '#262626',
+          800: '#171717',
+          900: '#0a0a0a',
+          950: '#000000',
         },
-        brass: {
-          50: '#fef9ee',
-          100: '#fcf0d2',
-          200: '#f8dea4',
-          300: '#f3c56c',
-          400: '#edaa3b',
-          500: '#e6921e',
-          600: '#cc7514',
-          700: '#a95813',
-          800: '#8a4516',
-          900: '#723a15',
-          950: '#3e1c08',
+        // Neon cyan accent
+        neon: {
+          50: '#ecfeff',
+          100: '#cffafe',
+          200: '#a5f3fc',
+          300: '#67e8f9',
+          400: '#22d3ee',
+          500: '#00f0ff',
+          600: '#00c8d6',
+          700: '#0097a3',
+          800: '#007580',
+          900: '#005c66',
+          950: '#003d44',
         },
+        // Keep sand for subtle text tones
         sand: {
           50: '#faf8f5',
           100: '#f3efe8',
@@ -62,6 +64,7 @@ const config: Config = {
         'slide-up': 'slideUp 0.5s ease-out',
         'slide-down': 'slideDown 0.3s ease-out',
         'bounce-in': 'bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'neon-pulse': 'neonPulse 2s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -80,6 +83,15 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'scale(0.8)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
+        neonPulse: {
+          '0%, 100%': { boxShadow: '0 0 5px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)' },
+          '50%': { boxShadow: '0 0 10px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.2)' },
+        },
+      },
+      boxShadow: {
+        'neon': '0 0 5px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
+        'neon-lg': '0 0 10px rgba(0, 240, 255, 0.4), 0 0 40px rgba(0, 240, 255, 0.15)',
+        'neon-xl': '0 0 15px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.2)',
       },
     },
   },

@@ -96,10 +96,10 @@ export default function ConfirmationPage() {
   // Loading / processing state
   if (loadState === 'loading' || loadState === 'processing') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900 px-4">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900 px-4">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-transparent" />
-          <p className="text-sm text-sand-400">
+          <p className="text-sm text-dark-400">
             {loadState === 'processing' ? 'Buchung wird verarbeitet...' : 'Wird geladen...'}
           </p>
         </div>
@@ -110,11 +110,11 @@ export default function ConfirmationPage() {
   // Error state
   if (loadState === 'error' || !booking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-navy-950 to-navy-900 px-4">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900 px-4">
         <div className="text-center max-w-sm">
-          <Anchor className="mx-auto mb-4 h-8 w-8 text-sand-600" strokeWidth={1.5} />
-          <h1 className="font-display text-xl font-bold text-sand-50 mb-2">Buchung nicht gefunden</h1>
-          <p className="text-sm text-sand-400 mb-6">
+          <Anchor className="mx-auto mb-4 h-8 w-8 text-dark-600" strokeWidth={1.5} />
+          <h1 className="font-display text-xl font-bold text-white mb-2">Buchung nicht gefunden</h1>
+          <p className="text-sm text-dark-400 mb-6">
             Die Buchung konnte nicht geladen werden. Falls ihr gerade bezahlt habt, versucht es in einigen Sekunden erneut.
           </p>
           <button
@@ -131,7 +131,7 @@ export default function ConfirmationPage() {
   const tourName = booking.tourVariant === 'family' ? 'Familien-Tour' : 'Erwachsenen-Tour'
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950">
+    <div className="min-h-screen bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950">
       <motion.div
         variants={pageVariants}
         initial="initial"
@@ -154,10 +154,10 @@ export default function ConfirmationPage() {
             <CheckCircle2 className="h-10 w-10 text-green-400" strokeWidth={1.5} />
           </motion.div>
 
-          <h1 className="font-display text-3xl font-bold text-sand-50 tracking-tight mb-2">
+          <h1 className="font-display text-3xl font-bold text-white tracking-tight mb-2">
             Buchung bestätigt!
           </h1>
-          <p className="text-sand-400 text-sm mb-8">
+          <p className="text-dark-400 text-sm mb-8">
             Euer Abenteuer in Warnemünde kann beginnen.
           </p>
 
@@ -170,7 +170,7 @@ export default function ConfirmationPage() {
               boxShadow: '0 0 40px rgba(255, 255, 255, 0.03)',
             }}
           >
-            <p className="text-xs font-medium text-sand-500 uppercase tracking-wide mb-3">
+            <p className="text-xs font-medium text-dark-500 uppercase tracking-wide mb-3">
               Euer Buchungscode
             </p>
             <div className="flex items-center justify-center gap-3">
@@ -179,7 +179,7 @@ export default function ConfirmationPage() {
               </span>
               <button
                 onClick={handleCopyCode}
-                className="btn-icon-md text-sand-400"
+                className="btn-icon-md text-dark-400"
                 aria-label="Code kopieren"
               >
                 {copied ? (
@@ -189,7 +189,7 @@ export default function ConfirmationPage() {
                 )}
               </button>
             </div>
-            <p className="mt-3 text-xs text-sand-600">
+            <p className="mt-3 text-xs text-dark-600">
               Gebt diesen Code auf der Spielseite ein, um zu starten.
             </p>
           </div>
@@ -197,16 +197,16 @@ export default function ConfirmationPage() {
           {/* Booking details */}
           <div className="card p-5 text-left mb-6 space-y-3">
             <div className="flex justify-between">
-              <span className="text-xs text-sand-500">Tour</span>
-              <span className="text-xs font-medium text-sand-200">{tourName}</span>
+              <span className="text-xs text-dark-500">Tour</span>
+              <span className="text-xs font-medium text-dark-200">{tourName}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs text-sand-500">Teilnehmer</span>
-              <span className="text-xs font-medium text-sand-200">{booking.participantCount}</span>
+              <span className="text-xs text-dark-500">Teilnehmer</span>
+              <span className="text-xs font-medium text-dark-200">{booking.participantCount}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-xs text-sand-500">Datum</span>
-              <span className="text-xs font-medium text-sand-200">
+              <span className="text-xs text-dark-500">Datum</span>
+              <span className="text-xs font-medium text-dark-200">
                 {new Date(booking.scheduledDate).toLocaleDateString('de-DE', {
                   weekday: 'long',
                   day: 'numeric',
@@ -216,12 +216,12 @@ export default function ConfirmationPage() {
             </div>
             {booking.teamName && (
               <div className="flex justify-between">
-                <span className="text-xs text-sand-500">Team</span>
-                <span className="text-xs font-medium text-sand-200">{booking.teamName}</span>
+                <span className="text-xs text-dark-500">Team</span>
+                <span className="text-xs font-medium text-dark-200">{booking.teamName}</span>
               </div>
             )}
             <div className="flex justify-between">
-              <span className="text-xs text-sand-500">Bezahlt</span>
+              <span className="text-xs text-dark-500">Bezahlt</span>
               <span className="text-xs font-medium text-white">
                 {(booking.amountCents / 100).toFixed(2).replace('.', ',')} €
               </span>
@@ -237,8 +237,8 @@ export default function ConfirmationPage() {
             }}
           >
             <Mail className="h-4 w-4 text-blue-400/70 flex-shrink-0" strokeWidth={1.5} />
-            <p className="text-xs text-sand-400">
-              Eine Bestätigung wurde an <span className="text-sand-200 font-medium">{booking.contactEmail}</span> gesendet.
+            <p className="text-xs text-dark-400">
+              Eine Bestätigung wurde an <span className="text-dark-200 font-medium">{booking.contactEmail}</span> gesendet.
             </p>
           </div>
 

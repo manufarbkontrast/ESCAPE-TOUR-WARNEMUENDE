@@ -97,8 +97,8 @@ function ContactInfoCard({ item }: { readonly item: ContactInfoItem }) {
         {item.icon}
       </div>
       <div>
-        <h3 className="text-sm font-medium text-sand-400">{item.label}</h3>
-        <p className="mt-1 text-sand-200">{item.value}</p>
+        <h3 className="text-sm font-medium text-dark-400">{item.label}</h3>
+        <p className="mt-1 text-dark-200">{item.value}</p>
       </div>
     </div>
   );
@@ -125,29 +125,29 @@ export default function KontaktPage() {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-navy-900 to-navy-950 pattern-anchor">
+      <section className="relative overflow-hidden bg-gradient-to-b from-dark-900 to-dark-950 pattern-grid">
         <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              <span className="text-sand-200">Kontakt</span>
+              <span className="text-dark-200">Kontakt</span>
             </h1>
-            <p className="text-lg md:text-xl text-sand-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-dark-200 max-w-2xl mx-auto">
               Habt ihr Fragen zu unseren Touren, wollt eine Gruppenanfrage stellen
               oder uns einfach Feedback geben? Wir freuen uns auf eure Nachricht.
             </p>
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-navy-950 pattern-waves" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-dark-950 pattern-waves" />
       </section>
 
       {/* Contact Content */}
-      <section className="py-20 bg-navy-950">
+      <section className="py-20 bg-dark-950">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Left: Contact Form */}
             <div>
-              <h2 className="font-display text-2xl font-bold text-sand-50 mb-6">
+              <h2 className="font-display text-2xl font-bold text-white mb-6">
                 Schreibt uns
               </h2>
               <ContactForm />
@@ -155,7 +155,7 @@ export default function KontaktPage() {
 
             {/* Right: Contact Info Cards */}
             <div>
-              <h2 className="font-display text-2xl font-bold text-sand-50 mb-6">
+              <h2 className="font-display text-2xl font-bold text-white mb-6">
                 So erreicht ihr uns
               </h2>
               <div className="space-y-4">
@@ -166,7 +166,7 @@ export default function KontaktPage() {
 
               {/* Map Placeholder */}
               <div className="mt-8 card-hover overflow-hidden">
-                <div className="aspect-video bg-navy-800 flex items-center justify-center rounded-lg">
+                <div className="aspect-video bg-dark-800 flex items-center justify-center rounded-lg">
                   <div className="text-center space-y-3">
                     <svg
                       className="h-12 w-12 mx-auto text-white"
@@ -181,7 +181,7 @@ export default function KontaktPage() {
                         d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
                       />
                     </svg>
-                    <p className="text-sand-400 text-sm">
+                    <p className="text-dark-400 text-sm">
                       Am Leuchtturm 1, 18119 Warnemünde
                     </p>
                     <a

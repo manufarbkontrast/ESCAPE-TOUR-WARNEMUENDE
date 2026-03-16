@@ -184,18 +184,18 @@ export default function BookingPage() {
 
   // Input styling helpers
   const inputBase =
-    'w-full rounded-xl px-4 py-3.5 text-base text-sand-50 placeholder:text-sand-600 focus:outline-none transition-all'
+    'w-full rounded-xl px-4 py-3.5 text-base text-white placeholder:text-dark-600 focus:outline-none transition-all'
   const inputNormal = {
-    background: 'rgba(11, 25, 41, 0.6)',
+    background: 'rgba(10, 10, 10, 0.6)',
     border: '1px solid rgba(255, 255, 255, 0.08)',
   }
   const inputError = {
-    background: 'rgba(11, 25, 41, 0.6)',
+    background: 'rgba(10, 10, 10, 0.6)',
     border: '1px solid rgba(239, 68, 68, 0.5)',
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950">
+    <div className="min-h-screen bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950">
       <motion.div
         variants={pageVariants}
         initial="initial"
@@ -204,10 +204,10 @@ export default function BookingPage() {
       >
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center mb-10">
-          <h1 className="font-display text-4xl sm:text-5xl font-bold text-sand-50 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
             Tour buchen
           </h1>
-          <p className="mt-3 text-sand-300 text-base">
+          <p className="mt-3 text-dark-300 text-base">
             Das Vermächtnis des Lotsenkapitäns — Escape Tour Warnemünde
           </p>
         </div>
@@ -223,7 +223,7 @@ export default function BookingPage() {
                   className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-200"
                   style={{
                     background: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.05)',
-                    color: isActive ? '#0a1628' : 'rgba(255, 255, 255, 0.3)',
+                    color: isActive ? '#0a0a0a' : 'rgba(255, 255, 255, 0.3)',
                   }}
                 >
                   {i + 1}
@@ -248,7 +248,7 @@ export default function BookingPage() {
           {/* Step 1: Tour selection */}
           {step === 'tour' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-2xl font-bold text-sand-50 mb-5">Tour wählen</h2>
+              <h2 className="font-display text-2xl font-bold text-white mb-5">Tour wählen</h2>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {(['family', 'adult'] as const).map((variant) => {
@@ -264,7 +264,7 @@ export default function BookingPage() {
                       style={{
                         background: isSelected
                           ? 'rgba(255, 255, 255, 0.04)'
-                          : 'rgba(11, 25, 41, 0.5)',
+                          : 'rgba(10, 10, 10, 0.5)',
                         border: isSelected
                           ? '2px solid rgba(255, 255, 255, 0.25)'
                           : '2px solid rgba(255, 255, 255, 0.04)',
@@ -272,8 +272,8 @@ export default function BookingPage() {
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div>
-                          <h3 className="font-display text-xl font-bold text-sand-50">{info.name}</h3>
-                          <p className="text-sm text-sand-400 mt-0.5">{info.subtitle}</p>
+                          <h3 className="font-display text-xl font-bold text-white">{info.name}</h3>
+                          <p className="text-sm text-dark-400 mt-0.5">{info.subtitle}</p>
                         </div>
                         <div
                           className="h-6 w-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1"
@@ -287,16 +287,16 @@ export default function BookingPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 mb-4 text-sm text-sand-300">
+                      <div className="flex items-center gap-4 mb-4 text-sm text-dark-300">
                         <span>{info.duration}</span>
-                        <span className="text-sand-600">·</span>
+                        <span className="text-dark-600">·</span>
                         <span>{info.distance}</span>
                       </div>
 
                       <ul className="space-y-1.5 mb-4">
                         {info.features.map((f) => (
-                          <li key={f} className="text-sm text-sand-400 flex items-center gap-2">
-                            <div className="h-1.5 w-1.5 rounded-full bg-sand-500 flex-shrink-0" />
+                          <li key={f} className="text-sm text-dark-400 flex items-center gap-2">
+                            <div className="h-1.5 w-1.5 rounded-full bg-dark-500 flex-shrink-0" />
                             {f}
                           </li>
                         ))}
@@ -304,7 +304,7 @@ export default function BookingPage() {
 
                       <div className="text-2xl font-display font-bold text-white">
                         {formatPrice(info.priceCents)} €
-                        <span className="text-sm font-normal text-sand-400 ml-1">/ Person</span>
+                        <span className="text-sm font-normal text-dark-400 ml-1">/ Person</span>
                       </div>
                     </button>
                   )
@@ -313,7 +313,7 @@ export default function BookingPage() {
 
               <button
                 onClick={() => setStep('details')}
-                className="btn w-full py-4 text-base mt-4 bg-white text-navy-950 font-semibold hover:bg-sand-100 rounded-full"
+                className="btn w-full py-4 text-base mt-4 bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-full"
               >
                 Weiter
                 <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -324,29 +324,29 @@ export default function BookingPage() {
           {/* Step 2: Details */}
           {step === 'details' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-2xl font-bold text-sand-50 mb-5">Eure Details</h2>
+              <h2 className="font-display text-2xl font-bold text-white mb-5">Eure Details</h2>
 
               {/* Participant count */}
               <div className="card p-6">
-                <label className="text-sm font-semibold text-sand-200 mb-4 block">
+                <label className="text-sm font-semibold text-dark-200 mb-4 block">
                   Teilnehmer
                 </label>
                 <div className="flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => updateForm({ participantCount: Math.max(1, form.participantCount - 1) })}
-                    className="btn-icon-md text-sand-300"
+                    className="btn-icon-md text-dark-300"
                     disabled={form.participantCount <= 1}
                   >
                     <Minus className="h-5 w-5" strokeWidth={2} />
                   </button>
-                  <span className="font-display text-4xl font-bold text-sand-50 tabular-nums w-20 text-center">
+                  <span className="font-display text-4xl font-bold text-white tabular-nums w-20 text-center">
                     {form.participantCount}
                   </span>
                   <button
                     type="button"
                     onClick={() => updateForm({ participantCount: Math.min(20, form.participantCount + 1) })}
-                    className="btn-icon-md text-sand-300"
+                    className="btn-icon-md text-dark-300"
                     disabled={form.participantCount >= 20}
                   >
                     <Plus className="h-5 w-5" strokeWidth={2} />
@@ -361,7 +361,7 @@ export default function BookingPage() {
 
               {/* Email */}
               <div className="card p-6">
-                <label htmlFor="email" className="text-sm font-semibold text-sand-200 mb-2 block">
+                <label htmlFor="email" className="text-sm font-semibold text-dark-200 mb-2 block">
                   E-Mail-Adresse <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -377,14 +377,14 @@ export default function BookingPage() {
                 {fieldErrors.contactEmail ? (
                   <p className="mt-2 text-sm text-red-400">{fieldErrors.contactEmail}</p>
                 ) : (
-                  <p className="mt-2 text-sm text-sand-500">Euer Buchungscode wird an diese Adresse gesendet</p>
+                  <p className="mt-2 text-sm text-dark-500">Euer Buchungscode wird an diese Adresse gesendet</p>
                 )}
               </div>
 
               {/* Team name (optional) */}
               <div className="card p-6">
-                <label htmlFor="team" className="text-sm font-semibold text-sand-200 mb-2 block">
-                  Teamname <span className="text-sand-600 font-normal">(optional)</span>
+                <label htmlFor="team" className="text-sm font-semibold text-dark-200 mb-2 block">
+                  Teamname <span className="text-dark-600 font-normal">(optional)</span>
                 </label>
                 <input
                   id="team"
@@ -399,7 +399,7 @@ export default function BookingPage() {
 
               {/* Date */}
               <div className="card p-6">
-                <label htmlFor="date" className="text-sm font-semibold text-sand-200 mb-2 block">
+                <label htmlFor="date" className="text-sm font-semibold text-dark-200 mb-2 block">
                   Wunschdatum <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -430,7 +430,7 @@ export default function BookingPage() {
                 </button>
                 <button
                   onClick={handleDetailsNext}
-                  className="btn flex-1 py-4 text-base bg-white text-navy-950 font-semibold hover:bg-sand-100 rounded-full"
+                  className="btn flex-1 py-4 text-base bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-full"
                 >
                   Weiter zur Zusammenfassung
                   <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -442,40 +442,40 @@ export default function BookingPage() {
           {/* Step 3: Summary & Checkout */}
           {step === 'checkout' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-2xl font-bold text-sand-50 mb-5">Zusammenfassung</h2>
+              <h2 className="font-display text-2xl font-bold text-white mb-5">Zusammenfassung</h2>
 
               <div className="card p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-sand-400">Tour</span>
-                  <span className="text-base font-medium text-sand-50">{tourInfo.name}</span>
+                  <span className="text-base text-dark-400">Tour</span>
+                  <span className="text-base font-medium text-white">{tourInfo.name}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-sand-400">Teilnehmer</span>
-                  <span className="text-base font-medium text-sand-50">{form.participantCount}</span>
+                  <span className="text-base text-dark-400">Teilnehmer</span>
+                  <span className="text-base font-medium text-white">{form.participantCount}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-sand-400">E-Mail</span>
-                  <span className="text-base font-medium text-sand-50">{form.contactEmail}</span>
+                  <span className="text-base text-dark-400">E-Mail</span>
+                  <span className="text-base font-medium text-white">{form.contactEmail}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 {form.teamName && (
                   <>
                     <div className="flex items-center justify-between">
-                      <span className="text-base text-sand-400">Teamname</span>
-                      <span className="text-base font-medium text-sand-50">{form.teamName}</span>
+                      <span className="text-base text-dark-400">Teamname</span>
+                      <span className="text-base font-medium text-white">{form.teamName}</span>
                     </div>
                     <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
                   </>
                 )}
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-sand-400">Datum</span>
-                  <span className="text-base font-medium text-sand-50">
+                  <span className="text-base text-dark-400">Datum</span>
+                  <span className="text-base font-medium text-white">
                     {new Date(form.scheduledDate).toLocaleDateString('de-DE', {
                       weekday: 'long',
                       day: 'numeric',
@@ -487,8 +487,8 @@ export default function BookingPage() {
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-sand-400">Preis pro Person</span>
-                  <span className="text-base text-sand-50">
+                  <span className="text-base text-dark-400">Preis pro Person</span>
+                  <span className="text-base text-white">
                     {formatPrice(unitPrice)} €
                     {discount > 0 && (
                       <span className="ml-2 text-sm text-green-400 font-medium">(-{Math.round(discount * 100)}%)</span>
@@ -498,7 +498,7 @@ export default function BookingPage() {
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between pt-2">
-                  <span className="text-lg font-semibold text-sand-50">Gesamt</span>
+                  <span className="text-lg font-semibold text-white">Gesamt</span>
                   <span className="font-display text-3xl font-bold text-white">
                     {formatPrice(totalCents)} €
                   </span>
@@ -527,11 +527,11 @@ export default function BookingPage() {
                 <button
                   onClick={handleCheckout}
                   disabled={isSubmitting}
-                  className="btn flex-1 py-4 text-base bg-white text-navy-950 font-semibold hover:bg-sand-100 rounded-full disabled:opacity-40"
+                  className="btn flex-1 py-4 text-base bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-full disabled:opacity-40"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-navy-950 border-t-transparent" />
+                      <div className="h-5 w-5 animate-spin rounded-full border-2 border-dark-950 border-t-transparent" />
                       Wird verarbeitet...
                     </>
                   ) : (
@@ -543,7 +543,7 @@ export default function BookingPage() {
                 </button>
               </div>
 
-              <p className="text-center text-sm text-sand-500">
+              <p className="text-center text-sm text-dark-500">
                 Sichere Zahlung über Stripe. Ihr werdet weitergeleitet.
               </p>
             </motion.div>

@@ -30,7 +30,7 @@ function StatCard({ label, value, icon: Icon, accent = 'rgba(255, 255, 255, 0.04
       }}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-medium text-sand-500">{label}</span>
+        <span className="text-xs font-medium text-dark-500">{label}</span>
         <div
           className="flex h-8 w-8 items-center justify-center rounded-lg"
           style={{ background: accent }}
@@ -38,7 +38,7 @@ function StatCard({ label, value, icon: Icon, accent = 'rgba(255, 255, 255, 0.04
           <Icon className="h-4 w-4 text-white" strokeWidth={1.5} />
         </div>
       </div>
-      <p className="text-2xl font-bold text-sand-50">{value}</p>
+      <p className="text-2xl font-bold text-white">{value}</p>
     </div>
   )
 }
@@ -50,7 +50,7 @@ function StatCard({ label, value, icon: Icon, accent = 'rgba(255, 255, 255, 0.04
 function RecentBookingsTable({ bookings }: { readonly bookings: readonly BookingRow[] }) {
   if (bookings.length === 0) {
     return (
-      <p className="text-sm text-sand-600 py-8 text-center">Noch keine Buchungen vorhanden.</p>
+      <p className="text-sm text-dark-600 py-8 text-center">Noch keine Buchungen vorhanden.</p>
     )
   }
 
@@ -59,13 +59,13 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
       <table className="w-full text-left">
         <thead>
           <tr className="border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Code</th>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">E-Mail</th>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Team</th>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Teilnehmer</th>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Datum</th>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide">Status</th>
-            <th className="py-3 px-4 text-[11px] font-medium text-sand-600 uppercase tracking-wide text-right">Betrag</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Code</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">E-Mail</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Team</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Teilnehmer</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Datum</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide">Status</th>
+            <th className="py-3 px-4 text-[11px] font-medium text-dark-600 uppercase tracking-wide text-right">Betrag</th>
           </tr>
         </thead>
         <tbody>
@@ -76,10 +76,10 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
               style={{ borderColor: 'rgba(255, 255, 255, 0.03)' }}
             >
               <td className="py-3 px-4 font-mono text-sm text-white font-medium">{b.booking_code}</td>
-              <td className="py-3 px-4 text-sm text-sand-300">{b.contact_email}</td>
-              <td className="py-3 px-4 text-sm text-sand-400">{b.team_name ?? '–'}</td>
-              <td className="py-3 px-4 text-sm text-sand-300">{b.participant_count}</td>
-              <td className="py-3 px-4 text-sm text-sand-400">
+              <td className="py-3 px-4 text-sm text-dark-300">{b.contact_email}</td>
+              <td className="py-3 px-4 text-sm text-dark-400">{b.team_name ?? '–'}</td>
+              <td className="py-3 px-4 text-sm text-dark-300">{b.participant_count}</td>
+              <td className="py-3 px-4 text-sm text-dark-400">
                 {new Date(b.scheduled_date).toLocaleDateString('de-DE', {
                   day: '2-digit',
                   month: '2-digit',
@@ -89,7 +89,7 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
               <td className="py-3 px-4">
                 <StatusBadge status={b.status} />
               </td>
-              <td className="py-3 px-4 text-sm text-sand-300 text-right font-medium">
+              <td className="py-3 px-4 text-sm text-dark-300 text-right font-medium">
                 {(b.amount_cents / 100).toFixed(2).replace('.', ',')} €
               </td>
             </tr>
@@ -176,7 +176,7 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold text-sand-50 mb-6">Übersicht</h1>
+      <h1 className="font-display text-2xl font-bold text-white mb-6">Übersicht</h1>
 
       {/* Stats grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -205,7 +205,7 @@ export default async function DashboardPage() {
         }}
       >
         <div className="px-5 py-4 border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-          <h2 className="text-sm font-semibold text-sand-200">Letzte Buchungen</h2>
+          <h2 className="text-sm font-semibold text-dark-200">Letzte Buchungen</h2>
         </div>
         <RecentBookingsTable bookings={recentBookings} />
       </div>

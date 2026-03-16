@@ -93,25 +93,25 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
   const noTargetMessage = language === 'de' ? 'Kein Zielort definiert.' : 'No target location defined.'
 
   if (!target) {
-    return <p className="text-center text-sm text-sand-400">{noTargetMessage}</p>
+    return <p className="text-center text-sm text-dark-400">{noTargetMessage}</p>
   }
 
   return (
     <div className="space-y-5">
       {/* Instruction */}
       {instruction && (
-        <div className="flex items-start gap-3 rounded-lg bg-navy-800 p-3">
+        <div className="flex items-start gap-3 rounded-lg bg-dark-800 p-3">
           <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
           </svg>
-          <p className="text-sm text-sand-300">{instruction}</p>
+          <p className="text-sm text-dark-300">{instruction}</p>
         </div>
       )}
 
       {/* Compass / Direction Indicator */}
-      <div className="flex flex-col items-center gap-4 rounded-lg border-2 border-white/10 bg-navy-800 p-6">
+      <div className="flex flex-col items-center gap-4 rounded-lg border-2 border-white/10 bg-dark-800 p-6">
         {/* Compass Arrow */}
-        <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/20 bg-navy-900">
+        <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/20 bg-dark-900">
           {userLocation ? (
             <svg
               className="h-16 w-16 text-white transition-transform duration-300"
@@ -123,7 +123,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
               <path d="M12 22l-4-10 4 3 4-3-4 10z" opacity={0.3} />
             </svg>
           ) : (
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-sand-400 border-t-transparent" />
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-dark-400 border-t-transparent" />
           )}
         </div>
 
@@ -133,14 +133,14 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
             <p className={`text-3xl font-bold ${isWithinRadius ? 'text-green-400' : 'text-white'}`}>
               {formatDistance(distance)}
             </p>
-            <p className="mt-1 text-sm text-sand-400">
+            <p className="mt-1 text-sm text-dark-400">
               {isWithinRadius
                 ? (language === 'de' ? 'Sie sind am Ziel!' : 'You have arrived!')
                 : (language === 'de' ? 'Entfernung zum Ziel' : 'Distance to target')}
             </p>
           </div>
         ) : (
-          <p className="text-sm text-sand-400">
+          <p className="text-sm text-dark-400">
             {isTracking
               ? (language === 'de' ? 'Position wird ermittelt...' : 'Getting location...')
               : (language === 'de' ? 'Standort nicht verfügbar' : 'Location unavailable')}
@@ -149,7 +149,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
 
         {/* Accuracy Indicator */}
         {userLocation && (
-          <p className="text-xs text-sand-500">
+          <p className="text-xs text-dark-500">
             {language === 'de' ? 'Genauigkeit' : 'Accuracy'}: ~{Math.round(userLocation.accuracy)} m
           </p>
         )}
@@ -173,8 +173,8 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
         disabled={isSubmitting || (!isDemo && (!isWithinRadius || !userLocation))}
         className={`w-full rounded-lg px-6 py-4 font-semibold shadow-lg transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${
           isWithinRadius
-            ? 'bg-green-500 text-navy-900 hover:bg-green-400'
-            : 'bg-white text-navy-900 hover:bg-sand-100'
+            ? 'bg-green-500 text-dark-950 hover:bg-green-400'
+            : 'bg-white text-dark-950 hover:bg-dark-100'
         }`}
       >
         {submitLabel}

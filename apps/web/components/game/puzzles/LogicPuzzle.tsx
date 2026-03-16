@@ -43,11 +43,11 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* Instruction */}
       {instruction && (
-        <div className="flex items-start gap-3 rounded-lg bg-navy-800 p-3">
+        <div className="flex items-start gap-3 rounded-lg bg-dark-800 p-3">
           <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
           </svg>
-          <p className="text-sm text-sand-300">{instruction}</p>
+          <p className="text-sm text-dark-300">{instruction}</p>
         </div>
       )}
 
@@ -79,7 +79,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
                 className={`w-full rounded-lg border-2 px-4 py-3 text-left text-base transition-all disabled:opacity-50 ${
                   isSelected
                     ? 'border-white/20 bg-white/5 text-white'
-                    : 'border-navy-600 bg-navy-800 text-sand-300 hover:border-white/20 hover:bg-navy-700'
+                    : 'border-dark-600 bg-dark-800 text-dark-300 hover:border-white/20 hover:bg-dark-700'
                 }`}
               >
                 {optionText}
@@ -95,7 +95,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
           onChange={(e) => setTextAnswer(e.target.value)}
           placeholder={placeholder}
           disabled={isSubmitting}
-          className="w-full rounded-lg border-2 border-white/20 bg-navy-900 px-4 py-4 text-lg text-sand-50 placeholder-sand-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+          className="w-full rounded-lg border-2 border-white/20 bg-dark-900 px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
           autoComplete="off"
           autoCorrect="off"
           spellCheck={false}
@@ -104,7 +104,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
 
       {/* Case Sensitive Hint (text mode only) */}
       {!hasOptions && puzzle.caseSensitive && (
-        <p className="text-xs italic text-sand-400">
+        <p className="text-xs italic text-dark-400">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}
@@ -113,7 +113,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
       <button
         type="submit"
         disabled={isSubmitting || !canSubmit}
-        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-navy-900 shadow-lg transition-all hover:bg-sand-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+        className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {submitLabel}
       </button>
