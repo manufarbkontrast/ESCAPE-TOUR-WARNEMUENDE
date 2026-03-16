@@ -201,7 +201,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
           {tour.name}
         </h2>
         <p className="text-white font-medium mt-2">{tour.tagline}</p>
-        <p className="text-dark-200 mt-4 leading-relaxed">{tour.description}</p>
+        <p className="text-dark-100 mt-4 leading-relaxed">{tour.description}</p>
       </div>
 
       {/* Route Highlights */}
@@ -220,7 +220,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
                   {highlight.name}
                 </h4>
               </div>
-              <p className="text-sm text-dark-300">{highlight.description}</p>
+              <p className="text-sm text-dark-200 font-medium">{highlight.description}</p>
             </div>
           ))}
         </div>
@@ -247,7 +247,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span className="text-dark-200">{item}</span>
+              <span className="text-dark-100">{item}</span>
             </li>
           ))}
         </ul>
@@ -280,7 +280,7 @@ function FeatureHighlightCard({ feature }: { readonly feature: FeatureCard }) {
       <h3 className="font-display text-xl font-semibold text-white">
         {feature.title}
       </h3>
-      <p className="text-dark-300 leading-relaxed">{feature.description}</p>
+      <p className="text-dark-200 font-medium leading-relaxed">{feature.description}</p>
     </div>
   );
 }
@@ -298,9 +298,9 @@ export default function TourenPage() {
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-dark-200">Touren</span>
+              Unsere <span className="text-neon-glow">Touren</span>
             </h1>
-            <p className="text-lg md:text-xl text-dark-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-dark-100 max-w-2xl mx-auto">
               Entdeckt Warnemünde mit einer interaktiven GPS-Escape-Tour.
               Zwei Tourvarianten, ein unvergessliches Erlebnis.
             </p>
@@ -339,9 +339,9 @@ export default function TourenPage() {
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Was macht unsere Tour{' '}
-              <span className="text-dark-200">besonders?</span>
+              <span className="text-neon-glow">besonders?</span>
             </h2>
-            <p className="text-lg text-dark-300 max-w-2xl mx-auto">
+            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Modernste Technologie trifft auf spannende Geschichten. Das
               unterscheidet uns von einer gewöhnlichen Stadtführung.
             </p>
@@ -361,9 +361,9 @@ export default function TourenPage() {
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
               Bereit für euer{' '}
-              <span className="text-dark-200">Abenteuer?</span>
+              <span className="text-neon-glow">Abenteuer?</span>
             </h2>
-            <p className="text-lg text-dark-200">
+            <p className="text-lg text-dark-100">
               Wählt eure Tour und startet wann immer ihr wollt. Die Rätsel des
               Lotsenkapitäns warten auf euch.
             </p>

@@ -185,7 +185,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
             </h2>
 
             {/* Description */}
-            <p className="text-base leading-relaxed text-dark-400 max-w-xs">
+            <p className="text-base leading-relaxed text-dark-300 font-medium max-w-xs">
               {language === 'de' ? step.descriptionDe : step.descriptionEn}
             </p>
           </motion.div>

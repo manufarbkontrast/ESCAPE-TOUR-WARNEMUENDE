@@ -35,7 +35,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
         <svg className="mt-0.5 h-6 w-6 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
         </svg>
-        <p className="text-sm text-dark-300">
+        <p className="text-sm text-dark-200 font-medium">
           {instruction ?? searchHint}
         </p>
       </div>
@@ -67,7 +67,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
 
       {/* Case Sensitive Hint */}
       {puzzle.caseSensitive && (
-        <p className="text-xs italic text-dark-400">
+        <p className="text-xs italic text-dark-300">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}

@@ -76,10 +76,10 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
               style={{ borderColor: 'rgba(255, 255, 255, 0.03)' }}
             >
               <td className="py-3 px-4 font-mono text-sm text-white font-medium">{b.booking_code}</td>
-              <td className="py-3 px-4 text-sm text-dark-300">{b.contact_email}</td>
-              <td className="py-3 px-4 text-sm text-dark-400">{b.team_name ?? '–'}</td>
-              <td className="py-3 px-4 text-sm text-dark-300">{b.participant_count}</td>
-              <td className="py-3 px-4 text-sm text-dark-400">
+              <td className="py-3 px-4 text-sm text-dark-200">{b.contact_email}</td>
+              <td className="py-3 px-4 text-sm text-dark-300">{b.team_name ?? '–'}</td>
+              <td className="py-3 px-4 text-sm text-dark-200">{b.participant_count}</td>
+              <td className="py-3 px-4 text-sm text-dark-300">
                 {new Date(b.scheduled_date).toLocaleDateString('de-DE', {
                   day: '2-digit',
                   month: '2-digit',
@@ -89,7 +89,7 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
               <td className="py-3 px-4">
                 <StatusBadge status={b.status} />
               </td>
-              <td className="py-3 px-4 text-sm text-dark-300 text-right font-medium">
+              <td className="py-3 px-4 text-sm text-dark-200 text-right font-medium">
                 {(b.amount_cents / 100).toFixed(2).replace('.', ',')} €
               </td>
             </tr>
@@ -205,7 +205,7 @@ export default async function DashboardPage() {
         }}
       >
         <div className="px-5 py-4 border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-          <h2 className="text-sm font-semibold text-dark-200">Letzte Buchungen</h2>
+          <h2 className="text-sm font-semibold text-dark-100">Letzte Buchungen</h2>
         </div>
         <RecentBookingsTable bookings={recentBookings} />
       </div>

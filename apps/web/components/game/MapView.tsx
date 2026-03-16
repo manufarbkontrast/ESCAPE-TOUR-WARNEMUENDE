@@ -217,28 +217,28 @@ function MapLegend() {
         Legende
       </h3>
       <ul className="space-y-1.5">
-        <li className="flex items-center gap-2 text-xs text-dark-300">
+        <li className="flex items-center gap-2 text-xs text-dark-200">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: MARKER_COLORS.completed }}
           />
           Abgeschlossen
         </li>
-        <li className="flex items-center gap-2 text-xs text-dark-300">
+        <li className="flex items-center gap-2 text-xs text-dark-200">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: MARKER_COLORS.current, boxShadow: '0 0 6px rgba(255, 255, 255, 0.2)' }}
           />
           Aktuelle Station
         </li>
-        <li className="flex items-center gap-2 text-xs text-dark-300">
+        <li className="flex items-center gap-2 text-xs text-dark-200">
           <span
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: MARKER_COLORS.locked }}
           />
           Gesperrt
         </li>
-        <li className="flex items-center gap-2 text-xs text-dark-300">
+        <li className="flex items-center gap-2 text-xs text-dark-200">
           <span className="inline-block h-2.5 w-2.5 rounded-full border-[1.5px] border-white bg-blue-500" />
           Dein Standort
         </li>
@@ -285,7 +285,7 @@ function StationInfoPanel({
             </h3>
           </div>
           {station.subtitleDe && (
-            <p className="ml-[38px] mb-1 text-xs text-dark-400">
+            <p className="ml-[38px] mb-1 text-xs text-dark-300">
               {station.subtitleDe}
             </p>
           )}
@@ -557,7 +557,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-dark-900">
           <div className="text-center">
             <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-            <p className="text-sm text-dark-300">Karte wird geladen...</p>
+            <p className="text-sm text-dark-200 font-medium">Karte wird geladen...</p>
           </div>
         </div>
       )}

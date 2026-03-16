@@ -207,7 +207,7 @@ export default function BookingPage() {
           <h1 className="font-display text-4xl sm:text-5xl font-bold text-white tracking-tight">
             Tour buchen
           </h1>
-          <p className="mt-3 text-dark-300 text-base">
+          <p className="mt-3 text-dark-200 font-medium text-base">
             Das Vermächtnis des Lotsenkapitäns — Escape Tour Warnemünde
           </p>
         </div>
@@ -273,7 +273,7 @@ export default function BookingPage() {
                       <div className="flex items-start justify-between mb-4">
                         <div>
                           <h3 className="font-display text-xl font-bold text-white">{info.name}</h3>
-                          <p className="text-sm text-dark-400 mt-0.5">{info.subtitle}</p>
+                          <p className="text-sm text-dark-300 mt-0.5">{info.subtitle}</p>
                         </div>
                         <div
                           className="h-6 w-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1"
@@ -287,7 +287,7 @@ export default function BookingPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4 mb-4 text-sm text-dark-300">
+                      <div className="flex items-center gap-4 mb-4 text-sm text-dark-200">
                         <span>{info.duration}</span>
                         <span className="text-dark-600">·</span>
                         <span>{info.distance}</span>
@@ -295,7 +295,7 @@ export default function BookingPage() {
 
                       <ul className="space-y-1.5 mb-4">
                         {info.features.map((f) => (
-                          <li key={f} className="text-sm text-dark-400 flex items-center gap-2">
+                          <li key={f} className="text-sm text-dark-300 flex items-center gap-2">
                             <div className="h-1.5 w-1.5 rounded-full bg-dark-500 flex-shrink-0" />
                             {f}
                           </li>
@@ -304,7 +304,7 @@ export default function BookingPage() {
 
                       <div className="text-2xl font-display font-bold text-white">
                         {formatPrice(info.priceCents)} €
-                        <span className="text-sm font-normal text-dark-400 ml-1">/ Person</span>
+                        <span className="text-sm font-normal text-dark-300 ml-1">/ Person</span>
                       </div>
                     </button>
                   )
@@ -328,7 +328,7 @@ export default function BookingPage() {
 
               {/* Participant count */}
               <div className="card p-6">
-                <label className="text-sm font-semibold text-dark-200 mb-4 block">
+                <label className="text-sm font-semibold text-dark-100 mb-4 block">
                   Teilnehmer
                 </label>
                 <div className="flex items-center justify-between">
@@ -361,7 +361,7 @@ export default function BookingPage() {
 
               {/* Email */}
               <div className="card p-6">
-                <label htmlFor="email" className="text-sm font-semibold text-dark-200 mb-2 block">
+                <label htmlFor="email" className="text-sm font-semibold text-dark-100 mb-2 block">
                   E-Mail-Adresse <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -383,7 +383,7 @@ export default function BookingPage() {
 
               {/* Team name (optional) */}
               <div className="card p-6">
-                <label htmlFor="team" className="text-sm font-semibold text-dark-200 mb-2 block">
+                <label htmlFor="team" className="text-sm font-semibold text-dark-100 mb-2 block">
                   Teamname <span className="text-dark-600 font-normal">(optional)</span>
                 </label>
                 <input
@@ -399,7 +399,7 @@ export default function BookingPage() {
 
               {/* Date */}
               <div className="card p-6">
-                <label htmlFor="date" className="text-sm font-semibold text-dark-200 mb-2 block">
+                <label htmlFor="date" className="text-sm font-semibold text-dark-100 mb-2 block">
                   Wunschdatum <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -446,19 +446,19 @@ export default function BookingPage() {
 
               <div className="card p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-dark-400">Tour</span>
+                  <span className="text-base text-dark-300">Tour</span>
                   <span className="text-base font-medium text-white">{tourInfo.name}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-dark-400">Teilnehmer</span>
+                  <span className="text-base text-dark-300">Teilnehmer</span>
                   <span className="text-base font-medium text-white">{form.participantCount}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-dark-400">E-Mail</span>
+                  <span className="text-base text-dark-300">E-Mail</span>
                   <span className="text-base font-medium text-white">{form.contactEmail}</span>
                 </div>
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
@@ -466,7 +466,7 @@ export default function BookingPage() {
                 {form.teamName && (
                   <>
                     <div className="flex items-center justify-between">
-                      <span className="text-base text-dark-400">Teamname</span>
+                      <span className="text-base text-dark-300">Teamname</span>
                       <span className="text-base font-medium text-white">{form.teamName}</span>
                     </div>
                     <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
@@ -474,7 +474,7 @@ export default function BookingPage() {
                 )}
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-dark-400">Datum</span>
+                  <span className="text-base text-dark-300">Datum</span>
                   <span className="text-base font-medium text-white">
                     {new Date(form.scheduledDate).toLocaleDateString('de-DE', {
                       weekday: 'long',
@@ -487,7 +487,7 @@ export default function BookingPage() {
                 <div className="h-px" style={{ background: 'rgba(255, 255, 255, 0.04)' }} />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-base text-dark-400">Preis pro Person</span>
+                  <span className="text-base text-dark-300">Preis pro Person</span>
                   <span className="text-base text-white">
                     {formatPrice(unitPrice)} €
                     {discount > 0 && (

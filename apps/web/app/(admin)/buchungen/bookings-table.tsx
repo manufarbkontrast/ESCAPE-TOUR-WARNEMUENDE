@@ -121,14 +121,14 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Code, E-Mail oder Team suchen..."
-            className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm text-dark-200 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
+            className="w-full rounded-xl pl-10 pr-4 py-2.5 text-sm text-dark-100 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
             style={inputStyle}
           />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-xl px-4 py-2.5 text-sm text-dark-300 focus:outline-none focus:ring-1 focus:ring-white/20"
+          className="rounded-xl px-4 py-2.5 text-sm text-dark-200 focus:outline-none focus:ring-1 focus:ring-white/20"
           style={inputStyle}
         >
           <option value="all">Alle Status</option>
@@ -179,10 +179,10 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                       <span className="font-mono text-sm text-white font-medium">{b.booking_code}</span>
                       <CopyButton text={b.booking_code} />
                     </td>
-                    <td className="py-3 px-4 text-sm text-dark-300">{b.contact_email}</td>
-                    <td className="py-3 px-4 text-sm text-dark-400">{b.team_name ?? '–'}</td>
-                    <td className="py-3 px-4 text-sm text-dark-300">{b.participant_count}</td>
-                    <td className="py-3 px-4 text-sm text-dark-400">
+                    <td className="py-3 px-4 text-sm text-dark-200">{b.contact_email}</td>
+                    <td className="py-3 px-4 text-sm text-dark-300">{b.team_name ?? '–'}</td>
+                    <td className="py-3 px-4 text-sm text-dark-200">{b.participant_count}</td>
+                    <td className="py-3 px-4 text-sm text-dark-300">
                       {new Date(b.scheduled_date).toLocaleDateString('de-DE', {
                         day: '2-digit',
                         month: '2-digit',
@@ -192,7 +192,7 @@ export function BookingsTable({ bookings }: BookingsTableProps) {
                     <td className="py-3 px-4">
                       <StatusBadge status={b.status} />
                     </td>
-                    <td className="py-3 px-4 text-sm text-dark-300 text-right font-medium">
+                    <td className="py-3 px-4 text-sm text-dark-200 text-right font-medium">
                       {(b.amount_cents / 100).toFixed(2).replace('.', ',')} €
                     </td>
                     <td className="py-3 px-4 text-sm text-dark-500">

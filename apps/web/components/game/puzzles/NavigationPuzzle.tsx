@@ -93,7 +93,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
   const noTargetMessage = language === 'de' ? 'Kein Zielort definiert.' : 'No target location defined.'
 
   if (!target) {
-    return <p className="text-center text-sm text-dark-400">{noTargetMessage}</p>
+    return <p className="text-center text-sm text-dark-200 font-medium">{noTargetMessage}</p>
   }
 
   return (
@@ -104,7 +104,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
           <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
           </svg>
-          <p className="text-sm text-dark-300">{instruction}</p>
+          <p className="text-sm text-dark-200 font-medium">{instruction}</p>
         </div>
       )}
 
@@ -133,14 +133,14 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
             <p className={`text-3xl font-bold ${isWithinRadius ? 'text-green-400' : 'text-white'}`}>
               {formatDistance(distance)}
             </p>
-            <p className="mt-1 text-sm text-dark-400">
+            <p className="mt-1 text-sm text-dark-300">
               {isWithinRadius
                 ? (language === 'de' ? 'Sie sind am Ziel!' : 'You have arrived!')
                 : (language === 'de' ? 'Entfernung zum Ziel' : 'Distance to target')}
             </p>
           </div>
         ) : (
-          <p className="text-sm text-dark-400">
+          <p className="text-sm text-dark-300">
             {isTracking
               ? (language === 'de' ? 'Position wird ermittelt...' : 'Getting location...')
               : (language === 'de' ? 'Standort nicht verfügbar' : 'Location unavailable')}

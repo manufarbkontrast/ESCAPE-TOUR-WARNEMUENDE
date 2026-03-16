@@ -47,7 +47,7 @@ export function Header() {
                 <span className="font-display font-bold text-lg leading-none">
                   Escape Tour
                 </span>
-                <span className="text-xs text-dark-400">Warnemünde</span>
+                <span className="text-xs text-dark-300">Warnemünde</span>
               </div>
             </Link>
 
@@ -57,7 +57,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-dark-200 hover:text-white transition-colors"
+                  className="text-sm font-semibold text-dark-100 hover:text-white transition-colors"
                 >
                   {link.label}
                 </Link>

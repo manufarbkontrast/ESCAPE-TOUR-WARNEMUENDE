@@ -47,7 +47,7 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
                 }}
               />
             </div>
-            <span className="tabular-nums font-semibold text-sm text-dark-300">
+            <span className="tabular-nums font-semibold text-sm text-dark-200">
               {stationIndex}/{totalStations}
             </span>
           </div>
@@ -56,7 +56,7 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
           <button
             type="button"
             onClick={onMenuToggle}
-            className="btn-icon-md text-dark-200"
+            className="btn-icon-md text-dark-100"
             aria-label="Menü"
           >
             <Menu className="h-5 w-5" strokeWidth={1.5} />

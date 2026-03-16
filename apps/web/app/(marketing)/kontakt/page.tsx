@@ -97,8 +97,8 @@ function ContactInfoCard({ item }: { readonly item: ContactInfoItem }) {
         {item.icon}
       </div>
       <div>
-        <h3 className="text-sm font-medium text-dark-400">{item.label}</h3>
-        <p className="mt-1 text-dark-200">{item.value}</p>
+        <h3 className="text-sm font-medium text-dark-300">{item.label}</h3>
+        <p className="mt-1 text-dark-100">{item.value}</p>
       </div>
     </div>
   );
@@ -130,9 +130,9 @@ export default function KontaktPage() {
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              <span className="text-dark-200">Kontakt</span>
+              <span className="text-neon-glow">Kontakt</span>
             </h1>
-            <p className="text-lg md:text-xl text-dark-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-dark-100 max-w-2xl mx-auto">
               Habt ihr Fragen zu unseren Touren, wollt eine Gruppenanfrage stellen
               oder uns einfach Feedback geben? Wir freuen uns auf eure Nachricht.
             </p>
@@ -181,7 +181,7 @@ export default function KontaktPage() {
                         d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"
                       />
                     </svg>
-                    <p className="text-dark-400 text-sm">
+                    <p className="text-dark-300 text-sm">
                       Am Leuchtturm 1, 18119 Warnemünde
                     </p>
                     <a

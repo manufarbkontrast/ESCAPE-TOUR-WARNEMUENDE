@@ -153,7 +153,7 @@ export function StoryContent({
               {segments.map((segment) => (
                 <p
                   key={segment.paragraphIndex}
-                  className="text-lg leading-relaxed text-dark-200"
+                  className="text-lg leading-relaxed text-dark-100"
                 >
                   {segment.words.map((word, wordIndex) => (
                     <motion.span

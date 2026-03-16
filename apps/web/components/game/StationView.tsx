@@ -131,7 +131,7 @@ export function StationView({
                 <h2 className="mb-4 text-3xl font-display font-bold text-white tracking-tight">
                   {language === 'de' ? 'Willkommen' : 'Welcome'}
                 </h2>
-                <p className="whitespace-pre-line text-lg leading-relaxed text-dark-200">{introText}</p>
+                <p className="whitespace-pre-line text-lg leading-relaxed text-dark-100">{introText}</p>
               </div>
               <div className="flex gap-3">
                 <button
@@ -165,12 +165,12 @@ export function StationView({
             >
               <div className="card p-8">
                 <div className="flex items-center gap-2.5 mb-4">
-                  <BookOpen className="h-5 w-5 text-dark-400" strokeWidth={1.5} />
+                  <BookOpen className="h-5 w-5 text-dark-300" strokeWidth={1.5} />
                   <h2 className="text-3xl font-display font-bold text-white tracking-tight">
                     {language === 'de' ? 'Die Geschichte' : 'The Story'}
                   </h2>
                 </div>
-                <p className="whitespace-pre-line text-lg text-dark-200 leading-relaxed">{storyText}</p>
+                <p className="whitespace-pre-line text-lg text-dark-100 leading-relaxed">{storyText}</p>
               </div>
               <button
                 onClick={handleStoryComplete}
@@ -225,7 +225,7 @@ export function StationView({
                 <h2 className="mb-2 text-2xl font-display font-bold text-white tracking-tight">
                   {language === 'de' ? 'Geschafft!' : 'Success!'}
                 </h2>
-                <p className="text-base text-dark-300">{completionText}</p>
+                <p className="text-base text-dark-200 font-medium">{completionText}</p>
               </div>
               <button
                 onClick={handleStationComplete}

@@ -65,7 +65,7 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
             <Anchor className="h-4 w-4 text-white" strokeWidth={1.5} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-dark-100">Admin</p>
+            <p className="text-sm font-semibold text-white">Admin</p>
             <p className="text-[10px] text-dark-600">Escape Tour</p>
           </div>
         </div>

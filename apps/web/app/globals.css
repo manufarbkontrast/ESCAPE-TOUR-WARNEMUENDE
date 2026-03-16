@@ -90,7 +90,7 @@
   }
 
   .btn-ghost {
-    @apply bg-transparent text-dark-300 hover:text-white hover:bg-white/5 rounded-full focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
+    @apply bg-transparent text-dark-100 hover:text-white hover:bg-white/5 rounded-full focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
   }
 
   /* Icon button — circular glass */

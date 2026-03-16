@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
           )}
 
           <div>
-            <label htmlFor="admin-email" className="block text-xs font-medium text-dark-400 mb-2">
+            <label htmlFor="admin-email" className="block text-xs font-medium text-dark-300 mb-2">
               E-Mail
             </label>
             <input
@@ -87,14 +87,14 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm text-dark-200 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
+              className="w-full rounded-xl px-4 py-3 text-sm text-dark-100 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
               style={inputStyle}
               placeholder="admin@escape-tour.de"
             />
           </div>
 
           <div>
-            <label htmlFor="admin-password" className="block text-xs font-medium text-dark-400 mb-2">
+            <label htmlFor="admin-password" className="block text-xs font-medium text-dark-300 mb-2">
               Passwort
             </label>
             <input
@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl px-4 py-3 text-sm text-dark-200 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
+              className="w-full rounded-xl px-4 py-3 text-sm text-dark-100 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
               style={inputStyle}
               placeholder="••••••••"
             />

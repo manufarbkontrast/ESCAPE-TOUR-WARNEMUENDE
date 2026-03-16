@@ -95,7 +95,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="btn-icon-sm text-dark-400"
+                  className="btn-icon-sm text-dark-300"
                   aria-label="Menü schließen"
                 >
                   <X className="h-4 w-4" strokeWidth={1.5} />
@@ -109,7 +109,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                   <button
                     type="button"
                     onClick={handlePauseToggle}
-                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-dark-200 hover:bg-white/[0.04] transition-all duration-150"
+                    className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-dark-100 hover:bg-white/[0.04] transition-all duration-150"
                   >
                     {isPaused ? (
                       <>
@@ -133,7 +133,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
                 <button
                   type="button"
                   onClick={toggleMute}
-                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-dark-200 hover:bg-white/[0.04] transition-all duration-150"
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-dark-100 hover:bg-white/[0.04] transition-all duration-150"
                 >
                   {isMuted ? (
                     <>

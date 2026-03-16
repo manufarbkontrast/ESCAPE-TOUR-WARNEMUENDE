@@ -43,7 +43,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
           <button
             type="button"
             onClick={() => setAnswer('')}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-400 hover:text-dark-200"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-dark-300 hover:text-dark-100"
             aria-label={language === 'de' ? 'Löschen' : 'Clear'}
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -55,7 +55,7 @@ export function TextInputPuzzle({ puzzle, language, onSubmit, isSubmitting }: Te
 
       {/* Helper Text */}
       {puzzle.caseSensitive && (
-        <p className="text-xs text-dark-400 italic">
+        <p className="text-xs text-dark-300 italic">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}

@@ -152,12 +152,12 @@ export default function PlayEntryPage() {
           <h1 className="font-display text-3xl font-bold text-white tracking-tight">
             {labels.title}
           </h1>
-          <p className="mt-2 text-dark-400 text-sm">{labels.subtitle}</p>
+          <p className="mt-2 text-dark-300 font-medium text-sm">{labels.subtitle}</p>
         </div>
 
         {/* Code input card */}
         <div className="card p-8">
-          <label className="mb-5 block text-center text-xs font-medium text-dark-400 uppercase tracking-wide">
+          <label className="mb-5 block text-center text-xs font-medium text-dark-300 uppercase tracking-wide">
             {labels.inputLabel}
           </label>
 

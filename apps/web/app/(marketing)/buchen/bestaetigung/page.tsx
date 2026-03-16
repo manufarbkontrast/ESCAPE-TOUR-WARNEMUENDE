@@ -99,7 +99,7 @@ export default function ConfirmationPage() {
       <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900 px-4">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-transparent" />
-          <p className="text-sm text-dark-400">
+          <p className="text-sm text-dark-300">
             {loadState === 'processing' ? 'Buchung wird verarbeitet...' : 'Wird geladen...'}
           </p>
         </div>
@@ -114,7 +114,7 @@ export default function ConfirmationPage() {
         <div className="text-center max-w-sm">
           <Anchor className="mx-auto mb-4 h-8 w-8 text-dark-600" strokeWidth={1.5} />
           <h1 className="font-display text-xl font-bold text-white mb-2">Buchung nicht gefunden</h1>
-          <p className="text-sm text-dark-400 mb-6">
+          <p className="text-sm text-dark-300 font-medium mb-6">
             Die Buchung konnte nicht geladen werden. Falls ihr gerade bezahlt habt, versucht es in einigen Sekunden erneut.
           </p>
           <button
@@ -157,7 +157,7 @@ export default function ConfirmationPage() {
           <h1 className="font-display text-3xl font-bold text-white tracking-tight mb-2">
             Buchung bestätigt!
           </h1>
-          <p className="text-dark-400 text-sm mb-8">
+          <p className="text-dark-300 font-medium text-sm mb-8">
             Euer Abenteuer in Warnemünde kann beginnen.
           </p>
 
@@ -179,7 +179,7 @@ export default function ConfirmationPage() {
               </span>
               <button
                 onClick={handleCopyCode}
-                className="btn-icon-md text-dark-400"
+                className="btn-icon-md text-dark-300"
                 aria-label="Code kopieren"
               >
                 {copied ? (
@@ -198,15 +198,15 @@ export default function ConfirmationPage() {
           <div className="card p-5 text-left mb-6 space-y-3">
             <div className="flex justify-between">
               <span className="text-xs text-dark-500">Tour</span>
-              <span className="text-xs font-medium text-dark-200">{tourName}</span>
+              <span className="text-xs font-medium text-dark-100">{tourName}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-xs text-dark-500">Teilnehmer</span>
-              <span className="text-xs font-medium text-dark-200">{booking.participantCount}</span>
+              <span className="text-xs font-medium text-dark-100">{booking.participantCount}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-xs text-dark-500">Datum</span>
-              <span className="text-xs font-medium text-dark-200">
+              <span className="text-xs font-medium text-dark-100">
                 {new Date(booking.scheduledDate).toLocaleDateString('de-DE', {
                   weekday: 'long',
                   day: 'numeric',
@@ -217,7 +217,7 @@ export default function ConfirmationPage() {
             {booking.teamName && (
               <div className="flex justify-between">
                 <span className="text-xs text-dark-500">Team</span>
-                <span className="text-xs font-medium text-dark-200">{booking.teamName}</span>
+                <span className="text-xs font-medium text-dark-100">{booking.teamName}</span>
               </div>
             )}
             <div className="flex justify-between">
@@ -237,8 +237,8 @@ export default function ConfirmationPage() {
             }}
           >
             <Mail className="h-4 w-4 text-blue-400/70 flex-shrink-0" strokeWidth={1.5} />
-            <p className="text-xs text-dark-400">
-              Eine Bestätigung wurde an <span className="text-dark-200 font-medium">{booking.contactEmail}</span> gesendet.
+            <p className="text-xs text-dark-300">
+              Eine Bestätigung wurde an <span className="text-dark-100 font-medium">{booking.contactEmail}</span> gesendet.
             </p>
           </div>
 

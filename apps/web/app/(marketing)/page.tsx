@@ -75,23 +75,23 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
           <h3 className="font-display text-2xl font-bold text-white">
             {variant.name}
           </h3>
-          <p className="mt-2 text-sm text-dark-300">{variant.description}</p>
+          <p className="mt-2 text-sm text-dark-200 font-medium">{variant.description}</p>
         </div>
 
         <div className="flex items-baseline gap-2">
           <span className="font-display text-4xl font-bold text-white">
             {variant.price}€
           </span>
-          <span className="text-sm text-dark-400">pro Person</span>
+          <span className="text-sm text-dark-300 font-medium">pro Person</span>
         </div>
 
         <div className="grid grid-cols-2 gap-4 py-4 border-y border-dark-800">
           <div>
-            <div className="text-xs text-dark-400 uppercase tracking-wide">Dauer</div>
+            <div className="text-xs text-dark-300 uppercase tracking-wide font-semibold">Dauer</div>
             <div className="mt-1 text-sm font-semibold">{variant.duration}</div>
           </div>
           <div>
-            <div className="text-xs text-dark-400 uppercase tracking-wide">Schwierigkeit</div>
+            <div className="text-xs text-dark-300 uppercase tracking-wide font-semibold">Schwierigkeit</div>
             <div className="mt-1 text-sm font-semibold">{variant.difficulty}</div>
           </div>
         </div>
@@ -100,7 +100,7 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
           {variant.features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2 text-sm">
               <svg
-                className="h-5 w-5 text-dark-400 flex-shrink-0 mt-0.5"
+                className="h-5 w-5 text-neon-500 flex-shrink-0 mt-0.5"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -112,7 +112,7 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span className="text-dark-200">{feature}</span>
+              <span className="text-dark-100">{feature}</span>
             </li>
           ))}
         </ul>
@@ -187,22 +187,22 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl text-center space-y-8">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm backdrop-blur">
-              <svg className="h-4 w-4 text-dark-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="h-4 w-4 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="5" r="3" />
                 <line x1="12" y1="8" x2="12" y2="22" />
                 <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
               </svg>
-              <span className="text-dark-200">Das Vermächtnis des Lotsenkapitäns</span>
+              <span className="text-dark-100">Das Vermächtnis des Lotsenkapitäns</span>
             </div>
 
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white text-shadow-lg">
               Entdeckt Warnemünde
-              <span className="block text-dark-200">auf eine ganz neue Art</span>
+              <span className="block text-dark-100">auf eine ganz neue Art</span>
             </h1>
 
             {/* Description */}
-            <p className="text-lg md:text-xl text-dark-200 max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-dark-100 font-medium max-w-2xl mx-auto">
               Begebt euch auf eine spannende Escape-Tour durch Warnemünde.
               Löst Rätsel, entdeckt versteckte Orte und erlebt die maritime
               Geschichte des Ostseebades hautnah.
@@ -224,19 +224,19 @@ export default function HomePage() {
                 <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   2-4h
                 </div>
-                <div className="text-sm text-dark-300 mt-1">Spielzeit</div>
+                <div className="text-sm text-dark-200 font-medium mt-1">Spielzeit</div>
               </div>
               <div>
                 <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   10+
                 </div>
-                <div className="text-sm text-dark-300 mt-1">Stationen</div>
+                <div className="text-sm text-dark-200 font-medium mt-1">Stationen</div>
               </div>
               <div>
                 <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   3-5km
                 </div>
-                <div className="text-sm text-dark-300 mt-1">Route</div>
+                <div className="text-sm text-dark-200 font-medium mt-1">Route</div>
               </div>
             </div>
           </div>
@@ -251,9 +251,9 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Wählt eure <span className="text-dark-200">perfekte Tour</span>
+              Wählt eure <span className="text-neon-glow">perfekte Tour</span>
             </h2>
-            <p className="text-lg text-dark-300 max-w-2xl mx-auto">
+            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Ob als Familie mit Kindern oder als anspruchsvolle Herausforderung –
               wir haben die richtige Tour für euch.
             </p>
@@ -272,9 +272,9 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              So <span className="text-dark-200">funktioniert's</span>
+              So <span className="text-neon-glow">funktioniert's</span>
             </h2>
-            <p className="text-lg text-dark-300 max-w-2xl mx-auto">
+            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               In vier einfachen Schritten zu eurem Abenteuer
             </p>
           </div>
@@ -312,12 +312,12 @@ export default function HomePage() {
                   <div className="relative">
                     <div className="h-20 w-20 rounded-full bg-white/5 border border-white/15 flex items-center justify-center">
                       {item.isCompass ? (
-                        <svg className="h-8 w-8 text-dark-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="h-8 w-8 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                           <circle cx="12" cy="12" r="10" />
                           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" opacity="0.15" stroke="currentColor" />
                         </svg>
                       ) : (
-                        <svg className="h-8 w-8 text-dark-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="h-8 w-8 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                           <path d={item.svgPath} />
                         </svg>
                       )}
@@ -328,7 +328,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <h3 className="font-display text-xl font-semibold">{item.title}</h3>
-                <p className="text-sm text-dark-300">{item.description}</p>
+                <p className="text-sm text-dark-200 font-medium">{item.description}</p>
               </div>
             ))}
           </div>
@@ -340,9 +340,9 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Häufig gestellte <span className="text-dark-200">Fragen</span>
+              Häufig gestellte <span className="text-neon-glow">Fragen</span>
             </h2>
-            <p className="text-lg text-dark-300 max-w-2xl mx-auto">
+            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Alles was ihr vor eurer Tour wissen müsst
             </p>
           </div>

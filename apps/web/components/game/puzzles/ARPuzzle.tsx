@@ -76,7 +76,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
           <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
           <path fillRule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clipRule="evenodd" />
         </svg>
-        <p className="text-sm text-dark-300">
+        <p className="text-sm text-dark-200 font-medium">
           {instruction ?? targetDescription ?? (language === 'de'
             ? 'Richten Sie die Kamera auf das Ziel und finden Sie die Antwort.'
             : 'Point the camera at the target and find the answer.')}
@@ -106,7 +106,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
             <button
               type="button"
               onClick={stopCamera}
-              className="absolute right-2 top-2 rounded-full bg-dark-900/80 p-2 text-dark-300 hover:text-white"
+              className="absolute right-2 top-2 rounded-full bg-dark-900/80 p-2 text-dark-200 hover:text-white"
               aria-label={language === 'de' ? 'Kamera schließen' : 'Close camera'}
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -119,7 +119,7 @@ export function ARPuzzle({ puzzle, language, onSubmit, isSubmitting }: ARPuzzleP
             type="button"
             onClick={startCamera}
             disabled={isSubmitting}
-            className="flex w-full flex-col items-center justify-center gap-3 py-16 text-dark-400 transition-colors hover:text-white disabled:opacity-50"
+            className="flex w-full flex-col items-center justify-center gap-3 py-16 text-dark-300 transition-colors hover:text-white disabled:opacity-50"
           >
             <svg className="h-12 w-12" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />

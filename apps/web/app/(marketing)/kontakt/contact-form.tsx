@@ -95,7 +95,7 @@ export function ContactForm() {
         <h3 className="font-display text-2xl font-bold text-white">
           Nachricht gesendet!
         </h3>
-        <p className="text-dark-400 text-sm max-w-md mx-auto">
+        <p className="text-dark-300 font-medium text-sm max-w-md mx-auto">
           Vielen Dank für eure Nachricht. Wir melden uns innerhalb von 24 Stunden bei euch.
         </p>
         <button
@@ -113,7 +113,7 @@ export function ContactForm() {
   }
 
   const inputClasses =
-    'w-full rounded-xl px-4 py-3 text-sm text-dark-200 placeholder:text-dark-600 focus:outline-none transition-colors'
+    'w-full rounded-xl px-4 py-3 text-sm text-dark-100 placeholder:text-dark-600 focus:outline-none transition-colors'
   const inputStyle = {
     background: 'rgba(255, 255, 255, 0.03)',
     border: '1px solid rgba(255, 255, 255, 0.06)',
@@ -136,7 +136,7 @@ export function ContactForm() {
       )}
 
       <div>
-        <label htmlFor="contact-name" className="block text-xs font-medium text-dark-400 mb-2">
+        <label htmlFor="contact-name" className="block text-xs font-medium text-dark-300 mb-2">
           Name
         </label>
         <input
@@ -152,7 +152,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="contact-email" className="block text-xs font-medium text-dark-400 mb-2">
+        <label htmlFor="contact-email" className="block text-xs font-medium text-dark-300 mb-2">
           E-Mail
         </label>
         <input
@@ -168,7 +168,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="contact-subject" className="block text-xs font-medium text-dark-400 mb-2">
+        <label htmlFor="contact-subject" className="block text-xs font-medium text-dark-300 mb-2">
           Betreff
         </label>
         <select
@@ -188,7 +188,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label htmlFor="contact-message" className="block text-xs font-medium text-dark-400 mb-2">
+        <label htmlFor="contact-message" className="block text-xs font-medium text-dark-300 mb-2">
           Nachricht
         </label>
         <textarea

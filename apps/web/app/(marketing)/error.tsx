@@ -44,7 +44,7 @@ export default function MarketingError({ error, reset }: MarketingErrorProps) {
         </h1>
 
         {/* Message */}
-        <p className="text-dark-300 leading-relaxed">
+        <p className="text-dark-200 font-medium leading-relaxed">
           Es ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es
           erneut oder kehren Sie zur Startseite zurueck.
         </p>

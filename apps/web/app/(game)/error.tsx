@@ -44,7 +44,7 @@ export default function GameError({ error, reset }: GameErrorProps) {
         </h1>
 
         {/* Message */}
-        <p className="text-dark-300 leading-relaxed">
+        <p className="text-dark-200 font-medium leading-relaxed">
           Ein Fehler ist aufgetreten. Keine Sorge, euer Spielstand wurde
           gespeichert.
         </p>

@@ -164,7 +164,7 @@ export default function GamePage() {
       <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-          <p className="text-dark-400 text-sm">
+          <p className="text-dark-300 font-medium text-sm">
             {language === 'de' ? 'Tour wird geladen...' : 'Loading tour...'}
           </p>
         </div>
@@ -183,7 +183,7 @@ export default function GamePage() {
           <h2 className="mb-2 font-display text-xl font-bold text-white">
             {language === 'de' ? 'Fehler' : 'Error'}
           </h2>
-          <p className="mb-6 text-dark-400 text-sm">{errorMessage}</p>
+          <p className="mb-6 text-dark-300 font-medium text-sm">{errorMessage}</p>
           <button
             onClick={() => router.push('/play')}
             className="btn btn-primary"

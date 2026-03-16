@@ -192,7 +192,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       default:
         return (
           <div className="card p-8 text-center" style={{ borderStyle: 'dashed' }}>
-            <p className="text-sm text-dark-400">
+            <p className="text-sm text-dark-300">
               {language === 'de' ? 'Rätseltyp wird noch entwickelt' : 'Puzzle type in development'}
             </p>
             <p className="mt-1 text-xs text-dark-600 font-mono">{puzzle.puzzleType}</p>
@@ -269,7 +269,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       <div className="card p-6">
         <h3 className="mb-2 text-xl font-display font-bold text-white tracking-tight">{question}</h3>
         {instruction && (
-          <p className="mt-2 text-sm text-dark-400 italic leading-relaxed">{instruction}</p>
+          <p className="mt-2 text-sm text-dark-300 italic leading-relaxed">{instruction}</p>
         )}
       </div>
 

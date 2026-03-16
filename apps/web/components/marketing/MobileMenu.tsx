@@ -99,7 +99,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={onClose}
             >
               <svg
-                className="h-8 w-8 text-dark-200"
+                className="h-8 w-8 text-dark-100"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -126,7 +126,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               >
                 <Link
                   href={link.href}
-                  className="text-2xl font-display font-semibold text-dark-200 hover:text-white transition-colors"
+                  className="text-2xl font-display font-semibold text-dark-100 hover:text-white transition-colors"
                   onClick={onClose}
                 >
                   {link.label}

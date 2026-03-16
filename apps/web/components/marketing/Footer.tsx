@@ -43,10 +43,10 @@ export function Footer() {
                 <span className="font-display font-bold text-lg leading-none">
                   Escape Tour
                 </span>
-                <span className="text-xs text-dark-200">Warnemünde</span>
+                <span className="text-xs text-dark-300">Warnemünde</span>
               </div>
             </div>
-            <p className="text-sm text-dark-300 max-w-md">
+            <p className="text-sm text-dark-200 max-w-md font-medium">
               Entdeckt Warnemünde auf eine ganz neue Art. Löst Rätsel, erkundet
               historische Orte und erlebt eine unvergessliche Tour durch das Ostseebad.
             </p>
@@ -54,13 +54,13 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4 text-dark-200">Quick Links</h3>
+            <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
             <ul className="space-y-2">
               {QUICK_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-dark-300 hover:text-dark-200 transition-colors"
+                    className="text-sm text-dark-200 hover:text-white transition-colors font-medium"
                   >
                     {link.label}
                   </Link>
@@ -71,13 +71,13 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-semibold mb-4 text-dark-200">Rechtliches</h3>
+            <h3 className="font-semibold mb-4 text-white">Rechtliches</h3>
             <ul className="space-y-2">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-dark-300 hover:text-dark-200 transition-colors"
+                    className="text-sm text-dark-200 hover:text-white transition-colors font-medium"
                   >
                     {link.label}
                   </Link>
@@ -89,7 +89,7 @@ export function Footer() {
 
         <div className="divider-neon my-8" />
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-dark-400">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-dark-300">
           <p>© {currentYear} Escape Tour Warnemünde. Alle Rechte vorbehalten.</p>
           <div className="flex items-center space-x-4">
             <a

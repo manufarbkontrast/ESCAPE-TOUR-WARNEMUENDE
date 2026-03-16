@@ -47,7 +47,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
           <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
           </svg>
-          <p className="text-sm text-dark-300">{instruction}</p>
+          <p className="text-sm text-dark-200 font-medium">{instruction}</p>
         </div>
       )}
 
@@ -79,7 +79,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
                 className={`w-full rounded-lg border-2 px-4 py-3 text-left text-base transition-all disabled:opacity-50 ${
                   isSelected
                     ? 'border-white/20 bg-white/5 text-white'
-                    : 'border-dark-600 bg-dark-800 text-dark-300 hover:border-white/20 hover:bg-dark-700'
+                    : 'border-dark-600 bg-dark-800 text-dark-200 hover:border-white/20 hover:bg-dark-700'
                 }`}
               >
                 {optionText}
@@ -104,7 +104,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
 
       {/* Case Sensitive Hint (text mode only) */}
       {!hasOptions && puzzle.caseSensitive && (
-        <p className="text-xs italic text-dark-400">
+        <p className="text-xs italic text-dark-300">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}

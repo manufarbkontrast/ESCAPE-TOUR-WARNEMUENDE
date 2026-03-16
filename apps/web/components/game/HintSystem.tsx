@@ -166,12 +166,12 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                         )}
 
                         {isRevealed && (
-                          <p className="ml-[46px] mt-2 text-sm text-dark-300 leading-relaxed">{hintText}</p>
+                          <p className="ml-[46px] mt-2 text-sm text-dark-200 font-medium leading-relaxed">{hintText}</p>
                         )}
                       </div>
 
                       <div className="text-right">
-                        <div className="mb-1.5 text-xs font-medium text-dark-400 tabular-nums">-{hint.pointPenalty}pts</div>
+                        <div className="mb-1.5 text-xs font-medium text-dark-300 tabular-nums">-{hint.pointPenalty}pts</div>
                         {isAvailable && !isRevealed && !isConfirming && (
                           <button
                             onClick={() => handleRevealHint(levelInfo.level)}
@@ -192,7 +192,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
                           exit={{ opacity: 0, height: 0 }}
                           className="mt-3 border-t border-white/[0.04] pt-3"
                         >
-                          <p className="mb-3 text-sm text-dark-400">
+                          <p className="mb-3 text-sm text-dark-300">
                             {language === 'de'
                               ? `Dieser Hinweis kostet ${hint.pointPenalty} Punkte. Fortfahren?`
                               : `This hint costs ${hint.pointPenalty} points. Continue?`}

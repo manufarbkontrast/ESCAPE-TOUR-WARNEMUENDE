@@ -73,7 +73,7 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
           <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
           </svg>
-          <p className="text-sm text-dark-300">{instruction}</p>
+          <p className="text-sm text-dark-200 font-medium">{instruction}</p>
         </div>
       )}
 

@@ -38,7 +38,7 @@ export default function NotFound() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-dark-300 text-lg">
+          <p className="text-dark-200 font-medium text-lg">
             Die Seite wurde leider nicht gefunden.
           </p>
 

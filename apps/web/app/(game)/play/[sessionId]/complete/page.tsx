@@ -153,7 +153,7 @@ function StatCard({ labelDe, labelEn, value, language, icon }: StatCardProps) {
     <div className="rounded-lg bg-dark-800/50 p-4 text-center shadow-lg backdrop-blur-sm">
       <div className="mb-2 flex justify-center text-white">{icon}</div>
       <p className="text-2xl font-bold text-white">{value}</p>
-      <p className="text-xs text-dark-400">
+      <p className="text-xs text-dark-300">
         {language === 'de' ? labelDe : labelEn}
       </p>
     </div>
@@ -277,7 +277,7 @@ export default function CompletePage() {
       <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-b from-dark-950 to-dark-900">
         <div className="text-center">
           <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-          <p className="text-dark-300">
+          <p className="text-dark-200 font-medium">
             {language === 'de'
               ? 'Zertifikat wird geladen...'
               : 'Loading certificate...'}
@@ -307,7 +307,7 @@ export default function CompletePage() {
               />
             </svg>
           </div>
-          <p className="mb-6 text-dark-300">{errorMessage}</p>
+          <p className="mb-6 text-dark-200 font-medium">{errorMessage}</p>
           <button
             onClick={() => router.push('/')}
             className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95"
@@ -374,7 +374,7 @@ export default function CompletePage() {
           <div className="space-y-4 p-6">
             {/* Team name */}
             <div className="text-center">
-              <p className="text-xs text-dark-400">
+              <p className="text-xs text-dark-300">
                 {language === 'de' ? 'Teamname' : 'Team Name'}
               </p>
               <p className="font-display text-2xl font-bold text-white">
@@ -384,11 +384,11 @@ export default function CompletePage() {
 
             {/* Tour info */}
             <div className="text-center">
-              <p className="text-xs text-dark-400">
+              <p className="text-xs text-dark-300">
                 {language === 'de' ? 'Tour' : 'Tour'}
               </p>
-              <p className="text-dark-200">{certificate.tourName}</p>
-              <p className="mt-1 text-xs text-dark-400">
+              <p className="text-dark-100">{certificate.tourName}</p>
+              <p className="mt-1 text-xs text-dark-300">
                 {new Date(certificate.date).toLocaleDateString(
                   language === 'de' ? 'de-DE' : 'en-US',
                   {
@@ -405,7 +405,7 @@ export default function CompletePage() {
               <p className="text-[10px] text-dark-500">
                 {language === 'de' ? 'Verifizierungscode' : 'Verification Code'}
               </p>
-              <p className="font-mono text-sm tracking-wider text-dark-300">
+              <p className="font-mono text-sm tracking-wider text-dark-200">
                 {certificate.verificationCode}
               </p>
             </div>
@@ -490,7 +490,7 @@ export default function CompletePage() {
           {/* Back to home */}
           <button
             onClick={() => router.push('/')}
-            className="w-full rounded-lg border-2 border-dark-700 px-6 py-3 font-medium text-dark-300 transition-all hover:border-white/20 hover:text-dark-100 active:scale-95"
+            className="w-full rounded-lg border-2 border-dark-700 px-6 py-3 font-medium text-dark-200 transition-all hover:border-white/20 hover:text-dark-100 active:scale-95"
           >
             {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
           </button>

@@ -143,7 +143,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
                   style={{ width: `${progress * 100}%` }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-dark-400">
+              <div className="flex justify-between text-xs text-dark-300">
                 <span>{formatTime(currentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
@@ -151,7 +151,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
           </div>
         </div>
       ) : (
-        <p className="text-center text-sm text-dark-400">{noAudioMessage}</p>
+        <p className="text-center text-sm text-dark-300">{noAudioMessage}</p>
       )}
 
       {/* Answer Input */}
@@ -169,7 +169,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
 
       {/* Case Sensitive Hint */}
       {puzzle.caseSensitive && (
-        <p className="text-xs italic text-dark-400">
+        <p className="text-xs italic text-dark-300">
           {language === 'de' ? 'Groß-/Kleinschreibung beachten' : 'Case sensitive'}
         </p>
       )}
