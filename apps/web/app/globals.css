@@ -41,15 +41,21 @@
   }
 
   body {
-    @apply bg-dark-950 text-white;
+    @apply bg-dark-950 text-white font-medium;
   }
 
-  /* Typography */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold;
+  /* Typography — Playfair only for h1, Inter for all others */
+  h1 {
+    @apply font-display font-bold tracking-tight;
+    letter-spacing: -0.02em;
   }
 
-  /* Focus Styles — neon glow */
+  h2, h3, h4, h5, h6 {
+    @apply font-sans font-bold;
+    letter-spacing: -0.01em;
+  }
+
+  /* Focus Styles */
   :focus-visible {
     @apply outline-none ring-2 ring-neon-500/60 ring-offset-2 ring-offset-dark-950;
   }
@@ -65,9 +71,27 @@
     background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300f0ff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* Button Styles — clean with neon hover */
+  /* ---- Button System ---- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 font-semibold transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.97];
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.97];
+  }
+
+  /* Button sizes */
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-md {
+    @apply px-6 py-3 text-base;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+
+  /* Default size when no size class is specified */
+  .btn:not(.btn-sm):not(.btn-lg) {
+    @apply px-6 py-3 text-base;
   }
 
   .btn-primary {
@@ -82,7 +106,7 @@
   }
 
   .btn-secondary {
-    @apply bg-transparent text-dark-200 border border-dark-700 hover:border-neon-500/40 hover:text-white focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
+    @apply bg-transparent text-dark-100 border border-dark-600 hover:border-neon-500/40 hover:text-white focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
   }
 
   .btn-secondary:hover {
@@ -93,16 +117,15 @@
     @apply bg-transparent text-dark-100 hover:text-white hover:bg-white/5 rounded-full focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
   }
 
-  /* Icon button — circular glass */
+  /* Icon button — circular */
   .btn-icon {
     @apply inline-flex items-center justify-center rounded-full transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-950 active:scale-[0.95];
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(23, 23, 23, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .btn-icon:hover {
-    background: rgba(10, 10, 10, 0.95);
+    background: rgba(23, 23, 23, 1);
     border-color: rgba(0, 240, 255, 0.25);
     box-shadow: 0 0 12px rgba(0, 240, 255, 0.1);
   }
@@ -119,14 +142,12 @@
     @apply btn-icon h-12 w-12;
   }
 
-  /* Card Styles — dark surfaces */
+  /* ---- Card System ---- */
   .card {
     @apply rounded-2xl p-6 transition-all duration-200;
-    background: rgba(10, 10, 10, 0.7);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow:
-      0 0 0 0.5px rgba(255, 255, 255, 0.03),
       0 1px 2px rgba(0, 0, 0, 0.2),
       0 2px 4px rgba(0, 0, 0, 0.1);
   }
@@ -136,13 +157,12 @@
   }
 
   .card-hover:hover {
-    background: rgba(10, 10, 10, 0.85);
-    border-color: rgba(0, 240, 255, 0.12);
+    background: #111111;
+    border-color: rgba(0, 240, 255, 0.15);
     box-shadow:
-      0 0 0 0.5px rgba(0, 240, 255, 0.08),
       0 2px 4px rgba(0, 0, 0, 0.15),
       0 4px 12px rgba(0, 0, 0, 0.1),
-      0 0 25px rgba(0, 240, 255, 0.04);
+      0 0 25px rgba(0, 240, 255, 0.05);
   }
 
   /* Container */
@@ -150,15 +170,19 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Neon text glow */
+  /* Accent text — subtle, no glow */
+  .text-accent {
+    @apply text-neon-300;
+  }
+
+  /* Neon text glow — use sparingly (hover states only) */
   .text-neon-glow {
-    color: #00f0ff;
-    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5), 0 0 30px rgba(0, 240, 255, 0.2);
+    color: #67e8f9;
   }
 
   /* Divider — neon line */
   .divider-neon {
-    @apply relative h-px bg-gradient-to-r from-transparent via-neon-500/30 to-transparent;
+    @apply relative h-px bg-gradient-to-r from-transparent via-neon-500/20 to-transparent;
   }
 }
 

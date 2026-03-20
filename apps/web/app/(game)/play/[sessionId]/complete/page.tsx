@@ -26,24 +26,24 @@ const BADGE_CONFIG: Record<
   }
 > = {
   gold: {
-    labelDe: 'Gold',
-    labelEn: 'Gold',
-    color: 'text-yellow-300',
-    bgGradient: 'from-yellow-500/20 to-yellow-600/10',
+    labelDe: 'Platin',
+    labelEn: 'Platinum',
+    color: 'text-white',
+    bgGradient: 'from-white/20 to-white/5',
     icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
   },
   silver: {
     labelDe: 'Silber',
     labelEn: 'Silver',
-    color: 'text-gray-300',
-    bgGradient: 'from-gray-400/20 to-gray-500/10',
+    color: 'text-dark-200',
+    bgGradient: 'from-dark-200/15 to-dark-300/5',
     icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
   },
   bronze: {
     labelDe: 'Bronze',
     labelEn: 'Bronze',
-    color: 'text-amber-600',
-    bgGradient: 'from-amber-700/20 to-amber-800/10',
+    color: 'text-dark-300',
+    bgGradient: 'from-dark-400/10 to-dark-500/5',
     icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
   },
 } as const
@@ -377,7 +377,7 @@ export default function CompletePage() {
               <p className="text-xs text-dark-300">
                 {language === 'de' ? 'Teamname' : 'Team Name'}
               </p>
-              <p className="font-display text-2xl font-bold text-white">
+              <p className="text-2xl font-bold text-white">
                 {certificate.teamName}
               </p>
             </div>

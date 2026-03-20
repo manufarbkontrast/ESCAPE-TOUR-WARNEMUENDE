@@ -164,7 +164,7 @@ function PricingCard({ tour }: { readonly tour: TourPricing }) {
       <div className="flex flex-col flex-1 space-y-6">
         {/* Tour Name */}
         <div>
-          <h3 className="font-display text-2xl font-bold text-white">
+          <h3 className="text-2xl font-bold text-white">
             {tour.name}
           </h3>
         </div>
@@ -253,7 +253,7 @@ function IncludedCard({ item }: { readonly item: IncludedItem }) {
           {item.icon}
         </div>
       </div>
-      <h3 className="font-display text-lg font-semibold text-white">
+      <h3 className="text-lg font-semibold text-white">
         {item.title}
       </h3>
       <p className="text-sm text-dark-200 font-medium">{item.description}</p>
@@ -274,7 +274,7 @@ export default function PreisePage() {
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-neon-glow">Preise</span>
+              Unsere <span className="text-neon-300">Preise</span>
             </h1>
             <p className="text-lg md:text-xl text-dark-100 max-w-2xl mx-auto">
               Transparent und fair. Wählt die Tour, die am besten zu euch passt,
@@ -286,7 +286,7 @@ export default function PreisePage() {
       </section>
 
       {/* Pricing Cards */}
-      <section className="py-20 bg-dark-950">
+      <section className="py-16 md:py-24 bg-dark-950">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {TOUR_PRICING.map((tour) => (
@@ -297,7 +297,7 @@ export default function PreisePage() {
       </section>
 
       {/* Group Discount Section */}
-      <section className="py-20 bg-gradient-to-b from-dark-950 to-dark-900">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-dark-950 to-dark-900">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
             <div className="card-hover text-center space-y-6">
@@ -319,8 +319,8 @@ export default function PreisePage() {
                 </div>
               </div>
 
-              <h2 className="font-display text-3xl md:text-4xl font-bold">
-                <span className="text-neon-glow">Gruppenrabatt</span>
+              <h2 className="text-3xl md:text-4xl font-bold">
+                <span className="text-neon-300">Gruppenrabatt</span>
               </h2>
 
               <div className="space-y-4">
@@ -354,11 +354,11 @@ export default function PreisePage() {
       </section>
 
       {/* What's Included Section */}
-      <section className="py-20 bg-dark-900">
+      <section className="py-16 md:py-24 bg-dark-900">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Das ist <span className="text-neon-glow">inklusive</span>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Das ist <span className="text-neon-300">inklusive</span>
             </h2>
             <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Bei jeder Tour sind diese Leistungen bereits im Preis enthalten.

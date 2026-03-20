@@ -92,7 +92,7 @@ export function ContactForm() {
             <CheckCircle2 className="h-8 w-8 text-green-400" strokeWidth={1.5} />
           </div>
         </div>
-        <h3 className="font-display text-2xl font-bold text-white">
+        <h3 className="text-2xl font-bold text-white">
           Nachricht gesendet!
         </h3>
         <p className="text-dark-300 font-medium text-sm max-w-md mx-auto">

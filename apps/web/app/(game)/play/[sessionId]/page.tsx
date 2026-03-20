@@ -180,7 +180,7 @@ export default function GamePage() {
           <div className="mx-auto mb-5 btn-icon-lg flex items-center justify-center text-red-400" style={{ background: 'rgba(239, 68, 68, 0.08)', borderColor: 'rgba(239, 68, 68, 0.1)' }}>
             <AlertCircle className="h-6 w-6" strokeWidth={1.5} />
           </div>
-          <h2 className="mb-2 font-display text-xl font-bold text-white">
+          <h2 className="mb-2 text-xl font-bold text-white">
             {language === 'de' ? 'Fehler' : 'Error'}
           </h2>
           <p className="mb-6 text-dark-300 font-medium text-sm">{errorMessage}</p>

@@ -91,7 +91,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         {/* Header */}
         <div className="border-b border-white/[0.04] p-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-display font-bold text-white tracking-tight">
+            <h2 className="text-lg font-bold text-white tracking-tight">
               {language === 'de' ? 'Hinweise' : 'Hints'}
             </h2>
             <button

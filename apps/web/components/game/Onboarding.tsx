@@ -180,7 +180,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
             </motion.div>
 
             {/* Title */}
-            <h2 className="mb-3 text-2xl font-display font-bold text-white tracking-tight">
+            <h2 className="mb-3 text-2xl font-bold text-white tracking-tight">
               {language === 'de' ? step.titleDe : step.titleEn}
             </h2>
 

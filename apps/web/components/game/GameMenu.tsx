@@ -91,7 +91,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-white/[0.04]">
-                <h2 className="font-display font-semibold text-white">Menü</h2>
+                <h2 className="font-semibold text-white">Menü</h2>
                 <button
                   type="button"
                   onClick={onClose}

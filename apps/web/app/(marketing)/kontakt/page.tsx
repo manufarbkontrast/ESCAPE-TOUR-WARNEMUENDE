@@ -130,7 +130,7 @@ export default function KontaktPage() {
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              <span className="text-neon-glow">Kontakt</span>
+              <span className="text-neon-300">Kontakt</span>
             </h1>
             <p className="text-lg md:text-xl text-dark-100 max-w-2xl mx-auto">
               Habt ihr Fragen zu unseren Touren, wollt eine Gruppenanfrage stellen
@@ -142,12 +142,12 @@ export default function KontaktPage() {
       </section>
 
       {/* Contact Content */}
-      <section className="py-20 bg-dark-950">
+      <section className="py-16 md:py-24 bg-dark-950">
         <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Left: Contact Form */}
             <div>
-              <h2 className="font-display text-2xl font-bold text-white mb-6">
+              <h2 className="text-2xl font-bold text-white mb-6">
                 Schreibt uns
               </h2>
               <ContactForm />
@@ -155,7 +155,7 @@ export default function KontaktPage() {
 
             {/* Right: Contact Info Cards */}
             <div>
-              <h2 className="font-display text-2xl font-bold text-white mb-6">
+              <h2 className="text-2xl font-bold text-white mb-6">
                 So erreicht ihr uns
               </h2>
               <div className="space-y-4">

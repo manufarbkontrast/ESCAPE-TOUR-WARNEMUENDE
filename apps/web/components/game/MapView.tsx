@@ -280,7 +280,7 @@ function StationInfoPanel({
             >
               {stationNumber}
             </span>
-            <h3 className="font-display text-base font-semibold text-white tracking-tight">
+            <h3 className="text-base font-semibold text-white tracking-tight">
               {station.nameDe}
             </h3>
           </div>

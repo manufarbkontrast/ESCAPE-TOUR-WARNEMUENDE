@@ -200,7 +200,7 @@ export default function BookingPage() {
         variants={pageVariants}
         initial="initial"
         animate="animate"
-        className="container-custom py-12 sm:py-20"
+        className="container-custom py-12 sm:py-20 pb-24 md:pb-20"
       >
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center mb-10">
@@ -217,20 +217,24 @@ export default function BookingPage() {
           {(['tour', 'details', 'checkout'] as const).map((s, i) => {
             const stepIndex = ['tour', 'details', 'checkout'].indexOf(step)
             const isActive = i <= stepIndex
+            const stepLabels = ['Tour', 'Details', 'Bezahlen'] as const
             return (
               <div key={s} className="flex items-center gap-2">
-                <div
-                  className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-200"
-                  style={{
-                    background: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.05)',
-                    color: isActive ? '#0a0a0a' : 'rgba(255, 255, 255, 0.3)',
-                  }}
-                >
-                  {i + 1}
+                <div className="flex flex-col items-center">
+                  <div
+                    className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-200"
+                    style={{
+                      background: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.05)',
+                      color: isActive ? '#0a0a0a' : 'rgba(255, 255, 255, 0.3)',
+                    }}
+                  >
+                    {i + 1}
+                  </div>
+                  <span className="text-xs text-dark-300 mt-1">{stepLabels[i]}</span>
                 </div>
                 {i < 2 && (
                   <div
-                    className="h-px w-8 sm:w-12"
+                    className="h-px w-8 sm:w-12 mb-5"
                     style={{
                       background: i < stepIndex
                         ? 'rgba(255, 255, 255, 0.3)'
@@ -248,7 +252,7 @@ export default function BookingPage() {
           {/* Step 1: Tour selection */}
           {step === 'tour' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-2xl font-bold text-white mb-5">Tour wählen</h2>
+              <h2 className="font-sans text-2xl font-bold text-white mb-5">Tour wählen</h2>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 {(['family', 'adult'] as const).map((variant) => {
@@ -272,7 +276,7 @@ export default function BookingPage() {
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div>
-                          <h3 className="font-display text-xl font-bold text-white">{info.name}</h3>
+                          <h3 className="font-sans text-xl font-bold text-white">{info.name}</h3>
                           <p className="text-sm text-dark-300 mt-0.5">{info.subtitle}</p>
                         </div>
                         <div
@@ -302,7 +306,7 @@ export default function BookingPage() {
                         ))}
                       </ul>
 
-                      <div className="text-2xl font-display font-bold text-white">
+                      <div className="text-2xl font-sans font-bold text-white">
                         {formatPrice(info.priceCents)} €
                         <span className="text-sm font-normal text-dark-300 ml-1">/ Person</span>
                       </div>
@@ -310,6 +314,10 @@ export default function BookingPage() {
                   )
                 })}
               </div>
+
+              <p className="text-center text-sm text-dark-300 mt-6">
+                Ab 6 Personen: 10% Gruppenrabatt — Ab 10 Personen: 15% Rabatt
+              </p>
 
               <button
                 onClick={() => setStep('details')}
@@ -324,100 +332,102 @@ export default function BookingPage() {
           {/* Step 2: Details */}
           {step === 'details' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-2xl font-bold text-white mb-5">Eure Details</h2>
+              <h2 className="font-sans text-2xl font-bold text-white mb-5">Eure Details</h2>
 
-              {/* Participant count */}
               <div className="card p-6">
-                <label className="text-sm font-semibold text-dark-100 mb-4 block">
-                  Teilnehmer
-                </label>
-                <div className="flex items-center justify-between">
-                  <button
-                    type="button"
-                    onClick={() => updateForm({ participantCount: Math.max(1, form.participantCount - 1) })}
-                    className="btn-icon-md text-dark-300"
-                    disabled={form.participantCount <= 1}
-                  >
-                    <Minus className="h-5 w-5" strokeWidth={2} />
-                  </button>
-                  <span className="font-display text-4xl font-bold text-white tabular-nums w-20 text-center">
-                    {form.participantCount}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => updateForm({ participantCount: Math.min(20, form.participantCount + 1) })}
-                    className="btn-icon-md text-dark-300"
-                    disabled={form.participantCount >= 20}
-                  >
-                    <Plus className="h-5 w-5" strokeWidth={2} />
-                  </button>
+                {/* Participant count */}
+                <div className="border-b border-dark-800 pb-6 mb-6">
+                  <label className="text-sm font-semibold text-dark-100 mb-4 block">
+                    Teilnehmer
+                  </label>
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => updateForm({ participantCount: Math.max(1, form.participantCount - 1) })}
+                      className="btn-icon-md text-dark-300"
+                      disabled={form.participantCount <= 1}
+                    >
+                      <Minus className="h-5 w-5" strokeWidth={2} />
+                    </button>
+                    <span className="font-sans text-4xl font-bold text-white tabular-nums w-20 text-center">
+                      {form.participantCount}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => updateForm({ participantCount: Math.min(20, form.participantCount + 1) })}
+                      className="btn-icon-md text-dark-300"
+                      disabled={form.participantCount >= 20}
+                    >
+                      <Plus className="h-5 w-5" strokeWidth={2} />
+                    </button>
+                  </div>
+                  {discount > 0 && (
+                    <p className="mt-3 text-center text-sm text-green-400 font-medium">
+                      {Math.round(discount * 100)}% Gruppenrabatt
+                    </p>
+                  )}
                 </div>
-                {discount > 0 && (
-                  <p className="mt-3 text-center text-sm text-green-400 font-medium">
-                    {Math.round(discount * 100)}% Gruppenrabatt
-                  </p>
-                )}
-              </div>
 
-              {/* Email */}
-              <div className="card p-6">
-                <label htmlFor="email" className="text-sm font-semibold text-dark-100 mb-2 block">
-                  E-Mail-Adresse <span className="text-red-400">*</span>
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  value={form.contactEmail}
-                  onChange={(e) => updateForm({ contactEmail: e.target.value })}
-                  placeholder="team@beispiel.de"
-                  required
-                  className={inputBase}
-                  style={fieldErrors.contactEmail ? inputError : inputNormal}
-                />
-                {fieldErrors.contactEmail ? (
-                  <p className="mt-2 text-sm text-red-400">{fieldErrors.contactEmail}</p>
-                ) : (
-                  <p className="mt-2 text-sm text-dark-500">Euer Buchungscode wird an diese Adresse gesendet</p>
-                )}
-              </div>
+                {/* Email */}
+                <div className="border-b border-dark-800 pb-6 mb-6">
+                  <label htmlFor="email" className="text-sm font-semibold text-dark-100 mb-2 block">
+                    E-Mail-Adresse <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={form.contactEmail}
+                    onChange={(e) => updateForm({ contactEmail: e.target.value })}
+                    placeholder="team@beispiel.de"
+                    required
+                    className={inputBase}
+                    style={fieldErrors.contactEmail ? inputError : inputNormal}
+                  />
+                  {fieldErrors.contactEmail ? (
+                    <p className="mt-2 text-sm text-red-400">{fieldErrors.contactEmail}</p>
+                  ) : (
+                    <p className="mt-2 text-sm text-dark-500">Euer Buchungscode wird an diese Adresse gesendet</p>
+                  )}
+                </div>
 
-              {/* Team name (optional) */}
-              <div className="card p-6">
-                <label htmlFor="team" className="text-sm font-semibold text-dark-100 mb-2 block">
-                  Teamname <span className="text-dark-600 font-normal">(optional)</span>
-                </label>
-                <input
-                  id="team"
-                  type="text"
-                  value={form.teamName}
-                  onChange={(e) => updateForm({ teamName: e.target.value })}
-                  placeholder="z.B. Die Seeräuber"
-                  className={inputBase}
-                  style={inputNormal}
-                />
-              </div>
+                {/* Team name (optional) */}
+                <div className="border-b border-dark-800 pb-6 mb-6">
+                  <label htmlFor="team" className="text-sm font-semibold text-dark-100 mb-2 block">
+                    Teamname <span className="text-dark-600 font-normal">(optional)</span>
+                  </label>
+                  <input
+                    id="team"
+                    type="text"
+                    value={form.teamName}
+                    onChange={(e) => updateForm({ teamName: e.target.value })}
+                    placeholder="z.B. Die Seeräuber"
+                    className={inputBase}
+                    style={inputNormal}
+                  />
+                </div>
 
-              {/* Date */}
-              <div className="card p-6">
-                <label htmlFor="date" className="text-sm font-semibold text-dark-100 mb-2 block">
-                  Wunschdatum <span className="text-red-400">*</span>
-                </label>
-                <input
-                  id="date"
-                  type="date"
-                  value={form.scheduledDate}
-                  onChange={(e) => updateForm({ scheduledDate: e.target.value })}
-                  min={getMinDate()}
-                  required
-                  className={inputBase}
-                  style={{
-                    ...(fieldErrors.scheduledDate ? inputError : inputNormal),
-                    colorScheme: 'dark',
-                  }}
-                />
-                {fieldErrors.scheduledDate && (
-                  <p className="mt-2 text-sm text-red-400">{fieldErrors.scheduledDate}</p>
-                )}
+                {/* Date */}
+                <div>
+                  <label htmlFor="date" className="text-sm font-semibold text-dark-100 mb-2 block">
+                    Wunschdatum <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    id="date"
+                    type="date"
+                    value={form.scheduledDate}
+                    onChange={(e) => updateForm({ scheduledDate: e.target.value })}
+                    min={getMinDate()}
+                    required
+                    className={inputBase}
+                    style={{
+                      ...(fieldErrors.scheduledDate ? inputError : inputNormal),
+                      colorScheme: 'dark',
+                    }}
+                  />
+                  {fieldErrors.scheduledDate && (
+                    <p className="mt-2 text-sm text-red-400">{fieldErrors.scheduledDate}</p>
+                  )}
+                </div>
               </div>
 
               <div className="flex gap-3 pt-2">
@@ -442,7 +452,7 @@ export default function BookingPage() {
           {/* Step 3: Summary & Checkout */}
           {step === 'checkout' && (
             <motion.div variants={stepVariants} initial="enter" animate="center" exit="exit" className="space-y-5">
-              <h2 className="font-display text-2xl font-bold text-white mb-5">Zusammenfassung</h2>
+              <h2 className="font-sans text-2xl font-bold text-white mb-5">Zusammenfassung</h2>
 
               <div className="card p-6 space-y-4">
                 <div className="flex items-center justify-between">
@@ -499,7 +509,7 @@ export default function BookingPage() {
 
                 <div className="flex items-center justify-between pt-2">
                   <span className="text-lg font-semibold text-white">Gesamt</span>
-                  <span className="font-display text-3xl font-bold text-white">
+                  <span className="font-sans text-3xl font-bold text-white">
                     {formatPrice(totalCents)} €
                   </span>
                 </div>
@@ -550,6 +560,24 @@ export default function BookingPage() {
           )}
         </div>
       </motion.div>
+
+      {/* Sticky price bar — mobile only, visible on steps 1 and 2 */}
+      {step !== 'checkout' && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-dark-800 bg-dark-950/95 backdrop-blur px-4 py-3 md:hidden">
+          <div className="flex items-center justify-between max-w-lg mx-auto">
+            <div>
+              <p className="text-sm text-dark-300">Gesamt</p>
+              <p className="text-lg font-bold text-white">{formatPrice(totalCents)} €</p>
+            </div>
+            <button
+              onClick={() => step === 'tour' ? setStep('details') : handleDetailsNext()}
+              className="btn btn-primary btn-sm"
+            >
+              Weiter
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

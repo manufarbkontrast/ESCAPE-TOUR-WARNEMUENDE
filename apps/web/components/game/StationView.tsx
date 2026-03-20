@@ -92,21 +92,19 @@ export function StationView({
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-dark-900 to-dark-800">
-      {/* Fixed Header */}
-      <header className="fixed top-0 left-0 right-0 z-20 border-b border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
-          <div className="flex-1">
-            <h1 className="text-lg font-semibold text-white tracking-tight">{stationName}</h1>
-            <p className="text-xs text-dark-500 font-medium">
-              Station {station.orderIndex + 1} · {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
-            </p>
-          </div>
-          <Timer sessionId={sessionId} />
+      {/* Station Info Bar */}
+      <div className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-3">
+        <div className="flex-1">
+          <h1 className="text-lg font-semibold text-white tracking-tight">{stationName}</h1>
+          <p className="text-xs text-dark-500 font-medium">
+            Station {station.orderIndex + 1} · {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
+          </p>
         </div>
-      </header>
+        <Timer sessionId={sessionId} />
+      </div>
 
       {/* Content Area */}
-      <main className="mx-auto w-full max-w-3xl flex-1 flex flex-col justify-center px-6 pt-20 pb-24">
+      <main className="mx-auto w-full max-w-3xl flex-1 flex flex-col justify-center px-6 pb-24">
         <AnimatePresence mode="wait">
           {currentState === 'intro' && (
             <motion.div
@@ -128,7 +126,7 @@ export function StationView({
                 </div>
               )}
               <div className="card p-8">
-                <h2 className="mb-4 text-3xl font-display font-bold text-white tracking-tight">
+                <h2 className="mb-4 text-3xl font-bold text-white tracking-tight">
                   {language === 'de' ? 'Willkommen' : 'Welcome'}
                 </h2>
                 <p className="whitespace-pre-line text-lg leading-relaxed text-dark-100">{introText}</p>
@@ -166,7 +164,7 @@ export function StationView({
               <div className="card p-8">
                 <div className="flex items-center gap-2.5 mb-4">
                   <BookOpen className="h-5 w-5 text-dark-300" strokeWidth={1.5} />
-                  <h2 className="text-3xl font-display font-bold text-white tracking-tight">
+                  <h2 className="text-3xl font-bold text-white tracking-tight">
                     {language === 'de' ? 'Die Geschichte' : 'The Story'}
                   </h2>
                 </div>
@@ -222,7 +220,7 @@ export function StationView({
                 boxShadow: '0 0 40px rgba(255, 255, 255, 0.04)',
               }}>
                 <Sparkles className="mx-auto mb-4 h-12 w-12 text-white" strokeWidth={1.5} />
-                <h2 className="mb-2 text-2xl font-display font-bold text-white tracking-tight">
+                <h2 className="mb-2 text-2xl font-bold text-white tracking-tight">
                   {language === 'de' ? 'Geschafft!' : 'Success!'}
                 </h2>
                 <p className="text-base text-dark-200 font-medium">{completionText}</p>
@@ -258,7 +256,7 @@ export function StationView({
 
       {/* Footer with Hint Button */}
       {currentState === 'puzzle' && currentPuzzle && (
-        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
+        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
           <div className="mx-auto max-w-2xl px-4 py-3">
             <button
               onClick={() => setShowHints(true)}

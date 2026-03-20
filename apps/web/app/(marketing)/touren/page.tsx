@@ -197,7 +197,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
             {tour.difficulty} &middot; {tour.distance} &middot; {tour.duration}
           </span>
         </div>
-        <h2 className="font-display text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-3xl md:text-4xl font-bold text-white">
           {tour.name}
         </h2>
         <p className="text-white font-medium mt-2">{tour.tagline}</p>
@@ -206,7 +206,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
 
       {/* Route Highlights */}
       <div>
-        <h3 className="font-display text-xl font-semibold text-white mb-6">
+        <h3 className="text-xl font-semibold text-white mb-6">
           Route Highlights
         </h3>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -216,7 +216,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-dark-950 font-bold text-sm">
                   {index + 1}
                 </div>
-                <h4 className="font-display text-lg font-semibold text-white">
+                <h4 className="text-lg font-semibold text-white">
                   {highlight.name}
                 </h4>
               </div>
@@ -228,7 +228,7 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
 
       {/* What to Expect */}
       <div className="card-hover">
-        <h3 className="font-display text-xl font-semibold text-white mb-4">
+        <h3 className="text-xl font-semibold text-white mb-4">
           Was euch erwartet
         </h3>
         <ul className="space-y-3">
@@ -277,7 +277,7 @@ function FeatureHighlightCard({ feature }: { readonly feature: FeatureCard }) {
       <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white">
         {feature.icon}
       </div>
-      <h3 className="font-display text-xl font-semibold text-white">
+      <h3 className="text-xl font-semibold text-white">
         {feature.title}
       </h3>
       <p className="text-dark-200 font-medium leading-relaxed">{feature.description}</p>
@@ -298,7 +298,7 @@ export default function TourenPage() {
         <div className="container-custom relative py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold">
-              Unsere <span className="text-neon-glow">Touren</span>
+              Unsere <span className="text-neon-300">Touren</span>
             </h1>
             <p className="text-lg md:text-xl text-dark-100 max-w-2xl mx-auto">
               Entdeckt Warnemünde mit einer interaktiven GPS-Escape-Tour.
@@ -314,7 +314,7 @@ export default function TourenPage() {
         <section
           key={tour.id}
           className={cn(
-            'py-20',
+            'py-16 md:py-24',
             index % 2 === 0
               ? 'bg-dark-950'
               : 'bg-gradient-to-b from-dark-950 to-dark-900'
@@ -334,12 +334,12 @@ export default function TourenPage() {
       ))}
 
       {/* What Makes Us Special */}
-      <section className="py-20 bg-dark-900">
+      <section className="py-16 md:py-24 bg-dark-900">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
+            <h2 className="text-3xl md:text-4xl font-bold">
               Was macht unsere Tour{' '}
-              <span className="text-neon-glow">besonders?</span>
+              <span className="text-neon-300">besonders?</span>
             </h2>
             <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Modernste Technologie trifft auf spannende Geschichten. Das
@@ -356,12 +356,12 @@ export default function TourenPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 bg-gradient-to-b from-dark-900 to-dark-950">
+      <section className="py-16 md:py-24 bg-gradient-to-b from-dark-900 to-dark-950">
         <div className="container-custom">
           <div className="max-w-3xl mx-auto text-center space-y-8">
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
+            <h2 className="text-3xl md:text-4xl font-bold">
               Bereit für euer{' '}
-              <span className="text-neon-glow">Abenteuer?</span>
+              <span className="text-neon-300">Abenteuer?</span>
             </h2>
             <p className="text-lg text-dark-100">
               Wählt eure Tour und startet wann immer ihr wollt. Die Rätsel des

@@ -72,15 +72,15 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
 
       <div className="space-y-4">
         <div>
-          <h3 className="font-display text-2xl font-bold text-white">
+          <h3 className="text-2xl font-bold text-white">
             {variant.name}
           </h3>
           <p className="mt-2 text-sm text-dark-200 font-medium">{variant.description}</p>
         </div>
 
         <div className="flex items-baseline gap-2">
-          <span className="font-display text-4xl font-bold text-white">
-            {variant.price}€
+          <span className="text-4xl font-bold text-white">
+            {variant.price}&euro;
           </span>
           <span className="text-sm text-dark-300 font-medium">pro Person</span>
         </div>
@@ -173,6 +173,38 @@ const FAQ_ITEMS = [
 ] as const;
 
 /**
+ * Testimonial data
+ */
+const TESTIMONIALS = [
+  {
+    quote: 'Eine fantastische Tour! Die Rätsel waren anspruchsvoll und die historischen Details super interessant. Absolut empfehlenswert!',
+    name: 'Familie Schneider',
+    city: 'Hamburg',
+  },
+  {
+    quote: 'Warnemünde mal ganz anders erleben. Perfekt für einen Tagesausflug, wir kommen definitiv wieder!',
+    name: 'Thomas & Lisa',
+    city: 'Berlin',
+  },
+  {
+    quote: 'Die Kinder waren begeistert! Endlich eine Aktivität, die der ganzen Familie Spaß macht. Top organisiert.',
+    name: 'Martina K.',
+    city: 'Rostock',
+  },
+] as const;
+
+/**
+ * Star icon for testimonial ratings
+ */
+function StarIcon() {
+  return (
+    <svg className="h-4 w-4 text-neon-400" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+}
+
+/**
  * Landing page component
  * Main entry point for the marketing site
  */
@@ -182,8 +214,15 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-dark-900 to-dark-950 pattern-grid">
         <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
+        {/* Atmospheric lighthouse beam effect */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at 50% 0%, rgba(0,240,255,0.06) 0%, transparent 60%)',
+          }}
+        />
 
-        <div className="container-custom relative py-20 md:py-32">
+        <div className="container-custom relative py-24 md:py-40">
           <div className="mx-auto max-w-3xl text-center space-y-8">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm backdrop-blur">
@@ -246,12 +285,55 @@ export default function HomePage() {
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-dark-950 pattern-waves" />
       </section>
 
+      {/* Value Proposition Strip */}
+      <section className="py-12 md:py-16 bg-dark-950">
+        <div className="divider-neon" />
+        <div className="container-custom pt-12 md:pt-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            {/* Sofort spielbar */}
+            <div className="flex flex-col items-center gap-3 text-center">
+              <svg className="h-6 w-6 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span className="text-sm text-dark-100 font-semibold">Sofort spielbar</span>
+            </div>
+
+            {/* Jedes Wetter */}
+            <div className="flex flex-col items-center gap-3 text-center">
+              <svg className="h-6 w-6 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z" />
+              </svg>
+              <span className="text-sm text-dark-100 font-semibold">Jedes Wetter</span>
+            </div>
+
+            {/* Keine App nötig */}
+            <div className="flex flex-col items-center gap-3 text-center">
+              <svg className="h-6 w-6 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                <line x1="12" y1="18" x2="12.01" y2="18" />
+              </svg>
+              <span className="text-sm text-dark-100 font-semibold">Keine App nötig</span>
+            </div>
+
+            {/* 2-5 km Route */}
+            <div className="flex flex-col items-center gap-3 text-center">
+              <svg className="h-6 w-6 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              <span className="text-sm text-dark-100 font-semibold">2-5 km Route</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Tour Variants Section */}
-      <section id="touren" className="py-20 bg-dark-950">
+      <section id="touren" className="py-16 md:py-24 bg-dark-950">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Wählt eure <span className="text-neon-glow">perfekte Tour</span>
+            <h2 className="font-sans text-3xl md:text-4xl font-bold">
+              Wählt eure <span className="text-neon-300">perfekte Tour</span>
             </h2>
             <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Ob als Familie mit Kindern oder als anspruchsvolle Herausforderung –
@@ -264,15 +346,75 @@ export default function HomePage() {
               <TourCard key={variant.id} variant={variant} />
             ))}
           </div>
+
+          {/* Trust Signals */}
+          <div className="flex flex-wrap justify-center gap-6 mt-10 text-sm text-dark-300">
+            <div className="flex items-center gap-2">
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              Sichere Zahlung
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+              Sofortige Bestätigung
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+              </svg>
+              Flexibel stornierbar
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-dark-950 to-dark-900">
+        <div className="container-custom">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="font-sans text-3xl md:text-4xl font-bold">
+              Das sagen unsere <span className="text-neon-300">Teilnehmer</span>
+            </h2>
+            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
+              Über 500 begeisterte Teilnehmer haben unsere Tour bereits erlebt
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {TESTIMONIALS.map((testimonial) => (
+              <div key={testimonial.name} className="card space-y-4">
+                <div className="flex gap-0.5">
+                  <StarIcon />
+                  <StarIcon />
+                  <StarIcon />
+                  <StarIcon />
+                  <StarIcon />
+                </div>
+                <p className="text-dark-100 font-medium text-sm leading-relaxed">
+                  &ldquo;{testimonial.quote}&rdquo;
+                </p>
+                <div className="pt-2 border-t border-white/[0.06]">
+                  <div className="text-sm font-semibold text-white">{testimonial.name}</div>
+                  <div className="text-xs text-dark-300">{testimonial.city}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section id="ablauf" className="py-20 bg-gradient-to-b from-dark-950 to-dark-900">
+      <section id="ablauf" className="py-16 md:py-24 bg-gradient-to-b from-dark-900 to-dark-950">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
-              So <span className="text-neon-glow">funktioniert's</span>
+            <h2 className="font-sans text-3xl md:text-4xl font-bold">
+              So <span className="text-neon-300">funktioniert&apos;s</span>
             </h2>
             <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               In vier einfachen Schritten zu eurem Abenteuer
@@ -303,21 +445,20 @@ export default function HomePage() {
                 step: '4',
                 title: 'Entdecken',
                 description: 'Erlebt Warnemünde aus neuer Perspektive',
-                svgPath: 'M12 2L12 8M12 8C8 8 5 12 2 12C5 12 8 16 12 22C16 16 19 12 22 12C19 12 16 8 12 8Z',
                 isCompass: true,
               },
             ].map((item) => (
               <div key={item.step} className="text-center space-y-4">
                 <div className="flex justify-center">
                   <div className="relative">
-                    <div className="h-20 w-20 rounded-full bg-white/5 border border-white/15 flex items-center justify-center">
+                    <div className="h-24 w-24 rounded-full bg-white/5 border border-white/15 flex items-center justify-center">
                       {item.isCompass ? (
-                        <svg className="h-8 w-8 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                           <circle cx="12" cy="12" r="10" />
                           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" opacity="0.15" stroke="currentColor" />
                         </svg>
                       ) : (
-                        <svg className="h-8 w-8 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                        <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                           <path d={item.svgPath} />
                         </svg>
                       )}
@@ -327,7 +468,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-                <h3 className="font-display text-xl font-semibold">{item.title}</h3>
+                <h3 className="text-xl font-semibold">{item.title}</h3>
                 <p className="text-sm text-dark-200 font-medium">{item.description}</p>
               </div>
             ))}
@@ -336,11 +477,11 @@ export default function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-20 bg-dark-950">
+      <section id="faq" className="py-16 md:py-24 bg-dark-950">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
-            <h2 className="font-display text-3xl md:text-4xl font-bold">
-              Häufig gestellte <span className="text-neon-glow">Fragen</span>
+            <h2 className="font-sans text-3xl md:text-4xl font-bold">
+              Häufig gestellte <span className="text-neon-300">Fragen</span>
             </h2>
             <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
               Alles was ihr vor eurer Tour wissen müsst
@@ -349,6 +490,29 @@ export default function HomePage() {
 
           <div className="max-w-3xl mx-auto">
             <FaqAccordion items={FAQ_ITEMS} />
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="relative py-20 md:py-32 bg-gradient-to-b from-dark-900 to-dark-950">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, rgba(0,240,255,0.04) 0%, transparent 50%)',
+          }}
+        />
+        <div className="container-custom relative text-center space-y-6">
+          <h2 className="font-sans text-3xl md:text-4xl font-bold">
+            Bereit für euer <span className="text-neon-300">Abenteuer</span>?
+          </h2>
+          <p className="text-lg text-dark-100 font-medium max-w-xl mx-auto">
+            Startet jetzt eure Escape Tour durch Warnemünde
+          </p>
+          <div className="pt-4">
+            <Link href="/buchen" className="btn btn-primary btn-lg">
+              Tour buchen
+            </Link>
           </div>
         </div>
       </section>

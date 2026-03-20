@@ -231,7 +231,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="mt-3 text-xl font-display font-bold text-green-400"
+                className="mt-3 text-xl font-bold text-green-400"
               >
                 {language === 'de' ? 'Richtig!' : 'Correct!'}
               </motion.p>
@@ -267,7 +267,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
       {/* Question and Instructions */}
       <div className="card p-6">
-        <h3 className="mb-2 text-xl font-display font-bold text-white tracking-tight">{question}</h3>
+        <h3 className="mb-2 text-xl font-bold text-white tracking-tight">{question}</h3>
         {instruction && (
           <p className="mt-2 text-sm text-dark-300 italic leading-relaxed">{instruction}</p>
         )}
