@@ -26,7 +26,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full border-t border-dark-800 bg-dark-950 pattern-waves">
+    <footer className="w-full border-t border-white/10">
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Column */}
@@ -43,10 +43,10 @@ export function Footer() {
                 <span className="font-display font-bold text-lg leading-none">
                   Escape Tour
                 </span>
-                <span className="text-xs text-dark-300">Warnemünde</span>
+                <span className="text-xs text-white/60 font-semibold">Warnemünde</span>
               </div>
             </div>
-            <p className="text-sm text-dark-200 max-w-md font-medium">
+            <p className="text-base text-white/70 max-w-md font-semibold">
               Entdeckt Warnemünde auf eine ganz neue Art. Löst Rätsel, erkundet
               historische Orte und erlebt eine unvergessliche Tour durch das Ostseebad.
             </p>
@@ -60,7 +60,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-dark-200 hover:text-white transition-colors font-medium"
+                    className="text-base text-white/70 hover:text-white transition-colors font-semibold"
                   >
                     {link.label}
                   </Link>
@@ -77,7 +77,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-dark-200 hover:text-white transition-colors font-medium"
+                    className="text-base text-white/70 hover:text-white transition-colors font-semibold"
                   >
                     {link.label}
                   </Link>
@@ -87,14 +87,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="divider-neon my-8" />
+        <div className="border-t border-white/10 my-8" />
 
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-dark-300">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-base text-white/60 font-semibold">
           <p>© {currentYear} Escape Tour Warnemünde. Alle Rechte vorbehalten.</p>
           <div className="flex items-center space-x-4">
             <a
               href="mailto:info@escape-tour-warnemuende.de"
-              className="hover:text-dark-200 transition-colors"
+              className="hover:text-white transition-colors"
             >
               info@escape-tour-warnemuende.de
             </a>

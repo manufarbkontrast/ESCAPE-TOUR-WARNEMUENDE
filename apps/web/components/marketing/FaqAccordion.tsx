@@ -68,14 +68,14 @@ function AccordionItem({
   readonly onToggle: () => void;
 }) {
   return (
-    <div className="border-b border-dark-800 py-4">
+    <div className="border-b border-white/10 py-4">
       <button
         type="button"
         className="flex w-full items-center justify-between text-left gap-4"
         onClick={onToggle}
         aria-expanded={isOpen}
       >
-        <span className="font-display font-semibold text-lg text-dark-100">
+        <span className="font-sans font-bold text-lg text-white">
           {item.question}
         </span>
         <ChevronIcon isOpen={isOpen} />
@@ -90,7 +90,7 @@ function AccordionItem({
             exit="collapsed"
             className="overflow-hidden"
           >
-            <p className="pt-3 pb-1 text-dark-200 font-medium leading-relaxed">
+            <p className="pt-3 pb-1 text-base text-white/80 font-semibold leading-relaxed">
               {item.answer}
             </p>
           </motion.div>
