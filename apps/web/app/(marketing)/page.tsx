@@ -75,23 +75,23 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
           <h3 className="text-2xl font-bold text-white">
             {variant.name}
           </h3>
-          <p className="mt-2 text-sm text-dark-200 font-medium">{variant.description}</p>
+          <p className="mt-2 text-sm text-white/70 font-semibold">{variant.description}</p>
         </div>
 
         <div className="flex items-baseline gap-2">
           <span className="text-4xl font-bold text-white">
             {variant.price}&euro;
           </span>
-          <span className="text-sm text-dark-300 font-medium">pro Person</span>
+          <span className="text-sm text-white/50 font-semibold">pro Person</span>
         </div>
 
         <div className="grid grid-cols-2 gap-4 py-4 border-y border-dark-800">
           <div>
-            <div className="text-xs text-dark-300 uppercase tracking-wide font-semibold">Dauer</div>
+            <div className="text-xs text-white/50 uppercase tracking-wide font-semibold">Dauer</div>
             <div className="mt-1 text-sm font-semibold">{variant.duration}</div>
           </div>
           <div>
-            <div className="text-xs text-dark-300 uppercase tracking-wide font-semibold">Schwierigkeit</div>
+            <div className="text-xs text-white/50 uppercase tracking-wide font-semibold">Schwierigkeit</div>
             <div className="mt-1 text-sm font-semibold">{variant.difficulty}</div>
           </div>
         </div>
@@ -112,7 +112,7 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span className="text-dark-100">{feature}</span>
+              <span className="text-white/80">{feature}</span>
             </li>
           ))}
         </ul>
@@ -210,10 +210,9 @@ function StarIcon() {
  */
 export default function HomePage() {
   return (
-    <div className="w-full bg-gradient-to-b from-dark-900 via-dark-950 via-30% to-dark-900">
+    <div className="w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden pattern-grid">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         {/* Atmospheric lighthouse beam effect */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -231,17 +230,17 @@ export default function HomePage() {
                 <line x1="12" y1="8" x2="12" y2="22" />
                 <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
               </svg>
-              <span className="text-dark-100">Das Vermächtnis des Lotsenkapitäns</span>
+              <span className="text-white/80">Das Vermächtnis des Lotsenkapitäns</span>
             </div>
 
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white text-shadow-lg">
               Entdeckt Warnemünde
-              <span className="block text-dark-100">auf eine ganz neue Art</span>
+              <span className="block text-white/80">auf eine ganz neue Art</span>
             </h1>
 
             {/* Description */}
-            <p className="text-lg md:text-xl text-dark-100 font-medium max-w-2xl mx-auto">
+            <p className="text-lg md:text-xl text-white/70 font-semibold max-w-2xl mx-auto">
               Begebt euch auf eine spannende Escape-Tour durch Warnemünde.
               Löst Rätsel, entdeckt versteckte Orte und erlebt die maritime
               Geschichte des Ostseebades hautnah.
@@ -263,32 +262,29 @@ export default function HomePage() {
                 <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   2-4h
                 </div>
-                <div className="text-sm text-dark-200 font-medium mt-1">Spielzeit</div>
+                <div className="text-sm text-white/60 font-semibold mt-1">Spielzeit</div>
               </div>
               <div>
                 <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   10+
                 </div>
-                <div className="text-sm text-dark-200 font-medium mt-1">Stationen</div>
+                <div className="text-sm text-white/60 font-semibold mt-1">Stationen</div>
               </div>
               <div>
                 <div className="font-display text-3xl md:text-4xl font-bold text-white">
                   3-5km
                 </div>
-                <div className="text-sm text-dark-200 font-medium mt-1">Route</div>
+                <div className="text-sm text-white/60 font-semibold mt-1">Route</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Wave Divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 pattern-waves" />
       </section>
 
       {/* Value Proposition Strip */}
       <section className="py-12 md:py-16">
-        <div className="divider-neon" />
-        <div className="container-custom pt-12 md:pt-16">
+        <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {/* Sofort spielbar */}
             <div className="flex flex-col items-center gap-3 text-center">
@@ -296,7 +292,7 @@ export default function HomePage() {
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              <span className="text-sm text-dark-100 font-semibold">Sofort spielbar</span>
+              <span className="text-sm text-white/80 font-semibold">Sofort spielbar</span>
             </div>
 
             {/* Jedes Wetter */}
@@ -304,7 +300,7 @@ export default function HomePage() {
               <svg className="h-6 w-6 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z" />
               </svg>
-              <span className="text-sm text-dark-100 font-semibold">Jedes Wetter</span>
+              <span className="text-sm text-white/80 font-semibold">Jedes Wetter</span>
             </div>
 
             {/* Keine App nötig */}
@@ -313,7 +309,7 @@ export default function HomePage() {
                 <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
                 <line x1="12" y1="18" x2="12.01" y2="18" />
               </svg>
-              <span className="text-sm text-dark-100 font-semibold">Keine App nötig</span>
+              <span className="text-sm text-white/80 font-semibold">Keine App nötig</span>
             </div>
 
             {/* 2-5 km Route */}
@@ -322,7 +318,7 @@ export default function HomePage() {
                 <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
                 <circle cx="12" cy="10" r="3" />
               </svg>
-              <span className="text-sm text-dark-100 font-semibold">2-5 km Route</span>
+              <span className="text-sm text-white/80 font-semibold">2-5 km Route</span>
             </div>
           </div>
         </div>
@@ -335,7 +331,7 @@ export default function HomePage() {
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
               Wählt eure <span className="text-neon-300">perfekte Tour</span>
             </h2>
-            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
+            <p className="text-lg text-white/60 font-semibold max-w-2xl mx-auto">
               Ob als Familie mit Kindern oder als anspruchsvolle Herausforderung –
               wir haben die richtige Tour für euch.
             </p>
@@ -348,7 +344,7 @@ export default function HomePage() {
           </div>
 
           {/* Trust Signals */}
-          <div className="flex flex-wrap justify-center gap-6 mt-10 text-sm text-dark-300">
+          <div className="flex flex-wrap justify-center gap-6 mt-10 text-sm text-white/60 font-semibold">
             <div className="flex items-center gap-2">
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -381,7 +377,7 @@ export default function HomePage() {
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
               Das sagen unsere <span className="text-neon-300">Teilnehmer</span>
             </h2>
-            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
+            <p className="text-lg text-white/60 font-semibold max-w-2xl mx-auto">
               Über 500 begeisterte Teilnehmer haben unsere Tour bereits erlebt
             </p>
           </div>
@@ -396,12 +392,12 @@ export default function HomePage() {
                   <StarIcon />
                   <StarIcon />
                 </div>
-                <p className="text-dark-100 font-medium text-sm leading-relaxed">
+                <p className="text-white/80 font-medium text-sm leading-relaxed">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
                 <div className="pt-2 border-t border-white/[0.06]">
                   <div className="text-sm font-semibold text-white">{testimonial.name}</div>
-                  <div className="text-xs text-dark-300">{testimonial.city}</div>
+                  <div className="text-xs text-white/50">{testimonial.city}</div>
                 </div>
               </div>
             ))}
@@ -416,7 +412,7 @@ export default function HomePage() {
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
               So <span className="text-neon-300">funktioniert&apos;s</span>
             </h2>
-            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
+            <p className="text-lg text-white/60 font-semibold max-w-2xl mx-auto">
               In vier einfachen Schritten zu eurem Abenteuer
             </p>
           </div>
@@ -469,7 +465,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <h3 className="text-xl font-semibold">{item.title}</h3>
-                <p className="text-sm text-dark-200 font-medium">{item.description}</p>
+                <p className="text-sm text-white/60 font-semibold">{item.description}</p>
               </div>
             ))}
           </div>
@@ -483,7 +479,7 @@ export default function HomePage() {
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
               Häufig gestellte <span className="text-neon-300">Fragen</span>
             </h2>
-            <p className="text-lg text-dark-200 font-medium max-w-2xl mx-auto">
+            <p className="text-lg text-white/60 font-semibold max-w-2xl mx-auto">
               Alles was ihr vor eurer Tour wissen müsst
             </p>
           </div>
@@ -506,7 +502,7 @@ export default function HomePage() {
           <h2 className="font-sans text-3xl md:text-4xl font-bold">
             Bereit für euer <span className="text-neon-300">Abenteuer</span>?
           </h2>
-          <p className="text-lg text-dark-100 font-medium max-w-xl mx-auto">
+          <p className="text-lg text-white/80 font-medium max-w-xl mx-auto">
             Startet jetzt eure Escape Tour durch Warnemünde
           </p>
           <div className="pt-4">
