@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { AdminShell } from './admin-shell'
 
 interface AdminLayoutProps {
-  readonly children: React.ReactNode
+ readonly children: React.ReactNode
 }
 
 /**
@@ -12,12 +12,12 @@ interface AdminLayoutProps {
  * Login page has its own layout (no shell)
  */
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+ const supabase = await createClient()
+ const { data: { user } } = await supabase.auth.getUser()
 
-  if (!user) {
-    redirect('/login')
-  }
+ if (!user) {
+  redirect('/login')
+ }
 
-  return <AdminShell userEmail={user.email ?? ''}>{children}</AdminShell>
+ return <AdminShell userEmail={user.email ?? ''}>{children}</AdminShell>
 }
