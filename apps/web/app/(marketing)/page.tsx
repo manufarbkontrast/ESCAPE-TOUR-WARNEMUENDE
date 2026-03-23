@@ -210,9 +210,9 @@ function StarIcon() {
  */
 export default function HomePage() {
   return (
-    <div className="w-full">
+    <div className="w-full bg-gradient-to-b from-dark-900 via-dark-950 via-30% to-dark-900">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-dark-900 to-dark-950 pattern-grid">
+      <section className="relative overflow-hidden pattern-grid">
         <div className="absolute inset-0 bg-gradient-to-br from-white/3 to-transparent" />
         {/* Atmospheric lighthouse beam effect */}
         <div
@@ -282,11 +282,11 @@ export default function HomePage() {
         </div>
 
         {/* Wave Divider */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-dark-950 pattern-waves" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 pattern-waves" />
       </section>
 
       {/* Value Proposition Strip */}
-      <section className="py-12 md:py-16 bg-dark-950">
+      <section className="py-12 md:py-16">
         <div className="divider-neon" />
         <div className="container-custom pt-12 md:pt-16">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
@@ -329,7 +329,7 @@ export default function HomePage() {
       </section>
 
       {/* Tour Variants Section */}
-      <section id="touren" className="py-16 md:py-24 bg-dark-950">
+      <section id="touren" className="py-16 md:py-24">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
@@ -375,7 +375,7 @@ export default function HomePage() {
       </section>
 
       {/* Social Proof Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-b from-dark-950 to-dark-900">
+      <section className="py-16 md:py-24">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
@@ -410,7 +410,7 @@ export default function HomePage() {
       </section>
 
       {/* How It Works Section */}
-      <section id="ablauf" className="py-16 md:py-24 bg-gradient-to-b from-dark-900 to-dark-950">
+      <section id="ablauf" className="py-16 md:py-24">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
@@ -477,7 +477,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-16 md:py-24 bg-dark-950">
+      <section id="faq" className="py-16 md:py-24">
         <div className="container-custom">
           <div className="text-center space-y-4 mb-12">
             <h2 className="font-sans text-3xl md:text-4xl font-bold">
@@ -495,7 +495,7 @@ export default function HomePage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="relative py-20 md:py-32 bg-gradient-to-b from-dark-900 to-dark-950">
+      <section className="relative py-20 md:py-32">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
