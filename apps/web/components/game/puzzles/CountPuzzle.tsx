@@ -41,7 +41,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
     <button
      onClick={handleDecrement}
      disabled={isSubmitting || count === 0}
-     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700 text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700/60 backdrop-blur-sm text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
      aria-label={language === 'de' ? 'Verringern' : 'Decrease'}
     >
      −
@@ -53,7 +53,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
       value={count}
       onChange={(e) => handleChange(e.target.value)}
       disabled={isSubmitting}
-      className="h-20 w-32 rounded-lg border-2 border-white/20 bg-dark-900 text-center text-4xl font-bold text-white shadow-xl focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+      className="h-20 w-32 rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm text-center text-4xl font-bold text-white shadow-xl focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
       min="0"
      />
     </div>
@@ -61,7 +61,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
     <button
      onClick={handleIncrement}
      disabled={isSubmitting}
-     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700 text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700/60 backdrop-blur-sm text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
      aria-label={language === 'de' ? 'Erhöhen' : 'Increase'}
     >
      +

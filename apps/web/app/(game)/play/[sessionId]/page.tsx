@@ -9,6 +9,7 @@ import { useGameStore } from '@/stores/gameStore'
 import { MapView } from '@/components/game/MapView'
 import { StationView } from '@/components/game/StationView'
 import { Onboarding, hasSeenOnboarding } from '@/components/game/Onboarding'
+import { isDemoSession } from '@/lib/demo/helpers'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -65,6 +66,7 @@ export default function GamePage() {
  const [puzzles, setPuzzles] = useState<readonly Puzzle[]>([])
  const [language] = useState<'de' | 'en'>('de')
  const [showOnboarding, setShowOnboarding] = useState(() => !hasSeenOnboarding())
+ const [showNavigationRoute, setShowNavigationRoute] = useState(false)
 
  const { session, setSession, updateProgress, completeSession } = useGameStore()
 
@@ -150,11 +152,15 @@ export default function GamePage() {
   updateProgress({
    currentStationIndex: nextIndex,
   })
+  setShowNavigationRoute(true)
   setActiveView('map')
  }, [session, currentStationIndex, stations.length, completeSession, updateProgress, sessionId, router])
 
  // Switch to station view when navigating there
  const handleViewChange = useCallback((view: GameView) => {
+  if (view === 'station') {
+   setShowNavigationRoute(false)
+  }
   setActiveView(view)
  }, [])
 
@@ -207,50 +213,50 @@ export default function GamePage() {
  }
 
  return (
-  <div className="flex min-h-[calc(100vh-4rem)] flex-col bg-dark-950">
-   {/* Main content area */}
-   <div className="flex-1 pb-20">
-    <AnimatePresence mode="wait">
-     {activeView === 'map' && (
-      <motion.div
-       key="map-view"
-       variants={viewTransition}
-       initial="initial"
-       animate="animate"
-       exit="exit"
-       className="h-[calc(100vh-4rem-5rem)]"
-      >
-       <MapView
-        stations={stations}
-        currentStationIndex={currentStationIndex}
-        onStationSelect={() => setActiveView('station')}
-       />
-      </motion.div>
-     )}
-
-     {activeView === 'station' && currentStation && (
-      <motion.div
-       key="station-view"
-       variants={viewTransition}
-       initial="initial"
-       animate="animate"
-       exit="exit"
-      >
-       <StationView
-        station={currentStation}
-        puzzles={currentStationPuzzles}
-        sessionId={sessionId}
-        onComplete={handleStationComplete}
-        language={language}
-       />
-      </motion.div>
-     )}
-    </AnimatePresence>
+  <div className="relative min-h-[calc(100vh-4rem)] bg-dark-950">
+   {/* Map — always rendered, blurred when station is active */}
+   <div
+    className="absolute inset-0 h-[calc(100vh-4rem)] transition-[filter] duration-500"
+    style={{
+     filter: activeView === 'station' ? 'blur(20px) brightness(0.4)' : 'none',
+    }}
+   >
+    <MapView
+     stations={stations}
+     currentStationIndex={currentStationIndex}
+     onStationSelect={() => {
+      setShowNavigationRoute(false)
+      setActiveView('station')
+     }}
+     showRoute={showNavigationRoute || isDemoSession(sessionId)}
+     isDemo={isDemoSession(sessionId)}
+    />
    </div>
 
+   {/* Station overlay — slides in on top of the blurred map */}
+   <AnimatePresence>
+    {activeView === 'station' && currentStation && (
+     <motion.div
+      key="station-view"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.35 } }}
+      exit={{ opacity: 0, y: 40, transition: { duration: 0.25 } }}
+      className="relative z-10 pb-20"
+     >
+      <StationView
+       station={currentStation}
+       puzzles={currentStationPuzzles}
+       sessionId={sessionId}
+       onComplete={handleStationComplete}
+       language={language}
+      />
+     </motion.div>
+    )}
+   </AnimatePresence>
+
    {/* Bottom navigation bar */}
-   <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
-    <div className="mx-auto flex max-w-lg gap-3 px-4 py-2.5">
+   <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
+    <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
      {NAV_ITEMS.map((item) => {
       const isActive = activeView === item.view
       const label = language === 'de' ? item.labelDe : item.labelEn
@@ -260,7 +266,7 @@ export default function GamePage() {
        <button
         key={item.view}
         onClick={() => handleViewChange(item.view)}
-        className={`flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 transition-all duration-150 ${
+        className={`flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3 transition-all duration-150 ${
          isActive
           ? 'text-white'
           : 'text-dark-500 hover:text-white/60'
@@ -272,8 +278,8 @@ export default function GamePage() {
         aria-label={label}
         aria-current={isActive ? 'page' : undefined}
        >
-        <Icon className="h-5 w-5" strokeWidth={isActive ? 2 : 1.5} />
-        <span className={`text-xs ${isActive ? 'font-semibold' : 'font-semibold'}`}>{label}</span>
+        <Icon className="h-7 w-7" strokeWidth={isActive ? 2 : 1.5} />
+        <span className={`text-sm font-semibold`}>{label}</span>
        </button>
       )
      })}

@@ -69,7 +69,7 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
   <form onSubmit={handleSubmit} className="space-y-6">
    {/* Instruction */}
    {instruction && (
-    <div className="flex items-start gap-3 rounded-lg bg-dark-800 p-3">
+    <div className="flex items-start gap-3 rounded-lg bg-dark-800/60 backdrop-blur-sm p-3">
      <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
       <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
      </svg>
@@ -91,7 +91,7 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
       onKeyDown={(e) => handleKeyDown(index, e)}
       onPaste={handlePaste}
       disabled={isSubmitting}
-      className="h-16 w-14 rounded-lg border-2 border-white/20 bg-dark-900 text-center text-3xl font-bold text-white shadow-xl transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+      className="h-16 w-14 rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm text-center text-3xl font-bold text-white shadow-xl transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
       autoComplete="off"
       aria-label={`${language === 'de' ? 'Zeichen' : 'Character'} ${index + 1}`}
      />

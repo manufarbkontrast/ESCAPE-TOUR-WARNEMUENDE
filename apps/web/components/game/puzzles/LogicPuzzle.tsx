@@ -43,7 +43,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
   <form onSubmit={handleSubmit} className="space-y-5">
    {/* Instruction */}
    {instruction && (
-    <div className="flex items-start gap-3 rounded-lg bg-dark-800 p-3">
+    <div className="flex items-start gap-3 rounded-lg bg-dark-800/60 backdrop-blur-sm p-3">
      <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
       <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
      </svg>
@@ -79,7 +79,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
         className={`w-full rounded-lg border-2 px-4 py-3 text-left text-base transition-all disabled:opacity-50 ${
          isSelected
           ? 'border-white/20 bg-white/5 text-white'
-          : 'border-dark-600 bg-dark-800 text-white/70 hover:border-white/20 hover:bg-dark-700'
+          : 'border-dark-600 bg-dark-800/60 text-white/70 hover:border-white/20 hover:bg-dark-700/70'
         }`}
        >
         {optionText}
@@ -95,7 +95,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
      onChange={(e) => setTextAnswer(e.target.value)}
      placeholder={placeholder}
      disabled={isSubmitting}
-     className="w-full rounded-lg border-2 border-white/20 bg-dark-900 px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+     className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
      autoComplete="off"
      autoCorrect="off"
      spellCheck={false}

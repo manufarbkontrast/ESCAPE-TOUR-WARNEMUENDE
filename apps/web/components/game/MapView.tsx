@@ -16,6 +16,8 @@ interface MapViewProps {
  readonly stations: readonly Station[]
  readonly currentStationIndex: number
  readonly onStationSelect?: (stationIndex: number) => void
+ readonly showRoute?: boolean
+ readonly isDemo?: boolean
 }
 
 type StationStatus = 'completed' | 'current' | 'locked'
@@ -43,6 +45,12 @@ const MARKER_SIZE_OTHER = 38
 const FLY_TO_DURATION_MS = 2_000
 const TERRAIN_EXAGGERATION = 1.5
 const DEM_MAX_ZOOM = 14
+const ROUTE_SOURCE_ID = 'walking-route'
+const ROUTE_LAYER_ID = 'walking-route-line'
+const ROUTE_CASING_LAYER_ID = 'walking-route-casing'
+const ROUTE_FETCH_DEBOUNCE_MS = 3_000
+// Max distance (meters) from Warnemünde center to consider user "nearby"
+const MAX_ROUTE_DISTANCE_M = 5_000
 
 const MARKER_COLORS: Record<StationStatus, string> = {
  completed: '#22c55e',
@@ -315,10 +323,98 @@ function StationInfoPanel({
 }
 
 // ---------------------------------------------------------------------------
+// Walking route helpers
+// ---------------------------------------------------------------------------
+
+interface RouteGeometry {
+ readonly type: 'LineString'
+ readonly coordinates: readonly [number, number][]
+}
+
+const fetchWalkingRoute = async (
+ from: { lng: number; lat: number },
+ to: { lng: number; lat: number },
+ token: string,
+): Promise<RouteGeometry | null> => {
+ const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${from.lng},${from.lat};${to.lng},${to.lat}?geometries=geojson&overview=full&access_token=${encodeURIComponent(token)}`
+
+ try {
+  const response = await fetch(url)
+  if (!response.ok) return null
+
+  const data = await response.json()
+  const route = data?.routes?.[0]
+  if (!route?.geometry) return null
+
+  return route.geometry as RouteGeometry
+ } catch {
+  return null
+ }
+}
+
+const addRouteLayer = (map: mapboxgl.Map, geometry: RouteGeometry): void => {
+ const sourceData: GeoJSON.Feature<GeoJSON.LineString> = {
+  type: 'Feature',
+  properties: {},
+  geometry: {
+   type: 'LineString',
+   coordinates: [...geometry.coordinates],
+  },
+ }
+
+ if (map.getSource(ROUTE_SOURCE_ID)) {
+  (map.getSource(ROUTE_SOURCE_ID) as mapboxgl.GeoJSONSource).setData(sourceData)
+ } else {
+  map.addSource(ROUTE_SOURCE_ID, {
+   type: 'geojson',
+   data: sourceData,
+  })
+
+  // Dark casing behind the route line for contrast
+  map.addLayer({
+   id: ROUTE_CASING_LAYER_ID,
+   type: 'line',
+   source: ROUTE_SOURCE_ID,
+   layout: {
+    'line-join': 'round',
+    'line-cap': 'round',
+   },
+   paint: {
+    'line-color': '#000000',
+    'line-width': 10,
+    'line-opacity': 0.6,
+   },
+  })
+
+  // Main route line — solid white, thick and visible
+  map.addLayer({
+   id: ROUTE_LAYER_ID,
+   type: 'line',
+   source: ROUTE_SOURCE_ID,
+   layout: {
+    'line-join': 'round',
+    'line-cap': 'round',
+   },
+   paint: {
+    'line-color': '#ffffff',
+    'line-width': 6,
+    'line-opacity': 1,
+   },
+  })
+ }
+}
+
+const removeRouteLayer = (map: mapboxgl.Map): void => {
+ if (map.getLayer(ROUTE_LAYER_ID)) map.removeLayer(ROUTE_LAYER_ID)
+ if (map.getLayer(ROUTE_CASING_LAYER_ID)) map.removeLayer(ROUTE_CASING_LAYER_ID)
+ if (map.getSource(ROUTE_SOURCE_ID)) map.removeSource(ROUTE_SOURCE_ID)
+}
+
+// ---------------------------------------------------------------------------
 // MapView component
 // ---------------------------------------------------------------------------
 
-export function MapView({ stations, currentStationIndex, onStationSelect }: MapViewProps) {
+export function MapView({ stations, currentStationIndex, onStationSelect, showRoute = false, isDemo = false }: MapViewProps) {
  const mapContainerRef = useRef<HTMLDivElement | null>(null)
  const mapRef = useRef<mapboxgl.Map | null>(null)
  const markersRef = useRef<mapboxgl.Marker[]>([])
@@ -349,17 +445,31 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
  // Current station data
  const currentStation = stations[currentStationIndex] ?? null
 
+ // In demo mode, ALWAYS simulate a position ~200m south-west of the current station
+ // so the walking route is visible regardless of real GPS
+ const effectiveUserLocation = useMemo(() => {
+  if (isDemo && currentStation) {
+   return {
+    lat: currentStation.location.lat - 0.0018,
+    lng: currentStation.location.lng - 0.0012,
+    accuracy: 10,
+    timestamp: Date.now(),
+   }
+  }
+  return userLocation
+ }, [userLocation, isDemo, currentStation])
+
  // Distance to current station
  const distanceToCurrentStation = useMemo(() => {
-  if (!userLocation || !currentStation) return null
+  if (!effectiveUserLocation || !currentStation) return null
 
   const userPoint: GeoPoint = {
-   lat: userLocation.lat,
-   lng: userLocation.lng,
+   lat: effectiveUserLocation.lat,
+   lng: effectiveUserLocation.lng,
   }
 
   return calculateHaversineDistance(userPoint, currentStation.location)
- }, [userLocation, currentStation])
+ }, [effectiveUserLocation, currentStation])
 
  const formattedDistance = useMemo(
   () =>
@@ -504,17 +614,17 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
 
  // Update user location marker
  useEffect(() => {
-  if (!mapRef.current || !isMapLoaded || !userLocation) return
+  if (!mapRef.current || !isMapLoaded || !effectiveUserLocation) return
 
   if (!userMarkerRef.current) {
    const el = createUserMarkerElement()
    userMarkerRef.current = new mapboxgl.Marker({ element: el })
-    .setLngLat([userLocation.lng, userLocation.lat])
+    .setLngLat([effectiveUserLocation.lng, effectiveUserLocation.lat])
     .addTo(mapRef.current)
   } else {
-   userMarkerRef.current.setLngLat([userLocation.lng, userLocation.lat])
+   userMarkerRef.current.setLngLat([effectiveUserLocation.lng, effectiveUserLocation.lat])
   }
- }, [userLocation, isMapLoaded])
+ }, [effectiveUserLocation, isMapLoaded])
 
  // Center map on current station when it changes
  const centerOnCurrentStation = useCallback(() => {
@@ -530,10 +640,78 @@ export function MapView({ stations, currentStationIndex, onStationSelect }: MapV
  }, [currentStation])
 
  useEffect(() => {
-  if (isMapLoaded) {
+  if (isMapLoaded && !showRoute) {
    centerOnCurrentStation()
   }
- }, [isMapLoaded, centerOnCurrentStation])
+ }, [isMapLoaded, centerOnCurrentStation, showRoute])
+
+ // Walking route: fetch + draw when showRoute is active
+ const lastRouteFetchRef = useRef<number>(0)
+
+ useEffect(() => {
+  if (!mapRef.current || !isMapLoaded) return
+
+  // Remove route when not in navigation mode
+  if (!showRoute) {
+   removeRouteLayer(mapRef.current)
+   return
+  }
+
+  if (!currentStation) return
+
+  const map = mapRef.current
+  const to = { lng: currentStation.location.lng, lat: currentStation.location.lat }
+
+  // Check if user is close enough to Warnemünde to show a walking route
+  const userIsNearby = effectiveUserLocation
+   ? calculateHaversineDistance(
+      { lat: effectiveUserLocation.lat, lng: effectiveUserLocation.lng },
+      { lat: WARNEMUENDE_CENTER[1], lng: WARNEMUENDE_CENTER[0] },
+     ) < MAX_ROUTE_DISTANCE_M
+   : false
+
+  // If user is too far away or no location, just zoom to the station
+  if (!effectiveUserLocation || !userIsNearby) {
+   removeRouteLayer(map)
+   map.flyTo({
+    center: [to.lng, to.lat],
+    zoom: 16.5,
+    pitch: DEFAULT_PITCH,
+    bearing: DEFAULT_BEARING,
+    duration: FLY_TO_DURATION_MS,
+   })
+   return
+  }
+
+  const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
+  if (!token) return
+
+  // Debounce route fetches so we don't spam the API as user moves
+  const now = Date.now()
+  if (now - lastRouteFetchRef.current < ROUTE_FETCH_DEBOUNCE_MS) return
+  lastRouteFetchRef.current = now
+
+  const from = { lng: effectiveUserLocation.lng, lat: effectiveUserLocation.lat }
+
+  fetchWalkingRoute(from, to, token).then((geometry) => {
+   if (!geometry || !mapRef.current) return
+
+   addRouteLayer(map, geometry)
+
+   // Fit map to show user + destination
+   const bounds = new mapboxgl.LngLatBounds()
+   bounds.extend([from.lng, from.lat])
+   bounds.extend([to.lng, to.lat])
+
+   map.fitBounds(bounds, {
+    padding: { top: 100, bottom: 160, left: 60, right: 60 },
+    minZoom: 14,
+    maxZoom: 17,
+    pitch: 50,
+    duration: FLY_TO_DURATION_MS,
+   })
+  })
+ }, [showRoute, effectiveUserLocation, currentStation, isMapLoaded])
 
  // Error state
  if (mapError) {

@@ -35,7 +35,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
  return (
   <form onSubmit={handleSubmit} className="space-y-5">
    {/* Instruction */}
-   <div className="flex items-start gap-3 rounded-lg bg-dark-800 p-3">
+   <div className="flex items-start gap-3 rounded-lg bg-dark-800/60 backdrop-blur-sm p-3">
     <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
      <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
     </svg>
@@ -85,7 +85,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
     onChange={(e) => setAnswer(e.target.value)}
     placeholder={placeholder}
     disabled={isSubmitting}
-    className="w-full rounded-lg border-2 border-white/20 bg-dark-900 px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+    className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
     autoComplete="off"
     autoCorrect="off"
     spellCheck={false}

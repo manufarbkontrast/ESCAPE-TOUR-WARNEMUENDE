@@ -28,16 +28,16 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
     {/* Logo */}
     <div className="flex items-center gap-3">
      <div className="btn-icon-lg flex items-center justify-center text-white">
-      <Compass className="h-6 w-6" strokeWidth={1.5} />
+      <Compass className="h-7 w-7" strokeWidth={1.5} />
      </div>
-     <span className="font-display font-semibold text-lg text-white tracking-tight">Escape Tour</span>
+     <span className="font-display font-semibold text-xl text-white tracking-tight">Escape Tour</span>
     </div>
 
     {/* Game Status Indicators */}
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-4">
      {/* Progress Indicator */}
      <div className="flex items-center gap-2.5">
-      <div className="h-2 w-28 rounded-full bg-dark-800 overflow-hidden">
+      <div className="h-2.5 w-32 rounded-full bg-dark-800 overflow-hidden">
        <div
         className="h-full rounded-full transition-all duration-500 ease-out"
         style={{
@@ -47,7 +47,7 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
         }}
        />
       </div>
-      <span className="tabular-nums font-semibold text-sm text-white/70">
+      <span className="tabular-nums font-semibold text-base text-white/80">
        {stationIndex}/{totalStations}
       </span>
      </div>
@@ -56,10 +56,10 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
      <button
       type="button"
       onClick={onMenuToggle}
-      className="btn-icon-md text-white/80"
+      className="btn-icon-lg text-white/80"
       aria-label="Menü"
      >
-      <Menu className="h-5 w-5" strokeWidth={1.5} />
+      <Menu className="h-6 w-6" strokeWidth={1.5} />
      </button>
     </div>
    </div>

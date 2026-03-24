@@ -38,7 +38,7 @@ describe('isDemoBookingCode', () => {
 describe('isDemoPuzzle', () => {
   it('should return true for demo puzzle IDs', () => {
     expect(isDemoPuzzle('demo-puzzle-001')).toBe(true)
-    expect(isDemoPuzzle('demo-puzzle-005')).toBe(true)
+    expect(isDemoPuzzle('demo-puzzle-012')).toBe(true)
   })
 
   it('should return false for non-demo puzzle ID', () => {
@@ -47,6 +47,7 @@ describe('isDemoPuzzle', () => {
 })
 
 describe('validateDemoAnswer', () => {
+  // Puzzle 001 — Leuchtturm (count, answer: 135, basePoints: 100)
   it('should return correct for right answer (puzzle 001 - count)', () => {
     const result = validateDemoAnswer('demo-puzzle-001', 135, 30)
     expect(result.isCorrect).toBe(true)
@@ -70,14 +71,18 @@ describe('validateDemoAnswer', () => {
     expect(result.feedback.messageDe).toContain('nicht gefunden')
   })
 
+  // Puzzle 003 — Westmole (combination, answer: '1903', basePoints: 200)
   it('should validate combination answer (puzzle 003)', () => {
     const result = validateDemoAnswer('demo-puzzle-003', '1903', 60)
     expect(result.isCorrect).toBe(true)
+    expect(result.pointsEarned).toBe(200)
   })
 
-  it('should handle case-insensitive text answers (puzzle 005)', () => {
-    const result = validateDemoAnswer('demo-puzzle-005', 'anker', 20)
+  // Puzzle 006 — Kirchplatz (symbol_find, answer: 'ANKER', basePoints: 150)
+  it('should handle case-insensitive text answers (puzzle 006)', () => {
+    const result = validateDemoAnswer('demo-puzzle-006', 'anker', 20)
     expect(result.isCorrect).toBe(true)
+    expect(result.pointsEarned).toBe(150)
   })
 
   it('should award no time bonus when time exceeds max', () => {
@@ -93,14 +98,22 @@ describe('validateDemoAnswer', () => {
     expect(result.timeBonusEarned).toBe(50)
   })
 
-  it('should handle multiple choice answer (puzzle 002)', () => {
-    const result = validateDemoAnswer('demo-puzzle-002', 'b', 30)
+  // Puzzle 010 — Alter Strom (logic/multiple_choice, answer: 'b', basePoints: 150)
+  it('should handle multiple choice answer (puzzle 010)', () => {
+    const result = validateDemoAnswer('demo-puzzle-010', 'b', 30)
     expect(result.isCorrect).toBe(true)
     expect(result.pointsEarned).toBe(150)
   })
 
   it('should reject wrong multiple choice answer', () => {
-    const result = validateDemoAnswer('demo-puzzle-002', 'a', 30)
+    const result = validateDemoAnswer('demo-puzzle-010', 'a', 30)
     expect(result.isCorrect).toBe(false)
+  })
+
+  // Puzzle 012 — Bahnhof (combination/finale, answer: '7681', basePoints: 250)
+  it('should validate finale puzzle', () => {
+    const result = validateDemoAnswer('demo-puzzle-012', '7681', 45)
+    expect(result.isCorrect).toBe(true)
+    expect(result.pointsEarned).toBe(250)
   })
 })

@@ -25,10 +25,10 @@ interface PuzzleRendererProps {
 }
 
 const difficultyConfig = {
- easy: { label: 'Leicht', labelEn: 'Easy', color: 'text-green-400', bg: 'rgba(34, 197, 94, 0.08)', border: 'rgba(34, 197, 94, 0.12)' },
- medium: { label: 'Mittel', labelEn: 'Medium', color: 'text-yellow-400', bg: 'rgba(250, 204, 21, 0.08)', border: 'rgba(250, 204, 21, 0.12)' },
- hard: { label: 'Schwer', labelEn: 'Hard', color: 'text-red-400', bg: 'rgba(239, 68, 68, 0.08)', border: 'rgba(239, 68, 68, 0.12)' },
- finale: { label: 'Finale', labelEn: 'Finale', color: 'text-white', bg: 'rgba(255, 255, 255, 0.04)', border: 'rgba(255, 255, 255, 0.06)' },
+ easy: { label: 'Leicht', labelEn: 'Easy', color: 'text-white', bg: 'rgba(255, 255, 255, 0.06)', border: 'rgba(255, 255, 255, 0.1)' },
+ medium: { label: 'Mittel', labelEn: 'Medium', color: 'text-white', bg: 'rgba(255, 255, 255, 0.08)', border: 'rgba(255, 255, 255, 0.12)' },
+ hard: { label: 'Schwer', labelEn: 'Hard', color: 'text-white', bg: 'rgba(255, 255, 255, 0.1)', border: 'rgba(255, 255, 255, 0.15)' },
+ finale: { label: 'Finale', labelEn: 'Finale', color: 'text-white', bg: 'rgba(255, 255, 255, 0.12)', border: 'rgba(255, 255, 255, 0.18)' },
 } as const
 
 /**
@@ -191,7 +191,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
    default:
     return (
-     <div className="card p-8 text-center" style={{ borderStyle: 'dashed' }}>
+     <div className="card-glass p-8 text-center" style={{ borderStyle: 'dashed' }}>
       <p className="text-sm text-white/60">
        {language === 'de' ? 'Rätseltyp wird noch entwickelt' : 'Puzzle type in development'}
       </p>
@@ -254,22 +254,22 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
    {/* Header with Difficulty and Points */}
    <div className="flex items-center justify-between">
     <div
-     className={`rounded-full px-3.5 py-1 text-xs font-semibold ${difficultyInfo.color}`}
+     className={`rounded-full px-4 py-1.5 text-sm font-semibold ${difficultyInfo.color}`}
      style={{ background: difficultyInfo.bg, border: `1px solid ${difficultyInfo.border}` }}
     >
      {difficultyLabel}
     </div>
-    <div className="flex items-center gap-1.5 text-white">
-     <Star className="h-4 w-4" strokeWidth={1.5} fill="currentColor" />
-     <span className="font-semibold text-sm tabular-nums">{puzzle.basePoints}</span>
+    <div className="flex items-center gap-2 text-white">
+     <Star className="h-5 w-5" strokeWidth={1.5} fill="currentColor" />
+     <span className="font-bold text-base tabular-nums">{puzzle.basePoints}</span>
     </div>
    </div>
 
    {/* Question and Instructions */}
-   <div className="card p-6">
-    <h3 className="mb-2 text-xl font-bold text-white tracking-tight">{question}</h3>
+   <div className="card-glass p-6">
+    <h3 className="mb-2 text-xl font-bold text-white tracking-tight leading-snug">{question}</h3>
     {instruction && (
-     <p className="mt-2 text-sm text-white/60 italic leading-relaxed">{instruction}</p>
+     <p className="mt-2 text-base text-white/60 italic leading-relaxed">{instruction}</p>
     )}
    </div>
 
@@ -285,7 +285,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
    )}
 
    {/* Puzzle Input */}
-   <div className="rounded-2xl p-5" style={{ background: 'rgba(10, 10, 10, 0.3)' }}>
+   <div className="rounded-2xl p-5" style={{ background: 'rgba(10, 10, 10, 0.88)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)' }}>
     {renderPuzzle()}
    </div>
 
@@ -299,16 +299,17 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       transition={{ duration: 0.5 }}
       className="rounded-2xl p-4"
       style={{
-       background: 'rgba(239, 68, 68, 0.06)',
-       border: '1px solid rgba(239, 68, 68, 0.12)',
+       background: 'rgba(239, 68, 68, 0.1)',
+       border: '1px solid rgba(239, 68, 68, 0.2)',
+       backdropFilter: 'blur(20px)',
       }}
      >
       <div className="flex items-start gap-3">
-       <XCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-400/80" strokeWidth={1.5} />
+       <XCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-400" strokeWidth={1.5} />
        <div className="flex-1">
-        <p className="text-sm text-red-400/90">{error}</p>
+        <p className="text-base font-semibold text-red-400">{error}</p>
         {attempts >= 2 && (
-         <p className="mt-1 text-xs text-red-400/50">
+         <p className="mt-1 text-sm text-red-400/70">
           {language === 'de' ? 'Benötigen Sie einen Hinweis?' : 'Need a hint?'}
          </p>
         )}
@@ -320,7 +321,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
    {/* Attempt Counter */}
    {attempts > 0 && (
-    <div className="text-center text-xs text-dark-600 font-semibold">
+    <div className="text-center text-sm text-white/40 font-semibold">
      {language === 'de' ? 'Versuche' : 'Attempts'}: {attempts}
     </div>
    )}
@@ -330,7 +331,6 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
     <button
      onClick={onComplete}
      className="btn btn-secondary w-full py-3 text-sm"
-     style={{ borderColor: 'rgba(250, 204, 21, 0.2)', color: 'rgba(250, 204, 21, 0.7)' }}
     >
      {language === 'de' ? 'Rätsel überspringen (Demo)' : 'Skip Puzzle (Demo)'}
     </button>

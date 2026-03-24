@@ -99,7 +99,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
   <form onSubmit={handleSubmit} className="space-y-5">
    {/* Audio Player */}
    {puzzle.audioUrl ? (
-    <div className="rounded-lg border-2 border-white/10 bg-dark-800 p-4">
+    <div className="rounded-lg border-2 border-white/10 bg-dark-800/60 backdrop-blur-sm p-4">
      <audio
       ref={audioRef}
       src={puzzle.audioUrl}
@@ -161,7 +161,7 @@ export function AudioPuzzle({ puzzle, language, onSubmit, isSubmitting }: AudioP
     onChange={(e) => setAnswer(e.target.value)}
     placeholder={placeholder}
     disabled={isSubmitting}
-    className="w-full rounded-lg border-2 border-white/20 bg-dark-900 px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+    className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
     autoComplete="off"
     autoCorrect="off"
     spellCheck={false}

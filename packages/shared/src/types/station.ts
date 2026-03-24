@@ -20,6 +20,10 @@ export interface Station {
   readonly storyTextEn: string | null
   readonly completionTextDe: string | null
   readonly completionTextEn: string | null
+  readonly transitionTextDe: string | null
+  readonly transitionTextEn: string | null
+  readonly walkingHintDe: string | null
+  readonly walkingHintEn: string | null
   readonly headerImageUrl: string | null
   readonly backgroundAudioUrl: string | null
   readonly ambientSound: string | null

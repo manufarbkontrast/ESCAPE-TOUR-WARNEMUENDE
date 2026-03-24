@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, BookOpen, Sparkles, Anchor, HelpCircle } from 'lucide-react'
+import { ChevronRight, BookOpen, Sparkles, Anchor, HelpCircle, Navigation, MapPin } from 'lucide-react'
 import type { Station, Puzzle } from '@escape-tour/shared'
 import { PuzzleRenderer } from './PuzzleRenderer'
 import { Timer } from './Timer'
@@ -79,10 +79,17 @@ export function StationView({
  }
 
  const handleStationComplete = () => {
-  setCurrentState('transition')
-  setTimeout(() => {
-   onComplete()
-  }, isDemo ? 500 : 2000)
+  const hasTransitionText = !!(language === 'de' ? station.transitionTextDe : station.transitionTextEn)
+  if (hasTransitionText) {
+   // Show the transition story — player clicks "Zur Karte" to continue
+   setCurrentState('transition')
+  } else {
+   // No transition text (e.g. last station) — auto-advance
+   setCurrentState('transition')
+   setTimeout(() => {
+    onComplete()
+   }, isDemo ? 500 : 2000)
+  }
  }
 
  const stationName = language === 'de' ? station.nameDe : (station.nameEn ?? station.nameDe)
@@ -91,16 +98,18 @@ export function StationView({
  const completionText = language === 'de' ? station.completionTextDe : (station.completionTextEn ?? station.completionTextDe)
 
  return (
-  <div className="flex min-h-screen flex-col bg-dark-950">
+  <div className="flex min-h-screen flex-col">
    {/* Station Info Bar */}
-   <div className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-3">
-    <div className="flex-1">
-     <h1 className="text-lg font-semibold text-white tracking-tight">{stationName}</h1>
-     <p className="text-xs text-dark-500 font-semibold">
-      Station {station.orderIndex + 1} · {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
-     </p>
+   <div className="mx-auto w-full max-w-2xl px-4 py-4">
+    <div className="flex items-center justify-between rounded-2xl px-5 py-4" style={{ background: 'rgba(10, 10, 10, 0.88)', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)' }}>
+     <div className="flex-1">
+      <h1 className="text-2xl font-bold text-white tracking-tight">{stationName}</h1>
+      <p className="text-sm text-white/60 font-semibold">
+       Station {station.orderIndex + 1} · {puzzles.length} {language === 'de' ? 'Rätsel' : 'Puzzles'}
+      </p>
+     </div>
+     <Timer sessionId={sessionId} />
     </div>
-    <Timer sessionId={sessionId} />
    </div>
 
    {/* Content Area */}
@@ -125,7 +134,7 @@ export function StationView({
          />
         </div>
        )}
-       <div className="card p-8">
+       <div className="card-glass p-8">
         <h2 className="mb-4 text-3xl font-bold text-white tracking-tight">
          {language === 'de' ? 'Willkommen' : 'Welcome'}
         </h2>
@@ -161,7 +170,7 @@ export function StationView({
        transition={{ duration: 0.4 }}
        className="space-y-5 py-6"
       >
-       <div className="card p-8">
+       <div className="card-glass p-8">
         <div className="flex items-center gap-2.5 mb-4">
          <BookOpen className="h-5 w-5 text-white/60" strokeWidth={1.5} />
          <h2 className="text-3xl font-bold text-white tracking-tight">
@@ -214,11 +223,7 @@ export function StationView({
        transition={{ duration: 0.4 }}
        className="space-y-5 py-6"
       >
-       <div className="rounded-2xl p-8 text-center" style={{
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025))',
-        border: '1px solid rgba(255, 255, 255, 0.075)',
-        boxShadow: '0 0 40px rgba(255, 255, 255, 0.04)',
-       }}>
+       <div className="card-glass p-8 text-center">
         <Sparkles className="mx-auto mb-4 h-12 w-12 text-white" strokeWidth={1.5} />
         <h2 className="mb-2 text-2xl font-bold text-white tracking-tight">
          {language === 'de' ? 'Geschafft!' : 'Success!'}
@@ -227,10 +232,10 @@ export function StationView({
        </div>
        <button
         onClick={handleStationComplete}
-        className="btn btn-primary w-full py-4 text-base"
+        className="btn btn-primary w-full py-4 text-lg"
        >
-        {language === 'de' ? 'Weiter zur nächsten Station' : 'Continue to Next Station'}
-        <ChevronRight className="h-4 w-4" strokeWidth={2} />
+        {language === 'de' ? 'Weiter' : 'Continue'}
+        <ChevronRight className="h-5 w-5" strokeWidth={2} />
        </button>
       </motion.div>
      )}
@@ -243,12 +248,49 @@ export function StationView({
        animate="animate"
        exit="exit"
        transition={{ duration: 0.4 }}
-       className="flex min-h-[50vh] items-center justify-center"
+       className="space-y-5 py-6"
       >
-       <div className="text-center">
-        <Anchor className="mx-auto mb-4 h-8 w-8 animate-pulse text-white" strokeWidth={1.5} />
-        <p className="text-sm text-dark-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
-       </div>
+       {station.transitionTextDe ? (
+        <>
+         <div className="card-glass p-8">
+          <div className="flex items-center gap-2.5 mb-4">
+           <Navigation className="h-6 w-6 text-white/60" strokeWidth={1.5} />
+           <h2 className="text-2xl font-bold text-white tracking-tight">
+            {language === 'de' ? 'Naechste Station' : 'Next Station'}
+           </h2>
+          </div>
+          <p className="whitespace-pre-line text-lg text-white/80 leading-relaxed">
+           {language === 'de' ? station.transitionTextDe : (station.transitionTextEn ?? station.transitionTextDe)}
+          </p>
+         </div>
+
+         {station.walkingHintDe && (
+          <div className="card-glass px-5 py-4">
+           <div className="flex items-start gap-3">
+            <MapPin className="h-5 w-5 text-white/50 flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+            <p className="text-base text-white/70 font-semibold">
+             {language === 'de' ? station.walkingHintDe : (station.walkingHintEn ?? station.walkingHintDe)}
+            </p>
+           </div>
+          </div>
+         )}
+
+         <button
+          onClick={onComplete}
+          className="btn btn-primary w-full py-4 text-lg"
+         >
+          <Navigation className="h-5 w-5" strokeWidth={2} />
+          {language === 'de' ? 'Navigation starten' : 'Start Navigation'}
+         </button>
+        </>
+       ) : (
+        <div className="flex min-h-[50vh] items-center justify-center">
+         <div className="text-center">
+          <Anchor className="mx-auto mb-4 h-8 w-8 animate-pulse text-white" strokeWidth={1.5} />
+          <p className="text-base text-white/50">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+         </div>
+        </div>
+       )}
       </motion.div>
      )}
     </AnimatePresence>
