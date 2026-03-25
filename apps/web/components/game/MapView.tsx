@@ -45,9 +45,6 @@ const MARKER_SIZE_OTHER = 38
 const FLY_TO_DURATION_MS = 2_000
 const TERRAIN_EXAGGERATION = 1.5
 const DEM_MAX_ZOOM = 14
-const ROUTE_SOURCE_ID = 'walking-route'
-const ROUTE_LAYER_ID = 'walking-route-line'
-const ROUTE_CASING_LAYER_ID = 'walking-route-casing'
 const ROUTE_FETCH_DEBOUNCE_MS = 3_000
 // Max distance (meters) from Warnemünde center to consider user "nearby"
 const MAX_ROUTE_DISTANCE_M = 5_000
@@ -387,11 +384,6 @@ function NavigationPanel({ steps, totalDistance, totalDuration, stationName }: N
 // Walking route helpers
 // ---------------------------------------------------------------------------
 
-interface RouteGeometry {
- readonly type: 'LineString'
- readonly coordinates: readonly [number, number][]
-}
-
 interface RouteStep {
  readonly instruction: string
  readonly distance: number
@@ -400,7 +392,6 @@ interface RouteStep {
 }
 
 interface WalkingRouteResult {
- readonly geometry: RouteGeometry
  readonly steps: readonly RouteStep[]
  readonly totalDistance: number
  readonly totalDuration: number
@@ -411,7 +402,7 @@ const fetchWalkingRoute = async (
  to: { lng: number; lat: number },
  token: string,
 ): Promise<WalkingRouteResult | null> => {
- const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${from.lng},${from.lat};${to.lng},${to.lat}?geometries=geojson&overview=full&steps=true&language=de&access_token=${encodeURIComponent(token)}`
+ const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${from.lng},${from.lat};${to.lng},${to.lat}?steps=true&language=de&overview=false&access_token=${encodeURIComponent(token)}`
 
  try {
   const response = await fetch(url)
@@ -419,7 +410,7 @@ const fetchWalkingRoute = async (
 
   const data = await response.json()
   const route = data?.routes?.[0]
-  if (!route?.geometry) return null
+  if (!route) return null
 
   const leg = route.legs?.[0]
   const steps: RouteStep[] = (leg?.steps ?? []).map((s: Record<string, unknown>) => ({
@@ -430,7 +421,6 @@ const fetchWalkingRoute = async (
   }))
 
   return {
-   geometry: route.geometry as RouteGeometry,
    steps,
    totalDistance: leg?.distance as number ?? 0,
    totalDuration: leg?.duration as number ?? 0,
@@ -468,63 +458,6 @@ const formatDuration = (seconds: number): string => {
  return `${mins} Min.`
 }
 
-const addRouteLayer = (map: mapboxgl.Map, geometry: RouteGeometry): void => {
- const sourceData: GeoJSON.Feature<GeoJSON.LineString> = {
-  type: 'Feature',
-  properties: {},
-  geometry: {
-   type: 'LineString',
-   coordinates: [...geometry.coordinates],
-  },
- }
-
- if (map.getSource(ROUTE_SOURCE_ID)) {
-  (map.getSource(ROUTE_SOURCE_ID) as mapboxgl.GeoJSONSource).setData(sourceData)
- } else {
-  map.addSource(ROUTE_SOURCE_ID, {
-   type: 'geojson',
-   data: sourceData,
-  })
-
-  // Dark casing behind the route line for contrast
-  map.addLayer({
-   id: ROUTE_CASING_LAYER_ID,
-   type: 'line',
-   source: ROUTE_SOURCE_ID,
-   layout: {
-    'line-join': 'round',
-    'line-cap': 'round',
-   },
-   paint: {
-    'line-color': '#000000',
-    'line-width': 10,
-    'line-opacity': 0.6,
-   },
-  })
-
-  // Main route line — solid white, thick and visible
-  map.addLayer({
-   id: ROUTE_LAYER_ID,
-   type: 'line',
-   source: ROUTE_SOURCE_ID,
-   layout: {
-    'line-join': 'round',
-    'line-cap': 'round',
-   },
-   paint: {
-    'line-color': '#ffffff',
-    'line-width': 6,
-    'line-opacity': 1,
-   },
-  })
- }
-}
-
-const removeRouteLayer = (map: mapboxgl.Map): void => {
- if (map.getLayer(ROUTE_LAYER_ID)) map.removeLayer(ROUTE_LAYER_ID)
- if (map.getLayer(ROUTE_CASING_LAYER_ID)) map.removeLayer(ROUTE_CASING_LAYER_ID)
- if (map.getSource(ROUTE_SOURCE_ID)) map.removeSource(ROUTE_SOURCE_ID)
-}
 
 // ---------------------------------------------------------------------------
 // MapView component
@@ -772,9 +705,8 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
  useEffect(() => {
   if (!mapRef.current || !isMapLoaded) return
 
-  // Remove route when not in navigation mode
+  // Clear navigation when not in navigation mode
   if (!showRoute) {
-   removeRouteLayer(mapRef.current)
    setNavigationInfo(null)
    return
   }
@@ -794,7 +726,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
   // If user is too far away or no location, just zoom to the station
   if (!effectiveUserLocation || !userIsNearby) {
-   removeRouteLayer(map)
+   setNavigationInfo(null)
    map.flyTo({
     center: [to.lng, to.lat],
     zoom: 16.5,
@@ -818,7 +750,6 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   fetchWalkingRoute(from, to, token).then((result) => {
    if (!result || !mapRef.current) return
 
-   addRouteLayer(map, result.geometry)
    setNavigationInfo({
     steps: result.steps,
     totalDistance: result.totalDistance,
