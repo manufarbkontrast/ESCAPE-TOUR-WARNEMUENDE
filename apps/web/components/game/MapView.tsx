@@ -4,7 +4,7 @@ import { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import type { Station, GeoPoint } from '@escape-tour/shared'
-import { LocateFixed, MapPin, AlertTriangle } from 'lucide-react'
+import { LocateFixed, MapPin, AlertTriangle, Navigation } from 'lucide-react'
 import { useLocationStore } from '@/stores/locationStore'
 
 
@@ -323,6 +323,67 @@ function StationInfoPanel({
 }
 
 // ---------------------------------------------------------------------------
+// Navigation Panel — turn-by-turn overlay
+// ---------------------------------------------------------------------------
+
+interface NavigationPanelProps {
+ readonly steps: readonly RouteStep[]
+ readonly totalDistance: number
+ readonly totalDuration: number
+ readonly stationName: string
+}
+
+function NavigationPanel({ steps, totalDistance, totalDuration, stationName }: NavigationPanelProps) {
+ // Show first non-depart step as "next", fall back to first step
+ const nextStep = steps.find((s) => s.maneuverType !== 'depart') ?? steps[0]
+ if (!nextStep) return null
+
+ return (
+  <div
+   className="absolute top-4 left-4 right-16 z-10 rounded-2xl overflow-hidden"
+   style={{
+    background: 'rgba(10, 10, 10, 0.92)',
+    backdropFilter: 'blur(16px)',
+    border: '1px solid rgba(255, 255, 255, 0.08)',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+   }}
+  >
+   {/* Current instruction */}
+   <div className="flex items-center gap-3 px-4 py-3">
+    <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-xl font-bold text-white" style={{ background: 'rgba(255, 255, 255, 0.08)' }}>
+     {maneuverIcon(nextStep.maneuverType)}
+    </span>
+    <div className="flex-1 min-w-0">
+     <p className="text-base font-semibold text-white leading-tight truncate">
+      {nextStep.instruction}
+     </p>
+     {nextStep.distance > 0 && (
+      <p className="text-sm text-white/50 mt-0.5">
+       {formatDistance(nextStep.distance)}
+      </p>
+     )}
+    </div>
+   </div>
+
+   {/* Summary bar */}
+   <div
+    className="flex items-center justify-between px-4 py-2.5"
+    style={{ background: 'rgba(255, 255, 255, 0.04)', borderTop: '1px solid rgba(255, 255, 255, 0.06)' }}
+   >
+    <div className="flex items-center gap-1.5">
+     <Navigation className="h-3.5 w-3.5 text-white/50" strokeWidth={1.5} />
+     <span className="text-sm font-semibold text-white/70">{stationName}</span>
+    </div>
+    <div className="flex items-center gap-3">
+     <span className="text-sm font-bold text-white tabular-nums">{formatDistance(totalDistance)}</span>
+     <span className="text-sm text-white/50 tabular-nums">{formatDuration(totalDuration)}</span>
+    </div>
+   </div>
+  </div>
+ )
+}
+
+// ---------------------------------------------------------------------------
 // Walking route helpers
 // ---------------------------------------------------------------------------
 
@@ -331,12 +392,26 @@ interface RouteGeometry {
  readonly coordinates: readonly [number, number][]
 }
 
+interface RouteStep {
+ readonly instruction: string
+ readonly distance: number
+ readonly duration: number
+ readonly maneuverType: string
+}
+
+interface WalkingRouteResult {
+ readonly geometry: RouteGeometry
+ readonly steps: readonly RouteStep[]
+ readonly totalDistance: number
+ readonly totalDuration: number
+}
+
 const fetchWalkingRoute = async (
  from: { lng: number; lat: number },
  to: { lng: number; lat: number },
  token: string,
-): Promise<RouteGeometry | null> => {
- const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${from.lng},${from.lat};${to.lng},${to.lat}?geometries=geojson&overview=full&access_token=${encodeURIComponent(token)}`
+): Promise<WalkingRouteResult | null> => {
+ const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${from.lng},${from.lat};${to.lng},${to.lat}?geometries=geojson&overview=full&steps=true&language=de&access_token=${encodeURIComponent(token)}`
 
  try {
   const response = await fetch(url)
@@ -346,10 +421,51 @@ const fetchWalkingRoute = async (
   const route = data?.routes?.[0]
   if (!route?.geometry) return null
 
-  return route.geometry as RouteGeometry
+  const leg = route.legs?.[0]
+  const steps: RouteStep[] = (leg?.steps ?? []).map((s: Record<string, unknown>) => ({
+   instruction: (s.maneuver as Record<string, unknown>)?.instruction as string ?? '',
+   distance: s.distance as number ?? 0,
+   duration: s.duration as number ?? 0,
+   maneuverType: (s.maneuver as Record<string, unknown>)?.type as string ?? '',
+  }))
+
+  return {
+   geometry: route.geometry as RouteGeometry,
+   steps,
+   totalDistance: leg?.distance as number ?? 0,
+   totalDuration: leg?.duration as number ?? 0,
+  }
  } catch {
   return null
  }
+}
+
+// Map maneuver types to arrow symbols
+const maneuverIcon = (type: string): string => {
+ switch (type) {
+  case 'turn':
+  case 'end of road':
+   return '↱'
+  case 'depart':
+   return '↑'
+  case 'arrive':
+   return '◎'
+  case 'roundabout':
+  case 'rotary':
+   return '↻'
+  case 'fork':
+   return '⑂'
+  case 'merge':
+   return '⤙'
+  default:
+   return '→'
+ }
+}
+
+const formatDuration = (seconds: number): string => {
+ const mins = Math.round(seconds / 60)
+ if (mins < 1) return '< 1 Min.'
+ return `${mins} Min.`
 }
 
 const addRouteLayer = (map: mapboxgl.Map, geometry: RouteGeometry): void => {
@@ -422,6 +538,11 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
  const [isMapLoaded, setIsMapLoaded] = useState(false)
  const [mapError, setMapError] = useState<string | null>(null)
+ const [navigationInfo, setNavigationInfo] = useState<{
+  readonly steps: readonly RouteStep[]
+  readonly totalDistance: number
+  readonly totalDuration: number
+ } | null>(null)
 
  const { userLocation, startWatching, isTracking } = useLocationStore()
 
@@ -654,6 +775,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   // Remove route when not in navigation mode
   if (!showRoute) {
    removeRouteLayer(mapRef.current)
+   setNavigationInfo(null)
    return
   }
 
@@ -693,10 +815,15 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
   const from = { lng: effectiveUserLocation.lng, lat: effectiveUserLocation.lat }
 
-  fetchWalkingRoute(from, to, token).then((geometry) => {
-   if (!geometry || !mapRef.current) return
+  fetchWalkingRoute(from, to, token).then((result) => {
+   if (!result || !mapRef.current) return
 
-   addRouteLayer(map, geometry)
+   addRouteLayer(map, result.geometry)
+   setNavigationInfo({
+    steps: result.steps,
+    totalDistance: result.totalDistance,
+    totalDuration: result.totalDuration,
+   })
 
    // Fit map to show user + destination
    const bounds = new mapboxgl.LngLatBounds()
@@ -704,7 +831,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
    bounds.extend([to.lng, to.lat])
 
    map.fitBounds(bounds, {
-    padding: { top: 100, bottom: 160, left: 60, right: 60 },
+    padding: { top: 120, bottom: 160, left: 60, right: 60 },
     minZoom: 14,
     maxZoom: 17,
     pitch: 50,
@@ -740,8 +867,18 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
     </div>
    )}
 
-   {/* Legend */}
-   {isMapLoaded && <MapLegend />}
+   {/* Navigation panel — shown when walking route is active */}
+   {isMapLoaded && showRoute && navigationInfo && currentStation && (
+    <NavigationPanel
+     steps={navigationInfo.steps}
+     totalDistance={navigationInfo.totalDistance}
+     totalDuration={navigationInfo.totalDuration}
+     stationName={currentStation.nameDe}
+    />
+   )}
+
+   {/* Legend — hidden when navigation panel is shown */}
+   {isMapLoaded && !navigationInfo && <MapLegend />}
 
    {/* Re-center button */}
    {isMapLoaded && currentStation && (
