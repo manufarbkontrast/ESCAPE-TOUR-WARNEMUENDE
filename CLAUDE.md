@@ -7,9 +7,9 @@
 - **Database**: Supabase (PostgreSQL) — generated types in `packages/database/src/types/supabase.ts`
 - **Payments**: Stripe Checkout Sessions + Webhooks (`/api/checkout`, `/api/webhooks/stripe`)
 - **Email**: Resend — templates in `apps/web/lib/email/templates/`
-- **Maps**: Mapbox GL with custom 3D models (Leuchtturm, Teepott)
+- **Maps**: Mapbox GL with 3D terrain, custom markers, Mapbox Directions API for walking navigation
 - **State**: Zustand with localStorage persistence
-- **Styling**: Tailwind CSS — navy/white/sand palette, glass-morphic UI
+- **Styling**: Tailwind CSS — navy/white/sand palette, glass-morphic UI (`card-glass` class)
 - **Icons**: SVG line drawings for decorative use, Lucide React only for functional icons
 - **Animations**: Framer Motion
 - **Analytics**: PostHog (EU host)
@@ -20,10 +20,43 @@
 - **NO brass/gold/orange colors** — the entire site uses white and sand-grey tones as accents
 - **NO emojis** — use SVG line drawings instead
 - **NO decorative Lucide icons** on form labels — only functional icons (arrows, plus/minus, close)
+- **NO route lines on the map** — use text-only NavigationPanel for walking directions
 - **btn-primary** = white background, dark text (defined in globals.css)
 - **Accent color** = white on navy-950 backgrounds
 - **Secondary text** = sand-200 to sand-500
 - **Font sizes** should be generous: labels text-sm font-semibold, inputs text-base, headings text-2xl+
+- **Game cards** use `card-glass` class: `rgba(10, 10, 10, 0.88)` bg with `backdrop-filter: blur(20px)`
+- **Difficulty badges** use white text with opacity backgrounds (no color coding)
+
+## Game Architecture
+
+### Route C — 12 Stations (Rundlauf Warnemünde)
+
+```
+Start/Ende: Shoes Please am Leuchtturm
+1. Leuchtturm → 2. Teepott → 3. Westmole → 4. Kurhaus → 5. Strand →
+6. Kirchplatz → 7. Heimatmuseum → 8. Vogtei → 9. Edvard-Munch-Haus →
+10. Alter Strom → 11. Fischmarkt → 12. Bahnhof → Rückweg Leuchtturm
+```
+
+### Station Flow
+
+```
+map → station (intro → story → puzzle → success → transition) → map
+```
+
+- Transition screen: narrative text + walking hint + "Navigation starten" button
+- Station type fields: `transitionTextDe/En`, `walkingHintDe/En`
+- Map shows NavigationPanel overlay with turn-by-turn walking instructions (Mapbox Directions API, German)
+- Demo mode (`DEMO01`): simulates user position ~200m from current station
+
+### Map Behavior
+
+- Map always rendered, blurred when station view is active
+- Station view overlays via AnimatePresence on blurred map
+- NavigationPanel: text-only turn-by-turn directions (no drawn route line)
+- User location: real GPS when nearby (<5km), otherwise zoom to station
+- Demo: fake position always in Warnemünde for testing
 
 ## Route Structure
 
