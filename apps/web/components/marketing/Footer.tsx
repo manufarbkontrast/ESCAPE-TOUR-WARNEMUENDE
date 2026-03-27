@@ -52,9 +52,9 @@ export function Footer() {
       </p>
      </div>
 
-     {/* Quick Links */}
+     {/* Navigation */}
      <div>
-      <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
+      <h3 className="font-semibold mb-4 text-white">Navigation</h3>
       <ul className="space-y-2">
        {QUICK_LINKS.map((link) => (
         <li key={link.href}>

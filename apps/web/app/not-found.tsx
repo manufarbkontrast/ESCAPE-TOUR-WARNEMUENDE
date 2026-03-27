@@ -45,13 +45,13 @@ export default function NotFound() {
      {/* CTA */}
      <div className="flex flex-col items-center gap-4 pt-4">
       <Link href="/" className="btn btn-primary text-lg px-8 py-3">
-       Zurueck zum Hafen
+       Zurück zum Hafen
       </Link>
       <Link
        href="/touren"
        className="text-white hover:text-white/80 transition-colors text-sm font-semibold"
       >
-       Zur Tour-Uebersicht
+       Zur Tour-Übersicht
       </Link>
      </div>
     </div>

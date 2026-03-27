@@ -204,10 +204,10 @@ function TourSection({ tour, isReversed }: { readonly tour: TourDetail; readonly
     <p className="text-white/80 mt-4 leading-relaxed">{tour.description}</p>
    </div>
 
-   {/* Route Highlights */}
+   {/* Routen-Highlights */}
    <div>
     <h3 className="text-xl font-semibold text-white mb-6">
-     Route Highlights
+     Routen-Highlights
     </h3>
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
      {tour.highlights.map((highlight, index) => (

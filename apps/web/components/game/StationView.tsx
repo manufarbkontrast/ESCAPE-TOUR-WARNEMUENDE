@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronRight, BookOpen, Sparkles, Anchor, HelpCircle, Navigation, MapPin } from 'lucide-react'
+import { ChevronRight, BookOpen, Anchor, HelpCircle, Navigation, MapPin } from 'lucide-react'
 import type { Station, Puzzle } from '@escape-tour/shared'
 import { PuzzleRenderer } from './PuzzleRenderer'
 import { Timer } from './Timer'
@@ -183,7 +183,6 @@ export function StationView({
         onClick={handleStoryComplete}
         className="btn btn-primary w-full py-4 text-base"
        >
-        <Sparkles className="h-4 w-4" strokeWidth={2} />
         {language === 'de' ? 'Rätsel starten' : 'Start Puzzle'}
        </button>
        {isDemo && (
@@ -224,7 +223,7 @@ export function StationView({
        className="space-y-5 py-6"
       >
        <div className="card-glass p-8 text-center">
-        <Sparkles className="mx-auto mb-4 h-12 w-12 text-white" strokeWidth={1.5} />
+        <Anchor className="mx-auto mb-4 h-12 w-12 text-white" strokeWidth={1.5} />
         <h2 className="mb-2 text-2xl font-bold text-white tracking-tight">
          {language === 'de' ? 'Geschafft!' : 'Success!'}
         </h2>
@@ -256,7 +255,7 @@ export function StationView({
           <div className="flex items-center gap-2.5 mb-4">
            <Navigation className="h-6 w-6 text-white/60" strokeWidth={1.5} />
            <h2 className="text-2xl font-bold text-white tracking-tight">
-            {language === 'de' ? 'Naechste Station' : 'Next Station'}
+            {language === 'de' ? 'Nächste Station' : 'Next Station'}
            </h2>
           </div>
           <p className="whitespace-pre-line text-lg text-white/80 leading-relaxed">

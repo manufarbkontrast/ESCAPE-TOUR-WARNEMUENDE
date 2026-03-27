@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Lightbulb, Search, MapPin, Target } from 'lucide-react'
+import { X, Lightbulb, Search, MapPin, Target, AlertTriangle } from 'lucide-react'
 import type { Hint } from '@escape-tour/shared'
 import { useGameStore } from '@/stores/gameStore'
 
@@ -113,7 +113,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
       </div>
      ) : fetchError ? (
       <div className="py-8 text-center">
-       <div className="mb-2 text-2xl">⚠️</div>
+       <AlertTriangle className="mx-auto mb-2 h-6 w-6 text-red-400" strokeWidth={1.5} />
        <p className="text-red-400">{fetchError}</p>
       </div>
      ) : hints.length === 0 ? (
