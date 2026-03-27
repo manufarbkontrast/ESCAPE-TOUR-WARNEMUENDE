@@ -3,6 +3,15 @@
  * Sent to the business when someone submits the contact form
  */
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 interface ContactNotificationData {
   readonly name: string
   readonly email: string
@@ -42,8 +51,8 @@ export function buildContactNotificationEmail(data: ContactNotificationData) {
               <h1 style="margin:0 0 4px;font-size:20px;font-weight:700;color:#f5f0e8;">
                 Neue Kontaktanfrage
               </h1>
-              <p style="margin:0;font-size:13px;color:#e6921e;font-weight:500;">
-                ${subjectLabel}
+              <p style="margin:0;font-size:13px;color:#d4c9b8;font-weight:500;">
+                ${escapeHtml(subjectLabel)}
               </p>
             </td>
           </tr>
@@ -53,12 +62,12 @@ export function buildContactNotificationEmail(data: ContactNotificationData) {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td style="padding:8px 0;font-size:13px;color:#8a7f72;width:80px;vertical-align:top;">Name</td>
-                  <td style="padding:8px 0;font-size:13px;color:#d4c9b8;font-weight:500;">${data.name}</td>
+                  <td style="padding:8px 0;font-size:13px;color:#d4c9b8;font-weight:500;">${escapeHtml(data.name)}</td>
                 </tr>
                 <tr>
                   <td style="padding:8px 0;font-size:13px;color:#8a7f72;vertical-align:top;">E-Mail</td>
                   <td style="padding:8px 0;font-size:13px;">
-                    <a href="mailto:${data.email}" style="color:#e6921e;text-decoration:none;">${data.email}</a>
+                    <a href="mailto:${encodeURIComponent(data.email)}" style="color:#d4c9b8;text-decoration:none;">${escapeHtml(data.email)}</a>
                   </td>
                 </tr>
               </table>
@@ -68,15 +77,15 @@ export function buildContactNotificationEmail(data: ContactNotificationData) {
           <tr>
             <td style="padding:0 32px 32px;">
               <div style="background-color:rgba(255,255,255,0.02);border-radius:12px;border:1px solid rgba(255,255,255,0.04);padding:20px;">
-                <p style="margin:0;font-size:14px;color:#d4c9b8;line-height:1.6;white-space:pre-wrap;">${data.message}</p>
+                <p style="margin:0;font-size:14px;color:#d4c9b8;line-height:1.6;white-space:pre-wrap;">${escapeHtml(data.message)}</p>
               </div>
             </td>
           </tr>
 
           <tr>
             <td style="padding:0 32px 32px;text-align:center;">
-              <a href="mailto:${data.email}?subject=Re: ${encodeURIComponent(subjectLabel)}"
-                 style="display:inline-block;padding:12px 28px;background-color:#e6921e;color:#0b1929;font-size:14px;font-weight:600;text-decoration:none;border-radius:999px;">
+              <a href="mailto:${encodeURIComponent(data.email)}?subject=Re: ${encodeURIComponent(subjectLabel)}"
+                 style="display:inline-block;padding:12px 28px;background-color:#f5f0e8;color:#0b1929;font-size:14px;font-weight:600;text-decoration:none;border-radius:8px;">
                 Antworten
               </a>
             </td>

@@ -16,6 +16,11 @@ export function initPostHog(): void {
 
   if (!key) return
 
+  // Check consent before initializing
+  const consent = typeof window !== 'undefined'
+    ? localStorage.getItem('cookie-consent')
+    : null
+
   posthog.init(key, {
     api_host: host,
     person_profiles: 'identified_only',
@@ -23,6 +28,7 @@ export function initPostHog(): void {
     capture_pageleave: true,
     persistence: 'localStorage+cookie',
     autocapture: false, // keep payload small, track intentionally
+    opt_out_capturing_by_default: consent !== 'accepted',
   })
 
   initialized = true

@@ -6,6 +6,13 @@
 import type { NextRequest } from 'next/server'
 import { stripe } from '@/lib/stripe/server'
 import { successResponse, errorResponse, toNextResponse } from '@/lib/utils/api-response'
+import { createRateLimiter } from '@/lib/utils/rate-limit'
+import { getClientIp } from '@/lib/utils/client-ip'
+
+const checkoutRateLimiter = createRateLimiter({
+  windowMs: 60_000,
+  maxRequests: 5,
+})
 
 interface CheckoutRequest {
   readonly tourVariant: 'family' | 'adult'
@@ -37,6 +44,19 @@ function calculateGroupDiscount(count: number): number {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit checkout attempts
+    const ip = getClientIp(request)
+    const rateCheck = checkoutRateLimiter.check(ip)
+    if (!rateCheck.allowed) {
+      const retryAfter = Math.ceil(rateCheck.retryAfterMs / 1000)
+      const res = toNextResponse(
+        errorResponse('Zu viele Anfragen. Bitte wartet einen Moment.'),
+        429,
+      )
+      res.headers.set('Retry-After', String(retryAfter))
+      return res
+    }
+
     const body = (await request.json()) as CheckoutRequest
 
     // Validate required fields

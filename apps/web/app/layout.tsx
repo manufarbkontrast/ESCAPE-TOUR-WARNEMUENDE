@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
 import { Inter, Playfair_Display } from 'next/font/google';
 import { PostHogProvider } from '@/lib/analytics/provider';
+import { CookieConsent } from '@/components/CookieConsent';
 import './globals.css';
 
 const inter = Inter({
@@ -116,6 +117,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
    </head>
    <body className="min-h-screen bg-dark-950 text-white font-sans antialiased">
     <Providers>{children}</Providers>
+    <CookieConsent />
    </body>
   </html>
  );

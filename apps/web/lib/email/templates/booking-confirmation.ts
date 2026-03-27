@@ -26,6 +26,15 @@ function formatCurrency(cents: number): string {
   return (cents / 100).toFixed(2).replace('.', ',') + ' €'
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
 export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
   const tourName = data.tourVariant === 'family' ? 'Familien-Tour' : 'Erwachsenen-Tour'
 
@@ -63,7 +72,7 @@ export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
               <p style="margin:0 0 12px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#8a7f72;font-weight:600;">
                 Euer Buchungscode
               </p>
-              <p style="margin:0;font-size:40px;font-weight:700;letter-spacing:8px;color:#e6921e;font-family:'Courier New',monospace;">
+              <p style="margin:0;font-size:40px;font-weight:700;letter-spacing:8px;color:#f5f0e8;font-family:'Courier New',monospace;">
                 ${data.bookingCode}
               </p>
               <p style="margin:12px 0 0;font-size:12px;color:#6b6158;">
@@ -112,7 +121,7 @@ export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td style="font-size:13px;color:#8a7f72;">Team</td>
-                        <td align="right" style="font-size:13px;color:#d4c9b8;font-weight:500;">${data.teamName}</td>
+                        <td align="right" style="font-size:13px;color:#d4c9b8;font-weight:500;">${escapeHtml(data.teamName)}</td>
                       </tr>
                     </table>
                   </td>
@@ -123,7 +132,7 @@ export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
                     <table width="100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td style="font-size:13px;color:#8a7f72;">Bezahlt</td>
-                        <td align="right" style="font-size:13px;color:#e6921e;font-weight:600;">${formatCurrency(data.amountCents)}</td>
+                        <td align="right" style="font-size:13px;color:#f5f0e8;font-weight:600;">${formatCurrency(data.amountCents)}</td>
                       </tr>
                     </table>
                   </td>
@@ -136,7 +145,7 @@ export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
           <tr>
             <td style="padding:0 32px 32px;text-align:center;">
               <a href="https://escape-tour-warnemuende.de/play"
-                 style="display:inline-block;padding:14px 32px;background-color:#e6921e;color:#0b1929;font-size:15px;font-weight:600;text-decoration:none;border-radius:999px;">
+                 style="display:inline-block;padding:14px 32px;background-color:#f5f0e8;color:#0b1929;font-size:15px;font-weight:600;text-decoration:none;border-radius:8px;">
                 Tour starten
               </a>
             </td>

@@ -25,18 +25,15 @@ export async function POST(request: NextRequest) {
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
-  // If no webhook secret configured, verify by fetching the session directly
+  if (!webhookSecret) {
+    console.error('STRIPE_WEBHOOK_SECRET is not configured')
+    return new Response('Webhook not configured', { status: 500 })
+  }
+
   let event: Stripe.Event
 
   try {
-    if (webhookSecret) {
-      event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
-    } else {
-      // Development fallback — parse event body directly
-      // In production, ALWAYS use webhook secret verification
-      console.warn('STRIPE_WEBHOOK_SECRET not set — skipping signature verification')
-      event = JSON.parse(body) as Stripe.Event
-    }
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
   } catch (error) {
     console.error('Webhook signature verification failed:', error)
     return new Response('Webhook signature verification failed', { status: 400 })
