@@ -16,6 +16,8 @@ import { AudioPuzzle } from './puzzles/AudioPuzzle'
 import { LogicPuzzle } from './puzzles/LogicPuzzle'
 import { NavigationPuzzle } from './puzzles/NavigationPuzzle'
 import { DocumentAnalysisPuzzle } from './puzzles/DocumentAnalysisPuzzle'
+import { ClockPuzzle } from './puzzles/ClockPuzzle'
+import { SlidePuzzle } from './puzzles/SlidePuzzle'
 
 interface PuzzleRendererProps {
  readonly puzzle: Puzzle
@@ -188,6 +190,12 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
 
    case 'text_analysis':
     return <TextInputPuzzle {...puzzleProps} />
+
+   case 'clock':
+    return <ClockPuzzle {...puzzleProps} />
+
+   case 'slide_puzzle':
+    return <SlidePuzzle {...puzzleProps} />
 
    default:
     return (

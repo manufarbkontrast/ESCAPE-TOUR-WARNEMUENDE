@@ -1,5 +1,5 @@
 /** Total number of stations per tour */
-export const TOTAL_STATIONS = 8 as const
+export const TOTAL_STATIONS = 12 as const
 
 /** Maximum group size */
 export const MAX_GROUP_SIZE = 6 as const

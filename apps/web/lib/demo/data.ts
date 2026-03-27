@@ -6,6 +6,10 @@
  *   1. Leuchtturm  2. Teepott  3. Westmole  4. Kurhaus  5. Strand
  *   6. Kirchplatz  7. Heimatmuseum  8. Vogtei  9. Edvard-Munch-Haus
  *  10. Alter Strom 11. Fischmarkt  12. Bahnhof  → Rückweg Leuchtturm
+ *
+ * Difficulty curve: Easy (1-3) → Medium (4-7) → Hard (8-11) → Finale (12)
+ * Puzzle types used: count, photo_search, combination, document_analysis,
+ *   symbol_find, text_analysis, clock, slide_puzzle (8 of 12 types)
  */
 
 import type { GameSession, Station, Puzzle, Certificate } from '@escape-tour/shared'
@@ -107,13 +111,13 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'The Teepott — Warnemuende\'s most iconic building. Built in 1968, its hyperbolic shell roof is unique worldwide. The wave form inspired not just architects...',
     storyTextDe:
-      'Was kaum jemand weiss: Kapitaen Scheel war fasziniert von Wellenmustern. In seinem Logbuch finden sich Skizzen, die dem spaeteren Teepott-Dach verblüffend aehneln. Er nutzte Wellenformen als Verschluesselungsmuster fuer seine geheimen Nachrichten. Die Anzahl der Wellenberge war sein Code.',
+      'Was kaum jemand weiss: Kapitaen Scheel war fasziniert von der Tierwelt an der Kueste. In seinem Logbuch notierte er: "Der Vogel auf dem Dach ist mein Bote — er traegt meine Nachrichten ueber das Meer." Schaut genau hin: Welches Tier thront auf der Wetterfahne des Teepotts?',
     storyTextEn:
-      'What few people know: Captain Scheel was fascinated by wave patterns. His logbook contains sketches that bear a striking resemblance to the later Teepott roof. He used wave forms as encryption patterns for his secret messages. The number of wave crests was his code.',
+      'What few people know: Captain Scheel was fascinated by coastal wildlife. In his logbook he noted: "The bird on the roof is my messenger — it carries my messages across the sea." Look closely: What creature sits atop the Teepott\'s weather vane?',
     completionTextDe:
-      'Sehr gut! Scheels Wellenmuster hat euch den naechsten Hinweis verraten. Jetzt geht es raus aufs Meer — zur Westmole!',
+      'Sehr gut! Die Moewe war Scheels Symbol fuer Freiheit. Jetzt geht es raus aufs Meer — zur Westmole!',
     completionTextEn:
-      'Very good! Scheel\'s wave pattern revealed the next clue. Now head out to sea — to the West Pier!',
+      'Very good! The seagull was Scheel\'s symbol of freedom. Now head out to sea — to the West Pier!',
     transitionTextDe:
       'Scheel ging oft bei Sturm zur Westmole. "Nur dort", schrieb er, "wo das Meer am lautesten ist, kann man ungestoert denken." Folgt der Promenade nach Nordwesten — der lange Steg fuehrt weit hinaus.',
     transitionTextEn:
@@ -183,13 +187,13 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'The Kurhaus — built in Art Deco style in 1928, it was the cultural center of the seaside resort. Behind its elegant facade lies a story from Scheel\'s last night.',
     storyTextDe:
-      'Im Ballsaal des Kurhauses fand Scheels letzter oeffentlicher Auftritt statt. Augenzeugen berichten, er habe die Deckenornamente studiert und dabei gemurmelt: "Eine Seekarte, verborgen in der Schoenheit." Die Ornamente sind keine Dekoration — sie sind ein Raster. Wie viele Rauten zaehlt ihr im zentralen Muster?',
+      'Im Ballsaal des Kurhauses fand Scheels letzter oeffentlicher Auftritt statt. Augenzeugen berichten, er habe die Fassade studiert und dabei gemurmelt: "Eine Seekarte, verborgen in der Schoenheit." Ueber dem Eingangsportal steht eine Inschrift mit einer Jahreszahl — das Erbaujahr dieses praechtigen Gebaeudes. Welche vierstellige Zahl findet ihr dort?',
     storyTextEn:
-      'The ballroom of the Kurhaus was the setting for Scheel\'s last public appearance. Eyewitnesses report he studied the ceiling ornaments, murmuring: "A nautical chart, hidden in beauty." The ornaments are not decoration — they are a grid.',
+      'The ballroom of the Kurhaus was the setting for Scheel\'s last public appearance. Eyewitnesses report he studied the facade, murmuring: "A nautical chart, hidden in beauty." Above the entrance portal is an inscription with a year — the construction year of this magnificent building.',
     completionTextDe:
-      'Perfekt! Die Rauten waren Scheels Koordinatenpunkte. Der naechste Hinweis liegt am Strand — zwischen Sand und Meer.',
+      'Perfekt! 1928 — das Jahr, in dem Scheels Vermaechtnis in Stein gemeisselt wurde. Der naechste Hinweis liegt am Strand — zwischen Sand und Meer.',
     completionTextEn:
-      'Perfect! The diamonds were Scheel\'s coordinate points. The next clue lies at the beach — between sand and sea.',
+      'Perfect! 1928 — the year Scheel\'s legacy was carved in stone. The next clue lies at the beach — between sand and sea.',
     transitionTextDe:
       'Scheel verliess den Ball durch den Seiteneingang. Er wurde gesehen, wie er ueber die Duenen zum Strand ging — hastig, als haette er nicht viel Zeit. Dort soll er etwas vergraben haben.',
     transitionTextEn:
@@ -297,13 +301,13 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'The local museum — housed in the oldest fisherman\'s house from 1767. Low ceilings, creaking floorboards, and the smell of history. Scheel hid something here.',
     storyTextDe:
-      'In einem vergessenen Inventarverzeichnis des Museums finden sich seltsame Eintraege: "Anker, Netz, Kompass, Eimer, Ruder." Die Anfangsbuchstaben ergeben ein Wort. Doch welches Verzeichnis ist das richtige? Scheel markierte es mit seinem Geburtsjahr.',
+      'In einem vergessenen Inventarverzeichnis des Museums finden sich seltsame Eintraege: "Leuchtturm, Ostsee, Teepott, Segel, Ebbe." Die Anfangsbuchstaben ergeben ein Wort — Scheels wahre Berufung. Welches Wort ist es?',
     storyTextEn:
-      'In a forgotten inventory list of the museum, strange entries can be found: "Anchor, Net, Compass, Edge, Rudder." The initial letters form a word. But which list is the right one? Scheel marked it with his birth year.',
+      'In a forgotten inventory list of the museum, strange entries can be found: "Lighthouse, Ocean, Teepott, Sail, Ebb." The initial letters form a word — Scheel\'s true calling. What is the word?',
     completionTextDe:
-      'ANKER — wieder sein Zeichen! Das Inventar enthaelt einen weiteren Hinweis: eine Adresse in der Alexandrinenstrasse. Die Vogtei — Warnemuendes aeltestes Gebaeude.',
+      'LOTSE — natuerlich! Das war Scheels Berufung, sein ganzes Leben. Das Inventar enthaelt einen weiteren Hinweis: eine Adresse in der Alexandrinenstrasse. Die Vogtei — Warnemuendes aeltestes Gebaeude.',
     completionTextEn:
-      'ANCHOR — his sign again! The inventory contains another clue: an address on Alexandrinenstrasse. The Vogtei — Warnemuende\'s oldest building.',
+      'PILOT — of course! That was Scheel\'s calling, his whole life. The inventory contains another clue: an address on Alexandrinenstrasse. The Vogtei — Warnemuende\'s oldest building.',
     transitionTextDe:
       'Die Vogtei liegt nur wenige Schritte entfernt. Seit dem 13. Jahrhundert stand hier die Zollstation des Ortes. Scheel kannte einen geheimen Mechanismus in den alten Mauern — einen Ort, an dem Nachrichten Jahrhunderte ueberdauern konnten.',
     transitionTextEn:
@@ -373,13 +377,13 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'Am Strom 53 — the Norwegian painter Edvard Munch lived here from 1907 to 1908. What few know: Munch and Captain Scheel knew each other well.',
     storyTextDe:
-      'In einem Gemaelde aus dieser Zeit versteckte Munch Zahlen fuer seinen Freund Scheel. Das Bild zeigt den Alten Strom bei Daemmerung. Im Wasser spiegeln sich Ziffern — kaum sichtbar, aber sie sind da. Es sind Koordinaten, aufgeteilt in vier Zifferngruppen. Die erste Gruppe ist die Hausnummer dieses Hauses.',
+      'In Munchs Atelier fand man eine alte Standuhr. Fischer berichten, Scheel habe sie auf eine bestimmte Uhrzeit gestellt — den Moment, in dem er das Haus an jenem Abend verliess. Die Zeiger zeigten auf eine praezise Zeit. Stellt die Uhr auf die richtige Zeit ein.',
     storyTextEn:
-      'In a painting from this period, Munch hid numbers for his friend Scheel. The picture shows the Alter Strom at dusk. Digits are reflected in the water — barely visible, but they are there.',
+      'In Munch\'s studio, an old clock was found. Fishermen report Scheel set it to a specific time — the moment he left the house that evening. Set the clock to the correct time.',
     completionTextDe:
-      'Die Zahl stimmt! Munchs Gemaelde war mehr als Kunst — es war eine Schatzkarte. Die Koordinaten fuehren zum Alten Strom selbst.',
+      '19:23 — die Uhrzeit seines Aufbruchs! Munch notierte sie in seinem Tagebuch. Die Spur fuehrt weiter zum Alten Strom.',
     completionTextEn:
-      'The number is correct! Munch\'s painting was more than art — it was a treasure map. The coordinates lead to the Alter Strom itself.',
+      '19:23 — the time of his departure! Munch noted it in his diary. The trail continues to the Alter Strom.',
     transitionTextDe:
       'Vom Munch-Haus sind es nur wenige Meter bis zum Alten Strom — dem historischen Wasserweg, an dem bunte Fischkutter liegen. Hier hat Scheel in einem alten Fischerhaus einen verschluesselten Brief hinterlegt.',
     transitionTextEn:
@@ -411,13 +415,13 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'The Old Channel is the heart of Warnemuende. Colorful fishing boats line the banks and the air smells of smoked fish.',
     storyTextDe:
-      'In einem alten Fischerhaus fand man einen verschluesselten Brief des Kapitaens. Er erwaehnt drei Symbole, die zusammen einen Code ergeben. Nur wer die Geschichte Warnemuendes kennt, kann sie entschluesseln.',
+      'In einem alten Fischerhaus fand man ein zerbrochenes Bild — Scheels verschluesselte Seekarte. Die Kacheln sind durcheinander geraten. Setzt das Bild zusammen, um zu sehen, was Scheel verborgen hat. Das Symbol auf dem fertigen Bild ist der Schluessel.',
     storyTextEn:
-      'In an old fisherman\'s house, an encrypted letter from the captain was found. It mentions three symbols that together form a code.',
+      'In an old fisherman\'s house, a broken image was found — Scheel\'s encrypted nautical chart. The tiles are scrambled. Piece the image together to see what Scheel hid. The symbol on the completed image is the key.',
     completionTextDe:
-      'Fantastisch! Der Brief enthaelt noch einen Zusatz: "Am Fischmarkt liegt mein letzter Bote — fragt die Fischer nach dem Knoten."',
+      'Fantastisch! Das Bild zeigt den Alten Strom von oben — und in der Mitte ein Symbol: einen Kompass. Der Brief enthaelt noch einen Zusatz: "Am Fischmarkt liegt mein letzter Bote — fragt die Fischer nach dem Knoten."',
     completionTextEn:
-      'Fantastic! The letter contains an addition: "At the fish market lies my last messenger — ask the fishermen about the knot."',
+      'Fantastic! The image shows the Alter Strom from above — and in the center, a symbol: a compass. The letter contains an addition: "At the fish market lies my last messenger — ask the fishermen about the knot."',
     transitionTextDe:
       'Der Fischmarkt liegt am suedlichen Ende des Alten Stroms. Dort, wo die Fischer seit Jahrhunderten ihren Fang verkaufen, hatte Scheel einen Vertrauten — einen alten Fischer, der Botschaften in Seemannsknoten codierte.',
     transitionTextEn:
@@ -449,15 +453,15 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'The fish market — the fishermen\'s trading center for centuries. Here, not just fish are sold, but stories are told. And sometimes secrets are kept.',
     storyTextDe:
-      'Die Fischer am Hafen kannten Scheel. Ihre Knoten-Sprache — jeder Knoten eine Botschaft — war sein letztes Kommunikationsmittel. Vier Knoten haengen am alten Poller: Palstek=P, Kreuzknoten=K, Achtknoten=A, Schotstek=S. In welcher Reihenfolge hat Scheel sie angebracht?',
+      'Die Fischer am Hafen kannten Scheel. Ihre Knoten-Sprache — jeder Knoten eine Botschaft — war sein letztes Kommunikationsmittel. Vier Knoten haengen am alten Poller: Palstek (P), Kreuzknoten (K), Achtknoten (A), Schotstek (S). Scheels Botschaft beginnt immer mit seinem Lieblingsknoten — dem Palstek. Danach der Kreuzknoten, dann der Schotstek, zuletzt der Achtknoten. Welches Wort ergibt sich?',
     storyTextEn:
-      'The fishermen at the harbor knew Scheel. Their knot language — each knot a message — was his last means of communication.',
+      'The fishermen at the harbor knew Scheel. Their knot language — each knot a message — was his last means of communication. Four knots hang from the old bollard: Bowline (P), Square knot (K), Figure eight (A), Sheet bend (S). Decode the sequence.',
     completionTextDe:
-      'Die Knoten sprechen! Scheels Botschaft ist fast vollstaendig. Der letzte Hinweis fuehrt zum Bahnhof — dort, wo seine Spur endgueltig verschwand.',
+      'Die Knoten sprechen! PKSA — Scheels Botschaft ist fast vollstaendig. Der letzte Hinweis fuehrt zum Bahnhof — dort, wo seine Spur endgueltig verschwand.',
     completionTextEn:
-      'The knots speak! Scheel\'s message is almost complete. The last clue leads to the train station — where his trail finally vanished.',
+      'The knots speak! PKSA — Scheel\'s message is almost complete. The last clue leads to the train station — where his trail finally vanished.',
     transitionTextDe:
-      'Scheels letzte dokumentierte Sichtung war am Bahnhof von Warnemuende. Der Fahrplan von 1923 enthaelt eine Anomalie — einen Zug, der nie existierte. Die Abfahrtszeiten ergeben eine Zahlenkombination. Geht zum Bahnhof — es ist sein letztes Raetsel.',
+      'Scheels letzte dokumentierte Sichtung war am Bahnhof von Warnemuende. Der Fahrplan von 1923 enthaelt eine Anomalie — einen Zug, der nie existierte. Geht zum Bahnhof — es ist sein letztes Raetsel.',
     transitionTextEn:
       'Scheel\'s last documented sighting was at the Warnemuende train station. The 1923 timetable contains an anomaly — a train that never existed.',
     walkingHintDe: 'Der Bahnhof liegt oestlich vom Fischmarkt — folgt der Strasse Am Strom.',
@@ -487,9 +491,9 @@ export const DEMO_STATIONS: readonly Station[] = [
     introTextEn:
       'The Warnemuende train station — the terminus of the line from Rostock and gateway to the Baltic Sea. Here journeys begin and end. For Captain Scheel, everything ended here.',
     storyTextDe:
-      'Der Fahrplan von 1923 zeigt einen raetselhaften Eintrag: Zug 1923, Abfahrt 19:23, Gleis 0. Einen solchen Zug gab es nie. Scheel hatte die Nummer als Code hinterlassen. Welche Uhrzeit steht auf dem alten Fahrplan als Ankunftszeit dieses Geisterzuges?',
+      'Der Fahrplan von 1923 zeigt einen raetselhaften Eintrag: Geisterzug, Gleis 0. Scheel hinterliess einen 6-stelligen Code als Abfahrtszeit. Die ersten zwei Ziffern: das Jahrhundert, in dem die Vogtei erbaut wurde. Die mittleren zwei: Scheels Ernennung zum Lotsenkapitaen minus 1900. Die letzten zwei: die Hausnummer des Munch-Hauses. Kombiniert euer Wissen!',
     storyTextEn:
-      'The 1923 timetable shows a mysterious entry: Train 1923, departure 19:23, Platform 0. Such a train never existed. Scheel left the number as a code.',
+      'The 1923 timetable shows a mysterious entry: Ghost train, Platform 0. Scheel left a 6-digit code as the departure time. The first two digits: the century the Vogtei was built. The middle two: Scheel\'s appointment as pilot captain minus 1900. The last two: the Munch house number. Combine your knowledge!',
     completionTextDe:
       'Glueckwunsch! Ihr habt das vollstaendige Vermaechtnis des Lotsenkapitaens entschluesselt!\n\nScheels letzte Botschaft lautet: "Warnemuende lebt in denen weiter, die es mit offenen Augen erkunden. Ich bin nicht verschwunden — ich bin ueberall hier."\n\nGeht zurueck zum Leuchtturm, wo alles begann. Eure Tour endet dort, wo sie angefangen hat — bei Shoes Please.',
     completionTextEn:
@@ -509,10 +513,13 @@ export const DEMO_STATIONS: readonly Station[] = [
 
 // ---------------------------------------------------------------------------
 // Puzzles (1 per station)
+// Difficulty: Easy (1-3) → Medium (4-7) → Hard (8-11) → Finale (12)
+// Types: count, photo_search, combination, document_analysis, symbol_find,
+//        text_analysis, clock, slide_puzzle (8 of 12 available types)
 // ---------------------------------------------------------------------------
 
 export const DEMO_PUZZLES: readonly Puzzle[] = [
-  // 1. Leuchtturm — Zählen
+  // 1. Leuchtturm — Zaehlen (easy)
   {
     id: 'demo-puzzle-001',
     stationId: 'demo-station-001',
@@ -541,19 +548,19 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 2. Teepott — Muster-Erkennung
+  // 2. Teepott — Foto-Suche (easy)
   {
     id: 'demo-puzzle-002',
     stationId: 'demo-station-002',
     orderIndex: 0,
-    puzzleType: 'count',
-    difficulty: 'medium',
-    questionDe: 'Wie viele Wellenberge hat das Dach des Teepotts? Zaehlt die grossen Boegen der Dachkonstruktion.',
-    questionEn: 'How many wave crests does the Teepott roof have? Count the large arches of the roof construction.',
-    instructionDe: 'Schaut euch das Dach von vorne an und zaehlt die nach oben gewoelbten Boegen.',
-    instructionEn: 'Look at the roof from the front and count the upward-curved arches.',
-    answerType: 'number',
-    correctAnswer: { value: 3 },
+    puzzleType: 'photo_search',
+    difficulty: 'easy',
+    questionDe: 'Welches Tier thront auf der Wetterfahne des Teepotts? Gebt den deutschen Namen ein.',
+    questionEn: 'What animal sits atop the Teepott\'s weather vane? Enter the German name.',
+    instructionDe: 'Schaut nach oben — die Wetterfahne auf dem Dach zeigt ein typisches Kuesten-Tier.',
+    instructionEn: 'Look up — the weather vane on the roof shows a typical coastal animal.',
+    answerType: 'text',
+    correctAnswer: { value: 'MOEWE' },
     answerValidationMode: 'exact',
     caseSensitive: false,
     options: null,
@@ -570,13 +577,13 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 3. Westmole — Kombination
+  // 3. Westmole — Kombination (easy)
   {
     id: 'demo-puzzle-003',
     stationId: 'demo-station-003',
     orderIndex: 0,
     puzzleType: 'combination',
-    difficulty: 'hard',
+    difficulty: 'easy',
     questionDe: 'Am gruenen Leuchtfeuer hat Kapitaen Scheel eine Jahreszahl eingeritzt — das Jahr, in dem er Lotsenkapitaen wurde. Gebt den 4-stelligen Code ein.',
     questionEn: 'At the green pier light, Captain Scheel carved a year — the year he became pilot captain. Enter the 4-digit code.',
     instructionDe: 'Tipp: Es war kurz nach der Jahrhundertwende.',
@@ -592,27 +599,27 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     targetRadiusMeters: null,
     imageUrl: null,
     audioUrl: null,
-    basePoints: 200,
+    basePoints: 100,
     timeBonusEnabled: true,
     timeBonusMaxSeconds: 120,
     createdAt: NOW,
     updatedAt: NOW,
   },
 
-  // 4. Kurhaus — Visuelles Puzzle
+  // 4. Kurhaus — Dokumenten-Analyse (medium)
   {
     id: 'demo-puzzle-004',
     stationId: 'demo-station-004',
     orderIndex: 0,
-    puzzleType: 'count',
+    puzzleType: 'document_analysis',
     difficulty: 'medium',
-    questionDe: 'Wie viele Rauten zaehlt ihr im zentralen Ornament-Muster an der Kurhaus-Fassade?',
-    questionEn: 'How many diamonds can you count in the central ornament pattern on the Kurhaus facade?',
-    instructionDe: 'Schaut euch die Fassade genau an. Zaehlt nur die vollstaendigen Rauten im zentralen Bereich.',
-    instructionEn: 'Look carefully at the facade. Count only the complete diamonds in the central area.',
-    answerType: 'number',
-    correctAnswer: { value: 8 },
-    answerValidationMode: 'range',
+    questionDe: 'Ueber dem Eingangsportal des Kurhauses steht eine Inschrift. Welche vierstellige Jahreszahl findet ihr dort?',
+    questionEn: 'Above the entrance portal of the Kurhaus is an inscription. What four-digit year can you find there?',
+    instructionDe: 'Schaut ueber die Haupttuer — die Zahl ist in Stein gemeisselt.',
+    instructionEn: 'Look above the main door — the number is carved in stone.',
+    answerType: 'text',
+    correctAnswer: { value: '1928' },
+    answerValidationMode: 'exact',
     caseSensitive: false,
     options: null,
     arMarkerUrl: null,
@@ -628,7 +635,7 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 5. Strand — Kombination
+  // 5. Strand — Kombination (medium)
   {
     id: 'demo-puzzle-005',
     stationId: 'demo-station-005',
@@ -637,8 +644,8 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     difficulty: 'medium',
     questionDe: 'Gebt den 4-stelligen Code ein, um die Truhe zu oeffnen. Die Kombination ist das Gruendungsjahr des Warnemuender Leuchtturms.',
     questionEn: 'Enter the 4-digit code to open the chest. The combination is the founding year of the Warnemuende lighthouse.',
-    instructionDe: 'Tipp: Der Leuchtturm wurde Ende des 19. Jahrhunderts gebaut.',
-    instructionEn: 'Hint: The lighthouse was built at the end of the 19th century.',
+    instructionDe: 'Tipp: Der Leuchtturm wurde Ende des 19. Jahrhunderts gebaut. Denkt an die erste Station.',
+    instructionEn: 'Hint: The lighthouse was built at the end of the 19th century. Think about the first station.',
     answerType: 'text',
     correctAnswer: { value: '1897' },
     answerValidationMode: 'exact',
@@ -657,7 +664,7 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 6. Kirchplatz — Symbol-Suche
+  // 6. Kirchplatz — Symbol-Suche (medium)
   {
     id: 'demo-puzzle-006',
     stationId: 'demo-station-006',
@@ -686,19 +693,19 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 7. Heimatmuseum — Wort-Rätsel
+  // 7. Heimatmuseum — Akrostichon (medium) — Antwort: LOTSE (nicht ANKER)
   {
     id: 'demo-puzzle-007',
     stationId: 'demo-station-007',
     orderIndex: 0,
     puzzleType: 'text_analysis',
     difficulty: 'medium',
-    questionDe: 'Im Inventarverzeichnis stehen fuenf Gegenstaende: Anker, Netz, Kompass, Eimer, Ruder. Welches Wort ergeben die Anfangsbuchstaben?',
-    questionEn: 'The inventory lists five items: Anchor, Net, Compass, Edge, Rudder. What word do the initial letters spell?',
-    instructionDe: 'Nehmt den ersten Buchstaben jedes Gegenstands und setzt sie zusammen.',
-    instructionEn: 'Take the first letter of each item and put them together.',
+    questionDe: 'Im Inventarverzeichnis stehen fuenf Eintraege: Leuchtturm, Ostsee, Teepott, Segel, Ebbe. Welches Wort ergeben die Anfangsbuchstaben?',
+    questionEn: 'The inventory lists five entries: Lighthouse, Ocean, Teepott, Sail, Ebb. What word do the initial letters spell?',
+    instructionDe: 'Nehmt den ersten Buchstaben jedes Eintrags und setzt sie zusammen.',
+    instructionEn: 'Take the first letter of each entry and put them together.',
     answerType: 'text',
-    correctAnswer: { value: 'ANKER' },
+    correctAnswer: { value: 'LOTSE' },
     answerValidationMode: 'exact',
     caseSensitive: false,
     options: null,
@@ -708,14 +715,14 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     targetRadiusMeters: null,
     imageUrl: null,
     audioUrl: null,
-    basePoints: 100,
+    basePoints: 150,
     timeBonusEnabled: true,
-    timeBonusMaxSeconds: 60,
+    timeBonusMaxSeconds: 90,
     createdAt: NOW,
     updatedAt: NOW,
   },
 
-  // 8. Vogtei — Reihenfolge-Rätsel
+  // 8. Vogtei — Siegel-Code (hard)
   {
     id: 'demo-puzzle-008',
     stationId: 'demo-station-008',
@@ -744,19 +751,19 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 9. Edvard-Munch-Haus — Bild-Analyse
+  // 9. Munch-Haus — Uhr-Raetsel (hard) — Wann verliess Scheel das Haus?
   {
     id: 'demo-puzzle-009',
     stationId: 'demo-station-009',
     orderIndex: 0,
-    puzzleType: 'combination',
-    difficulty: 'medium',
-    questionDe: 'Die erste Zifferngruppe in Munchs Gemaelde ist die Hausnummer des Munch-Hauses Am Strom. Welche Nummer ist es?',
-    questionEn: 'The first digit group in Munch\'s painting is the house number of the Munch house on Am Strom. What number is it?',
-    instructionDe: 'Schaut auf die Hausnummer am Gebaeude.',
-    instructionEn: 'Look at the house number on the building.',
+    puzzleType: 'clock',
+    difficulty: 'hard',
+    questionDe: 'Um welche Uhrzeit verliess Kapitaen Scheel an jenem Abend das Munch-Haus? Stellt die Uhr auf die richtige Zeit ein.',
+    questionEn: 'What time did Captain Scheel leave the Munch house that evening? Set the clock to the correct time.',
+    instructionDe: 'Scheels Verschwinden wurde 1923 dokumentiert. Er verliess das Haus abends — die Uhrzeit enthaelt dieselbe Zahl wie das Jahr.',
+    instructionEn: 'Scheel\'s disappearance was documented in 1923. He left the house in the evening — the time contains the same number as the year.',
     answerType: 'text',
-    correctAnswer: { value: '53' },
+    correctAnswer: { value: '19:23' },
     answerValidationMode: 'exact',
     caseSensitive: false,
     options: null,
@@ -766,68 +773,58 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     targetRadiusMeters: null,
     imageUrl: null,
     audioUrl: null,
-    basePoints: 100,
+    basePoints: 200,
     timeBonusEnabled: true,
-    timeBonusMaxSeconds: 90,
+    timeBonusMaxSeconds: 150,
     createdAt: NOW,
     updatedAt: NOW,
   },
 
-  // 10. Alter Strom — Logik
+  // 10. Alter Strom — Schiebe-Puzzle (hard)
   {
     id: 'demo-puzzle-010',
     stationId: 'demo-station-010',
     orderIndex: 0,
-    puzzleType: 'logic',
-    difficulty: 'medium',
-    questionDe: 'Was wurde traditionell am Alten Strom gehandelt, bevor es ein Touristenziel wurde?',
-    questionEn: 'What was traditionally traded at the Alter Strom before it became a tourist destination?',
-    instructionDe: 'Waehlt die richtige Antwort.',
-    instructionEn: 'Choose the correct answer.',
-    answerType: 'multiple_choice',
-    correctAnswer: { value: 'b' },
+    puzzleType: 'slide_puzzle',
+    difficulty: 'hard',
+    questionDe: 'Scheels zerbrochene Seekarte muss zusammengesetzt werden. Schiebt die Kacheln in die richtige Reihenfolge. Was zeigt das Symbol in der Mitte des fertigen Bildes?',
+    questionEn: 'Scheel\'s broken nautical chart must be reassembled. Slide the tiles into the correct order. What symbol appears in the center of the completed image?',
+    instructionDe: 'Setzt das Bild zusammen und gebt dann das Loesungswort ein. Es ist ein Navigationsgeraet.',
+    instructionEn: 'Assemble the image and then enter the answer word. It is a navigation instrument.',
+    answerType: 'text',
+    correctAnswer: { value: 'KOMPASS' },
     answerValidationMode: 'exact',
     caseSensitive: false,
-    options: [
-      { id: 'a', textDe: 'Bernstein und Schmuck', textEn: 'Amber and jewelry' },
-      { id: 'b', textDe: 'Fisch und Meeresfrüchte', textEn: 'Fish and seafood' },
-      { id: 'c', textDe: 'Schiffsbauholz', textEn: 'Shipbuilding timber' },
-      { id: 'd', textDe: 'Salz und Gewuerze', textEn: 'Salt and spices' },
-    ],
+    options: null,
     arMarkerUrl: null,
     arContent: null,
     targetLocation: null,
     targetRadiusMeters: null,
     imageUrl: null,
     audioUrl: null,
-    basePoints: 150,
+    basePoints: 200,
     timeBonusEnabled: true,
-    timeBonusMaxSeconds: 90,
+    timeBonusMaxSeconds: 180,
     createdAt: NOW,
     updatedAt: NOW,
   },
 
-  // 11. Fischmarkt — Knoten-Code
+  // 11. Fischmarkt — Knoten-Entschluesselung (hard) — Text statt MC
   {
     id: 'demo-puzzle-011',
     stationId: 'demo-station-011',
     orderIndex: 0,
-    puzzleType: 'logic',
+    puzzleType: 'text_analysis',
     difficulty: 'hard',
-    questionDe: 'Vier Knoten haengen am Poller: Palstek (P), Kreuzknoten (K), Achtknoten (A), Schotstek (S). Scheels Botschaft beginnt immer mit seinem Lieblingsknoten — dem Palstek — und endet mit dem Achtknoten. Welche Reihenfolge ergibt sein Name PKAS?',
-    questionEn: 'Four knots hang from the bollard. Scheel\'s message always starts with his favorite knot — the bowline — and ends with the figure eight.',
-    instructionDe: 'Waehlt die richtige Reihenfolge der vier Buchstaben.',
-    instructionEn: 'Choose the correct order of the four letters.',
-    answerType: 'multiple_choice',
-    correctAnswer: { value: 'c' },
+    questionDe: 'Vier Knoten haengen am Poller: Palstek (P), Kreuzknoten (K), Achtknoten (A), Schotstek (S). Scheels Botschaft beginnt immer mit dem Palstek, danach der Kreuzknoten, dann der Schotstek, zuletzt der Achtknoten. Gebt die vier Buchstaben als Wort ein.',
+    questionEn: 'Four knots hang from the bollard: Bowline (P), Square knot (K), Figure eight (A), Sheet bend (S). Scheel\'s message starts with the bowline, then the square knot, then the sheet bend, finally the figure eight. Enter the four letters as a word.',
+    instructionDe: 'Ordnet die Buchstaben in der beschriebenen Reihenfolge: Palstek zuerst, Achtknoten zuletzt.',
+    instructionEn: 'Arrange the letters in the described order: bowline first, figure eight last.',
+    answerType: 'text',
+    correctAnswer: { value: 'PKSA' },
     answerValidationMode: 'exact',
     caseSensitive: false,
-    options: [
-      { id: 'a', textDe: 'KPSA', textEn: 'KPSA' },
-      { id: 'b', textDe: 'PASK', textEn: 'PASK' },
-      { id: 'c', textDe: 'PKSA', textEn: 'PKSA' },
-      { id: 'd', textDe: 'SPKA', textEn: 'SPKA' },
-    ],
+    options: null,
     arMarkerUrl: null,
     arContent: null,
     targetLocation: null,
@@ -841,19 +838,19 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     updatedAt: NOW,
   },
 
-  // 12. Bahnhof — Finale
+  // 12. Bahnhof — Meta-Puzzle Finale (finale)
   {
     id: 'demo-puzzle-012',
     stationId: 'demo-station-012',
     orderIndex: 0,
     puzzleType: 'combination',
     difficulty: 'finale',
-    questionDe: 'Der Geisterzug 1923 faehrt um 19:23 ab Gleis 0. Die Ankunftszeit ist Scheels Geburtsjahr rueckwaerts gelesen. Er wurde 1867 geboren. Was ist die Ankunftszeit als 4-stellige Zahl?',
-    questionEn: 'Ghost train 1923 departs at 19:23 from Platform 0. The arrival time is Scheel\'s birth year read backwards. He was born in 1867. What is the arrival time as a 4-digit number?',
-    instructionDe: 'Lest die Jahreszahl 1867 rueckwaerts.',
-    instructionEn: 'Read the year 1867 backwards.',
+    questionDe: 'Der Geisterzug braucht einen 6-stelligen Abfahrtscode. Die ersten zwei Ziffern: das Jahrhundert, in dem die Vogtei erbaut wurde. Die mittleren zwei: Scheels Ernennung zum Lotsenkapitaen minus 1900. Die letzten zwei: die Hausnummer des Munch-Hauses. Kombiniert euer Wissen!',
+    questionEn: 'The ghost train needs a 6-digit departure code. First two digits: the century the Vogtei was built. Middle two: Scheel\'s appointment as pilot captain minus 1900. Last two: the Munch house number. Combine your knowledge!',
+    instructionDe: 'Erinnert euch an die Vogtei (Station 8), Scheels Ernennung (Station 3) und das Munch-Haus (Station 9).',
+    instructionEn: 'Remember the Vogtei (Station 8), Scheel\'s appointment (Station 3), and the Munch house (Station 9).',
     answerType: 'text',
-    correctAnswer: { value: '7681' },
+    correctAnswer: { value: '130353' },
     answerValidationMode: 'exact',
     caseSensitive: false,
     options: null,
@@ -863,16 +860,16 @@ export const DEMO_PUZZLES: readonly Puzzle[] = [
     targetRadiusMeters: null,
     imageUrl: null,
     audioUrl: null,
-    basePoints: 250,
+    basePoints: 300,
     timeBonusEnabled: true,
-    timeBonusMaxSeconds: 150,
+    timeBonusMaxSeconds: 180,
     createdAt: NOW,
     updatedAt: NOW,
   },
 ]
 
 // ---------------------------------------------------------------------------
-// Hints (2 per puzzle)
+// Hints (3 per puzzle — progressive disclosure)
 // ---------------------------------------------------------------------------
 
 export interface DemoHint {
@@ -891,85 +888,97 @@ export const DEMO_HINTS: ReadonlyMap<string, readonly DemoHint[]> = new Map([
   [
     'demo-puzzle-001',
     [
-      { id: 'hint-001-1', puzzle_id: 'demo-puzzle-001', hint_level: 1, text_de: 'Der Leuchtturm ist 31 Meter hoch. Die Stufen sind relativ eng.', text_en: 'The lighthouse is 31 meters tall. The steps are relatively narrow.', point_penalty: 20, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-001-2', puzzle_id: 'demo-puzzle-001', hint_level: 2, text_de: 'Die Antwort liegt zwischen 130 und 140.', text_en: 'The answer is between 130 and 140.', point_penalty: 40, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-001-1', puzzle_id: 'demo-puzzle-001', hint_level: 1, text_de: 'Der Leuchtturm ist 31 Meter hoch. Die Stufen sind relativ eng.', text_en: 'The lighthouse is 31 meters tall. The steps are relatively narrow.', point_penalty: 15, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-001-2', puzzle_id: 'demo-puzzle-001', hint_level: 2, text_de: 'Die Antwort liegt zwischen 130 und 140.', text_en: 'The answer is between 130 and 140.', point_penalty: 30, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-001-3', puzzle_id: 'demo-puzzle-001', hint_level: 3, text_de: 'Es sind genau 135 Stufen.', text_en: 'There are exactly 135 steps.', point_penalty: 50, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-002',
     [
-      { id: 'hint-002-1', puzzle_id: 'demo-puzzle-002', hint_level: 1, text_de: 'Das Dach hat eine hyperbolische Paraboloid-Form. Zaehlt die grossen Boegen.', text_en: 'The roof has a hyperbolic paraboloid shape. Count the large arches.', point_penalty: 20, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-002-2', puzzle_id: 'demo-puzzle-002', hint_level: 2, text_de: 'Es sind weniger als 5 Wellenberge.', text_en: 'There are fewer than 5 wave crests.', point_penalty: 40, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-002-1', puzzle_id: 'demo-puzzle-002', hint_level: 1, text_de: 'Schaut auf die Spitze des Daches — dort dreht sich etwas im Wind.', text_en: 'Look at the top of the roof — something is spinning in the wind.', point_penalty: 15, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-002-2', puzzle_id: 'demo-puzzle-002', hint_level: 2, text_de: 'Es ist ein Kuesten-Vogel, der fuer seine lauten Schreie bekannt ist.', text_en: 'It is a coastal bird known for its loud calls.', point_penalty: 30, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-002-3', puzzle_id: 'demo-puzzle-002', hint_level: 3, text_de: 'M-O-E-W-E. Fuenf Buchstaben, typisch fuer die Ostsee.', text_en: 'S-E-A-G-U-L-L. Typical for the Baltic Sea.', point_penalty: 50, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-003',
     [
-      { id: 'hint-003-1', puzzle_id: 'demo-puzzle-003', hint_level: 1, text_de: 'Scheel wurde zu Beginn des 20. Jahrhunderts ernannt. Die Jahreszahl beginnt mit 19...', text_en: 'Scheel was appointed at the beginning of the 20th century.', point_penalty: 40, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-003-2', puzzle_id: 'demo-puzzle-003', hint_level: 2, text_de: 'Die Jahreszahl hat vier Ziffern und endet mit 03.', text_en: 'The year has four digits and ends with 03.', point_penalty: 80, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-003-1', puzzle_id: 'demo-puzzle-003', hint_level: 1, text_de: 'Scheel wurde zu Beginn des 20. Jahrhunderts ernannt. Die Jahreszahl beginnt mit 19...', text_en: 'Scheel was appointed at the beginning of the 20th century.', point_penalty: 15, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-003-2', puzzle_id: 'demo-puzzle-003', hint_level: 2, text_de: 'Die Jahreszahl hat vier Ziffern und endet mit 03.', text_en: 'The year has four digits and ends with 03.', point_penalty: 30, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-003-3', puzzle_id: 'demo-puzzle-003', hint_level: 3, text_de: 'Der Code lautet 1903.', text_en: 'The code is 1903.', point_penalty: 50, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-004',
     [
-      { id: 'hint-004-1', puzzle_id: 'demo-puzzle-004', hint_level: 1, text_de: 'Schaut auf die obere Fassade — die Rauten sind symmetrisch angeordnet.', text_en: 'Look at the upper facade — the diamonds are arranged symmetrically.', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-004-2', puzzle_id: 'demo-puzzle-004', hint_level: 2, text_de: 'Es sind zwischen 6 und 10 Rauten.', text_en: 'There are between 6 and 10 diamonds.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-004-1', puzzle_id: 'demo-puzzle-004', hint_level: 1, text_de: 'Das Kurhaus wurde in den spaeten 1920er Jahren erbaut.', text_en: 'The Kurhaus was built in the late 1920s.', point_penalty: 25, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-004-2', puzzle_id: 'demo-puzzle-004', hint_level: 2, text_de: 'Die Jahreszahl beginnt mit 19 und endet mit 28.', text_en: 'The year starts with 19 and ends with 28.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-004-3', puzzle_id: 'demo-puzzle-004', hint_level: 3, text_de: 'Die Antwort ist 1928.', text_en: 'The answer is 1928.', point_penalty: 75, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-005',
     [
-      { id: 'hint-005-1', puzzle_id: 'demo-puzzle-005', hint_level: 1, text_de: 'Es ist ein Jahr im 19. Jahrhundert. Denkt an die erste Station.', text_en: 'It is a year in the 19th century. Think about the first station.', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-005-2', puzzle_id: 'demo-puzzle-005', hint_level: 2, text_de: 'Das Jahr beginnt mit 18 und endet mit 97.', text_en: 'The year starts with 18 and ends with 97.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-005-1', puzzle_id: 'demo-puzzle-005', hint_level: 1, text_de: 'Es ist ein Jahr im 19. Jahrhundert. Denkt an die erste Station — dort stand die Jahreszahl.', text_en: 'It is a year in the 19th century. Think about the first station.', point_penalty: 25, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-005-2', puzzle_id: 'demo-puzzle-005', hint_level: 2, text_de: 'Der Leuchtturm wurde 2 Jahre vor 1899 gebaut.', text_en: 'The lighthouse was built 2 years before 1899.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-005-3', puzzle_id: 'demo-puzzle-005', hint_level: 3, text_de: 'Der Code lautet 1897.', text_en: 'The code is 1897.', point_penalty: 75, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-006',
     [
-      { id: 'hint-006-1', puzzle_id: 'demo-puzzle-006', hint_level: 1, text_de: 'Jedes Schiff hat eines, um nicht abzutreiben.', text_en: 'Every ship has one to keep from drifting away.', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 20 },
+      { id: 'hint-006-1', puzzle_id: 'demo-puzzle-006', hint_level: 1, text_de: 'Jedes Schiff hat eines, um nicht abzutreiben.', text_en: 'Every ship has one to keep from drifting away.', point_penalty: 25, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 20 },
       { id: 'hint-006-2', puzzle_id: 'demo-puzzle-006', hint_level: 2, text_de: 'Es ist schwer, aus Eisen, und haelt am Meeresgrund. 5 Buchstaben.', text_en: 'It is heavy, made of iron, and holds to the seabed. 6 letters.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 45 },
+      { id: 'hint-006-3', puzzle_id: 'demo-puzzle-006', hint_level: 3, text_de: 'A-N-K-E-R.', text_en: 'A-N-C-H-O-R.', point_penalty: 75, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 75 },
     ],
   ],
   [
     'demo-puzzle-007',
     [
-      { id: 'hint-007-1', puzzle_id: 'demo-puzzle-007', hint_level: 1, text_de: 'Nehmt nur den allerersten Buchstaben jedes Wortes.', text_en: 'Take only the very first letter of each word.', point_penalty: 20, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 20 },
-      { id: 'hint-007-2', puzzle_id: 'demo-puzzle-007', hint_level: 2, text_de: 'A-N-K-E-R. Das Wort hat 5 Buchstaben und haelt Schiffe fest.', text_en: 'A-N-C-E-R. The word has 5 letters and holds ships in place.', point_penalty: 40, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 45 },
+      { id: 'hint-007-1', puzzle_id: 'demo-puzzle-007', hint_level: 1, text_de: 'Nehmt nur den allerersten Buchstaben jedes Wortes: L, O, T, S, E.', text_en: 'Take only the very first letter of each word: L, O, T, S, E.', point_penalty: 25, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 20 },
+      { id: 'hint-007-2', puzzle_id: 'demo-puzzle-007', hint_level: 2, text_de: 'Das Wort beschreibt jemanden, der Schiffe sicher in den Hafen fuehrt.', text_en: 'The word describes someone who guides ships safely into port.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 45 },
+      { id: 'hint-007-3', puzzle_id: 'demo-puzzle-007', hint_level: 3, text_de: 'L-O-T-S-E. Scheels Berufung.', text_en: 'P-I-L-O-T. Scheel\'s calling.', point_penalty: 75, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 75 },
     ],
   ],
   [
     'demo-puzzle-008',
     [
-      { id: 'hint-008-1', puzzle_id: 'demo-puzzle-008', hint_level: 1, text_de: 'Stern=3, also beginnt der Code mit 3. Anker=1, also ist die zweite Ziffer 1.', text_en: 'Star=3, so the code starts with 3. Anchor=1, so the second digit is 1.', point_penalty: 40, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-008-2', puzzle_id: 'demo-puzzle-008', hint_level: 2, text_de: 'Der Code lautet 3-1-5-4-2.', text_en: 'The code is 3-1-5-4-2.', point_penalty: 80, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-008-1', puzzle_id: 'demo-puzzle-008', hint_level: 1, text_de: 'Stern=3, also beginnt der Code mit 3. Anker=1, also ist die zweite Ziffer 1.', text_en: 'Star=3, so the code starts with 3. Anchor=1, so the second digit is 1.', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-008-2', puzzle_id: 'demo-puzzle-008', hint_level: 2, text_de: 'Krone=5, Welle=4, Kreuz=2. Der Code ist 3-1-?-?-?.', text_en: 'Crown=5, Wave=4, Cross=2. The code is 3-1-?-?-?.', point_penalty: 60, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-008-3', puzzle_id: 'demo-puzzle-008', hint_level: 3, text_de: 'Der vollstaendige Code lautet 31542.', text_en: 'The complete code is 31542.', point_penalty: 100, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-009',
     [
-      { id: 'hint-009-1', puzzle_id: 'demo-puzzle-009', hint_level: 1, text_de: 'Die Hausnummer steht direkt am Eingang des Gebaeudes.', text_en: 'The house number is right at the entrance of the building.', point_penalty: 20, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 20 },
-      { id: 'hint-009-2', puzzle_id: 'demo-puzzle-009', hint_level: 2, text_de: 'Am Strom Nummer fuenfzig-drei.', text_en: 'Am Strom number fifty-three.', point_penalty: 40, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 45 },
+      { id: 'hint-009-1', puzzle_id: 'demo-puzzle-009', hint_level: 1, text_de: 'Es ist ein Abend im Jahr 1923. Die Uhrzeit hat mit diesem Jahr zu tun.', text_en: 'It is an evening in 1923. The time is related to this year.', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-009-2', puzzle_id: 'demo-puzzle-009', hint_level: 2, text_de: 'Die Stunde ist 19, die Minuten sind 23. Denkt an das Jahr 1923.', text_en: 'The hour is 19, the minutes are 23. Think of the year 1923.', point_penalty: 60, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-009-3', puzzle_id: 'demo-puzzle-009', hint_level: 3, text_de: 'Stellt die Uhr auf 19:23 (Nachmittag, 7 Uhr 23).', text_en: 'Set the clock to 19:23 (7:23 PM).', point_penalty: 100, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-010',
     [
-      { id: 'hint-010-1', puzzle_id: 'demo-puzzle-010', hint_level: 1, text_de: 'Denkt an den Namen: "Alter Strom" — ein Wasserweg fuer...?', text_en: 'Think about the name: "Alter Strom" — a waterway for...?', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 20 },
-      { id: 'hint-010-2', puzzle_id: 'demo-puzzle-010', hint_level: 2, text_de: 'Die bunten Kutter am Ufer sind ein starker Hinweis.', text_en: 'The colorful cutters on the shore are a strong hint.', point_penalty: 50, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 45 },
+      { id: 'hint-010-1', puzzle_id: 'demo-puzzle-010', hint_level: 1, text_de: 'Schiebt zuerst die Kacheln in der obersten Reihe an die richtige Stelle (1-2-3).', text_en: 'First slide the tiles in the top row to the correct position (1-2-3).', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 45 },
+      { id: 'hint-010-2', puzzle_id: 'demo-puzzle-010', hint_level: 2, text_de: 'Das Loesungswort ist ein Navigationsgeraet mit einer Nadel, die nach Norden zeigt.', text_en: 'The answer word is a navigation device with a needle that points north.', point_penalty: 60, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 90 },
+      { id: 'hint-010-3', puzzle_id: 'demo-puzzle-010', hint_level: 3, text_de: 'K-O-M-P-A-S-S. Ein Geraet, das Seefahrern den Weg weist.', text_en: 'C-O-M-P-A-S-S. A device that guides seafarers.', point_penalty: 100, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 120 },
     ],
   ],
   [
     'demo-puzzle-011',
     [
-      { id: 'hint-011-1', puzzle_id: 'demo-puzzle-011', hint_level: 1, text_de: 'Scheels Lieblingsknoten ist der Palstek (P) — damit beginnt die Reihenfolge.', text_en: 'Scheel\'s favorite knot is the bowline (P) — the sequence starts with it.', point_penalty: 40, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-011-2', puzzle_id: 'demo-puzzle-011', hint_level: 2, text_de: 'Es endet mit dem Achtknoten (A). Also: P-?-?-A. Die Mitte ist K-S.', text_en: 'It ends with the figure eight (A). So: P-?-?-A. The middle is K-S.', point_penalty: 80, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-011-1', puzzle_id: 'demo-puzzle-011', hint_level: 1, text_de: 'Scheels Lieblingsknoten ist der Palstek (P) — damit beginnt die Reihenfolge.', text_en: 'Scheel\'s favorite knot is the bowline (P) — the sequence starts with it.', point_penalty: 30, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-011-2', puzzle_id: 'demo-puzzle-011', hint_level: 2, text_de: 'Nach dem Palstek (P) kommt der Kreuzknoten (K). Es endet mit dem Achtknoten (A). Also: P-K-?-A.', text_en: 'After the bowline (P) comes the square knot (K). It ends with figure eight (A). So: P-K-?-A.', point_penalty: 60, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-011-3', puzzle_id: 'demo-puzzle-011', hint_level: 3, text_de: 'P-K-S-A. Palstek, Kreuzknoten, Schotstek, Achtknoten.', text_en: 'P-K-S-A. Bowline, Square knot, Sheet bend, Figure eight.', point_penalty: 100, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
   [
     'demo-puzzle-012',
     [
-      { id: 'hint-012-1', puzzle_id: 'demo-puzzle-012', hint_level: 1, text_de: 'Rueckwaerts lesen: 1-8-6-7 wird zu 7-6-8-1.', text_en: 'Read backwards: 1-8-6-7 becomes 7-6-8-1.', point_penalty: 50, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
-      { id: 'hint-012-2', puzzle_id: 'demo-puzzle-012', hint_level: 2, text_de: 'Die Antwort ist 7681.', text_en: 'The answer is 7681.', point_penalty: 100, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-012-1', puzzle_id: 'demo-puzzle-012', hint_level: 1, text_de: 'Die Vogtei wurde um 1300 erbaut — also im 13. Jahrhundert. Die ersten zwei Ziffern sind 13.', text_en: 'The Vogtei was built around 1300 — in the 13th century. The first two digits are 13.', point_penalty: 40, time_bonus_penalty_percent: 25, marks_as_skipped: false, available_after_seconds: 30 },
+      { id: 'hint-012-2', puzzle_id: 'demo-puzzle-012', hint_level: 2, text_de: 'Scheels Ernennung: 1903 minus 1900 = 03. Das Munch-Haus: Am Strom 53. Also: 13-03-53.', text_en: 'Scheel\'s appointment: 1903 minus 1900 = 03. Munch house: Am Strom 53. So: 13-03-53.', point_penalty: 80, time_bonus_penalty_percent: 50, marks_as_skipped: false, available_after_seconds: 60 },
+      { id: 'hint-012-3', puzzle_id: 'demo-puzzle-012', hint_level: 3, text_de: 'Der vollstaendige Code lautet 130353.', text_en: 'The complete code is 130353.', point_penalty: 150, time_bonus_penalty_percent: 100, marks_as_skipped: false, available_after_seconds: 90 },
     ],
   ],
 ])
@@ -986,7 +995,7 @@ export const DEMO_CERTIFICATE: Certificate = {
   variant: 'adult',
   date: NOW,
   stats: {
-    totalPoints: 1850,
+    totalPoints: 2000,
     totalTimeMinutes: 110,
     hintsUsed: 0,
     puzzlesSkipped: 0,

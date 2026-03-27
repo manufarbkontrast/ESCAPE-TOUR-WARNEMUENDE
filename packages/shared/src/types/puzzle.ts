@@ -9,6 +9,8 @@ export type PuzzleType =
   | 'navigation'
   | 'document_analysis'
   | 'text_analysis'
+  | 'clock'
+  | 'slide_puzzle'
 
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'finale'
 
