@@ -97,10 +97,11 @@ describe('GET /api/game/hints/[puzzleId]', () => {
     expect(body).toMatchObject({ success: true })
     const hints = (body as any).data
     expect(Array.isArray(hints)).toBe(true)
-    expect(hints).toHaveLength(2)
+    expect(hints).toHaveLength(3)
     expect(hints[0].puzzle_id).toBe('demo-puzzle-001')
     expect(hints[0].hint_level).toBe(1)
     expect(hints[1].hint_level).toBe(2)
+    expect(hints[2].hint_level).toBe(3)
   })
 
   it('should return empty array for unknown demo puzzle', async () => {

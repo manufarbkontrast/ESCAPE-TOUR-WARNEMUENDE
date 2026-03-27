@@ -190,7 +190,7 @@ describe('POST /api/game/validate-answer', () => {
     expect(status).toBe(200)
     expect(body).toMatchObject({ success: true })
     expect((body as any).data.isCorrect).toBe(true)
-    expect((body as any).data.pointsEarned).toBe(200)
+    expect((body as any).data.pointsEarned).toBe(100)
   })
 
   it('should return incorrect for wrong demo answer', async () => {

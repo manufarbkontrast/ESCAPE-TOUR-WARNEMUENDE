@@ -15,8 +15,8 @@ import {
 
 describe('Game Constants', () => {
   describe('TOTAL_STATIONS', () => {
-    it('should be 8 stations per tour', () => {
-      expect(TOTAL_STATIONS).toBe(8)
+    it('should be 12 stations per tour', () => {
+      expect(TOTAL_STATIONS).toBe(12)
     })
   })
 

@@ -29,7 +29,9 @@ describe('buildContactNotificationEmail', () => {
 
   it('should include sender email as reply-to link', () => {
     const { html } = buildContactNotificationEmail(BASE_DATA)
-    expect(html).toContain('mailto:max@example.com')
+    // Email in mailto href is URI-encoded, display text is HTML-escaped
+    expect(html).toContain('mailto:max%40example.com')
+    expect(html).toContain('max@example.com')
   })
 
   it('should include message body', () => {

@@ -64,7 +64,7 @@ describe('Footer', () => {
 
  it('should render section headings', () => {
   render(<Footer />)
-  expect(screen.getByText('Quick Links')).toBeInTheDocument()
+  expect(screen.getByText('Navigation')).toBeInTheDocument()
   expect(screen.getByText('Rechtliches')).toBeInTheDocument()
  })
 

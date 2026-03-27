@@ -199,6 +199,6 @@ describe('CodeInput', () => {
  it('should apply error styling to inputs when error exists', () => {
   renderCodeInput({ error: 'Bad code' })
   const firstInput = screen.getByLabelText('Zeichen 1')
-  expect(firstInput.className).toContain('border-red-500')
+  expect(firstInput.style.borderColor).toContain('239')
  })
 })

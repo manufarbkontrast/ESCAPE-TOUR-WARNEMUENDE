@@ -71,11 +71,11 @@ describe('validateDemoAnswer', () => {
     expect(result.feedback.messageDe).toContain('nicht gefunden')
   })
 
-  // Puzzle 003 — Westmole (combination, answer: '1903', basePoints: 200)
+  // Puzzle 003 — Westmole (combination, answer: '1903', basePoints: 100)
   it('should validate combination answer (puzzle 003)', () => {
     const result = validateDemoAnswer('demo-puzzle-003', '1903', 60)
     expect(result.isCorrect).toBe(true)
-    expect(result.pointsEarned).toBe(200)
+    expect(result.pointsEarned).toBe(100)
   })
 
   // Puzzle 006 — Kirchplatz (symbol_find, answer: 'ANKER', basePoints: 150)
@@ -98,22 +98,29 @@ describe('validateDemoAnswer', () => {
     expect(result.timeBonusEarned).toBe(50)
   })
 
-  // Puzzle 010 — Alter Strom (logic/multiple_choice, answer: 'b', basePoints: 150)
-  it('should handle multiple choice answer (puzzle 010)', () => {
-    const result = validateDemoAnswer('demo-puzzle-010', 'b', 30)
+  // Puzzle 009 — Munch-Haus (clock, answer: '19:23', basePoints: 200)
+  it('should handle clock answer (puzzle 009)', () => {
+    const result = validateDemoAnswer('demo-puzzle-009', '19:23', 30)
     expect(result.isCorrect).toBe(true)
-    expect(result.pointsEarned).toBe(150)
+    expect(result.pointsEarned).toBe(200)
   })
 
-  it('should reject wrong multiple choice answer', () => {
-    const result = validateDemoAnswer('demo-puzzle-010', 'a', 30)
+  // Puzzle 010 — Alter Strom (slide_puzzle, answer: 'KOMPASS', basePoints: 200)
+  it('should handle slide puzzle answer (puzzle 010)', () => {
+    const result = validateDemoAnswer('demo-puzzle-010', 'kompass', 60)
+    expect(result.isCorrect).toBe(true)
+    expect(result.pointsEarned).toBe(200)
+  })
+
+  it('should reject wrong slide puzzle answer', () => {
+    const result = validateDemoAnswer('demo-puzzle-010', 'anker', 30)
     expect(result.isCorrect).toBe(false)
   })
 
-  // Puzzle 012 — Bahnhof (combination/finale, answer: '7681', basePoints: 250)
+  // Puzzle 012 — Bahnhof (combination/finale, answer: '130353', basePoints: 300)
   it('should validate finale puzzle', () => {
-    const result = validateDemoAnswer('demo-puzzle-012', '7681', 45)
+    const result = validateDemoAnswer('demo-puzzle-012', '130353', 45)
     expect(result.isCorrect).toBe(true)
-    expect(result.pointsEarned).toBe(250)
+    expect(result.pointsEarned).toBe(300)
   })
 })

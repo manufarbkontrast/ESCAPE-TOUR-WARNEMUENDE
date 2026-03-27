@@ -18,6 +18,13 @@ vi.mock('@/lib/stripe/server', () => ({
   },
 }))
 
+vi.mock('@/lib/utils/rate-limit', () => ({
+  createRateLimiter: () => ({
+    check: () => ({ allowed: true, retryAfterMs: 0 }),
+    reset: () => {},
+  }),
+}))
+
 import { POST } from '@/app/api/checkout/route'
 
 function createRequest(body: Record<string, unknown>): NextRequest {
