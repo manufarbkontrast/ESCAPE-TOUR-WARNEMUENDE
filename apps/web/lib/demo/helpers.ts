@@ -18,6 +18,20 @@ export function isDemoSession(sessionId: string): boolean {
 }
 
 /**
+ * Check if a session ID belongs to a staff-created session.
+ */
+export function isStaffSession(sessionId: string): boolean {
+  return sessionId.startsWith('staff-')
+}
+
+/**
+ * Check if a session uses local/demo data (no Supabase).
+ */
+export function isOfflineSession(sessionId: string): boolean {
+  return isDemoSession(sessionId) || isStaffSession(sessionId)
+}
+
+/**
  * Check if a booking code is the demo code.
  */
 export function isDemoBookingCode(code: string): boolean {

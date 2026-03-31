@@ -6,8 +6,9 @@ import { TOTAL_STATIONS } from '@escape-tour/shared'
 import { useGameStore } from '@/stores'
 import { OfflineIndicator } from '@/components/ui/OfflineIndicator'
 import { GameMenu } from '@/components/game/GameMenu'
-import { isDemoSession } from '@/lib/demo/helpers'
+import { isDemoSession, isStaffSession } from '@/lib/demo/helpers'
 import { DEMO_STATIONS } from '@/lib/demo/data'
+import { useWakeLock } from '@/hooks/useWakeLock'
 
 interface GameLayoutProps {
  readonly children: React.ReactNode
@@ -19,7 +20,8 @@ interface GameLayoutProps {
 function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
  const session = useGameStore((s) => s.session)
  const stationIndex = session?.currentStationIndex ?? 0
- const totalStations = isDemoSession(session?.id ?? '') ? DEMO_STATIONS.length : TOTAL_STATIONS
+ const sessionId = session?.id ?? ''
+ const totalStations = (isDemoSession(sessionId) || isStaffSession(sessionId)) ? DEMO_STATIONS.length : TOTAL_STATIONS
  const progressPercent = Math.round((stationIndex / totalStations) * 100)
 
  return (
@@ -73,6 +75,8 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
  */
 export default function GameLayout({ children }: GameLayoutProps) {
  const [isMenuOpen, setIsMenuOpen] = useState(false)
+ const sessionStatus = useGameStore((s) => s.session?.status)
+ useWakeLock(sessionStatus === 'active')
 
  return (
   <div className="min-h-screen flex flex-col bg-dark-950">

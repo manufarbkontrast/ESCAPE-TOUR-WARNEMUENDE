@@ -1,5 +1,5 @@
 import type { NextRequest } from 'next/server'
-import { isDemoSession } from '@/lib/demo/helpers'
+import { isDemoSession, isStaffSession } from '@/lib/demo/helpers'
 import { SESSION_COOKIE_NAME, verifySessionToken, isDemoToken } from './session-token'
 
 interface VerifyResult {
@@ -11,8 +11,8 @@ export function verifyGameSession(
   request: NextRequest,
   sessionId: string,
 ): VerifyResult {
-  // Demo sessions bypass auth
-  if (isDemoSession(sessionId)) {
+  // Demo and staff sessions bypass auth
+  if (isDemoSession(sessionId) || isStaffSession(sessionId)) {
     return { valid: true }
   }
 

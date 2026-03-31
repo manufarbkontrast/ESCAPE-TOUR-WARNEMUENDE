@@ -9,7 +9,15 @@ const withPWA = require('next-pwa')({
       handler: 'CacheFirst',
       options: {
         cacheName: 'mapbox-cache',
-        expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 },
+        expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 30 },
+      },
+    },
+    {
+      urlPattern: /^https:\/\/(?:tiles|events)\.mapbox\.com\/.*/i,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'mapbox-tiles-cache',
+        expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 30 },
       },
     },
     {

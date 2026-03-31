@@ -3,9 +3,11 @@
 import { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Play, Pause, Volume2, VolumeX, Star, LogOut } from 'lucide-react'
+import { X, Play, Pause, Volume2, VolumeX, Star, LogOut, RotateCcw } from 'lucide-react'
 import { useGameStore } from '@/stores'
 import { useAudioStore } from '@/stores/audioStore'
+import { isStaffSession, isDemoSession } from '@/lib/demo/helpers'
+import { resetDevice } from '@/lib/utils/reset-device'
 
 interface GameMenuProps {
  readonly isOpen: boolean
@@ -170,7 +172,21 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
        </nav>
 
        {/* Footer */}
-       <div className="p-3 border-t border-white/[0.04]">
+       <div className="p-3 border-t border-white/[0.04] space-y-1">
+        {(isStaffSession(session?.id ?? '') || isDemoSession(session?.id ?? '')) && (
+         <button
+          type="button"
+          onClick={() => {
+           if (window.confirm('Gerät zurücksetzen? Alle Fortschritte gehen verloren.')) {
+            resetDevice({ preserveStaffToken: true })
+           }
+          }}
+          className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm text-white/50 hover:bg-white/[0.04] transition-all duration-150"
+         >
+          <RotateCcw className="h-4 w-4" strokeWidth={1.5} />
+          <span className="font-semibold">Gerät zurücksetzen</span>
+         </button>
+        )}
         <button
          type="button"
          onClick={handleExitTour}

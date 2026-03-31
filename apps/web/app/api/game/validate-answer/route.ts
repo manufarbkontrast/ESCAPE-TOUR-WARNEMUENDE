@@ -10,7 +10,7 @@ import {
   toNextResponse,
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
-import { isDemoSession, validateDemoAnswer } from '@/lib/demo/helpers';
+import { isDemoSession, isStaffSession, validateDemoAnswer } from '@/lib/demo/helpers';
 import { verifyGameSession } from '@/lib/utils/verify-session';
 import { createRateLimiter } from '@/lib/utils/rate-limit';
 import { getClientIp } from '@/lib/utils/client-ip';
@@ -80,8 +80,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Rate limit answer attempts (skip for demo)
-    if (!isDemoSession(body.sessionId)) {
+    // Rate limit answer attempts (skip for demo/staff)
+    if (!isDemoSession(body.sessionId) && !isStaffSession(body.sessionId)) {
       const ip = getClientIp(request);
       const rateCheck = answerRateLimiter.check(`${ip}:${body.sessionId}`);
       if (!rateCheck.allowed) {
@@ -95,8 +95,8 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Demo mode: validate against local demo data without touching Supabase
-    if (isDemoSession(body.sessionId)) {
+    // Demo/Staff mode: validate against local demo data without touching Supabase
+    if (isDemoSession(body.sessionId) || isStaffSession(body.sessionId)) {
       const result = validateDemoAnswer(body.puzzleId, body.answer, timeSeconds);
       return toNextResponse(successResponse(result));
     }

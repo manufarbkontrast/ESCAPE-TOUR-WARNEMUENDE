@@ -14,7 +14,7 @@ import {
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import type { Database } from '@escape-tour/database/src/types/supabase';
-import { isDemoBookingCode, isDemoSession } from '@/lib/demo/helpers';
+import { isDemoBookingCode, isDemoSession, isStaffSession } from '@/lib/demo/helpers';
 import { DEMO_SESSION_ID, DEMO_SESSION, DEMO_STATIONS, DEMO_PUZZLES } from '@/lib/demo/data';
 import { createSessionToken, createDemoToken, SESSION_COOKIE_NAME } from '@/lib/utils/session-token';
 import { verifyGameSession } from '@/lib/utils/verify-session';
@@ -69,11 +69,11 @@ export async function GET(request: NextRequest) {
       return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
     }
 
-    // Demo mode: return mock data without touching Supabase
-    if (isDemoSession(sessionId)) {
+    // Demo and staff mode: return mock data without touching Supabase
+    if (isDemoSession(sessionId) || isStaffSession(sessionId)) {
       return toNextResponse(
         successResponse({
-          session: DEMO_SESSION,
+          session: { ...DEMO_SESSION, id: sessionId },
           stations: DEMO_STATIONS,
           puzzles: DEMO_PUZZLES,
         })
