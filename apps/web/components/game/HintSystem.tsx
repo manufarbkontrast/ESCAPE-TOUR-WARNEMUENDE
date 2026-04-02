@@ -96,7 +96,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
       </h2>
       <button
        onClick={onClose}
-       className="btn-icon-sm text-dark-500"
+       className="btn-icon-sm text-white/50"
        aria-label={language === 'de' ? 'Schließen' : 'Close'}
       >
        <X className="h-4 w-4" strokeWidth={1.5} />
@@ -109,7 +109,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
      {isLoading ? (
       <div className="py-8 text-center">
        <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-transparent" />
-       <p className="text-sm text-dark-500">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
+       <p className="text-sm text-white/50">{language === 'de' ? 'Wird geladen...' : 'Loading...'}</p>
       </div>
      ) : fetchError ? (
       <div className="py-8 text-center">
@@ -118,7 +118,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
       </div>
      ) : hints.length === 0 ? (
       <div className="py-8 text-center">
-       <p className="text-sm text-dark-500">
+       <p className="text-sm text-white/50">
         {language === 'de' ? 'Keine Hinweise verfügbar' : 'No hints available'}
        </p>
       </div>
@@ -158,7 +158,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
             </div>
 
             {!isAvailable && (
-             <p className="ml-[46px] text-xs text-dark-600">
+             <p className="ml-[46px] text-xs text-white/40">
               {language === 'de' ? 'Verfügbar in' : 'Available in'}{' '}
               {Math.ceil((hint.availableAfterSeconds - elapsedSeconds) / 60)}{' '}
               {language === 'de' ? 'Min' : 'min'}

@@ -66,7 +66,7 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
      </div>
      <div>
       <p className="text-sm font-semibold text-white">Admin</p>
-      <p className="text-[10px] text-dark-600">Escape Tour</p>
+      <p className="text-[10px] text-white/40">Escape Tour</p>
      </div>
     </div>
 
@@ -82,7 +82,7 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
         className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
          isActive
           ? 'text-white font-semibold'
-          : 'text-dark-500 hover:text-white/60'
+          : 'text-white/50 hover:text-white/70'
         }`}
         style={
          isActive
@@ -102,10 +102,10 @@ export function AdminShell({ children, userEmail }: AdminShellProps) {
 
     {/* User / Logout */}
     <div className="px-3 py-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-     <p className="px-3 text-[11px] text-dark-600 truncate mb-2">{userEmail}</p>
+     <p className="px-3 text-[11px] text-white/40 truncate mb-2">{userEmail}</p>
      <button
       onClick={handleLogout}
-      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-dark-500 hover:text-red-400 transition-colors"
+      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/50 hover:text-red-400 transition-colors"
      >
       <LogOut className="h-4 w-4" strokeWidth={1.5} />
       Abmelden

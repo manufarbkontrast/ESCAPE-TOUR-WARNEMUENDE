@@ -21,7 +21,7 @@ const BADGE_CONFIG: Record<
   readonly labelDe: string
   readonly labelEn: string
   readonly color: string
-  readonly bgGradient: string
+  readonly bg: string
   readonly icon: string
  }
 > = {
@@ -29,21 +29,21 @@ const BADGE_CONFIG: Record<
   labelDe: 'Platin',
   labelEn: 'Platinum',
   color: 'text-white',
-  bgGradient: 'from-white/20 to-white/5',
+  bg: 'bg-white/10',
   icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
  },
  silver: {
   labelDe: 'Silber',
   labelEn: 'Silver',
   color: 'text-white/70',
-  bgGradient: 'from-dark-200/15 to-dark-300/5',
+  bg: 'bg-white/8',
   icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
  },
  bronze: {
   labelDe: 'Bronze',
   labelEn: 'Bronze',
   color: 'text-white/60',
-  bgGradient: 'from-dark-400/10 to-dark-500/5',
+  bg: 'bg-white/5',
   icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
  },
 } as const
@@ -150,7 +150,7 @@ interface StatCardProps {
 
 function StatCard({ labelDe, labelEn, value, language, icon }: StatCardProps) {
  return (
-  <div className="rounded-lg bg-dark-800/50 p-4 text-center shadow-lg backdrop-blur-sm">
+  <div className="rounded-lg bg-dark-800/50 p-4 text-center shadow-sm backdrop-blur-sm">
    <div className="mb-2 flex justify-center text-white">{icon}</div>
    <p className="text-2xl font-bold text-white">{value}</p>
    <p className="text-xs text-white/60">
@@ -310,7 +310,7 @@ export default function CompletePage() {
      <p className="mb-6 text-white/70 font-semibold">{errorMessage}</p>
      <button
       onClick={() => router.push('/')}
-      className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95"
+      className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-all hover:bg-dark-100 active:scale-95"
      >
       {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
      </button>
@@ -336,7 +336,7 @@ export default function CompletePage() {
      className="text-center"
     >
      <div
-      className={`mx-auto mb-4 flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br ${badgeConfig.bgGradient} shadow-2xl`}
+      className={`mx-auto mb-4 flex h-28 w-28 items-center justify-center rounded-full ${badgeConfig.bg}`}
      >
       <svg
        className={`h-16 w-16 ${badgeConfig.color}`}
@@ -362,10 +362,10 @@ export default function CompletePage() {
     {/* Certificate card */}
     <motion.div
      variants={itemVariants}
-     className="overflow-hidden rounded-xl border border-white/10 bg-dark-800/50 shadow-2xl backdrop-blur-sm"
+     className="overflow-hidden rounded-xl border border-white/10 bg-dark-800/50 shadow-sm backdrop-blur-sm"
     >
      {/* Certificate header */}
-     <div className="border-b border-white/10 bg-gradient-to-r from-white/5 to-transparent px-6 py-4">
+     <div className="border-b border-white/10 bg-white/5 px-6 py-4">
       <p className="text-xs font-semibold uppercase tracking-widest text-white">
        {language === 'de' ? 'Zertifikat' : 'Certificate'}
       </p>
@@ -402,7 +402,7 @@ export default function CompletePage() {
 
       {/* Verification code */}
       <div className="rounded-lg bg-dark-900/50 px-4 py-2 text-center">
-       <p className="text-[10px] text-dark-500">
+       <p className="text-[10px] text-white/50">
         {language === 'de' ? 'Verifizierungscode' : 'Verification Code'}
        </p>
        <p className="font-mono text-sm tracking-wider text-white/70">
@@ -469,7 +469,7 @@ export default function CompletePage() {
      {/* Share button */}
      <button
       onClick={handleShare}
-      className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95"
+      className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-all hover:bg-dark-100 active:scale-95"
      >
       <svg
        className="h-5 w-5"

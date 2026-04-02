@@ -169,7 +169,7 @@ export default function PlayEntryPage() {
       language={language}
      />
 
-     <p className="mt-5 text-center text-xs text-dark-600">
+     <p className="mt-5 text-center text-xs text-white/40">
       {labels.helpText}
      </p>
     </div>
@@ -177,7 +177,7 @@ export default function PlayEntryPage() {
     {/* Decorative divider */}
     <div className="flex items-center justify-center gap-3 pt-2">
      <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
-     <Anchor className="h-3.5 w-3.5 text-dark-500" strokeWidth={1.5} />
+     <Anchor className="h-3.5 w-3.5 text-white/30" strokeWidth={1.5} />
      <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.08)' }} />
     </div>
    </motion.div>

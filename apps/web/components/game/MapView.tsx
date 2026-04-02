@@ -218,7 +218,7 @@ function MapLegend() {
     boxShadow: '0 2px 12px rgba(0, 0, 0, 0.2)',
    }}
   >
-   <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-dark-500">
+   <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-white/50">
     Legende
    </h3>
    <ul className="space-y-1.5">
@@ -295,7 +295,7 @@ function StationInfoPanel({
       </p>
      )}
      {station.locationName && (
-      <p className="ml-[38px] text-[11px] text-dark-600">
+      <p className="ml-[38px] text-[11px] text-white/40">
        {station.locationName}
       </p>
      )}
@@ -311,7 +311,7 @@ function StationInfoPanel({
      >
       <MapPin className="mb-1 h-3.5 w-3.5 text-white" strokeWidth={1.5} />
       <span className="text-sm font-bold text-white tabular-nums">{distance}</span>
-      <span className="text-[10px] text-dark-600">Entfernung</span>
+      <span className="text-[10px] text-white/40">Entfernung</span>
      </div>
     )}
    </div>

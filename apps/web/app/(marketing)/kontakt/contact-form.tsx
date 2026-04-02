@@ -113,7 +113,7 @@ export function ContactForm() {
  }
 
  const inputClasses =
-  'w-full rounded-xl px-4 py-3 text-sm text-white/80 placeholder:text-dark-600 focus:outline-none transition-colors'
+  'w-full rounded-xl px-4 py-3 text-base text-white/80 placeholder:text-white/30 focus:outline-none transition-colors'
  const inputStyle = {
   background: 'rgba(255, 255, 255, 0.03)',
   border: '1px solid rgba(255, 255, 255, 0.06)',
@@ -136,7 +136,7 @@ export function ContactForm() {
    )}
 
    <div>
-    <label htmlFor="contact-name" className="block text-xs font-semibold text-white/60 mb-2">
+    <label htmlFor="contact-name" className="block text-sm font-semibold text-white/60 mb-2">
      Name
     </label>
     <input
@@ -152,7 +152,7 @@ export function ContactForm() {
    </div>
 
    <div>
-    <label htmlFor="contact-email" className="block text-xs font-semibold text-white/60 mb-2">
+    <label htmlFor="contact-email" className="block text-sm font-semibold text-white/60 mb-2">
      E-Mail
     </label>
     <input
@@ -168,7 +168,7 @@ export function ContactForm() {
    </div>
 
    <div>
-    <label htmlFor="contact-subject" className="block text-xs font-semibold text-white/60 mb-2">
+    <label htmlFor="contact-subject" className="block text-sm font-semibold text-white/60 mb-2">
      Betreff
     </label>
     <select
@@ -188,7 +188,7 @@ export function ContactForm() {
    </div>
 
    <div>
-    <label htmlFor="contact-message" className="block text-xs font-semibold text-white/60 mb-2">
+    <label htmlFor="contact-message" className="block text-sm font-semibold text-white/60 mb-2">
      Nachricht
     </label>
     <textarea

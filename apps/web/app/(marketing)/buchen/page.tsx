@@ -184,7 +184,7 @@ export default function BookingPage() {
 
  // Input styling helpers
  const inputBase =
-  'w-full rounded-xl px-4 py-3.5 text-base text-white placeholder:text-dark-600 focus:outline-none transition-all'
+  'w-full rounded-xl px-4 py-3.5 text-base text-white placeholder:text-white/30 focus:outline-none transition-all'
  const inputNormal = {
   background: 'rgba(10, 10, 10, 0.6)',
   border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -293,14 +293,14 @@ export default function BookingPage() {
 
            <div className="flex items-center gap-4 mb-4 text-sm text-white/70">
             <span>{info.duration}</span>
-            <span className="text-dark-600">·</span>
+            <span className="text-white/40">·</span>
             <span>{info.distance}</span>
            </div>
 
            <ul className="space-y-1.5 mb-4">
             {info.features.map((f) => (
              <li key={f} className="text-sm text-white/60 flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-dark-500 flex-shrink-0" />
+              <div className="h-1.5 w-1.5 rounded-full bg-white/30 flex-shrink-0" />
               {f}
              </li>
             ))}
@@ -321,7 +321,7 @@ export default function BookingPage() {
 
        <button
         onClick={() => setStep('details')}
-        className="btn w-full py-4 text-base mt-4 bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-full"
+        className="btn w-full py-4 text-base mt-4 bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-lg"
        >
         Weiter
         <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -386,14 +386,14 @@ export default function BookingPage() {
          {fieldErrors.contactEmail ? (
           <p className="mt-2 text-sm text-red-400">{fieldErrors.contactEmail}</p>
          ) : (
-          <p className="mt-2 text-sm text-dark-500">Euer Buchungscode wird an diese Adresse gesendet</p>
+          <p className="mt-2 text-sm text-white/50">Euer Buchungscode wird an diese Adresse gesendet</p>
          )}
         </div>
 
         {/* Team name (optional) */}
         <div className="border-b border-white/10 pb-6 mb-6">
          <label htmlFor="team" className="text-sm font-semibold text-white/80 mb-2 block">
-          Teamname <span className="text-dark-600 font-normal">(optional)</span>
+          Teamname <span className="text-white/40 font-normal">(optional)</span>
          </label>
          <input
           id="team"
@@ -440,7 +440,7 @@ export default function BookingPage() {
         </button>
         <button
          onClick={handleDetailsNext}
-         className="btn flex-1 py-4 text-base bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-full"
+         className="btn flex-1 py-4 text-base bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-lg"
         >
          Weiter zur Zusammenfassung
          <ChevronRight className="h-5 w-5" strokeWidth={2} />
@@ -537,7 +537,7 @@ export default function BookingPage() {
         <button
          onClick={handleCheckout}
          disabled={isSubmitting}
-         className="btn flex-1 py-4 text-base bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-full disabled:opacity-40"
+         className="btn flex-1 py-4 text-base bg-white text-dark-950 font-semibold hover:bg-dark-100 rounded-lg disabled:opacity-40"
         >
          {isSubmitting ? (
           <>
@@ -553,7 +553,7 @@ export default function BookingPage() {
         </button>
        </div>
 
-       <p className="text-center text-sm text-dark-500">
+       <p className="text-center text-sm text-white/50">
         Sichere Zahlung über Stripe. Ihr werdet weitergeleitet.
        </p>
       </motion.div>

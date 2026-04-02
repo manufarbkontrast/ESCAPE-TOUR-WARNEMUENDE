@@ -143,7 +143,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
    {!isLastStep && (
     <button
      onClick={handleSkip}
-     className="absolute top-6 right-6 text-xs font-semibold text-dark-600 hover:text-white/50 transition-colors duration-150"
+     className="absolute top-6 right-6 text-xs font-semibold text-white/40 hover:text-white/60 transition-colors duration-150"
     >
      {language === 'de' ? 'Überspringen' : 'Skip'}
     </button>

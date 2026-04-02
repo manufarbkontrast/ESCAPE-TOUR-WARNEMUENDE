@@ -114,7 +114,7 @@ export function StoryContent({
   return (
    <div className="flex min-h-[50vh] items-center justify-center px-4">
     <div className="text-center">
-     <p className="text-sm text-dark-500">{labels.noContent}</p>
+     <p className="text-sm text-white/50">{labels.noContent}</p>
      <button
       onClick={onContinue}
       className="btn btn-primary mt-6"
@@ -175,7 +175,7 @@ export function StoryContent({
       className="flex items-center justify-center gap-3"
      >
       <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
-      <Anchor className="h-4 w-4 text-dark-500" strokeWidth={1.5} />
+      <Anchor className="h-4 w-4 text-white/50" strokeWidth={1.5} />
       <div className="h-px w-12" style={{ background: 'rgba(255, 255, 255, 0.1)' }} />
      </motion.div>
 

@@ -139,7 +139,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
         >
          {isMuted ? (
           <>
-           <div className="btn-icon-sm flex items-center justify-center text-dark-500">
+           <div className="btn-icon-sm flex items-center justify-center text-white/50">
             <VolumeX className="h-4 w-4" strokeWidth={1.5} />
            </div>
            <span className="text-sm font-semibold">Ton einschalten</span>
@@ -160,7 +160,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
         {/* Points display */}
         {session && (
          <div className="rounded-xl px-4 py-3" style={{ background: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
-          <div className="text-xs text-dark-500 mb-1.5 font-semibold tracking-wide uppercase">Punkte</div>
+          <div className="text-xs text-white/50 mb-1.5 font-semibold tracking-wide uppercase">Punkte</div>
           <div className="flex items-center gap-2.5">
            <Star className="h-5 w-5 text-white" strokeWidth={1.5} fill="currentColor" />
            <span className="font-display text-2xl font-bold text-white tabular-nums">

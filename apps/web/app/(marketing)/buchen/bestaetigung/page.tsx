@@ -112,7 +112,7 @@ export default function ConfirmationPage() {
   return (
    <div className="flex min-h-screen items-center justify-center px-4">
     <div className="text-center max-w-sm">
-     <Anchor className="mx-auto mb-4 h-8 w-8 text-dark-600" strokeWidth={1.5} />
+     <Anchor className="mx-auto mb-4 h-8 w-8 text-white/40" strokeWidth={1.5} />
      <h1 className="font-display text-xl font-bold text-white mb-2">Buchung nicht gefunden</h1>
      <p className="text-sm text-white/60 font-semibold mb-6">
       Die Buchung konnte nicht geladen werden. Falls ihr gerade bezahlt habt, versucht es in einigen Sekunden erneut.
@@ -144,11 +144,11 @@ export default function ConfirmationPage() {
       variants={checkVariants}
       initial="initial"
       animate="animate"
-      className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl"
+      className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-xl"
       style={{
        background: 'rgba(34, 197, 94, 0.1)',
        border: '1px solid rgba(34, 197, 94, 0.15)',
-       boxShadow: '0 0 40px rgba(34, 197, 94, 0.08)',
+       boxShadow: 'none',
       }}
      >
       <CheckCircle2 className="h-10 w-10 text-green-400" strokeWidth={1.5} />
@@ -163,14 +163,14 @@ export default function ConfirmationPage() {
 
      {/* Booking code — the hero element */}
      <div
-      className="rounded-3xl p-8 mb-6"
+      className="rounded-xl p-8 mb-6"
       style={{
        background: 'rgba(255, 255, 255, 0.025)',
        border: '1px solid rgba(255, 255, 255, 0.075)',
-       boxShadow: '0 0 40px rgba(255, 255, 255, 0.03)',
+       boxShadow: 'none',
       }}
      >
-      <p className="text-xs font-semibold text-dark-500 uppercase tracking-wide mb-3">
+      <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-3">
        Euer Buchungscode
       </p>
       <div className="flex items-center justify-center gap-3">
@@ -189,7 +189,7 @@ export default function ConfirmationPage() {
         )}
        </button>
       </div>
-      <p className="mt-3 text-xs text-dark-600">
+      <p className="mt-3 text-xs text-white/40">
        Gebt diesen Code auf der Spielseite ein, um zu starten.
       </p>
      </div>
@@ -197,15 +197,15 @@ export default function ConfirmationPage() {
      {/* Booking details */}
      <div className="card p-5 text-left mb-6 space-y-3">
       <div className="flex justify-between">
-       <span className="text-xs text-dark-500">Tour</span>
+       <span className="text-xs text-white/50">Tour</span>
        <span className="text-xs font-semibold text-white/80">{tourName}</span>
       </div>
       <div className="flex justify-between">
-       <span className="text-xs text-dark-500">Teilnehmer</span>
+       <span className="text-xs text-white/50">Teilnehmer</span>
        <span className="text-xs font-semibold text-white/80">{booking.participantCount}</span>
       </div>
       <div className="flex justify-between">
-       <span className="text-xs text-dark-500">Datum</span>
+       <span className="text-xs text-white/50">Datum</span>
        <span className="text-xs font-semibold text-white/80">
         {new Date(booking.scheduledDate).toLocaleDateString('de-DE', {
          weekday: 'long',
@@ -216,12 +216,12 @@ export default function ConfirmationPage() {
       </div>
       {booking.teamName && (
        <div className="flex justify-between">
-        <span className="text-xs text-dark-500">Team</span>
+        <span className="text-xs text-white/50">Team</span>
         <span className="text-xs font-semibold text-white/80">{booking.teamName}</span>
        </div>
       )}
       <div className="flex justify-between">
-       <span className="text-xs text-dark-500">Bezahlt</span>
+       <span className="text-xs text-white/50">Bezahlt</span>
        <span className="text-xs font-semibold text-white">
         {(booking.amountCents / 100).toFixed(2).replace('.', ',')} €
        </span>

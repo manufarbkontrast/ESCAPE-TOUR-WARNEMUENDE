@@ -203,7 +203,7 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
       <p className="text-sm text-white/60">
        {language === 'de' ? 'Rätseltyp wird noch entwickelt' : 'Puzzle type in development'}
       </p>
-      <p className="mt-1 text-xs text-dark-600 font-mono">{puzzle.puzzleType}</p>
+      <p className="mt-1 text-xs text-white/40 font-mono">{puzzle.puzzleType}</p>
      </div>
     )
   }

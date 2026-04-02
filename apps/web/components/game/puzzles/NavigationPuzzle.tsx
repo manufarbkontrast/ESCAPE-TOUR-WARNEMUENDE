@@ -149,7 +149,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting, isD
 
     {/* Accuracy Indicator */}
     {userLocation && (
-     <p className="text-xs text-dark-500">
+     <p className="text-xs text-white/50">
       {language === 'de' ? 'Genauigkeit' : 'Accuracy'}: ~{Math.round(userLocation.accuracy)} m
      </p>
     )}

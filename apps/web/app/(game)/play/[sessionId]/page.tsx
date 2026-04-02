@@ -269,7 +269,7 @@ export default function GamePage() {
         className={`flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3 transition-all duration-150 ${
          isActive
           ? 'text-white'
-          : 'text-dark-500 hover:text-white/60'
+          : 'text-white/50 hover:text-white/70'
         }`}
         style={isActive ? {
          background: 'rgba(255, 255, 255, 0.04)',

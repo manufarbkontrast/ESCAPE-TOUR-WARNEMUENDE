@@ -186,7 +186,7 @@ export function StationView({
         {language === 'de' ? 'Rätsel starten' : 'Start Puzzle'}
        </button>
        {isDemo && (
-        <p className="text-center text-xs text-dark-600">
+        <p className="text-center text-xs text-white/40">
          Demo: {language === 'de' ? 'Geschichte kann übersprungen werden' : 'Story can be skipped'}
         </p>
        )}

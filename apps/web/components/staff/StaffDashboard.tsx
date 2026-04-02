@@ -101,7 +101,7 @@ export function StaffDashboard() {
               }}
             >
               <p className="text-sm font-semibold text-white">{opt.label}</p>
-              <p className="mt-0.5 text-xs text-white/40">{opt.desc}</p>
+              <p className="mt-0.5 text-xs text-white/50">{opt.desc}</p>
             </button>
           ))}
         </div>
@@ -122,8 +122,8 @@ export function StaffDashboard() {
 
       {/* Session Created */}
       {lastSessionId && (
-        <div className="card-glass space-y-3">
-          <p className="text-xs text-white/40">Session erstellt</p>
+        <div className="card-glass p-4 space-y-3">
+          <p className="text-xs text-white/50">Session erstellt</p>
           <p className="font-mono text-sm text-white/80 break-all">{lastSessionId}</p>
           <button
             onClick={handleAssignToTablet}
@@ -148,9 +148,9 @@ export function StaffDashboard() {
               >
                 <div>
                   <p className="text-sm text-white/70">{s.tourType === 'adult' ? 'Erwachsene' : 'Familie'}</p>
-                  <p className="font-mono text-xs text-white/30">{s.id.slice(0, 24)}...</p>
+                  <p className="font-mono text-xs text-white/50">{s.id.slice(0, 24)}...</p>
                 </div>
-                <p className="text-xs text-white/40">{formatTime(s.createdAt)}</p>
+                <p className="text-xs text-white/50">{formatTime(s.createdAt)}</p>
               </button>
             ))}
           </div>
@@ -161,7 +161,7 @@ export function StaffDashboard() {
       <div className="border-t border-white/5 pt-4">
         <button
           onClick={handleReset}
-          className="w-full rounded-lg py-2 text-sm text-white/40 transition-colors hover:text-white/60"
+          className="w-full rounded-lg py-2 text-sm text-white/50 transition-colors hover:text-white/70"
         >
           Gerät zurücksetzen
         </button>

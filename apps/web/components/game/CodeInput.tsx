@@ -138,7 +138,7 @@ export function CodeInput({
    {isSubmitting && (
     <div className="flex items-center justify-center gap-2">
      <div className="h-4 w-4 animate-spin rounded-full border-[1.5px] border-white/20 border-t-transparent" />
-     <span className="text-sm text-dark-500">
+     <span className="text-sm text-white/50">
       {language === 'de' ? 'Wird überprüft...' : 'Checking...'}
      </span>
     </div>

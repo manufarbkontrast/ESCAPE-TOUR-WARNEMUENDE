@@ -30,7 +30,7 @@ function StatCard({ label, value, icon: Icon, accent = 'rgba(255, 255, 255, 0.04
    }}
   >
    <div className="flex items-center justify-between mb-3">
-    <span className="text-xs font-semibold text-dark-500">{label}</span>
+    <span className="text-xs font-semibold text-white/50">{label}</span>
     <div
      className="flex h-8 w-8 items-center justify-center rounded-lg"
      style={{ background: accent }}
@@ -50,7 +50,7 @@ function StatCard({ label, value, icon: Icon, accent = 'rgba(255, 255, 255, 0.04
 function RecentBookingsTable({ bookings }: { readonly bookings: readonly BookingRow[] }) {
  if (bookings.length === 0) {
   return (
-   <p className="text-sm text-dark-600 py-8 text-center">Noch keine Buchungen vorhanden.</p>
+   <p className="text-sm text-white/40 py-8 text-center">Noch keine Buchungen vorhanden.</p>
   )
  }
 
@@ -59,13 +59,13 @@ function RecentBookingsTable({ bookings }: { readonly bookings: readonly Booking
    <table className="w-full text-left">
     <thead>
      <tr className="border-b" style={{ borderColor: 'rgba(255, 255, 255, 0.04)' }}>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide">Code</th>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide">E-Mail</th>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide">Team</th>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide">Teilnehmer</th>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide">Datum</th>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide">Status</th>
-      <th className="py-3 px-4 text-[11px] font-semibold text-dark-600 uppercase tracking-wide text-right">Betrag</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide">Code</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide">E-Mail</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide">Team</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide">Teilnehmer</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide">Datum</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide">Status</th>
+      <th className="py-3 px-4 text-[11px] font-semibold text-white/40 uppercase tracking-wide text-right">Betrag</th>
      </tr>
     </thead>
     <tbody>

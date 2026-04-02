@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
       <Anchor className="h-7 w-7 text-white" strokeWidth={1.5} />
      </div>
      <h1 className="font-display text-2xl font-bold text-white">Admin</h1>
-     <p className="text-sm text-dark-500 mt-1">Escape Tour Warnemünde</p>
+     <p className="text-sm text-white/50 mt-1">Escape Tour Warnemünde</p>
     </div>
 
     <form onSubmit={handleLogin} className="card p-6 space-y-4">
@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
      )}
 
      <div>
-      <label htmlFor="admin-email" className="block text-xs font-semibold text-white/60 mb-2">
+      <label htmlFor="admin-email" className="block text-sm font-semibold text-white/60 mb-2">
        E-Mail
       </label>
       <input
@@ -87,14 +87,14 @@ export default function AdminLoginPage() {
        required
        value={email}
        onChange={(e) => setEmail(e.target.value)}
-       className="w-full rounded-xl px-4 py-3 text-sm text-white/80 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
+       className="w-full rounded-xl px-4 py-3 text-base text-white/80 placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20"
        style={inputStyle}
        placeholder="admin@escape-tour.de"
       />
      </div>
 
      <div>
-      <label htmlFor="admin-password" className="block text-xs font-semibold text-white/60 mb-2">
+      <label htmlFor="admin-password" className="block text-sm font-semibold text-white/60 mb-2">
        Passwort
       </label>
       <input
@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
        required
        value={password}
        onChange={(e) => setPassword(e.target.value)}
-       className="w-full rounded-xl px-4 py-3 text-sm text-white/80 placeholder:text-dark-500 focus:outline-none focus:ring-1 focus:ring-white/20"
+       className="w-full rounded-xl px-4 py-3 text-base text-white/80 placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20"
        style={inputStyle}
        placeholder="••••••••"
       />
