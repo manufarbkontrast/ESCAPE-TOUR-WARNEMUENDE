@@ -31,13 +31,11 @@ export async function POST(request: NextRequest) {
         {
           name: SESSION_COOKIE_NAME,
           value: token,
-          options: {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax' as const,
-            maxAge: SESSION_COOKIE_MAX_AGE,
-            path: '/',
-          },
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax' as const,
+          maxAge: SESSION_COOKIE_MAX_AGE,
+          path: '/',
         },
       ],
     )
