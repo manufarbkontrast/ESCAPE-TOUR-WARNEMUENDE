@@ -34,9 +34,9 @@ const STORY_PAGES: readonly StoryPage[] = [
 
 const pageVariants = {
   enter: { opacity: 0, y: 20 },
-  center: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
+  center: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as number[] } },
   exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
-}
+} as const
 
 export function StoryIntro({ onComplete, teamName }: StoryIntroProps) {
   const [currentPage, setCurrentPage] = useState(0)
