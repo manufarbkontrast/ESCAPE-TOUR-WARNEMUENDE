@@ -50,7 +50,7 @@ export interface Certificate {
   readonly sessionId: string
   readonly teamName: string
   readonly tourName: string
-  readonly variant: 'family' | 'adult'
+  readonly variant: 'family' | 'adult' | 'pro'
   readonly date: string
   readonly stats: {
     readonly totalPoints: number

@@ -10,7 +10,7 @@ interface BookingConfirmationData {
   readonly participantCount: number
   readonly scheduledDate: string
   readonly amountCents: number
-  readonly tourVariant: 'family' | 'adult'
+  readonly tourVariant: 'family' | 'adult' | 'pro'
 }
 
 function formatDate(dateStr: string): string {
@@ -36,7 +36,8 @@ function escapeHtml(str: string): string {
 }
 
 export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
-  const tourName = data.tourVariant === 'family' ? 'Familien-Tour' : 'Erwachsenen-Tour'
+  const tourNameMap = { family: 'Familien-Tour', adult: 'Erwachsenen-Tour', pro: 'Profi-Tour' } as const
+  const tourName = tourNameMap[data.tourVariant]
 
   const subject = `Buchungsbestätigung – ${data.bookingCode}`
 

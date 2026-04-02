@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation'
 import { useStaffStore } from '@/stores/staffStore'
 import { resetDevice } from '@/lib/utils/reset-device'
 
-type TourType = 'adult' | 'family'
+type TourType = 'adult' | 'family' | 'pro'
 
 const TOUR_OPTIONS: readonly { type: TourType; label: string; desc: string }[] = [
-  { type: 'adult', label: 'Erwachsenen-Tour', desc: '12 Stationen, ca. 120 Min' },
-  { type: 'family', label: 'Familien-Tour', desc: '12 Stationen, ca. 90 Min' },
+  { type: 'family', label: 'Familien-Tour', desc: '12 Stationen, ab 8 Jahre, ca. 90 Min' },
+  { type: 'adult', label: 'Erwachsenen-Tour', desc: '12 Stationen, ab 14 Jahre, ca. 120 Min' },
+  { type: 'pro', label: 'Profi-Tour', desc: '12 Stationen, ab 16 Jahre, ca. 180 Min' },
 ]
 
 function formatTime(iso: string): string {

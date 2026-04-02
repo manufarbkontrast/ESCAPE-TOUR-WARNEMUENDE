@@ -1,4 +1,4 @@
-export type TourVariant = 'family' | 'adult'
+export type TourVariant = 'family' | 'adult' | 'pro'
 
 export interface Tour {
   readonly id: string

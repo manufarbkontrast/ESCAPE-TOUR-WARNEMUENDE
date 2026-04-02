@@ -46,6 +46,14 @@ const TOUR_INFO = {
   distance: '5 km',
   features: ['Anspruchsvolle Rätsel', 'Historische Tiefe', 'Komplexe Logik'],
  },
+ pro: {
+  name: 'Profi-Tour',
+  subtitle: 'Ab 16 Jahren',
+  priceCents: 3490,
+  duration: '4–5 Stunden',
+  distance: '5 km',
+  features: ['Keine Hinweise in Fragen', 'Caesar-Chiffren', 'Mehrstufige Berechnungen'],
+ },
 } as const
 
 function calculateGroupDiscount(count: number): number {
@@ -255,7 +263,7 @@ export default function BookingPage() {
        <h2 className="font-sans text-2xl font-bold text-white mb-5">Tour wählen</h2>
 
        <div className="grid gap-4 sm:grid-cols-2">
-        {(['family', 'adult'] as const).map((variant) => {
+        {(['family', 'adult', 'pro'] as const).map((variant) => {
          const info = TOUR_INFO[variant]
          const isSelected = form.tourVariant === variant
 

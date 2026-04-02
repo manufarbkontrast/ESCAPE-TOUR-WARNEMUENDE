@@ -70,7 +70,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
 
   const supabase = await createClient()
 
-  const tourVariant = metadata.tourVariant as 'family' | 'adult'
+  const tourVariant = metadata.tourVariant as 'family' | 'adult' | 'pro'
   const participantCount = parseInt(metadata.participantCount, 10)
   const contactEmail = metadata.contactEmail
   const teamName = metadata.teamName || null

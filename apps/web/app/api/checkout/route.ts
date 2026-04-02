@@ -15,7 +15,7 @@ const checkoutRateLimiter = createRateLimiter({
 })
 
 interface CheckoutRequest {
-  readonly tourVariant: 'family' | 'adult'
+  readonly tourVariant: 'family' | 'adult' | 'pro'
   readonly participantCount: number
   readonly contactEmail: string
   readonly teamName?: string
@@ -33,6 +33,11 @@ const TOUR_CONFIG = {
     name: 'Escape Tour Warnemünde – Erwachsenen-Tour',
     priceCents: 2990,
     description: 'Das Vermächtnis des Lotsenkapitäns (ab 14 Jahren)',
+  },
+  pro: {
+    name: 'Escape Tour Warnemünde – Profi-Tour',
+    priceCents: 3490,
+    description: 'Die letzte Spur des Lotsenkapitäns (ab 16 Jahren)',
   },
 } as const
 
