@@ -22,8 +22,8 @@
 - **NO decorative Lucide icons** on form labels — only functional icons (arrows, plus/minus, close)
 - **NO route lines on the map** — use text-only NavigationPanel for walking directions
 - **btn-primary** = white background, dark text (defined in globals.css)
-- **Accent color** = white on navy-950 backgrounds
-- **Secondary text** = sand-200 to sand-500
+- **Accent color** = white on navy-950 backgrounds; neon-cyan (`text-neon-300` #67e8f9, `text-neon-400` #22d3ee) is used sparingly for emphasis (links, active states, highlights) — this is part of the established visual identity
+- **Secondary text** = sand-200 to sand-500, or `text-white/50`–`text-white/70` on dark backgrounds
 - **Font sizes** should be generous: labels text-sm font-semibold, inputs text-base, headings text-2xl+
 - **Game cards** use `card-glass` class: `rgba(10, 10, 10, 0.88)` bg with `backdrop-filter: blur(20px)`
 - **Difficulty badges** use white text with opacity backgrounds (no color coding)
