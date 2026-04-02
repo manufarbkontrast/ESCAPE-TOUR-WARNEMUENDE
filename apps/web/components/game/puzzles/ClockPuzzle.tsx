@@ -115,15 +115,6 @@ export function ClockPuzzle({ puzzle, language, onSubmit, isSubmitting }: ClockP
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {instruction && (
-        <div className="flex items-start gap-3 rounded-lg bg-dark-800/60 backdrop-blur-sm p-3">
-          <svg className="mt-0.5 h-5 w-5 flex-shrink-0 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-          </svg>
-          <p className="text-sm text-white/70 font-semibold">{instruction}</p>
-        </div>
-      )}
-
       {/* Clock Face */}
       <div className="flex justify-center">
         <svg

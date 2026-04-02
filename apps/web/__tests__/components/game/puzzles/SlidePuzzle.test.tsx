@@ -24,11 +24,11 @@ describe('SlidePuzzle', () => {
     expect(screen.getByText('8')).toBeInTheDocument()
   })
 
-  it('should show instruction text when provided', () => {
+  it('should not show instruction (handled by PuzzleRenderer)', () => {
     render(
       <SlidePuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
     )
-    expect(screen.getByText('Geben Sie die Antwort ein.')).toBeInTheDocument()
+    expect(screen.queryByText('Geben Sie die Antwort ein.')).not.toBeInTheDocument()
   })
 
   it('should show move counter', () => {

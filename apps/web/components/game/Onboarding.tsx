@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Compass, HelpCircle, ChevronRight, Sparkles } from 'lucide-react'
+import { MapPin, Compass, HelpCircle, ChevronRight, Anchor } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
@@ -223,7 +223,7 @@ export function Onboarding({ onComplete, language }: OnboardingProps) {
     >
      {isLastStep ? (
       <>
-       <Sparkles className="h-4 w-4" strokeWidth={2} />
+       <Anchor className="h-4 w-4" strokeWidth={2} />
        {language === 'de' ? 'Abenteuer starten' : 'Start Adventure'}
       </>
      ) : (

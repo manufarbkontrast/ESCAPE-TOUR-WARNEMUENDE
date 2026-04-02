@@ -9,6 +9,7 @@ import { useGameStore } from '@/stores/gameStore'
 import { MapView } from '@/components/game/MapView'
 import { StationView } from '@/components/game/StationView'
 import { Onboarding, hasSeenOnboarding } from '@/components/game/Onboarding'
+import { StoryIntro } from '@/components/game/StoryIntro'
 import { isDemoSession } from '@/lib/demo/helpers'
 
 // ---------------------------------------------------------------------------
@@ -65,7 +66,8 @@ export default function GamePage() {
  const [stations, setStations] = useState<readonly Station[]>([])
  const [puzzles, setPuzzles] = useState<readonly Puzzle[]>([])
  const [language] = useState<'de' | 'en'>('de')
- const [showOnboarding, setShowOnboarding] = useState(() => !hasSeenOnboarding())
+ const [showStoryIntro, setShowStoryIntro] = useState(() => !hasSeenOnboarding())
+ const [showOnboarding, setShowOnboarding] = useState(false)
  const [showNavigationRoute, setShowNavigationRoute] = useState(false)
 
  const { session, setSession, updateProgress, completeSession } = useGameStore()
@@ -202,7 +204,19 @@ export default function GamePage() {
   )
  }
 
- // Onboarding overlay — shown once before first game
+ // Story intro → Onboarding → Game (shown once before first game)
+ if (showStoryIntro) {
+  return (
+   <StoryIntro
+    teamName={session?.teamName}
+    onComplete={() => {
+     setShowStoryIntro(false)
+     setShowOnboarding(true)
+    }}
+   />
+  )
+ }
+
  if (showOnboarding) {
   return (
    <Onboarding

@@ -54,11 +54,12 @@ describe('ClockPuzzle', () => {
     expect(screen.getByText('12:00')).toBeInTheDocument()
   })
 
-  it('should show instruction text when provided', () => {
+  it('should not show instruction (handled by PuzzleRenderer)', () => {
     render(
       <ClockPuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
     )
-    expect(screen.getByText('Geben Sie die Antwort ein.')).toBeInTheDocument()
+    // Instruction is shown by PuzzleRenderer, not by ClockPuzzle itself
+    expect(screen.queryByText('Geben Sie die Antwort ein.')).not.toBeInTheDocument()
   })
 
   it('should show submit button in German', () => {
