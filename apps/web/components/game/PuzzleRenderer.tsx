@@ -18,6 +18,7 @@ import { NavigationPuzzle } from './puzzles/NavigationPuzzle'
 import { DocumentAnalysisPuzzle } from './puzzles/DocumentAnalysisPuzzle'
 import { ClockPuzzle } from './puzzles/ClockPuzzle'
 import { SlidePuzzle } from './puzzles/SlidePuzzle'
+import { PuzzleCountdown } from './PuzzleCountdown'
 
 interface PuzzleRendererProps {
  readonly puzzle: Puzzle
@@ -37,22 +38,37 @@ const difficultyConfig = {
  * Mini celebration particles shown on correct answer.
  */
 function MiniCelebration() {
- const particles = Array.from({ length: 12 }, (_, i) => ({
-  id: i,
-  x: Math.random() * 200 - 100,
-  y: -(Math.random() * 150 + 50),
-  rotation: Math.random() * 360,
-  scale: Math.random() * 0.5 + 0.5,
-  color: ['#d6d3d1', '#22c55e', '#3b82f6', '#e7e5e4', '#a855f7'][i % 5],
- }))
+ const particles = Array.from({ length: 24 }, (_, i) => {
+  const angle = (Math.random() * 360 * Math.PI) / 180
+  const distance = Math.random() * 160 + 60
+  return {
+   id: i,
+   x: Math.cos(angle) * distance,
+   y: Math.sin(angle) * distance - 40,
+   rotation: Math.random() * 720 - 360,
+   scale: Math.random() * 0.6 + 0.4,
+   delay: Math.random() * 0.15,
+   color: ['#ffffff', '#22c55e', '#d6d3d1', '#e7e5e4', '#a3a3a3'][i % 5],
+   size: i % 3 === 0 ? 3 : 2,
+  }
+ })
 
  return (
   <div className="pointer-events-none absolute inset-0 overflow-hidden">
+   {/* Screen flash */}
+   <motion.div
+    className="absolute inset-0"
+    initial={{ opacity: 0.3 }}
+    animate={{ opacity: 0 }}
+    transition={{ duration: 0.4 }}
+    style={{ background: 'rgba(34, 197, 94, 0.08)' }}
+   />
+   {/* Particles */}
    {particles.map((p) => (
     <motion.div
      key={p.id}
-     className="absolute left-1/2 top-1/2 h-2 w-2 rounded-full"
-     style={{ backgroundColor: p.color }}
+     className="absolute left-1/2 top-1/2 rounded-full"
+     style={{ backgroundColor: p.color, width: p.size * 2, height: p.size * 2 }}
      initial={{ x: 0, y: 0, scale: 0, opacity: 1, rotate: 0 }}
      animate={{
       x: p.x,
@@ -61,7 +77,7 @@ function MiniCelebration() {
       opacity: 0,
       rotate: p.rotation,
      }}
-     transition={{ duration: 1.2, ease: 'easeOut' }}
+     transition={{ duration: 1.4, ease: 'easeOut', delay: p.delay }}
     />
    ))}
   </div>
@@ -272,6 +288,14 @@ export function PuzzleRenderer({ puzzle, sessionId, language, onComplete }: Puzz
      <span className="font-bold text-base tabular-nums">{puzzle.basePoints}</span>
     </div>
    </div>
+
+   {/* Countdown timer (when time bonus is enabled) */}
+   {puzzle.timeBonusEnabled && !showSuccess && (
+    <PuzzleCountdown
+     maxSeconds={puzzle.timeBonusMaxSeconds}
+     isActive={!showSuccess}
+    />
+   )}
 
    {/* Question and Instructions */}
    <div className="card-glass p-6">

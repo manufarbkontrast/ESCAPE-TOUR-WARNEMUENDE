@@ -8,8 +8,9 @@ import { PuzzleRenderer } from './PuzzleRenderer'
 import { Timer } from './Timer'
 import { HintSystem } from './HintSystem'
 import { isDemoSession } from '@/lib/demo/helpers'
+import { StoryChoice, STORY_CHOICES, type StoryBranch } from './StoryChoice'
 
-type StationState = 'intro' | 'story' | 'puzzle' | 'success' | 'transition'
+type StationState = 'intro' | 'story' | 'choice' | 'puzzle' | 'success' | 'transition'
 
 interface StationViewProps {
  readonly station: Station
@@ -64,7 +65,23 @@ export function StationView({
   setCurrentState('story')
  }
 
+ const storyChoice = STORY_CHOICES.get(station.orderIndex)
+ const [choiceResult, setChoiceResult] = useState<string | null>(null)
+
  const handleStoryComplete = () => {
+  if (storyChoice && !choiceResult) {
+   setCurrentState('choice')
+   return
+  }
+  setCurrentState('puzzle')
+ }
+
+ const handleChoice = (branch: StoryBranch) => {
+  const text = language === 'de' ? branch.resultTextDe : branch.resultTextEn
+  setChoiceResult(text)
+ }
+
+ const handleChoiceComplete = () => {
   setCurrentState('puzzle')
  }
 
@@ -190,6 +207,40 @@ export function StationView({
          Demo: {language === 'de' ? 'Geschichte kann übersprungen werden' : 'Story can be skipped'}
         </p>
        )}
+      </motion.div>
+     )}
+
+     {currentState === 'choice' && storyChoice && (
+      <motion.div
+       key="choice"
+       variants={stageVariants}
+       initial="enter"
+       animate="center"
+       exit="exit"
+       transition={{ duration: 0.4 }}
+       className="space-y-5 py-6"
+      >
+       <div className="card-glass p-6">
+        {choiceResult ? (
+         <div className="space-y-4">
+          <p className="text-base text-white/80 leading-relaxed">{choiceResult}</p>
+          <button
+           onClick={handleChoiceComplete}
+           className="btn btn-primary w-full py-3 text-base"
+          >
+           {language === 'de' ? 'Weiter zum Rätsel' : 'Continue to Puzzle'}
+          </button>
+         </div>
+        ) : (
+         <StoryChoice
+          promptDe={storyChoice.promptDe}
+          promptEn={storyChoice.promptEn}
+          branches={storyChoice.branches}
+          language={language}
+          onChoose={handleChoice}
+         />
+        )}
+       </div>
       </motion.div>
      )}
 

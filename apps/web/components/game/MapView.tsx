@@ -37,12 +37,12 @@ const WARNEMUENDE_BOUNDS: mapboxgl.LngLatBoundsLike = [
  [12.065, 54.165],  // Southwest (links-unten)
  [12.110, 54.195],  // Northeast (rechts-oben)
 ]
-const DEFAULT_ZOOM = 15
-const DEFAULT_PITCH = 60
+const DEFAULT_ZOOM = 16.5
+const DEFAULT_PITCH = 65
 const DEFAULT_BEARING = -17.6
 const MARKER_SIZE_CURRENT = 48
 const MARKER_SIZE_OTHER = 38
-const FLY_TO_DURATION_MS = 2_000
+const FLY_TO_DURATION_MS = 2_500
 const TERRAIN_EXAGGERATION = 1.5
 const DEM_MAX_ZOOM = 14
 const ROUTE_FETCH_DEBOUNCE_MS = 3_000
@@ -686,7 +686,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
   mapRef.current.flyTo({
    center: [currentStation.location.lng, currentStation.location.lat],
-   zoom: 16,
+   zoom: 17.5,
    pitch: DEFAULT_PITCH,
    bearing: DEFAULT_BEARING,
    duration: FLY_TO_DURATION_MS,
@@ -729,7 +729,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
    setNavigationInfo(null)
    map.flyTo({
     center: [to.lng, to.lat],
-    zoom: 16.5,
+    zoom: 17.5,
     pitch: DEFAULT_PITCH,
     bearing: DEFAULT_BEARING,
     duration: FLY_TO_DURATION_MS,
@@ -762,10 +762,10 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
    bounds.extend([to.lng, to.lat])
 
    map.fitBounds(bounds, {
-    padding: { top: 120, bottom: 160, left: 60, right: 60 },
-    minZoom: 14,
-    maxZoom: 17,
-    pitch: 50,
+    padding: { top: 140, bottom: 180, left: 80, right: 80 },
+    minZoom: 15,
+    maxZoom: 18,
+    pitch: DEFAULT_PITCH,
     duration: FLY_TO_DURATION_MS,
    })
   })

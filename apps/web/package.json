@@ -18,6 +18,7 @@
     "@escape-tour/database": "workspace:*",
     "@escape-tour/game-logic": "workspace:*",
     "@escape-tour/shared": "workspace:*",
+    "@sentry/nextjs": "^10.47.0",
     "@stripe/stripe-js": "^8.9.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.1",
