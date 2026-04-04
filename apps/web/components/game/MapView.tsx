@@ -499,19 +499,10 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
  // Current station data
  const currentStation = stations[currentStationIndex] ?? null
 
- // In demo mode, ALWAYS simulate a position ~200m south-west of the current station
- // so the walking route is visible regardless of real GPS
+ // Use real GPS position — no simulated demo position
  const effectiveUserLocation = useMemo(() => {
-  if (isDemo && currentStation) {
-   return {
-    lat: currentStation.location.lat - 0.0018,
-    lng: currentStation.location.lng - 0.0012,
-    accuracy: 10,
-    timestamp: Date.now(),
-   }
-  }
   return userLocation
- }, [userLocation, isDemo, currentStation])
+ }, [userLocation])
 
  // Distance to current station
  const distanceToCurrentStation = useMemo(() => {
