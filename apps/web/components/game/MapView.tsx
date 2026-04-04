@@ -477,7 +477,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   readonly totalDuration: number
  } | null>(null)
 
- const { userLocation, startWatching, isTracking } = useLocationStore()
+ const { userLocation, startWatching, isTracking, error: locationError } = useLocationStore()
 
  // Derive station marker data immutably
  const stationMarkers: readonly StationMarkerInfo[] = useMemo(
@@ -811,6 +811,32 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
     >
      <LocateFixed className="h-4.5 w-4.5" strokeWidth={1.5} />
     </button>
+   )}
+
+   {/* GPS status indicator */}
+   {isMapLoaded && !userLocation && (
+    <div className="absolute bottom-28 left-4 z-10">
+     <button
+      onClick={() => startWatching()}
+      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-colors"
+      style={{
+       background: locationError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(10, 10, 10, 0.85)',
+       border: `1px solid ${locationError ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255,255,255,0.1)'}`,
+       backdropFilter: 'blur(8px)',
+       color: locationError ? 'rgba(239, 68, 68, 0.9)' : 'rgba(255,255,255,0.7)',
+      }}
+     >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+       <circle cx="12" cy="12" r="3" />
+       <path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+      </svg>
+      {locationError === 'Location permission denied'
+       ? 'GPS blockiert — Einstellungen prüfen'
+       : locationError
+         ? 'GPS-Fehler — erneut versuchen'
+         : 'GPS aktivieren'}
+     </button>
+    </div>
    )}
 
    {/* Current station info panel */}
