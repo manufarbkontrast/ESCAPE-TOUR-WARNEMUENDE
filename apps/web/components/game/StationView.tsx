@@ -213,7 +213,7 @@ export function StationView({
      {currentState === 'choice' && storyChoice && (
       <motion.div
        key="choice"
-       variants={stageVariants}
+       variants={fadeVariants}
        initial="enter"
        animate="center"
        exit="exit"
