@@ -71,10 +71,10 @@ app/
 
 ## Deployment
 
-- **Server**: Hetzner CX23, IP `116.203.57.207`, Ubuntu 24.04
-- **SSH**: `ssh -i ~/.ssh/hetzner_escape_tour root@116.203.57.207`
+- **Server**: Hetzner, IP `188.245.121.230`, Ubuntu 24.04 (hostname `escapetour`)
+- **SSH**: `ssh -i ~/.ssh/hetzner_escape_tour_new root@188.245.121.230`
 - **App path**: `/var/www/escape-tour/app`
-- **Process**: PM2 with `ecosystem.config.cjs` — runs `npx next start -p 3000`
+- **Process**: PM2 with `ecosystem.config.cjs` (liegt nur auf Server, nicht im Repo) — runs `npx next start -p 3000`
 - **Proxy**: Nginx on port 80 → localhost:3000
 - **SSL**: Not yet — needs domain DNS A-record, then `certbot --nginx`
 
@@ -82,11 +82,11 @@ app/
 
 ```bash
 git push origin master
-ssh -i ~/.ssh/hetzner_escape_tour root@116.203.57.207 \
+ssh -i ~/.ssh/hetzner_escape_tour_new root@188.245.121.230 \
   "cd /var/www/escape-tour/app && git pull origin master && \
+   pnpm install --frozen-lockfile && \
    npx turbo build --filter=@escape-tour/web && \
-   pm2 delete all && fuser -k 3000/tcp 2>/dev/null; sleep 1 && \
-   pm2 start ecosystem.config.cjs && pm2 save"
+   pm2 reload ecosystem.config.cjs && pm2 save"
 ```
 
 ## Supabase Type Workaround
@@ -105,5 +105,5 @@ const booking = data as BookingRow | null
 1. **Resend**: Create account, verify domain, set `RESEND_API_KEY`
 2. **Stripe Webhook**: Create endpoint → `/api/webhooks/stripe`, set `STRIPE_WEBHOOK_SECRET`
 3. **PostHog**: Create account, set `NEXT_PUBLIC_POSTHOG_KEY`
-4. **Domain + SSL**: DNS A-record → 116.203.57.207, then `certbot --nginx`
+4. **Domain + SSL**: DNS A-record → 188.245.121.230, then `certbot --nginx`
 5. **Supabase admin user**: Create via Supabase dashboard for /login access
