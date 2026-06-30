@@ -10,7 +10,7 @@ import { MapView } from '@/components/game/MapView'
 import { StationView } from '@/components/game/StationView'
 import { Onboarding, hasSeenOnboarding } from '@/components/game/Onboarding'
 import { StoryIntro } from '@/components/game/StoryIntro'
-import { isDemoSession } from '@/lib/demo/helpers'
+import { syncSessionProgress } from '@/lib/game/session-sync'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -66,7 +66,9 @@ export default function GamePage() {
  const [stations, setStations] = useState<readonly Station[]>([])
  const [puzzles, setPuzzles] = useState<readonly Puzzle[]>([])
  const [language] = useState<'de' | 'en'>('de')
- const [showStoryIntro, setShowStoryIntro] = useState(() => !hasSeenOnboarding())
+ // StoryIntro is shown on every game start — sets the narrative mood.
+ // Onboarding (how-to tutorial) is shown only on first ever play.
+ const [showStoryIntro, setShowStoryIntro] = useState(true)
  const [showOnboarding, setShowOnboarding] = useState(false)
  const [showNavigationRoute, setShowNavigationRoute] = useState(false)
 
@@ -140,13 +142,32 @@ export default function GamePage() {
  )
 
  // Handle station completion
- const handleStationComplete = useCallback(() => {
+ const handleStationComplete = useCallback(async () => {
   if (!session) return
 
   const nextIndex = currentStationIndex + 1
 
   if (nextIndex >= stations.length) {
    completeSession(session.totalPoints)
+   // The certificate endpoint requires server-side status='completed'.
+   // Wait briefly for the sync, but never strand the player on a flaky
+   // connection — the complete page self-heals a missing completion.
+   const SYNC_WAIT_LIMIT_MS = 4_000
+   const result = await Promise.race([
+    syncSessionProgress(sessionId, {
+     status: 'completed',
+     currentStationIndex: nextIndex,
+    }),
+    new Promise<{ ok: false; error: string }>((resolve) =>
+     setTimeout(
+      () => resolve({ ok: false, error: 'Sync timed out' }),
+      SYNC_WAIT_LIMIT_MS,
+     ),
+    ),
+   ])
+   if (!result.ok) {
+    console.error('Session completion sync failed:', result.error)
+   }
    router.push(`/play/${sessionId}/complete`)
    return
   }
@@ -156,7 +177,22 @@ export default function GamePage() {
   })
   setShowNavigationRoute(true)
   setActiveView('map')
+
+  // Persist progress server-side so it survives device switches.
+  void syncSessionProgress(sessionId, { currentStationIndex: nextIndex }).then(
+   (result) => {
+    if (!result.ok) {
+     console.error('Station progress sync failed:', result.error)
+    }
+   },
+  )
  }, [session, currentStationIndex, stations.length, completeSession, updateProgress, sessionId, router])
+
+ // Stable callback so MapView doesn't rebuild all markers on every render
+ const handleStationSelect = useCallback(() => {
+  setShowNavigationRoute(false)
+  setActiveView('station')
+ }, [])
 
  // Switch to station view when navigating there
  const handleViewChange = useCallback((view: GameView) => {
@@ -204,14 +240,17 @@ export default function GamePage() {
   )
  }
 
- // Story intro → Onboarding → Game (shown once before first game)
+ // Story intro → optional Onboarding → Game.
+ // Onboarding only opens if the player has never seen it on this device.
  if (showStoryIntro) {
   return (
    <StoryIntro
     teamName={session?.teamName}
     onComplete={() => {
      setShowStoryIntro(false)
-     setShowOnboarding(true)
+     if (!hasSeenOnboarding()) {
+      setShowOnboarding(true)
+     }
     }}
    />
   )
@@ -238,12 +277,8 @@ export default function GamePage() {
     <MapView
      stations={stations}
      currentStationIndex={currentStationIndex}
-     onStationSelect={() => {
-      setShowNavigationRoute(false)
-      setActiveView('station')
-     }}
-     showRoute={showNavigationRoute || isDemoSession(sessionId)}
-     isDemo={isDemoSession(sessionId)}
+     onStationSelect={handleStationSelect}
+     showRoute={showNavigationRoute}
     />
    </div>
 

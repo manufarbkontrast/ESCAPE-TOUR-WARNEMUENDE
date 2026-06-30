@@ -25,6 +25,36 @@ describe('CombinationPuzzle', () => {
   expect(inputs).toHaveLength(4)
  })
 
+ it('should render 5 input fields for a 5-digit code (station 8)', () => {
+  const fiveDigit = createMockPuzzle({
+   puzzleType: 'combination',
+   correctAnswer: { value: '31542' },
+  })
+  render(
+   <CombinationPuzzle puzzle={fiveDigit} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
+  )
+  expect(screen.getAllByRole('textbox')).toHaveLength(5)
+ })
+
+ it('should render 6 input fields and submit a 6-digit code (station 12)', async () => {
+  const user = userEvent.setup()
+  const sixDigit = createMockPuzzle({
+   puzzleType: 'combination',
+   correctAnswer: { value: '130353' },
+  })
+  render(
+   <CombinationPuzzle puzzle={sixDigit} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
+  )
+  const inputs = screen.getAllByRole('textbox')
+  expect(inputs).toHaveLength(6)
+
+  for (const [i, digit] of ['1', '3', '0', '3', '5', '3'].entries()) {
+   await user.type(inputs[i], digit)
+  }
+  await user.click(screen.getByRole('button', { name: 'Antwort prüfen' }))
+  expect(mockOnSubmit).toHaveBeenCalledWith('130353')
+ })
+
  it('should have aria labels for each input', () => {
   render(
    <CombinationPuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,

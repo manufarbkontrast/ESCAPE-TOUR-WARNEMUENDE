@@ -28,6 +28,7 @@ describe('locationStore', () => {
       watchId: null,
       isTracking: false,
       error: null,
+      permissionDenied: false,
     })
     vi.clearAllMocks()
 
@@ -206,6 +207,136 @@ describe('locationStore', () => {
       expect(useLocationStore.getState().error).toBe(
         'Location request timed out',
       )
+    })
+
+    it('should keep the watch alive on transient errors (timeout)', () => {
+      let capturedSuccess: ((pos: GeolocationPosition) => void) | null = null
+      let capturedError: ((err: GeolocationPositionError) => void) | null = null
+      mockWatchPosition.mockImplementation(
+        (
+          success: (pos: GeolocationPosition) => void,
+          error: (err: GeolocationPositionError) => void,
+        ) => {
+          capturedSuccess = success
+          capturedError = error
+          return 1
+        },
+      )
+
+      useLocationStore.getState().startWatching()
+
+      capturedError!({
+        code: 3,
+        PERMISSION_DENIED: 1,
+        POSITION_UNAVAILABLE: 2,
+        TIMEOUT: 3,
+        message: 'Timeout',
+      } as GeolocationPositionError)
+
+      // Watch keeps running — a later fix would otherwise leak a second watch
+      expect(useLocationStore.getState().isTracking).toBe(true)
+      expect(mockClearWatch).not.toHaveBeenCalled()
+
+      // A later position clears the error
+      capturedSuccess!({
+        coords: { latitude: 54.18, longitude: 12.08, accuracy: 10 },
+        timestamp: 1700000010000,
+      } as GeolocationPosition)
+      expect(useLocationStore.getState().error).toBeNull()
+    })
+
+    it('should set permissionDenied and clear the watch on PERMISSION_DENIED', () => {
+      let capturedError: ((err: GeolocationPositionError) => void) | null = null
+      mockWatchPosition.mockImplementation((_success: unknown, error: (err: GeolocationPositionError) => void) => {
+        capturedError = error
+        return 7
+      })
+
+      useLocationStore.getState().startWatching()
+
+      capturedError!({
+        code: 1,
+        PERMISSION_DENIED: 1,
+        POSITION_UNAVAILABLE: 2,
+        TIMEOUT: 3,
+        message: 'User denied',
+      } as GeolocationPositionError)
+
+      const state = useLocationStore.getState()
+      expect(state.permissionDenied).toBe(true)
+      expect(state.isTracking).toBe(false)
+      expect(mockClearWatch).toHaveBeenCalledWith(7)
+    })
+
+    it('should not restart automatically after permission denial', () => {
+      let capturedError: ((err: GeolocationPositionError) => void) | null = null
+      mockWatchPosition.mockImplementation((_success: unknown, error: (err: GeolocationPositionError) => void) => {
+        capturedError = error
+        return 1
+      })
+
+      useLocationStore.getState().startWatching()
+      capturedError!({
+        code: 1,
+        PERMISSION_DENIED: 1,
+        POSITION_UNAVAILABLE: 2,
+        TIMEOUT: 3,
+        message: 'User denied',
+      } as GeolocationPositionError)
+
+      useLocationStore.getState().startWatching()
+
+      expect(mockWatchPosition).toHaveBeenCalledTimes(1)
+    })
+
+    it('should allow a forced retry after permission denial', () => {
+      let capturedError: ((err: GeolocationPositionError) => void) | null = null
+      mockWatchPosition.mockImplementation((_success: unknown, error: (err: GeolocationPositionError) => void) => {
+        capturedError = error
+        return 1
+      })
+
+      useLocationStore.getState().startWatching()
+      capturedError!({
+        code: 1,
+        PERMISSION_DENIED: 1,
+        POSITION_UNAVAILABLE: 2,
+        TIMEOUT: 3,
+        message: 'User denied',
+      } as GeolocationPositionError)
+
+      useLocationStore.getState().startWatching({ force: true })
+
+      expect(mockWatchPosition).toHaveBeenCalledTimes(2)
+      expect(useLocationStore.getState().permissionDenied).toBe(false)
+    })
+
+    it('should throttle rapid position updates to ~1 per second', () => {
+      let capturedSuccess: ((pos: GeolocationPosition) => void) | null = null
+      mockWatchPosition.mockImplementation(
+        (success: (pos: GeolocationPosition) => void) => {
+          capturedSuccess = success
+          return 1
+        },
+      )
+
+      useLocationStore.getState().startWatching()
+
+      const emit = (lat: number, timestamp: number) =>
+        capturedSuccess!({
+          coords: { latitude: lat, longitude: 12.08, accuracy: 10 },
+          timestamp,
+        } as GeolocationPosition)
+
+      emit(54.18, 1_000)
+      emit(54.1801, 1_200)
+      emit(54.1802, 1_500)
+
+      // Updates within 1s of the last accepted one are dropped
+      expect(useLocationStore.getState().userLocation?.lat).toBe(54.18)
+
+      emit(54.1803, 2_100)
+      expect(useLocationStore.getState().userLocation?.lat).toBe(54.1803)
     })
   })
 

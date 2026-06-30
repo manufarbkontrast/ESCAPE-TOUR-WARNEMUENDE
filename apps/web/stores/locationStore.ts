@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import type { GeoPoint } from '@escape-tour/shared'
+import { haversineDistanceMeters } from '@/lib/game/navigation'
 
 interface UserLocation {
   readonly lat: number
@@ -13,10 +14,15 @@ interface LocationState {
   readonly watchId: number | null
   readonly isTracking: boolean
   readonly error: string | null
+  readonly permissionDenied: boolean
+}
+
+interface StartWatchingOptions {
+  readonly force?: boolean
 }
 
 interface LocationActions {
-  readonly startWatching: () => void
+  readonly startWatching: (options?: StartWatchingOptions) => void
   readonly stopWatching: () => void
   readonly checkProximity: (target: GeoPoint, radiusMeters: number) => boolean
   readonly setLocation: (location: UserLocation) => void
@@ -30,31 +36,29 @@ const initialState: LocationState = {
   watchId: null,
   isTracking: false,
   error: null,
+  permissionDenied: false,
 }
 
-const calculateDistance = (point1: GeoPoint, point2: GeoPoint): number => {
-  const R = 6371e3 // Earth radius in meters
-  const φ1 = (point1.lat * Math.PI) / 180
-  const φ2 = (point2.lat * Math.PI) / 180
-  const Δφ = ((point2.lat - point1.lat) * Math.PI) / 180
-  const Δλ = ((point2.lng - point1.lng) * Math.PI) / 180
+// Drop GPS updates arriving faster than this — walking-pace gameplay
+// doesn't need more, and each update triggers React re-renders.
+const POSITION_UPDATE_MIN_INTERVAL_MS = 1_000
 
-  const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
-  return R * c
-}
+const GEOLOCATION_TIMEOUT_MS = 10_000
+const GEOLOCATION_MAX_AGE_MS = 5_000
 
 export const useLocationStore = create<LocationStore>((set, get) => ({
   ...initialState,
 
-  startWatching: () => {
+  startWatching: (options?: StartWatchingOptions) => {
     const state = get()
 
     if (state.isTracking) {
+      return
+    }
+
+    // After an explicit denial, only retry when the user asks for it
+    // (e.g. via the GPS button) — otherwise effects would loop forever.
+    if (state.permissionDenied && !options?.force) {
       return
     }
 
@@ -66,7 +70,20 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
       return
     }
 
+    let lastAcceptedTimestamp = 0
+
     const successHandler = (position: GeolocationPosition) => {
+      if (
+        lastAcceptedTimestamp !== 0 &&
+        position.timestamp - lastAcceptedTimestamp <
+          POSITION_UPDATE_MIN_INTERVAL_MS
+      ) {
+        return
+      }
+      // maximumAge can deliver cached fixes with older timestamps — never
+      // move the throttle clock backwards or it lets bursts through.
+      lastAcceptedTimestamp = Math.max(lastAcceptedTimestamp, position.timestamp)
+
       const location: UserLocation = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
@@ -81,31 +98,33 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
     }
 
     const errorHandler = (error: GeolocationPositionError) => {
-      let errorMessage = 'Unknown location error'
-
-      switch (error.code) {
-        case error.PERMISSION_DENIED:
-          errorMessage = 'Location permission denied'
-          break
-        case error.POSITION_UNAVAILABLE:
-          errorMessage = 'Location information unavailable'
-          break
-        case error.TIMEOUT:
-          errorMessage = 'Location request timed out'
-          break
+      if (error.code === error.PERMISSION_DENIED) {
+        const { watchId } = get()
+        if (watchId !== null) {
+          navigator.geolocation.clearWatch(watchId)
+        }
+        set({
+          error: 'Location permission denied',
+          isTracking: false,
+          watchId: null,
+          permissionDenied: true,
+        })
+        return
       }
 
-      set({
-        error: errorMessage,
-        isTracking: false,
-        watchId: null,
-      })
+      // Transient errors (timeout, position unavailable): keep the watch
+      // alive — the browser keeps retrying and a later fix recovers.
+      const errorMessage =
+        error.code === error.POSITION_UNAVAILABLE
+          ? 'Location information unavailable'
+          : error.code === error.TIMEOUT
+            ? 'Location request timed out'
+            : 'Unknown location error'
+
+      set({ error: errorMessage })
     }
 
-    const GEOLOCATION_TIMEOUT_MS = 10_000
-    const GEOLOCATION_MAX_AGE_MS = 5_000
-
-    const options: PositionOptions = {
+    const watchOptions: PositionOptions = {
       enableHighAccuracy: true,
       timeout: GEOLOCATION_TIMEOUT_MS,
       maximumAge: GEOLOCATION_MAX_AGE_MS,
@@ -114,13 +133,14 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
     const watchId = navigator.geolocation.watchPosition(
       successHandler,
       errorHandler,
-      options
+      watchOptions
     )
 
     set({
       watchId,
       isTracking: true,
       error: null,
+      permissionDenied: false,
     })
   },
 
@@ -149,9 +169,7 @@ export const useLocationStore = create<LocationStore>((set, get) => ({
       lng: state.userLocation.lng,
     }
 
-    const distance = calculateDistance(userPoint, target)
-
-    return distance <= radiusMeters
+    return haversineDistanceMeters(userPoint, target) <= radiusMeters
   },
 
   setLocation: (location: UserLocation) => {

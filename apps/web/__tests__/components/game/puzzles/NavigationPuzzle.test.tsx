@@ -246,7 +246,9 @@ describe('NavigationPuzzle', () => {
   expect(screen.getByText('Prüfe...')).toBeInTheDocument()
  })
 
- it('should show demo mode indicator', () => {
+ // Demo mode now uses real live GPS (no simulated position): it must start
+ // the watch and must NOT seed a static position or show a "simulated" badge.
+ it('should use real live GPS in demo mode (no simulation)', () => {
   const puzzle = createMockPuzzle({
    puzzleType: 'navigation',
    targetLocation: { lat: 54.17, lng: 12.08 },
@@ -254,18 +256,9 @@ describe('NavigationPuzzle', () => {
   render(
    <NavigationPuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} isDemo={true} />,
   )
-  expect(screen.getByText('Demo-Modus: GPS simuliert')).toBeInTheDocument()
- })
-
- it('should show English demo mode indicator', () => {
-  const puzzle = createMockPuzzle({
-   puzzleType: 'navigation',
-   targetLocation: { lat: 54.17, lng: 12.08 },
-  })
-  render(
-   <NavigationPuzzle puzzle={puzzle} language="en" onSubmit={mockOnSubmit} isSubmitting={false} isDemo={true} />,
-  )
-  expect(screen.getByText('Demo mode: GPS simulated')).toBeInTheDocument()
+  expect(mockStartWatching).toHaveBeenCalled()
+  expect(mockSetLocation).not.toHaveBeenCalled()
+  expect(screen.queryByText('Demo-Modus: GPS simuliert')).not.toBeInTheDocument()
  })
 
  it('should show location error when present', () => {

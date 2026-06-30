@@ -4,12 +4,91 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import type { Certificate, ApiResponse, BadgeLevel } from '@escape-tour/shared'
+import { syncSessionProgress } from '@/lib/game/session-sync'
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
 type LoadingState = 'loading' | 'ready' | 'error'
+
+type CertificateResult = {
+ readonly data: Certificate | null
+ readonly error: string | null
+ readonly status: number | null
+}
+
+// ---------------------------------------------------------------------------
+// Certificate API helpers
+// ---------------------------------------------------------------------------
+
+async function callCertificateApi(
+ sessionId: string,
+ method: 'GET' | 'POST',
+): Promise<CertificateResult> {
+ try {
+  const response =
+   method === 'GET'
+    ? await fetch(
+       `/api/game/certificate?sessionId=${encodeURIComponent(sessionId)}`,
+      )
+    : await fetch('/api/game/certificate', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ sessionId }),
+      })
+
+  let result: ApiResponse<Certificate>
+  try {
+   result = await response.json()
+  } catch {
+   return {
+    data: null,
+    error: 'Ungültige Serverantwort.',
+    status: response.status,
+   }
+  }
+
+  if (!result.success || !result.data) {
+   return {
+    data: null,
+    error: result.error ?? 'Zertifikat konnte nicht geladen werden.',
+    status: response.status,
+   }
+  }
+
+  return { data: result.data, error: null, status: response.status }
+ } catch {
+  return {
+   data: null,
+   error: 'Netzwerkfehler. Bitte versucht es erneut.',
+   status: null,
+  }
+ }
+}
+
+/**
+ * Fetch the certificate; generate it on first visit. If the server still
+ * has the session as not-completed (older clients never synced completion),
+ * self-heal once by marking it completed, then generate again.
+ */
+async function requestCertificate(sessionId: string): Promise<CertificateResult> {
+ const existing = await callCertificateApi(sessionId, 'GET')
+ if (existing.data) return existing
+
+ const generated = await callCertificateApi(sessionId, 'POST')
+ if (generated.data) return generated
+
+ // 400 = session not (yet) marked completed server-side
+ if (generated.status === 400) {
+  const sync = await syncSessionProgress(sessionId, { status: 'completed' })
+  if (sync.ok) {
+   return callCertificateApi(sessionId, 'POST')
+  }
+ }
+
+ return generated
+}
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -176,39 +255,25 @@ export default function CompletePage() {
  const [language] = useState<'de' | 'en'>('de')
 
  // Fetch certificate data
- useEffect(() => {
-  const fetchCertificate = async () => {
-   setLoadingState('loading')
+ const fetchCertificate = useCallback(async () => {
+  setLoadingState('loading')
+  setErrorMessage(null)
 
-   try {
-    const response = await fetch(
-     `/api/game/certificate?sessionId=${encodeURIComponent(sessionId)}`,
-    )
+  const result = await requestCertificate(sessionId)
 
-    if (!response.ok) {
-     throw new Error('Failed to fetch certificate')
-    }
-
-    const result: ApiResponse<Certificate> = await response.json()
-
-    if (!result.success || !result.data) {
-     setErrorMessage(
-      result.error ?? 'Zertifikat konnte nicht geladen werden.',
-     )
-     setLoadingState('error')
-     return
-    }
-
-    setCertificate(result.data)
-    setLoadingState('ready')
-   } catch {
-    setErrorMessage('Netzwerkfehler. Bitte versucht es erneut.')
-    setLoadingState('error')
-   }
+  if (!result.data) {
+   setErrorMessage(result.error ?? 'Zertifikat konnte nicht geladen werden.')
+   setLoadingState('error')
+   return
   }
 
-  fetchCertificate()
+  setCertificate(result.data)
+  setLoadingState('ready')
  }, [sessionId])
+
+ useEffect(() => {
+  fetchCertificate()
+ }, [fetchCertificate])
 
  // Hide confetti after animation
  useEffect(() => {
@@ -308,12 +373,20 @@ export default function CompletePage() {
       </svg>
      </div>
      <p className="mb-6 text-white/70 font-semibold">{errorMessage}</p>
-     <button
-      onClick={() => router.push('/')}
-      className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-all hover:bg-dark-100 active:scale-95"
-     >
-      {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
-     </button>
+     <div className="flex flex-col items-center gap-3">
+      <button
+       onClick={() => fetchCertificate()}
+       className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-all hover:bg-dark-100 active:scale-95"
+      >
+       {language === 'de' ? 'Erneut versuchen' : 'Try again'}
+      </button>
+      <button
+       onClick={() => router.push('/')}
+       className="rounded-lg px-6 py-3 font-semibold text-white/70 transition-all hover:text-white active:scale-95"
+      >
+       {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
+      </button>
+     </div>
     </div>
    </div>
   )

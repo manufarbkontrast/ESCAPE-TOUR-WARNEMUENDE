@@ -7,8 +7,10 @@ import type { Station, Puzzle } from '@escape-tour/shared'
 import { PuzzleRenderer } from './PuzzleRenderer'
 import { Timer } from './Timer'
 import { HintSystem } from './HintSystem'
-import { isDemoSession } from '@/lib/demo/helpers'
+import { isDemoSession, isOfflineSession } from '@/lib/demo/helpers'
 import { StoryChoice, STORY_CHOICES, type StoryBranch } from './StoryChoice'
+import { useLocationStore } from '@/stores/locationStore'
+import { isWithinNavigationRange } from '@/lib/game/navigation'
 
 type StationState = 'intro' | 'story' | 'choice' | 'puzzle' | 'success' | 'transition'
 
@@ -54,6 +56,15 @@ export function StationView({
  const isDemo = isDemoSession(sessionId)
  const currentPuzzle = puzzles[currentPuzzleIndex]
  const allPuzzlesCompleted = completedPuzzles.length === puzzles.length
+
+ const userLocation = useLocationStore((state) => state.userLocation)
+ const locationError = useLocationStore((state) => state.error)
+ // Only block when we positively know the player is far away (>5km with a
+ // GPS fix). No fix / denied GPS / demo mode must never strand the player.
+ const knownTooFarAway = userLocation
+  ? !isWithinNavigationRange({ lat: userLocation.lat, lng: userLocation.lng })
+  : false
+ const canStartNavigation = isOfflineSession(sessionId) || !knownTooFarAway
 
  useEffect(() => {
   if (allPuzzlesCompleted && currentState === 'puzzle') {
@@ -327,11 +338,32 @@ export function StationView({
 
          <button
           onClick={onComplete}
-          className="btn btn-primary w-full py-4 text-lg"
+          disabled={!canStartNavigation}
+          className="btn btn-primary w-full py-4 text-lg disabled:opacity-40 disabled:cursor-not-allowed"
          >
           <Navigation className="h-5 w-5" strokeWidth={2} />
           {language === 'de' ? 'Navigation starten' : 'Start Navigation'}
          </button>
+
+         {!canStartNavigation ? (
+          <p className="px-2 text-sm text-white/50 text-center leading-snug">
+           {language === 'de'
+            ? 'GPS-Position zu weit entfernt – Navigation startet in der Nähe von Warnemünde.'
+            : 'GPS position too far away – navigation activates near Warnemünde.'}
+          </p>
+         ) : locationError ? (
+          <p className="px-2 text-sm text-white/50 text-center leading-snug">
+           {language === 'de'
+            ? 'GPS nicht verfügbar – folgt einfach dem Weghinweis oben.'
+            : 'GPS unavailable – just follow the walking hint above.'}
+          </p>
+         ) : !userLocation && !isOfflineSession(sessionId) ? (
+          <p className="px-2 text-sm text-white/50 text-center leading-snug">
+           {language === 'de'
+            ? 'Warte auf GPS-Signal…'
+            : 'Waiting for GPS signal…'}
+          </p>
+         ) : null}
         </>
        ) : (
         <div className="flex min-h-[50vh] items-center justify-center">

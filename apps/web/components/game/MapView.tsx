@@ -6,6 +6,11 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import type { Station, GeoPoint } from '@escape-tour/shared'
 import { LocateFixed, MapPin, AlertTriangle, Navigation } from 'lucide-react'
 import { useLocationStore } from '@/stores/locationStore'
+import {
+ haversineDistanceMeters,
+ isWithinNavigationRange,
+ WARNEMUENDE_CENTER_POINT,
+} from '@/lib/game/navigation'
 
 
 // ---------------------------------------------------------------------------
@@ -17,7 +22,6 @@ interface MapViewProps {
  readonly currentStationIndex: number
  readonly onStationSelect?: (stationIndex: number) => void
  readonly showRoute?: boolean
- readonly isDemo?: boolean
 }
 
 type StationStatus = 'completed' | 'current' | 'locked'
@@ -32,7 +36,10 @@ interface StationMarkerInfo {
 // Constants
 // ---------------------------------------------------------------------------
 
-const WARNEMUENDE_CENTER: [number, number] = [12.0853, 54.1797]
+const WARNEMUENDE_CENTER: [number, number] = [
+ WARNEMUENDE_CENTER_POINT.lng,
+ WARNEMUENDE_CENTER_POINT.lat,
+]
 const WARNEMUENDE_BOUNDS: mapboxgl.LngLatBoundsLike = [
  [12.065, 54.165],  // Southwest (links-unten)
  [12.110, 54.195],  // Northeast (rechts-oben)
@@ -46,8 +53,6 @@ const FLY_TO_DURATION_MS = 2_500
 const TERRAIN_EXAGGERATION = 1.5
 const DEM_MAX_ZOOM = 14
 const ROUTE_FETCH_DEBOUNCE_MS = 3_000
-// Max distance (meters) from Warnemünde center to consider user "nearby"
-const MAX_ROUTE_DISTANCE_M = 5_000
 
 const MARKER_COLORS: Record<StationStatus, string> = {
  completed: '#22c55e',
@@ -56,32 +61,6 @@ const MARKER_COLORS: Record<StationStatus, string> = {
 } as const
 
 const MAP_STYLE = 'mapbox://styles/mapbox/standard'
-
-// ---------------------------------------------------------------------------
-// Haversine distance utility
-// ---------------------------------------------------------------------------
-
-const calculateHaversineDistance = (
- point1: GeoPoint,
- point2: GeoPoint,
-): number => {
- const R = 6371e3
- const phi1 = (point1.lat * Math.PI) / 180
- const phi2 = (point2.lat * Math.PI) / 180
- const deltaPhi = ((point2.lat - point1.lat) * Math.PI) / 180
- const deltaLambda = ((point2.lng - point1.lng) * Math.PI) / 180
-
- const a =
-  Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-  Math.cos(phi1) *
-   Math.cos(phi2) *
-   Math.sin(deltaLambda / 2) *
-   Math.sin(deltaLambda / 2)
-
- const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-
- return R * c
-}
 
 const formatDistance = (meters: number): string => {
  if (meters < 1000) {
@@ -331,8 +310,13 @@ interface NavigationPanelProps {
 }
 
 function NavigationPanel({ steps, totalDistance, totalDuration, stationName }: NavigationPanelProps) {
- // Show first non-depart step as "next", fall back to first step
- const nextStep = steps.find((s) => s.maneuverType !== 'depart') ?? steps[0]
+ // Filter out depart/arrive markers — those aren't actionable maneuvers
+ const meaningfulSteps = steps.filter(
+  (s) => s.maneuverType !== 'depart' && s.maneuverType !== 'arrive',
+ )
+ const nextStep = meaningfulSteps[0] ?? steps[0]
+ const followingStep = meaningfulSteps[1]
+
  if (!nextStep) return null
 
  return (
@@ -361,6 +345,25 @@ function NavigationPanel({ steps, totalDistance, totalDuration, stationName }: N
      )}
     </div>
    </div>
+
+   {/* Following step — helps the user prepare for the next maneuver */}
+   {followingStep && (
+    <div
+     className="flex items-center gap-3 px-4 py-2"
+     style={{ borderTop: '1px solid rgba(255, 255, 255, 0.04)' }}
+    >
+     <span
+      className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md text-sm text-white/60"
+      style={{ background: 'rgba(255, 255, 255, 0.04)' }}
+     >
+      {maneuverIcon(followingStep.maneuverType)}
+     </span>
+     <p className="flex-1 min-w-0 text-sm text-white/60 leading-snug truncate">
+      <span className="text-white/40">danach: </span>
+      {followingStep.instruction}
+     </p>
+    </div>
+   )}
 
    {/* Summary bar */}
    <div
@@ -397,20 +400,25 @@ interface WalkingRouteResult {
  readonly totalDuration: number
 }
 
+type WalkingRouteFetchResult =
+ | { readonly ok: true; readonly route: WalkingRouteResult }
+ | { readonly ok: false; readonly aborted: boolean }
+
 const fetchWalkingRoute = async (
  from: { lng: number; lat: number },
  to: { lng: number; lat: number },
  token: string,
-): Promise<WalkingRouteResult | null> => {
+ signal?: AbortSignal,
+): Promise<WalkingRouteFetchResult> => {
  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${from.lng},${from.lat};${to.lng},${to.lat}?steps=true&language=de&overview=false&access_token=${encodeURIComponent(token)}`
 
  try {
-  const response = await fetch(url)
-  if (!response.ok) return null
+  const response = await fetch(url, { signal })
+  if (!response.ok) return { ok: false, aborted: false }
 
   const data = await response.json()
   const route = data?.routes?.[0]
-  if (!route) return null
+  if (!route) return { ok: false, aborted: false }
 
   const leg = route.legs?.[0]
   const steps: RouteStep[] = (leg?.steps ?? []).map((s: Record<string, unknown>) => ({
@@ -421,12 +429,16 @@ const fetchWalkingRoute = async (
   }))
 
   return {
-   steps,
-   totalDistance: leg?.distance as number ?? 0,
-   totalDuration: leg?.duration as number ?? 0,
+   ok: true,
+   route: {
+    steps,
+    totalDistance: leg?.distance as number ?? 0,
+    totalDuration: leg?.duration as number ?? 0,
+   },
   }
- } catch {
-  return null
+ } catch (error) {
+  const aborted = error instanceof DOMException && error.name === 'AbortError'
+  return { ok: false, aborted }
  }
 }
 
@@ -463,7 +475,7 @@ const formatDuration = (seconds: number): string => {
 // MapView component
 // ---------------------------------------------------------------------------
 
-export function MapView({ stations, currentStationIndex, onStationSelect, showRoute = false, isDemo = false }: MapViewProps) {
+export function MapView({ stations, currentStationIndex, onStationSelect, showRoute = false }: MapViewProps) {
  const mapContainerRef = useRef<HTMLDivElement | null>(null)
  const mapRef = useRef<mapboxgl.Map | null>(null)
  const markersRef = useRef<mapboxgl.Marker[]>([])
@@ -477,7 +489,8 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   readonly totalDuration: number
  } | null>(null)
 
- const { userLocation, startWatching, isTracking, error: locationError } = useLocationStore()
+ const { userLocation, startWatching, stopWatching, error: locationError } = useLocationStore()
+ const [routeError, setRouteError] = useState(false)
 
  // Derive station marker data immutably
  const stationMarkers: readonly StationMarkerInfo[] = useMemo(
@@ -513,7 +526,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
    lng: effectiveUserLocation.lng,
   }
 
-  return calculateHaversineDistance(userPoint, currentStation.location)
+  return haversineDistanceMeters(userPoint, currentStation.location)
  }, [effectiveUserLocation, currentStation])
 
  const formattedDistance = useMemo(
@@ -610,12 +623,16 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   }
  }, [])
 
- // Start location tracking
+ // Start location tracking while the map is mounted, stop on unmount
+ // so the GPS watch doesn't keep draining the battery afterwards.
+ // After a permission denial, startWatching is a no-op until the user
+ // retries via the GPS button (prevents an endless error loop).
  useEffect(() => {
-  if (!isTracking) {
-   startWatching()
+  startWatching()
+  return () => {
+   stopWatching()
   }
- }, [isTracking, startWatching])
+ }, [startWatching, stopWatching])
 
  // Place station markers
  useEffect(() => {
@@ -699,6 +716,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   // Clear navigation when not in navigation mode
   if (!showRoute) {
    setNavigationInfo(null)
+   setRouteError(false)
    return
   }
 
@@ -709,10 +727,10 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
   // Check if user is close enough to Warnemünde to show a walking route
   const userIsNearby = effectiveUserLocation
-   ? calculateHaversineDistance(
-      { lat: effectiveUserLocation.lat, lng: effectiveUserLocation.lng },
-      { lat: WARNEMUENDE_CENTER[1], lng: WARNEMUENDE_CENTER[0] },
-     ) < MAX_ROUTE_DISTANCE_M
+   ? isWithinNavigationRange({
+      lat: effectiveUserLocation.lat,
+      lng: effectiveUserLocation.lng,
+     })
    : false
 
   // If user is too far away or no location, just zoom to the station
@@ -731,35 +749,59 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
   if (!token) return
 
-  // Debounce route fetches so we don't spam the API as user moves
-  const now = Date.now()
-  if (now - lastRouteFetchRef.current < ROUTE_FETCH_DEBOUNCE_MS) return
-  lastRouteFetchRef.current = now
-
   const from = { lng: effectiveUserLocation.lng, lat: effectiveUserLocation.lat }
 
-  fetchWalkingRoute(from, to, token).then((result) => {
-   if (!result || !mapRef.current) return
+  // Debounce with a trailing call: rapid position/station changes wait out
+  // the remaining window instead of being dropped entirely — otherwise a
+  // station switch within the window would never get a route.
+  const elapsed = Date.now() - lastRouteFetchRef.current
+  const debounceDelay = Math.max(0, ROUTE_FETCH_DEBOUNCE_MS - elapsed)
 
-   setNavigationInfo({
-    steps: result.steps,
-    totalDistance: result.totalDistance,
-    totalDuration: result.totalDuration,
+  let cancelled = false
+  const controller = new AbortController()
+
+  const timeoutId = setTimeout(() => {
+   lastRouteFetchRef.current = Date.now()
+
+   fetchWalkingRoute(from, to, token, controller.signal).then((result) => {
+    // Effect re-ran (station/position changed) or unmounted — discard
+    if (cancelled || !mapRef.current) return
+
+    if (!result.ok) {
+     if (!result.aborted) {
+      setNavigationInfo(null)
+      setRouteError(true)
+     }
+     return
+    }
+
+    setRouteError(false)
+    setNavigationInfo({
+     steps: result.route.steps,
+     totalDistance: result.route.totalDistance,
+     totalDuration: result.route.totalDuration,
+    })
+
+    // Fit map to show user + destination
+    const bounds = new mapboxgl.LngLatBounds()
+    bounds.extend([from.lng, from.lat])
+    bounds.extend([to.lng, to.lat])
+
+    map.fitBounds(bounds, {
+     padding: { top: 140, bottom: 180, left: 80, right: 80 },
+     minZoom: 15,
+     maxZoom: 18,
+     pitch: DEFAULT_PITCH,
+     duration: FLY_TO_DURATION_MS,
+    })
    })
+  }, debounceDelay)
 
-   // Fit map to show user + destination
-   const bounds = new mapboxgl.LngLatBounds()
-   bounds.extend([from.lng, from.lat])
-   bounds.extend([to.lng, to.lat])
-
-   map.fitBounds(bounds, {
-    padding: { top: 140, bottom: 180, left: 80, right: 80 },
-    minZoom: 15,
-    maxZoom: 18,
-    pitch: DEFAULT_PITCH,
-    duration: FLY_TO_DURATION_MS,
-   })
-  })
+  return () => {
+   cancelled = true
+   controller.abort()
+   clearTimeout(timeoutId)
+  }
  }, [showRoute, effectiveUserLocation, currentStation, isMapLoaded])
 
  // Error state
@@ -799,6 +841,23 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
     />
    )}
 
+   {/* Route error hint — Directions API unreachable or rate-limited */}
+   {isMapLoaded && showRoute && !navigationInfo && routeError && (
+    <div
+     className="absolute top-4 left-4 right-16 z-10 rounded-2xl px-4 py-3"
+     role="status"
+     style={{
+      background: 'rgba(10, 10, 10, 0.92)',
+      backdropFilter: 'blur(16px)',
+      border: '1px solid rgba(255, 255, 255, 0.08)',
+     }}
+    >
+     <p className="text-sm font-semibold text-white/70">
+      Navigation derzeit nicht verfügbar — bitte Verbindung prüfen.
+     </p>
+    </div>
+   )}
+
    {/* Legend — hidden when navigation panel is shown */}
    {isMapLoaded && !navigationInfo && <MapLegend />}
 
@@ -813,11 +872,12 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
     </button>
    )}
 
-   {/* GPS status indicator */}
+   {/* GPS status indicator — lets the user (re)arm live GPS, e.g. after a
+       permission denial. force:true bypasses the permissionDenied guard. */}
    {isMapLoaded && !userLocation && (
     <div className="absolute bottom-28 left-4 z-10">
      <button
-      onClick={() => startWatching()}
+      onClick={() => startWatching({ force: true })}
       className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-colors"
       style={{
        background: locationError ? 'rgba(239, 68, 68, 0.15)' : 'rgba(10, 10, 10, 0.85)',

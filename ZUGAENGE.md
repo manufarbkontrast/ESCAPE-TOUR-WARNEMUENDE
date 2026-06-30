@@ -2,9 +2,9 @@
 
 ## Live-Server
 
-- **URL:** http://116.203.57.207
-- **Server:** Hetzner CX23, Ubuntu 24.04
-- **SSH:** `ssh -i ~/.ssh/hetzner_escape_tour root@116.203.57.207`
+- **URL:** http://188.245.121.230
+- **Server:** Hetzner, Ubuntu 24.04 (hostname `escapetour`)
+- **SSH:** `ssh -i ~/.ssh/hetzner_escape_tour_new root@188.245.121.230`
 - **App-Pfad:** `/var/www/escape-tour/app`
 - **Prozess:** PM2 (`pm2 status`, `pm2 logs escape-tour`)
 
@@ -16,7 +16,7 @@
 
 | | |
 |---|---|
-| **URL** | http://116.203.57.207/play |
+| **URL** | http://188.245.121.230/play |
 | **Code** | `DEMO01` |
 | **Tour** | Erwachsenen-Tour (12 Stationen) |
 
@@ -24,7 +24,7 @@
 
 | | |
 |---|---|
-| **URL** | http://116.203.57.207/staff |
+| **URL** | http://188.245.121.230/staff |
 | **PIN** | `1234` (ändern via `STAFF_PIN` in `.env`) |
 | **Funktion** | Session erstellen, Tour wählen, Tablet zuweisen, Gerät zurücksetzen |
 
@@ -95,8 +95,8 @@
 
 | | |
 |---|---|
-| **URL** | http://116.203.57.207/dashboard |
-| **Login** | http://116.203.57.207/login |
+| **URL** | http://188.245.121.230/dashboard |
+| **Login** | http://188.245.121.230/login |
 | **User** | Muss in Supabase Dashboard angelegt werden |
 
 ---
@@ -116,11 +116,11 @@
 ## Deploy-Befehl
 
 ```bash
-ssh -i ~/.ssh/hetzner_escape_tour root@116.203.57.207 \
+ssh -i ~/.ssh/hetzner_escape_tour_new root@188.245.121.230 \
   "cd /var/www/escape-tour/app && git pull origin master && \
+   pnpm install --frozen-lockfile && \
    npx turbo build --filter=@escape-tour/web && \
-   pm2 delete all && fuser -k 3000/tcp 2>/dev/null; sleep 1 && \
-   pm2 start ecosystem.config.cjs && pm2 save"
+   pm2 reload ecosystem.config.cjs && pm2 save"
 ```
 
 ## Setup-Script (einmalig)

@@ -85,6 +85,23 @@ describe('validateDemoAnswer', () => {
     expect(result.pointsEarned).toBe(150)
   })
 
+  // Puzzle 002 — Teepott (photo_search, answer stored as 'MOEWE')
+  // Users naturally type the umlaut spelling "Möwe" — must be accepted.
+  it.each(['Möwe', 'MÖWE', 'möwe', 'moewe', 'Moewe', 'MOEWE'])(
+    'should accept "%s" for the Möwe puzzle (puzzle 002)',
+    (answer) => {
+      const result = validateDemoAnswer('demo-puzzle-002', answer, 30)
+      expect(result.isCorrect).toBe(true)
+      expect(result.pointsEarned).toBe(100)
+    },
+  )
+
+  it('should still reject a wrong answer for the Möwe puzzle', () => {
+    const result = validateDemoAnswer('demo-puzzle-002', 'Adler', 30)
+    expect(result.isCorrect).toBe(false)
+    expect(result.feedback.type).toBe('error')
+  })
+
   it('should award no time bonus when time exceeds max', () => {
     const result = validateDemoAnswer('demo-puzzle-001', 135, 999)
     expect(result.isCorrect).toBe(true)

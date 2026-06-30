@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useMemo } from 'react'
 import type { Puzzle } from '@escape-tour/shared'
 
 interface CombinationPuzzleProps {
@@ -10,10 +10,17 @@ interface CombinationPuzzleProps {
  readonly isSubmitting: boolean
 }
 
-const CODE_LENGTH = 4
+const DEFAULT_CODE_LENGTH = 4
 
 export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: CombinationPuzzleProps) {
- const [digits, setDigits] = useState<readonly string[]>(Array.from({ length: CODE_LENGTH }, () => ''))
+ // Derive the number of input boxes from the expected answer length so codes
+ // of any length work (e.g. 5 digits at station 8, 6 at station 12).
+ const codeLength = useMemo(() => {
+  const value = String(puzzle.correctAnswer?.value ?? '')
+  return value.length > 0 ? value.length : DEFAULT_CODE_LENGTH
+ }, [puzzle])
+
+ const [digits, setDigits] = useState<readonly string[]>(() => Array.from({ length: codeLength }, () => ''))
  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
  const instruction = language === 'de' ? puzzle.instructionDe : (puzzle.instructionEn ?? puzzle.instructionDe)
@@ -33,7 +40,7 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
   const updated = digits.map((d, i) => (i === index ? char : d))
   setDigits(updated)
 
-  if (index < CODE_LENGTH - 1) {
+  if (index < codeLength - 1) {
    inputRefs.current[index + 1]?.focus()
   }
  }
@@ -51,11 +58,11 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
 
  const handlePaste = (e: React.ClipboardEvent) => {
   e.preventDefault()
-  const pasted = e.clipboardData.getData('text').toUpperCase().slice(0, CODE_LENGTH)
+  const pasted = e.clipboardData.getData('text').toUpperCase().slice(0, codeLength)
   const updated = digits.map((_, i) => pasted[i] ?? '')
   setDigits(updated)
 
-  const focusIndex = Math.min(pasted.length, CODE_LENGTH - 1)
+  const focusIndex = Math.min(pasted.length, codeLength - 1)
   inputRefs.current[focusIndex]?.focus()
  }
 

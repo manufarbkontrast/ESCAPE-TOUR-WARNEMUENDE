@@ -62,7 +62,7 @@ export function validateDemoAnswer(
       pointsEarned: 0,
       timeBonusEarned: 0,
       feedback: {
-        messageDe: 'Raetsel nicht gefunden.',
+        messageDe: 'Rätsel nicht gefunden.',
         messageEn: 'Puzzle not found.',
         type: 'error',
       },
@@ -95,7 +95,7 @@ export function validateDemoAnswer(
     pointsEarned: puzzle.basePoints,
     timeBonusEarned,
     feedback: {
-      messageDe: 'Richtig! Weiter zur naechsten Aufgabe.',
+      messageDe: 'Richtig! Weiter zur nächsten Aufgabe.',
       messageEn: 'Correct! On to the next challenge.',
       type: 'success',
     },
@@ -105,6 +105,20 @@ export function validateDemoAnswer(
 // ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
+
+/**
+ * Fold German umlauts to their ASCII transliteration so a user typing the
+ * natural spelling ("Möwe") matches an answer stored as "MOEWE", and vice
+ * versa. Applied symmetrically to both sides.
+ */
+function normalizeUmlauts(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+}
 
 function checkAnswer(
   submitted: unknown,
@@ -118,7 +132,7 @@ function checkAnswer(
     return submittedStr === correctStr
   }
 
-  return submittedStr.toLowerCase() === correctStr.toLowerCase()
+  return normalizeUmlauts(submittedStr) === normalizeUmlauts(correctStr)
 }
 
 function calculateTimeBonus(
