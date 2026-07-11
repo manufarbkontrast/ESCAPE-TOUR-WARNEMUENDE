@@ -41,9 +41,9 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
      <div className="flex items-center gap-2.5">
       <div className="h-2.5 w-32 rounded-full bg-dark-800 overflow-hidden">
        <div
-        className="h-full rounded-full transition-all duration-500 ease-out"
+        className="h-full w-full origin-left rounded-full transition-transform duration-500 ease-[var(--ease-out)]"
         style={{
-         width: `${progressPercent}%`,
+         transform: `scaleX(${progressPercent / 100})`,
          background: 'linear-gradient(90deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0.5))',
          boxShadow: '0 0 8px rgba(255, 255, 255, 0.2)',
         }}

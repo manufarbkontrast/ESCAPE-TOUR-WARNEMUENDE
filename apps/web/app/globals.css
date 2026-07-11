@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);       /* starkes ease-out für UI-Entrances/Exits */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);   /* On-Screen-Bewegung */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+}
+
 @layer base {
   /* Font Face Declarations */
   @font-face {
@@ -73,7 +80,7 @@
 
   /* ---- Button System ---- */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.97];
+    @apply inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-[transform,background-color,border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.97];
   }
 
   /* Button sizes */
@@ -117,7 +124,7 @@
 
   /* Icon button — circular */
   .btn-icon {
-    @apply inline-flex items-center justify-center rounded-full transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-950 active:scale-[0.95];
+    @apply inline-flex items-center justify-center rounded-full transition-[transform,background-color,border-color,box-shadow] duration-150 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neon-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-950 active:scale-[0.95];
     background: rgba(23, 23, 23, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
@@ -141,7 +148,7 @@
 
   /* ---- Card System ---- */
   .card {
-    @apply rounded-xl p-6 transition-all duration-200;
+    @apply rounded-xl p-6 transition-[transform,box-shadow,border-color] duration-200;
     background: #141414;
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow:
@@ -150,7 +157,7 @@
   }
 
   .card-glass {
-    @apply rounded-xl p-6 transition-all duration-200;
+    @apply rounded-xl p-6 transition-[transform,box-shadow,border-color] duration-200;
     background: rgba(10, 10, 10, 0.88);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -229,7 +236,7 @@
 
   /* Animations */
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.24s var(--ease-out);
   }
 
   @keyframes fadeIn {
@@ -244,7 +251,7 @@
   }
 
   .animate-slide-in {
-    animation: slideIn 0.6s ease-out;
+    animation: slideIn 0.28s var(--ease-out);
   }
 
   @keyframes slideIn {
@@ -256,5 +263,17 @@
       opacity: 1;
       transform: translateX(0);
     }
+  }
+}
+
+/* Accessibility: Reduced Motion — Bewegung raus, Opacity/Farbe bleibt (siehe plans/001) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
