@@ -100,7 +100,7 @@ export function CodeInput({
       onPaste={handlePaste}
       onFocus={() => handleFocus(index)}
       disabled={isSubmitting}
-      className="h-14 w-12 rounded-xl text-center text-xl font-bold uppercase transition-all duration-150 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
+      className="h-14 w-12 rounded-xl text-center text-xl font-bold uppercase transition-colors duration-150 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
       style={{
        background: 'rgba(10, 10, 10, 0.6)',
        border: `1.5px solid ${error ? 'rgba(239, 68, 68, 0.4)' : 'rgba(255, 255, 255, 0.1)'}`,

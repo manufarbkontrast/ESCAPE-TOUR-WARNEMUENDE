@@ -192,7 +192,7 @@ export default function BookingPage() {
 
  // Input styling helpers
  const inputBase =
-  'w-full rounded-xl px-4 py-3.5 text-base text-white placeholder:text-white/30 focus:outline-none transition-all'
+  'w-full rounded-xl px-4 py-3.5 text-base text-white placeholder:text-white/30 focus:outline-none transition-[border-color,box-shadow]'
  const inputNormal = {
   background: 'rgba(10, 10, 10, 0.6)',
   border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -230,7 +230,7 @@ export default function BookingPage() {
        <div key={s} className="flex items-center gap-2">
         <div className="flex flex-col items-center">
          <div
-          className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-all duration-200"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-colors duration-200"
           style={{
            background: isActive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.05)',
            color: isActive ? '#0a0a0a' : 'rgba(255, 255, 255, 0.3)',
@@ -272,7 +272,7 @@ export default function BookingPage() {
            key={variant}
            type="button"
            onClick={() => updateForm({ tourVariant: variant })}
-           className="text-left rounded-2xl p-6 transition-all duration-200"
+           className="text-left rounded-2xl p-6 transition-colors duration-200"
            style={{
             background: isSelected
              ? 'rgba(255, 255, 255, 0.04)'

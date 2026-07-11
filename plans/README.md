@@ -6,7 +6,7 @@ Read-only-Audit → self-contained Pläne. Reihenfolge nach Hebel (Wirkung ÷ Au
 | # | Titel | Schwere | Kategorie | Status |
 |---|---|---|---|---|
 | [001](001-reduced-motion.md) | Globales `prefers-reduced-motion` | 🔴 HIGH | Accessibility | ✅ DONE |
-| [002](002-transition-all-targeted.md) | `transition-all` → gezielt | 🔴 HIGH | Performance | ✅ DONE (Kern: globals.css; optionaler Inline-Nachzug offen) |
+| [002](002-transition-all-targeted.md) | `transition-all` → gezielt | 🔴 HIGH | Performance | ✅ DONE (Kern + optionaler Inline-Nachzug: 38 Stellen in 21 Dateien) |
 | [003](003-progress-bar-scalex.md) | Progress-Fill `width`→`scaleX` | 🟡 MED | Performance | ✅ DONE |
 | [004](004-easing-tokens-and-entrance.md) | Easing-Tokens + Entrances | 🟡 MED | Cohesion/Easing | ✅ DONE |
 

@@ -98,7 +98,7 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
       onKeyDown={(e) => handleKeyDown(index, e)}
       onPaste={handlePaste}
       disabled={isSubmitting}
-      className="h-16 w-14 rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm text-center text-3xl font-bold text-white shadow-xl transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+      className="h-16 w-14 rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm text-center text-3xl font-bold text-white shadow-xl transition-[border-color,box-shadow] focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
       autoComplete="off"
       aria-label={`${language === 'de' ? 'Zeichen' : 'Character'} ${index + 1}`}
      />
@@ -109,7 +109,7 @@ export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: 
    <button
     type="submit"
     disabled={isSubmitting || !isComplete}
-    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-[transform,background-color] hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
    >
     {submitLabel}
    </button>

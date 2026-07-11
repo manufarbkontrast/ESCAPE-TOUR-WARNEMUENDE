@@ -41,7 +41,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
     <button
      onClick={handleDecrement}
      disabled={isSubmitting || count === 0}
-     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700/60 backdrop-blur-sm text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700/60 backdrop-blur-sm text-2xl font-bold text-white shadow-lg transition-[transform,background-color] hover:bg-dark-600/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
      aria-label={language === 'de' ? 'Verringern' : 'Decrease'}
     >
      −
@@ -61,7 +61,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
     <button
      onClick={handleIncrement}
      disabled={isSubmitting}
-     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700/60 backdrop-blur-sm text-2xl font-bold text-white shadow-lg transition-all hover:bg-dark-600/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+     className="flex h-14 w-14 items-center justify-center rounded-full bg-dark-700/60 backdrop-blur-sm text-2xl font-bold text-white shadow-lg transition-[transform,background-color] hover:bg-dark-600/70 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
      aria-label={language === 'de' ? 'Erhöhen' : 'Increase'}
     >
      +
@@ -72,7 +72,7 @@ export function CountPuzzle({ puzzle, language, onSubmit, isSubmitting }: CountP
    <button
     onClick={handleSubmit}
     disabled={isSubmitting}
-    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-[transform,background-color] hover:bg-dark-100 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
    >
     {isSubmitting
      ? (language === 'de' ? 'Wird überprüft...' : 'Checking...')

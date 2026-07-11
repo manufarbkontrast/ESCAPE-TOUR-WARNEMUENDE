@@ -37,7 +37,7 @@ export function StoryChoice({ promptDe, promptEn, branches, language, onChoose }
           <button
             key={branch.id}
             onClick={() => onChoose(branch)}
-            className="w-full rounded-lg px-4 py-3 text-left text-sm font-semibold text-white transition-all duration-150 hover:bg-white/[0.06]"
+            className="w-full rounded-lg px-4 py-3 text-left text-sm font-semibold text-white transition-colors duration-150 hover:bg-white/[0.06]"
             style={{
               background: 'rgba(255,255,255,0.03)',
               border: '1px solid rgba(255,255,255,0.08)',

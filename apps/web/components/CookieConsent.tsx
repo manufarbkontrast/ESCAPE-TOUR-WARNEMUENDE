@@ -71,7 +71,7 @@ export function CookieConsent() {
       ref={bannerRef}
       className={`
         fixed bottom-0 left-0 right-0 z-50 p-4
-        transition-all duration-150 ease-out
+        transition-[transform,opacity] duration-150 ease-out
         ${exiting ? 'translate-y-full opacity-0' : 'animate-slide-up'}
       `}
       role="dialog"

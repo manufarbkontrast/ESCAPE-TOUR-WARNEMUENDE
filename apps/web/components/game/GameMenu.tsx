@@ -111,7 +111,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
          <button
           type="button"
           onClick={handlePauseToggle}
-          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-white/80 hover:bg-white/[0.04] transition-all duration-150"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-white/80 hover:bg-white/[0.04] transition-colors duration-150"
          >
           {isPaused ? (
            <>
@@ -135,7 +135,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
         <button
          type="button"
          onClick={toggleMute}
-         className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-white/80 hover:bg-white/[0.04] transition-all duration-150"
+         className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-white/80 hover:bg-white/[0.04] transition-colors duration-150"
         >
          {isMuted ? (
           <>
@@ -181,7 +181,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
             resetDevice({ preserveStaffToken: true })
            }
           }}
-          className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm text-white/50 hover:bg-white/[0.04] transition-all duration-150"
+          className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm text-white/50 hover:bg-white/[0.04] transition-colors duration-150"
          >
           <RotateCcw className="h-4 w-4" strokeWidth={1.5} />
           <span className="font-semibold">Gerät zurücksetzen</span>
@@ -190,7 +190,7 @@ export function GameMenu({ isOpen, onClose }: GameMenuProps) {
         <button
          type="button"
          onClick={handleExitTour}
-         className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm text-red-400/80 hover:bg-red-500/[0.06] transition-all duration-150"
+         className="flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm text-red-400/80 hover:bg-red-500/[0.06] transition-colors duration-150"
         >
          <LogOut className="h-4 w-4" strokeWidth={1.5} />
          <span className="font-semibold">Tour verlassen</span>

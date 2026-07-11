@@ -315,7 +315,7 @@ export default function GamePage() {
        <button
         key={item.view}
         onClick={() => handleViewChange(item.view)}
-        className={`flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3 transition-all duration-150 ${
+        className={`flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3 transition-colors duration-150 ${
          isActive
           ? 'text-white'
           : 'text-white/50 hover:text-white/70'

@@ -376,13 +376,13 @@ export default function CompletePage() {
      <div className="flex flex-col items-center gap-3">
       <button
        onClick={() => fetchCertificate()}
-       className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-all hover:bg-dark-100 active:scale-95"
+       className="rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-[transform,background-color] hover:bg-dark-100 active:scale-95"
       >
        {language === 'de' ? 'Erneut versuchen' : 'Try again'}
       </button>
       <button
        onClick={() => router.push('/')}
-       className="rounded-lg px-6 py-3 font-semibold text-white/70 transition-all hover:text-white active:scale-95"
+       className="rounded-lg px-6 py-3 font-semibold text-white/70 transition-[transform,color] hover:text-white active:scale-95"
       >
        {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
       </button>
@@ -542,7 +542,7 @@ export default function CompletePage() {
      {/* Share button */}
      <button
       onClick={handleShare}
-      className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-all hover:bg-dark-100 active:scale-95"
+      className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-dark-950 shadow-sm transition-[transform,background-color] hover:bg-dark-100 active:scale-95"
      >
       <svg
        className="h-5 w-5"
@@ -563,7 +563,7 @@ export default function CompletePage() {
      {/* Back to home */}
      <button
       onClick={() => router.push('/')}
-      className="w-full rounded-lg border-2 border-dark-700 px-6 py-3 font-semibold text-white/70 transition-all hover:border-white/20 hover:text-white/80 active:scale-95"
+      className="w-full rounded-lg border-2 border-dark-700 px-6 py-3 font-semibold text-white/70 transition-[transform,border-color,color] hover:border-white/20 hover:text-white/80 active:scale-95"
      >
       {language === 'de' ? 'Zur Startseite' : 'Back to Home'}
      </button>

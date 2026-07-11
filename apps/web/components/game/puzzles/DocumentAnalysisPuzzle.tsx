@@ -32,7 +32,7 @@ export function DocumentAnalysisPuzzle({ puzzle, language, onSubmit, isSubmittin
      <button
       type="button"
       onClick={() => setIsZoomed((prev) => !prev)}
-      className="w-full overflow-hidden rounded-lg border border-white/10 transition-all focus:outline-none"
+      className="w-full overflow-hidden rounded-lg border border-white/10 transition-colors focus:outline-none"
       aria-label={isZoomed
        ? (language === 'de' ? 'Verkleinern' : 'Zoom out')
        : (language === 'de' ? 'Vergrößern' : 'Zoom in')}

@@ -76,7 +76,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
         type="button"
         onClick={() => handleOptionSelect(option.id)}
         disabled={isSubmitting}
-        className={`w-full rounded-lg border-2 px-4 py-3 text-left text-base transition-all disabled:opacity-50 ${
+        className={`w-full rounded-lg border-2 px-4 py-3 text-left text-base transition-colors disabled:opacity-50 ${
          isSelected
           ? 'border-white/20 bg-white/5 text-white'
           : 'border-dark-600 bg-dark-800/60 text-white/70 hover:border-white/20 hover:bg-dark-700/70'
@@ -95,7 +95,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
      onChange={(e) => setTextAnswer(e.target.value)}
      placeholder={placeholder}
      disabled={isSubmitting}
-     className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+     className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-lg text-white placeholder-dark-500 shadow-lg transition-[border-color,box-shadow] focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
      autoComplete="off"
      autoCorrect="off"
      spellCheck={false}
@@ -113,7 +113,7 @@ export function LogicPuzzle({ puzzle, language, onSubmit, isSubmitting }: LogicP
    <button
     type="submit"
     disabled={isSubmitting || !canSubmit}
-    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-[transform,background-color] hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
    >
     {submitLabel}
    </button>

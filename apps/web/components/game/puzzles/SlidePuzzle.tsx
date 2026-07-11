@@ -132,7 +132,7 @@ export function SlidePuzzle({ puzzle, language, onSubmit, isSubmitting }: SlideP
                 type="button"
                 onClick={() => handleTileClick(idx)}
                 disabled={solved || !isMovable}
-                className="rounded-lg text-xl font-bold transition-all duration-150 select-none"
+                className="rounded-lg text-xl font-bold transition-colors duration-150 select-none"
                 style={{
                   background: solved
                     ? 'rgba(34, 197, 94, 0.12)'

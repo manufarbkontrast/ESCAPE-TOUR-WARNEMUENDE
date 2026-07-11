@@ -157,7 +157,7 @@ export function NavigationPuzzle({ puzzle, language, onSubmit, isSubmitting }: N
    <button
     onClick={handleArrival}
     disabled={isSubmitting || !isWithinRadius || !userLocation}
-    className={`w-full rounded-lg px-6 py-4 font-semibold shadow-lg transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${
+    className={`w-full rounded-lg px-6 py-4 font-semibold shadow-lg transition-[transform,background-color,border-color,color] active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${
      isWithinRadius
       ? 'bg-green-500 text-dark-950 hover:bg-green-400'
       : 'bg-white text-dark-950 hover:bg-dark-100'

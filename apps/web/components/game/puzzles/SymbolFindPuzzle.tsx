@@ -59,7 +59,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
     onChange={(e) => setAnswer(e.target.value)}
     placeholder={placeholder}
     disabled={isSubmitting}
-    className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-center text-2xl font-bold tracking-widest text-white placeholder-dark-500 shadow-lg transition-all focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
+    className="w-full rounded-lg border-2 border-white/20 bg-dark-900/70 backdrop-blur-sm px-4 py-4 text-center text-2xl font-bold tracking-widest text-white placeholder-dark-500 shadow-lg transition-[border-color,box-shadow] focus:border-white/60 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50"
     autoComplete="off"
     autoCorrect="off"
     spellCheck={false}
@@ -76,7 +76,7 @@ export function SymbolFindPuzzle({ puzzle, language, onSubmit, isSubmitting }: S
    <button
     type="submit"
     disabled={isSubmitting || !answer.trim()}
-    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-all hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+    className="w-full rounded-lg bg-white px-6 py-4 font-semibold text-dark-950 shadow-lg transition-[transform,background-color] hover:bg-dark-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
    >
     {submitLabel}
    </button>

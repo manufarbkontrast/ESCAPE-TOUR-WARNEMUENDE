@@ -95,7 +95,7 @@ export function StaffDashboard() {
             <button
               key={opt.type}
               onClick={() => setSelectedTour(opt.type)}
-              className="rounded-lg p-3 text-left transition-all"
+              className="rounded-lg p-3 text-left transition-colors"
               style={{
                 background: selectedTour === opt.type ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.03)',
                 border: `1px solid ${selectedTour === opt.type ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.06)'}`,

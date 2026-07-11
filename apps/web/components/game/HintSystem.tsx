@@ -138,7 +138,7 @@ export function HintSystem({ puzzleId, sessionId, language, onClose }: HintSyste
         return (
          <div
           key={levelInfo.level}
-          className={`rounded-2xl p-4 transition-all duration-150 ${
+          className={`rounded-2xl p-4 transition-[opacity,background-color,border-color] duration-150 ${
            isAvailable
             ? ''
             : 'opacity-40'

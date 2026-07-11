@@ -102,7 +102,7 @@ export function AudioPlayer({
  return (
   <button
    onClick={handleToggle}
-   className="fixed bottom-20 right-4 z-30 rounded-full bg-dark-800/80 p-3 shadow-lg backdrop-blur-sm transition-all hover:bg-dark-700/80 active:scale-95"
+   className="fixed bottom-20 right-4 z-30 rounded-full bg-dark-800/80 p-3 shadow-lg backdrop-blur-sm transition-[transform,background-color] hover:bg-dark-700/80 active:scale-95"
    aria-label={
     showPlay
      ? 'Audio abspielen'
