@@ -303,9 +303,15 @@ export default function GamePage() {
     )}
    </AnimatePresence>
 
-   {/* Bottom navigation bar */}
-   <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.04] bg-dark-900/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
-    <div className="mx-auto flex max-w-lg gap-3 px-4 py-3">
+   {/* Bottom navigation bar — one slim, integrated bar. The safe-area inset is
+       folded into the bar's own bottom padding via max(): on tablets (no home
+       indicator, inset = 0) it stays a clean 6 px; phones clear the gesture bar
+       without a bulky empty band below the labels. */}
+   <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/[0.06] bg-dark-900/95 backdrop-blur-xl">
+    <div
+     className="mx-auto flex max-w-md gap-2 px-4 pt-1.5"
+     style={{ paddingBottom: 'max(0.375rem, env(safe-area-inset-bottom))' }}
+    >
      {NAV_ITEMS.map((item) => {
       const isActive = activeView === item.view
       const label = language === 'de' ? item.labelDe : item.labelEn
@@ -315,20 +321,19 @@ export default function GamePage() {
        <button
         key={item.view}
         onClick={() => handleViewChange(item.view)}
-        className={`flex flex-1 flex-col items-center gap-1.5 rounded-2xl py-3 transition-colors duration-150 ${
+        className={`flex flex-1 flex-col items-center gap-1 rounded-xl py-2 transition-colors duration-150 ${
          isActive
           ? 'text-white'
           : 'text-white/50 hover:text-white/70'
         }`}
         style={isActive ? {
-         background: 'rgba(255, 255, 255, 0.04)',
-         boxShadow: '0 0 16px rgba(255, 255, 255, 0.03)',
+         background: 'rgba(255, 255, 255, 0.05)',
         } : undefined}
         aria-label={label}
         aria-current={isActive ? 'page' : undefined}
        >
-        <Icon className="h-7 w-7" strokeWidth={isActive ? 2 : 1.5} />
-        <span className={`text-sm font-semibold`}>{label}</span>
+        <Icon className="h-6 w-6" strokeWidth={isActive ? 2 : 1.5} />
+        <span className="text-xs font-semibold">{label}</span>
        </button>
       )
      })}
