@@ -267,10 +267,13 @@ export default function GamePage() {
 
  return (
   <div className="relative min-h-[calc(100vh-4rem)] bg-dark-950">
-   {/* Map — always rendered, blurred when station is active */}
+   {/* Map — always rendered, blurred when station is active. Height stops at the
+       bottom nav's top edge (4.75rem) so every map overlay (station card, GPS
+       button, hints) clears the fixed tab bar instead of hiding behind it. */}
    <div
-    className="absolute inset-0 h-[calc(100vh-4rem)] transition-[filter] duration-500"
+    className="absolute inset-x-0 top-0 transition-[filter] duration-500"
     style={{
+     height: 'calc(100vh - 4rem - 4.75rem)',
      filter: activeView === 'station' ? 'blur(20px) brightness(0.4)' : 'none',
     }}
    >

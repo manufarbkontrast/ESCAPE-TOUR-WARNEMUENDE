@@ -25,7 +25,7 @@ function GameHeader({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
  const progressPercent = Math.round((stationIndex / totalStations) * 100)
 
  return (
-  <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.04] bg-dark-900/90 backdrop-blur-xl">
+  <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-dark-900/95 backdrop-blur-xl">
    <div className="flex items-center justify-between h-16 px-4">
     {/* Logo */}
     <div className="flex items-center gap-3">
