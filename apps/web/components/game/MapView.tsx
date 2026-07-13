@@ -933,7 +933,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
    {/* GPS status indicator — lets the user (re)arm live GPS, e.g. after a
        permission denial. force:true bypasses the permissionDenied guard. */}
    {isMapLoaded && !userLocation && (
-    <div className="absolute bottom-28 left-4 z-10">
+    <div className="absolute bottom-[9rem] left-4 z-10">
      <button
       onClick={() => startWatching({ force: true })}
       className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-colors"
@@ -960,7 +960,7 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
    {/* Too-far-away hint: GPS is working, but the player is outside Warnemünde.
        The map stays on Warnemünde; we only inform the player. */}
    {isMapLoaded && userLocation && isFarFromWarnemuende && (
-    <div className="absolute bottom-28 left-4 z-10 max-w-[17rem]">
+    <div className="absolute bottom-[9rem] left-4 z-10 max-w-[17rem]">
      <div
       className="flex items-start gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
       style={{
