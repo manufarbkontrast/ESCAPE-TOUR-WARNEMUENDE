@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import { Logo } from './Logo';
 
 /**
  * Quick links for footer navigation
  */
 const QUICK_LINKS = [
- { label: 'Touren', href: '/#touren' },
+ { label: 'Standorte', href: '/#standort' },
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'FAQ', href: '/#faq' },
 ] as const;
@@ -33,22 +34,16 @@ export function Footer() {
      <div className="col-span-1 md:col-span-2">
       <div className="flex items-center space-x-2 mb-4">
        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-dark-950">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-         <circle cx="12" cy="5" r="3" />
-         <line x1="12" y1="8" x2="12" y2="22" />
-         <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
-        </svg>
+        <Logo className="h-6 w-6" />
        </div>
-       <div className="flex flex-col">
-        <span className="font-display font-bold text-lg leading-none">
-         Escape Tour
-        </span>
-        <span className="text-xs text-white/60 font-semibold">Warnemünde</span>
-       </div>
+       <span className="font-display font-bold text-lg leading-none">
+        Escape Tour
+       </span>
       </div>
       <p className="text-base text-white/70 max-w-md font-semibold">
-       Entdeckt Warnemünde auf eine ganz neue Art. Löst Rätsel, erkundet
-       historische Orte und erlebt eine unvergessliche Tour durch das Ostseebad.
+       Erlebt eure Stadt als Escape-Abenteuer. Löst Rätsel an echten Orten,
+       entdeckt versteckte Ecken und erlebt GPS-Escape-Touren auf eine ganz
+       neue Art.
       </p>
      </div>
 
@@ -90,7 +85,7 @@ export function Footer() {
     <div className="border-t border-white/10 my-8" />
 
     <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-base text-white/60 font-semibold">
-     <p>© {currentYear} Escape Tour Warnemünde. Alle Rechte vorbehalten.</p>
+     <p>© {currentYear} Escape Tour. Alle Rechte vorbehalten.</p>
      <div className="flex items-center space-x-4">
       <a
        href="mailto:info@escape-tour-warnemuende.de"

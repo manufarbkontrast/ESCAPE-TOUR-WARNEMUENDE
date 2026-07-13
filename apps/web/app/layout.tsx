@@ -19,13 +19,13 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
- title: 'Escape Tour Warnemünde – Das Vermächtnis des Lotsenkapitäns',
- description: 'Entdeckt Warnemünde auf eine ganz neue Art. Eine spannende Escape-Tour durch die maritime Geschichte des Ostseebades.',
+ title: 'Escape Tour – GPS-Escape-Touren für eure Stadt',
+ description: 'Erlebt eure Stadt als Escape-Abenteuer. Löst Rätsel an echten Orten und entdeckt versteckte Ecken per GPS-Escape-Tour. Wählt euren Standort und legt los.',
  manifest: '/manifest.json',
- keywords: ['Escape Tour', 'Warnemünde', 'Schnitzeljagd', 'Stadtführung', 'Rätsel', 'Ostsee'],
- authors: [{ name: 'Escape Tour Warnemünde' }],
- creator: 'Escape Tour Warnemünde',
- publisher: 'Escape Tour Warnemünde',
+ keywords: ['Escape Tour', 'GPS-Tour', 'Schnitzeljagd', 'Stadtführung', 'Rätsel', 'Outdoor Escape Game'],
+ authors: [{ name: 'Escape Tour' }],
+ creator: 'Escape Tour',
+ publisher: 'Escape Tour',
  formatDetection: {
   email: false,
   address: false,
@@ -36,15 +36,15 @@ export const metadata: Metadata = {
   statusBarStyle: 'black-translucent',
   title: 'Escape Tour',
  },
- metadataBase: new URL('https://escape-tour-warnemuende.de'),
+ metadataBase: new URL('https://myescapetour.com'),
  alternates: {
   canonical: '/',
  },
  openGraph: {
-  title: 'Escape Tour Warnemünde – Das Vermächtnis des Lotsenkapitäns',
-  description: 'Entdeckt Warnemünde auf eine ganz neue Art. Eine spannende Escape-Tour durch die maritime Geschichte des Ostseebades.',
-  url: 'https://escape-tour-warnemuende.de',
-  siteName: 'Escape Tour Warnemünde',
+  title: 'Escape Tour – GPS-Escape-Touren für eure Stadt',
+  description: 'Erlebt eure Stadt als Escape-Abenteuer. Löst Rätsel an echten Orten und entdeckt versteckte Ecken per GPS-Escape-Tour.',
+  url: 'https://myescapetour.com',
+  siteName: 'Escape Tour',
   locale: 'de_DE',
   type: 'website',
   images: [
@@ -52,14 +52,14 @@ export const metadata: Metadata = {
     url: '/og-image.jpg',
     width: 1200,
     height: 630,
-    alt: 'Escape Tour Warnemünde',
+    alt: 'Escape Tour',
    },
   ],
  },
  twitter: {
   card: 'summary_large_image',
-  title: 'Escape Tour Warnemünde – Das Vermächtnis des Lotsenkapitäns',
-  description: 'Entdeckt Warnemünde auf eine ganz neue Art. Eine spannende Escape-Tour durch die maritime Geschichte des Ostseebades.',
+  title: 'Escape Tour – GPS-Escape-Touren für eure Stadt',
+  description: 'Erlebt eure Stadt als Escape-Abenteuer. Löst Rätsel an echten Orten und entdeckt versteckte Ecken per GPS-Escape-Tour.',
   images: ['/og-image.jpg'],
  },
  robots: {

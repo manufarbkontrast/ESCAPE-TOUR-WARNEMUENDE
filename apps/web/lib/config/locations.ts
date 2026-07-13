@@ -16,6 +16,8 @@ export interface TourLocation {
   readonly region: string
   /** Whether the tour is bookable today; false renders as "Bald verfügbar" */
   readonly available: boolean
+  /** Target route for an available location (its tour page). */
+  readonly href?: string
 }
 
 export const TOUR_LOCATIONS: ReadonlyArray<TourLocation> = [
@@ -24,6 +26,7 @@ export const TOUR_LOCATIONS: ReadonlyArray<TourLocation> = [
     name: 'Warnemünde',
     region: 'Ostsee · Leuchtturm',
     available: true,
+    href: '/warnemuende',
   },
   {
     id: 'rostock',

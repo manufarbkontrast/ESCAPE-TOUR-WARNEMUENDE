@@ -10,7 +10,7 @@ import { MobileMenu } from './MobileMenu';
  * Navigation link data
  */
 const NAV_LINKS = [
- { label: 'Touren', href: '/#touren' },
+ { label: 'Standorte', href: '/#standort' },
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'FAQ', href: '/#faq' },
 ] as const;
@@ -40,12 +40,9 @@ export function Header() {
        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-dark-950 transition-transform group-hover:scale-105">
         <Logo className="h-6 w-6" />
        </div>
-       <div className="flex flex-col">
-        <span className="font-display font-bold text-lg leading-none">
-         Escape Tour
-        </span>
-        <span className="text-xs text-white/60 font-semibold">Warnemünde</span>
-       </div>
+       <span className="font-display font-bold text-lg leading-none">
+        Escape Tour
+       </span>
       </Link>
 
       {/* Desktop Navigation */}

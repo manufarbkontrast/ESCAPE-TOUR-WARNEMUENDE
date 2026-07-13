@@ -32,7 +32,7 @@ export function LocationSelector() {
     if (!selected?.available) {
       return
     }
-    router.push(`/buchen?location=${selected.id}`)
+    router.push(selected.href ?? `/buchen?location=${selected.id}`)
   }
 
   return (
@@ -116,7 +116,7 @@ export function LocationSelector() {
         className="btn btn-primary mt-5 w-full text-lg"
       >
         {selected?.available
-          ? `Tour in ${selected.name} buchen`
+          ? `Tour in ${selected.name} entdecken`
           : 'Standort wählen'}
       </button>
     </div>
