@@ -49,6 +49,19 @@
 
   body {
     @apply bg-dark-950 text-white font-semibold;
+    position: relative;
+  }
+
+  /* Site-wide film grain — kills the flat AI-black look, adds analog texture.
+     Fixed overlay, non-interactive, barely-there opacity. */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   /* Typography — Playfair only for h1, Inter for all others */
@@ -198,6 +211,55 @@
   /* Divider — neon line */
   .divider-neon {
     @apply relative h-px bg-gradient-to-r from-transparent via-neon-500/20 to-transparent;
+  }
+
+  /* ---- Nautical / instrument details ---- */
+
+  /* Mono eyebrow label — replaces generic pill badges. Reads like an
+     instrument readout / chart annotation, not an AI "eyebrow". */
+  .eyebrow {
+    @apply font-mono text-xs font-medium uppercase text-white/45;
+    letter-spacing: 0.22em;
+  }
+
+  /* Hairline rule that fades at both ends — chart-grid feel */
+  .rule-fade {
+    @apply h-px w-full;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.12),
+      transparent
+    );
+  }
+
+  /* Lighthouse beam — the single, intentional light source. A soft cone of
+     signal-cyan light from above. Not a random glow: it is the brand motif. */
+  .hero-beam {
+    position: absolute;
+    left: 50%;
+    top: -12rem;
+    height: 44rem;
+    width: 52rem;
+    transform: translateX(-50%);
+    pointer-events: none;
+    background: radial-gradient(
+      55% 50% at 50% 0%,
+      rgba(34, 211, 238, 0.16) 0%,
+      rgba(34, 211, 238, 0.06) 34%,
+      transparent 70%
+    );
+    filter: blur(6px);
+  }
+
+  /* Faint sea-chart contour behind a section */
+  .chart-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 78%);
   }
 }
 

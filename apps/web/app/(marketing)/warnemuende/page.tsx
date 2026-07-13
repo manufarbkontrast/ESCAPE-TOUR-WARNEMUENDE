@@ -17,6 +17,47 @@ export const metadata: Metadata = {
 };
 
 /**
+ * Key figures shown as an instrument-panel readout in the hero.
+ */
+const HERO_STATS = [
+ { label: 'Spielzeit', value: '2–4 h' },
+ { label: 'Stationen', value: '12' },
+ { label: 'Route', value: '3–5 km' },
+] as const;
+
+/**
+ * Product promises — presented as a spec strip.
+ */
+const PROMISES = [
+ {
+  label: 'Sofort spielbar',
+  path: 'M12 8v4l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
+ },
+ {
+  label: 'Jedes Wetter',
+  path: 'M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z',
+ },
+ {
+  label: 'Keine App nötig',
+  path: 'M5 2h14a0 0 0 0 1 0 0v20a0 0 0 0 1 0 0H5a0 0 0 0 1 0 0V2a0 0 0 0 1 0 0zM12 18h.01',
+ },
+ {
+  label: '2–5 km Route',
+  path: 'M12 21s-7-5-7-11a7 7 0 0 1 14 0c0 6-7 11-7 11zM12 7v3',
+ },
+] as const;
+
+/**
+ * Four steps, shown as a technical numbered sequence.
+ */
+const STEPS = [
+ { n: '01', title: 'Buchen', text: 'Wählt eure Tour und bucht online.' },
+ { n: '02', title: 'Starten', text: 'Startet am Leuchtturm, wann ihr wollt.' },
+ { n: '03', title: 'Rätseln', text: 'Löst Rätsel an historischen Orten.' },
+ { n: '04', title: 'Entdecken', text: 'Erlebt Warnemünde aus neuer Perspektive.' },
+] as const;
+
+/**
  * Tour variant card data type
  */
 interface TourVariant {
@@ -73,70 +114,58 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
   <div
    className={cn(
     'card-hover relative',
-    variant.popular && 'ring-2 ring-white/30'
+    variant.popular && 'ring-1 ring-neon-400/40'
    )}
   >
    {variant.popular && (
-    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-     <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-bold text-dark-950">
+    <div className="absolute -top-3 left-6">
+     <span className="eyebrow rounded bg-white px-2.5 py-1 text-dark-950">
       Beliebteste Wahl
      </span>
     </div>
    )}
 
-   <div className="space-y-4">
+   <div className="space-y-5">
     <div>
-     <h3 className="text-2xl font-bold text-white">
-      {variant.name}
-     </h3>
-     <p className="mt-2 text-base text-white/70 font-semibold">{variant.description}</p>
+     <h3 className="text-2xl font-bold text-white">{variant.name}</h3>
+     <p className="mt-2 text-base leading-relaxed text-white/60">{variant.description}</p>
     </div>
 
     <div className="flex items-baseline gap-2">
-     <span className="text-4xl font-bold text-white">
-      {variant.price}&euro;
-     </span>
-     <span className="text-base text-white/60 font-semibold">pro Person</span>
+     <span className="font-display text-4xl text-white">{variant.price}&euro;</span>
+     <span className="text-sm font-semibold text-white/50">pro Person</span>
     </div>
 
-    <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/10">
+    <div className="grid grid-cols-2 gap-4 border-y border-white/10 py-4">
      <div>
-      <div className="text-xs text-white/60 uppercase tracking-wide font-bold">Dauer</div>
-      <div className="mt-1 text-base font-bold text-white">{variant.duration}</div>
+      <div className="eyebrow text-[0.65rem]">Dauer</div>
+      <div className="mt-1.5 font-mono text-base tabular-nums text-white">{variant.duration}</div>
      </div>
      <div>
-      <div className="text-xs text-white/60 uppercase tracking-wide font-bold">Schwierigkeit</div>
-      <div className="mt-1 text-base font-bold text-white">{variant.difficulty}</div>
+      <div className="eyebrow text-[0.65rem]">Schwierigkeit</div>
+      <div className="mt-1.5 font-mono text-base text-white">{variant.difficulty}</div>
      </div>
     </div>
 
     <ul className="space-y-3">
      {variant.features.map((feature, index) => (
-      <li key={index} className="flex items-start gap-2">
+      <li key={index} className="flex items-start gap-2.5">
        <svg
-        className="h-5 w-5 text-neon-400 flex-shrink-0 mt-0.5"
+        className="mt-0.5 h-5 w-5 flex-shrink-0 text-neon-400"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
        >
-        <path
-         strokeLinecap="round"
-         strokeLinejoin="round"
-         strokeWidth={2}
-         d="M5 13l4 4L19 7"
-        />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
        </svg>
-       <span className="text-base text-white/90 font-semibold">{feature}</span>
+       <span className="text-base font-semibold text-white/85">{feature}</span>
       </li>
      ))}
     </ul>
 
     <Link
      href={`/buchen?variant=${variant.id}`}
-     className={cn(
-      'btn w-full mt-6',
-      variant.popular ? 'btn-primary' : 'btn-secondary'
-     )}
+     className={cn('btn w-full', variant.popular ? 'btn-primary' : 'btn-secondary')}
     >
      Tour buchen
     </Link>
@@ -208,319 +237,217 @@ const TESTIMONIALS = [
 ] as const;
 
 /**
- * Star icon for testimonial ratings
- */
-function StarIcon() {
- return (
-  <svg className="h-5 w-5 text-neon-400" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-  </svg>
- );
-}
-
-/**
- * Warnemünde tour page
- * Location-specific content for the Warnemünde escape tour.
+ * Warnemünde tour page — location-specific content, coastal-instrument aesthetic.
  */
 export default function WarnemuendePage() {
  return (
   <div className="w-full">
-   {/* Hero Section */}
+   {/* Hero */}
    <section className="relative overflow-hidden">
-    <div className="container-custom relative py-24 md:py-40">
-     <div className="mx-auto max-w-3xl text-center space-y-8">
-      {/* Back to locations */}
-      <div>
-       <Link
-        href="/#standort"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/60 hover:text-white transition-colors"
-       >
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-         <path d="M19 12H5M12 19l-7-7 7-7" />
-        </svg>
-        Alle Standorte
-       </Link>
-      </div>
+    <div className="hero-beam" aria-hidden="true" />
+    <div className="chart-grid absolute inset-0" aria-hidden="true" />
 
-      {/* Badge */}
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2">
-       <svg className="h-4 w-4 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="5" r="3" />
-        <line x1="12" y1="8" x2="12" y2="22" />
-        <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
+    <div className="container-custom relative py-20 md:py-28">
+     <div className="mx-auto max-w-3xl text-center">
+      {/* Back to locations */}
+      <Link
+       href="/#standort"
+       className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/55 transition-colors hover:text-white"
+      >
+       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
        </svg>
-       <span className="text-base text-white font-semibold">Das Vermächtnis des Lotsenkapitäns</span>
+       Alle Standorte
+      </Link>
+
+      {/* Coordinate signature + eyebrow */}
+      <div className="mt-8 flex flex-col items-center gap-2">
+       <span className="font-mono text-xs tabular-nums text-neon-400/80">54.1766° N · 12.0837° E</span>
+       <span className="eyebrow">Das Vermächtnis des Lotsenkapitäns</span>
       </div>
 
       {/* Headline */}
-      <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white">
+      <h1 className="mt-6 font-display text-5xl leading-[1.02] text-white md:text-7xl">
        Entdeckt Warnemünde
-       <span className="block text-white/90">auf eine ganz neue Art</span>
+       <span className="mt-1 block text-white/55">auf eine ganz neue Art</span>
       </h1>
 
       {/* Description */}
-      <p className="text-lg md:text-xl text-white/80 font-semibold max-w-2xl mx-auto leading-relaxed">
-       Begebt euch auf eine spannende Escape-Tour durch Warnemünde.
-       Löst Rätsel, entdeckt versteckte Orte und erlebt die maritime
-       Geschichte des Ostseebades hautnah.
+      <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/70">
+       Begebt euch auf eine spannende Escape-Tour durch Warnemünde. Löst
+       Rätsel, entdeckt versteckte Orte und erlebt die maritime Geschichte
+       des Ostseebades hautnah.
       </p>
 
-      {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-       <Link href="/buchen?location=warnemuende" className="btn btn-primary text-lg px-8 py-4">
+      {/* CTA */}
+      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+       <Link href="/buchen?location=warnemuende" className="btn btn-primary btn-lg">
         Tour buchen
        </Link>
-       <Link href="#ablauf" className="btn btn-ghost text-lg px-8 py-4">
+       <Link href="#ablauf" className="btn btn-ghost btn-lg">
         Mehr erfahren
        </Link>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
-       <div>
-        <div className="font-display text-3xl md:text-4xl font-bold text-white">
-         2-4h
+      {/* Instrument-panel stats */}
+      <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+       {HERO_STATS.map((stat) => (
+        <div key={stat.label} className="px-4 py-4">
+         <div className="eyebrow text-[0.65rem]">{stat.label}</div>
+         <div className="mt-1.5 font-mono text-xl tabular-nums text-white">{stat.value}</div>
         </div>
-        <div className="text-base text-white/70 font-semibold mt-1">Spielzeit</div>
-       </div>
-       <div>
-        <div className="font-display text-3xl md:text-4xl font-bold text-white">
-         10+
-        </div>
-        <div className="text-base text-white/70 font-semibold mt-1">Stationen</div>
-       </div>
-       <div>
-        <div className="font-display text-3xl md:text-4xl font-bold text-white">
-         3-5km
-        </div>
-        <div className="text-base text-white/70 font-semibold mt-1">Route</div>
-       </div>
+       ))}
       </div>
      </div>
     </div>
    </section>
 
-   {/* Value Proposition Strip */}
-   <section className="py-12 md:py-16">
-    <div className="container-custom">
-     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-      {/* Sofort spielbar */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
+   {/* Promises — spec strip */}
+   <section className="container-custom pb-8">
+    <div className="mx-auto grid max-w-4xl grid-cols-2 divide-x divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 md:grid-cols-4 md:divide-y-0">
+     {PROMISES.map((promise) => (
+      <div key={promise.label} className="flex items-center gap-3 px-5 py-5">
+       <svg className="h-5 w-5 flex-shrink-0 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d={promise.path} />
        </svg>
-       <span className="text-base text-white font-semibold">Sofort spielbar</span>
+       <span className="text-sm font-semibold text-white/85">{promise.label}</span>
       </div>
-
-      {/* Jedes Wetter */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z" />
-       </svg>
-       <span className="text-base text-white font-semibold">Jedes Wetter</span>
-      </div>
-
-      {/* Keine App nötig */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-        <line x1="12" y1="18" x2="12.01" y2="18" />
-       </svg>
-       <span className="text-base text-white font-semibold">Keine App nötig</span>
-      </div>
-
-      {/* 2-5 km Route */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
-        <circle cx="12" cy="10" r="3" />
-       </svg>
-       <span className="text-base text-white font-semibold">2-5 km Route</span>
-      </div>
-     </div>
+     ))}
     </div>
    </section>
 
-   {/* Tour Variants Section */}
-   <section id="touren" className="py-16 md:py-24">
-    <div className="container-custom">
-     <div className="text-center space-y-4 mb-12">
-      <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-       Wählt eure <span className="text-neon-300">perfekte Tour</span>
-      </h2>
-      <p className="text-lg text-white/70 font-semibold max-w-2xl mx-auto">
-       Ob als Familie mit Kindern oder als anspruchsvolle Herausforderung –
-       wir haben die richtige Tour für euch.
-      </p>
-     </div>
-
-     <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-      {TOUR_VARIANTS.map((variant) => (
-       <TourCard key={variant.id} variant={variant} />
-      ))}
-     </div>
-
-     {/* Trust Signals */}
-     <div className="flex flex-wrap justify-center gap-8 mt-10 text-base text-white/70 font-semibold">
-      <div className="flex items-center gap-2">
-       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-       </svg>
-       Sichere Zahlung
-      </div>
-      <div className="flex items-center gap-2">
-       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-        <polyline points="22 4 12 14.01 9 11.01" />
-       </svg>
-       Sofortige Bestätigung
-      </div>
-      <div className="flex items-center gap-2">
-       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="23 4 23 10 17 10" />
-        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-       </svg>
-       Flexibel stornierbar
-      </div>
-     </div>
-    </div>
-   </section>
-
-   {/* Social Proof Section */}
-   <section className="py-16 md:py-24">
-    <div className="container-custom">
-     <div className="text-center space-y-4 mb-12">
-      <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-       Das sagen unsere <span className="text-neon-300">Teilnehmer</span>
-      </h2>
-      <p className="text-lg text-white/70 font-semibold max-w-2xl mx-auto">
-       Über 500 begeisterte Teilnehmer haben unsere Tour bereits erlebt
-      </p>
-     </div>
-
-     <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-      {TESTIMONIALS.map((testimonial) => (
-       <div key={testimonial.name} className="card space-y-4">
-        <div className="flex gap-0.5">
-         <StarIcon />
-         <StarIcon />
-         <StarIcon />
-         <StarIcon />
-         <StarIcon />
-        </div>
-        <p className="text-base text-white/90 font-semibold leading-relaxed">
-         &ldquo;{testimonial.quote}&rdquo;
-        </p>
-        <div className="pt-2 border-t border-white/10">
-         <div className="text-base font-bold text-white">{testimonial.name}</div>
-         <div className="text-sm text-white/60 font-semibold">{testimonial.city}</div>
-        </div>
-       </div>
-      ))}
-     </div>
-    </div>
-   </section>
-
-   {/* How It Works Section */}
-   <section id="ablauf" className="py-16 md:py-24">
-    <div className="container-custom">
-     <div className="text-center space-y-4 mb-12">
-      <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-       So <span className="text-neon-300">funktioniert&apos;s</span>
-      </h2>
-      <p className="text-lg text-white/70 font-semibold max-w-2xl mx-auto">
-       In vier einfachen Schritten zu eurem Abenteuer
-      </p>
-     </div>
-
-     <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-      {[
-       {
-        step: '1',
-        title: 'Buchen',
-        description: 'Wählt eure Tour und bucht online',
-        svgPath: 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 0 0-2 2v3a2 2 0 1 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 1 1 0-4V7a2 2 0 0 0-2-2H5z',
-       },
-       {
-        step: '2',
-        title: 'Starten',
-        description: 'Startet am Leuchtturm wann ihr wollt',
-        svgPath: 'M9 20l-5.447-2.724A1 1 0 0 1 3 16.382V5.618a1 1 0 0 1 1.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0 0 21 18.382V7.618a1 1 0 0 0-.553-.894L15 4m0 13V4m0 0L9 7',
-       },
-       {
-        step: '3',
-        title: 'Rätseln',
-        description: 'Löst Rätsel an historischen Orten',
-        svgPath: 'M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z',
-       },
-       {
-        step: '4',
-        title: 'Entdecken',
-        description: 'Erlebt Warnemünde aus neuer Perspektive',
-        isCompass: true,
-       },
-      ].map((item) => (
-       <div key={item.step} className="text-center space-y-4">
-        <div className="flex justify-center">
-         <div className="relative">
-          <div className="h-24 w-24 rounded-full bg-white/5 border border-white/15 flex items-center justify-center">
-           {item.isCompass ? (
-            <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-             <circle cx="12" cy="12" r="10" />
-             <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" opacity="0.15" stroke="currentColor" />
-            </svg>
-           ) : (
-            <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-             <path d={item.svgPath} />
-            </svg>
-           )}
-          </div>
-          <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-white text-dark-950 font-bold flex items-center justify-center text-sm">
-           {item.step}
-          </div>
-         </div>
-        </div>
-        <h3 className="text-xl font-bold text-white">{item.title}</h3>
-        <p className="text-base text-white/70 font-semibold">{item.description}</p>
-       </div>
-      ))}
-     </div>
-    </div>
-   </section>
-
-   {/* FAQ Section */}
-   <section id="faq" className="py-16 md:py-24">
-    <div className="container-custom">
-     <div className="text-center space-y-4 mb-12">
-      <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-       Häufig gestellte <span className="text-neon-300">Fragen</span>
-      </h2>
-      <p className="text-lg text-white/70 font-semibold max-w-2xl mx-auto">
-       Alles was ihr vor eurer Tour wissen müsst
-      </p>
-     </div>
-
-     <div className="max-w-3xl mx-auto">
-      <FaqAccordion items={FAQ_ITEMS} />
-     </div>
-    </div>
-   </section>
-
-   {/* Final CTA Section */}
-   <section className="py-20 md:py-32">
-    <div className="container-custom text-center space-y-6">
-     <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-      Bereit für euer <span className="text-neon-300">Abenteuer</span>?
+   {/* Tour Variants */}
+   <section id="touren" className="container-custom scroll-mt-20 py-20 md:py-28">
+    <div className="max-w-2xl">
+     <span className="eyebrow">Touren</span>
+     <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">
+      Wählt eure perfekte Tour
      </h2>
-     <p className="text-lg text-white/80 font-semibold max-w-xl mx-auto">
-      Startet jetzt eure Escape Tour durch Warnemünde
+     <p className="mt-4 text-lg leading-relaxed text-white/60">
+      Ob als Familie mit Kindern oder als anspruchsvolle Herausforderung –
+      wir haben die richtige Tour für euch.
      </p>
-     <div className="pt-4">
-      <Link href="/buchen?location=warnemuende" className="btn btn-primary btn-lg">
-       Tour buchen
-      </Link>
+    </div>
+
+    <div className="mt-12 grid gap-8 md:grid-cols-2 lg:max-w-5xl">
+     {TOUR_VARIANTS.map((variant) => (
+      <TourCard key={variant.id} variant={variant} />
+     ))}
+    </div>
+
+    <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm font-semibold text-white/55">
+     <div className="flex items-center gap-2">
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+      Sichere Zahlung
+     </div>
+     <div className="flex items-center gap-2">
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+       <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+      Sofortige Bestätigung
+     </div>
+     <div className="flex items-center gap-2">
+      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+       <polyline points="23 4 23 10 17 10" />
+       <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+      </svg>
+      Flexibel stornierbar
+     </div>
+    </div>
+   </section>
+
+   {/* Testimonials */}
+   <section className="border-t border-white/[0.06] py-20 md:py-28">
+    <div className="container-custom">
+     <div className="max-w-2xl">
+      <span className="eyebrow">Stimmen</span>
+      <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">
+       Über 500 begeisterte Teilnehmer
+      </h2>
+     </div>
+
+     <div className="mt-12 grid gap-6 md:grid-cols-3">
+      {TESTIMONIALS.map((testimonial) => (
+       <figure key={testimonial.name} className="card flex flex-col gap-4">
+        <div className="flex gap-0.5" aria-hidden="true">
+         {Array.from({ length: 5 }).map((_, i) => (
+          <svg key={i} className="h-4 w-4 text-neon-400" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+          </svg>
+         ))}
+        </div>
+        <blockquote className="text-base leading-relaxed text-white/85">
+         &ldquo;{testimonial.quote}&rdquo;
+        </blockquote>
+        <figcaption className="mt-auto border-t border-white/10 pt-4">
+         <div className="text-base font-bold text-white">{testimonial.name}</div>
+         <div className="font-mono text-xs text-white/45">{testimonial.city}</div>
+        </figcaption>
+       </figure>
+      ))}
+     </div>
+    </div>
+   </section>
+
+   {/* How it works */}
+   <section id="ablauf" className="container-custom scroll-mt-20 py-20 md:py-28">
+    <div className="max-w-2xl">
+     <span className="eyebrow">Ablauf</span>
+     <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">
+      In vier Schritten zum Abenteuer
+     </h2>
+    </div>
+
+    <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+     {STEPS.map((step) => (
+      <div key={step.n} className="border-t border-white/15 pt-5">
+       <div className="font-mono text-sm tabular-nums text-neon-400">{step.n}</div>
+       <h3 className="mt-3 text-lg font-bold text-white">{step.title}</h3>
+       <p className="mt-2 text-base leading-relaxed text-white/60">{step.text}</p>
+      </div>
+     ))}
+    </div>
+   </section>
+
+   {/* FAQ */}
+   <section id="faq" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
+    <div className="container-custom">
+     <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <div className="lg:sticky lg:top-24 lg:self-start">
+       <span className="eyebrow">FAQ</span>
+       <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">Gut zu wissen</h2>
+       <p className="mt-4 max-w-sm text-base leading-relaxed text-white/60">
+        Alles, was ihr vor eurer Tour wissen müsst.
+       </p>
+      </div>
+      <div>
+       <FaqAccordion items={FAQ_ITEMS} />
+      </div>
+     </div>
+    </div>
+   </section>
+
+   {/* Final CTA */}
+   <section className="container-custom py-24 md:py-32">
+    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] px-8 py-16 text-center md:py-20">
+     <div className="hero-beam" aria-hidden="true" />
+     <div className="relative">
+      <span className="eyebrow">Los geht&apos;s</span>
+      <h2 className="mx-auto mt-4 max-w-xl font-display text-4xl text-white md:text-5xl">
+       Bereit für euer Abenteuer?
+      </h2>
+      <p className="mx-auto mt-4 max-w-md text-lg text-white/65">
+       Startet jetzt eure Escape Tour durch Warnemünde.
+      </p>
+      <div className="mt-8">
+       <Link href="/buchen?location=warnemuende" className="btn btn-primary btn-lg">
+        Tour buchen
+       </Link>
+      </div>
      </div>
     </div>
    </section>

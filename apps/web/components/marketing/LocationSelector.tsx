@@ -51,9 +51,7 @@ export function LocationSelector() {
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
           <circle cx="12" cy="10" r="3" />
         </svg>
-        <span className="text-sm font-semibold uppercase tracking-wide text-white/60">
-          Wähle deinen Standort
-        </span>
+        <span className="eyebrow">Wähle deinen Standort</span>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -80,7 +78,7 @@ export function LocationSelector() {
               <span className="text-base font-bold text-white">
                 {location.name}
               </span>
-              <span className="text-xs font-semibold text-white/55">
+              <span className="font-mono text-[11px] tracking-tight text-white/45">
                 {location.region}
               </span>
 

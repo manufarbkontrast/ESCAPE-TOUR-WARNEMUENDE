@@ -3,6 +3,47 @@ import { FaqAccordion } from '@/components/marketing/FaqAccordion';
 import { LocationSelector } from '@/components/marketing/LocationSelector';
 
 /**
+ * Key figures shown as an instrument-panel readout in the hero.
+ */
+const HERO_STATS = [
+ { label: 'Spielzeit', value: '2–4 h' },
+ { label: 'Stationen', value: '10+' },
+ { label: 'Route', value: '3–5 km' },
+] as const;
+
+/**
+ * Product promises — presented as a spec strip, not icon cards.
+ */
+const PROMISES = [
+ {
+  label: 'Sofort spielbar',
+  path: 'M12 8v4l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
+ },
+ {
+  label: 'Jedes Wetter',
+  path: 'M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z',
+ },
+ {
+  label: 'Keine App nötig',
+  path: 'M5 2h14a0 0 0 0 1 0 0v20a0 0 0 0 1 0 0H5a0 0 0 0 1 0 0V2a0 0 0 0 1 0 0zM12 18h.01',
+ },
+ {
+  label: '2–5 km Route',
+  path: 'M12 21s-7-5-7-11a7 7 0 0 1 14 0c0 6-7 11-7 11zM12 7v3',
+ },
+] as const;
+
+/**
+ * Four steps, shown as a technical numbered sequence.
+ */
+const STEPS = [
+ { n: '01', title: 'Standort wählen', text: 'Wählt eure Stadt und die passende Tour.' },
+ { n: '02', title: 'Buchen', text: 'Bucht online und erhaltet euren Startcode.' },
+ { n: '03', title: 'Rätseln', text: 'Löst Rätsel an echten, besonderen Orten.' },
+ { n: '04', title: 'Entdecken', text: 'Erlebt eure Stadt aus neuer Perspektive.' },
+] as const;
+
+/**
  * FAQ items — brand-level questions that apply to every location.
  */
 const FAQ_ITEMS = [
@@ -45,219 +86,143 @@ const FAQ_ITEMS = [
 
 /**
  * Landing page — brand-level, location-agnostic.
- * The location picker is the primary entry point; location-specific content
- * lives on each location's own tour page (e.g. /warnemuende).
+ * Aesthetic: a coastal navigation instrument. Mono chart annotations, a single
+ * lighthouse beam, hairline rules; the location picker is the primary control.
  */
 export default function HomePage() {
  return (
   <div className="w-full">
-   {/* Hero Section */}
+   {/* Hero */}
    <section id="standort" className="relative overflow-hidden scroll-mt-20">
-    <div className="container-custom relative py-24 md:py-40">
-     <div className="mx-auto max-w-3xl text-center space-y-8">
-      {/* Badge */}
-      <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2">
-       <svg className="h-4 w-4 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-        <circle cx="12" cy="10" r="3" />
-       </svg>
-       <span className="text-base text-white font-semibold">Interaktive GPS-Escape-Touren</span>
+    <div className="hero-beam" aria-hidden="true" />
+    <div className="chart-grid absolute inset-0" aria-hidden="true" />
+
+    <div className="container-custom relative py-20 md:py-28">
+     <div className="mx-auto max-w-3xl text-center">
+      {/* Mono eyebrow — instrument annotation instead of a pill badge */}
+      <div className="flex items-center justify-center gap-3">
+       <span className="hidden h-px w-8 bg-white/15 sm:block" />
+       <span className="eyebrow">Interaktive GPS-Escape-Touren</span>
+       <span className="hidden h-px w-8 bg-white/15 sm:block" />
       </div>
 
       {/* Headline */}
-      <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-white">
+      <h1 className="mt-7 font-display text-5xl leading-[1.02] text-white md:text-7xl">
        Erlebt eure Stadt
-       <span className="block text-white/90">als Escape-Abenteuer</span>
+       <span className="mt-1 block text-white/55">als Escape-Abenteuer</span>
       </h1>
 
       {/* Description */}
-      <p className="text-lg md:text-xl text-white/80 font-semibold max-w-2xl mx-auto leading-relaxed">
+      <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/70">
        Löst Rätsel an echten Orten, entdeckt versteckte Ecken und erlebt
-       Städte per GPS-Escape-Tour auf eine ganz neue Art. Wählt euren
-       Standort und legt los.
+       Städte per GPS-Escape-Tour. Wählt euren Standort und legt los.
       </p>
 
-      {/* Location selector + CTA */}
-      <div className="pt-4 space-y-4">
+      {/* Location picker (primary control) */}
+      <div className="mt-10">
        <LocationSelector />
-       <div className="flex justify-center">
-        <Link href="#ablauf" className="btn btn-ghost text-base px-6 py-3">
-         Mehr erfahren
-        </Link>
-       </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
-       <div>
-        <div className="font-display text-3xl md:text-4xl font-bold text-white">
-         2-4h
-        </div>
-        <div className="text-base text-white/70 font-semibold mt-1">Spielzeit</div>
-       </div>
-       <div>
-        <div className="font-display text-3xl md:text-4xl font-bold text-white">
-         10+
-        </div>
-        <div className="text-base text-white/70 font-semibold mt-1">Stationen</div>
-       </div>
-       <div>
-        <div className="font-display text-3xl md:text-4xl font-bold text-white">
-         3-5km
-        </div>
-        <div className="text-base text-white/70 font-semibold mt-1">Route</div>
-       </div>
-      </div>
-     </div>
-    </div>
-   </section>
-
-   {/* Value Proposition Strip */}
-   <section className="py-12 md:py-16">
-    <div className="container-custom">
-     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-      {/* Sofort spielbar */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
-       </svg>
-       <span className="text-base text-white font-semibold">Sofort spielbar</span>
-      </div>
-
-      {/* Jedes Wetter */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z" />
-       </svg>
-       <span className="text-base text-white font-semibold">Jedes Wetter</span>
-      </div>
-
-      {/* Keine App nötig */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-        <line x1="12" y1="18" x2="12.01" y2="18" />
-       </svg>
-       <span className="text-base text-white font-semibold">Keine App nötig</span>
-      </div>
-
-      {/* 2-5 km Route */}
-      <div className="flex flex-col items-center gap-3 text-center">
-       <svg className="h-7 w-7 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
-        <circle cx="12" cy="10" r="3" />
-       </svg>
-       <span className="text-base text-white font-semibold">2-5 km Route</span>
-      </div>
-     </div>
-    </div>
-   </section>
-
-   {/* How It Works Section */}
-   <section id="ablauf" className="py-16 md:py-24 scroll-mt-20">
-    <div className="container-custom">
-     <div className="text-center space-y-4 mb-12">
-      <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-       So <span className="text-neon-300">funktioniert&apos;s</span>
-      </h2>
-      <p className="text-lg text-white/70 font-semibold max-w-2xl mx-auto">
-       In vier einfachen Schritten zu eurem Abenteuer
-      </p>
-     </div>
-
-     <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-      {[
-       {
-        step: '1',
-        title: 'Standort wählen',
-        description: 'Wählt eure Stadt und die passende Tour',
-        svgPath: 'M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z',
-        hasPin: true,
-       },
-       {
-        step: '2',
-        title: 'Buchen',
-        description: 'Bucht online und erhaltet euren Code',
-        svgPath: 'M15 5v2m0 4v2m0 4v2M5 5a2 2 0 0 0-2 2v3a2 2 0 1 1 0 4v3a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-3a2 2 0 1 1 0-4V7a2 2 0 0 0-2-2H5z',
-       },
-       {
-        step: '3',
-        title: 'Rätseln',
-        description: 'Löst Rätsel an besonderen Orten',
-        svgPath: 'M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z',
-       },
-       {
-        step: '4',
-        title: 'Entdecken',
-        description: 'Erlebt eure Stadt aus neuer Perspektive',
-        isCompass: true,
-       },
-      ].map((item) => (
-       <div key={item.step} className="text-center space-y-4">
-        <div className="flex justify-center">
-         <div className="relative">
-          <div className="h-24 w-24 rounded-full bg-white/5 border border-white/15 flex items-center justify-center">
-           {item.isCompass ? (
-            <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-             <circle cx="12" cy="12" r="10" />
-             <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" opacity="0.15" stroke="currentColor" />
-            </svg>
-           ) : item.hasPin ? (
-            <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-             <path d={item.svgPath} />
-             <circle cx="12" cy="10" r="3" />
-            </svg>
-           ) : (
-            <svg className="h-10 w-10 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-             <path d={item.svgPath} />
-            </svg>
-           )}
-          </div>
-          <div className="absolute -top-2 -right-2 h-8 w-8 rounded-full bg-white text-dark-950 font-bold flex items-center justify-center text-sm">
-           {item.step}
-          </div>
+      {/* Instrument-panel stats */}
+      <div className="mx-auto mt-10 grid max-w-lg grid-cols-3 overflow-hidden rounded-lg border border-white/10 bg-white/[0.02] divide-x divide-white/10">
+       {HERO_STATS.map((stat) => (
+        <div key={stat.label} className="px-4 py-4">
+         <div className="eyebrow text-[0.65rem]">{stat.label}</div>
+         <div className="mt-1.5 font-mono text-xl tabular-nums text-white">
+          {stat.value}
          </div>
         </div>
-        <h3 className="text-xl font-bold text-white">{item.title}</h3>
-        <p className="text-base text-white/70 font-semibold">{item.description}</p>
-       </div>
-      ))}
-     </div>
-    </div>
-   </section>
+       ))}
+      </div>
 
-   {/* FAQ Section */}
-   <section id="faq" className="py-16 md:py-24 scroll-mt-20">
-    <div className="container-custom">
-     <div className="text-center space-y-4 mb-12">
-      <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-       Häufig gestellte <span className="text-neon-300">Fragen</span>
-      </h2>
-      <p className="text-lg text-white/70 font-semibold max-w-2xl mx-auto">
-       Alles was ihr vor eurer Tour wissen müsst
-      </p>
-     </div>
-
-     <div className="max-w-3xl mx-auto">
-      <FaqAccordion items={FAQ_ITEMS} />
-     </div>
-    </div>
-   </section>
-
-   {/* Final CTA Section */}
-   <section className="py-20 md:py-32">
-    <div className="container-custom text-center space-y-6">
-     <h2 className="font-sans text-3xl md:text-4xl font-bold text-white">
-      Bereit für euer <span className="text-neon-300">Abenteuer</span>?
-     </h2>
-     <p className="text-lg text-white/80 font-semibold max-w-xl mx-auto">
-      Wählt euren Standort und legt sofort los
-     </p>
-     <div className="pt-4">
-      <Link href="#standort" className="btn btn-primary btn-lg">
-       Standort wählen
+      <Link
+       href="#ablauf"
+       className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-white/60 transition-colors hover:text-white"
+      >
+       So funktioniert&apos;s
+       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 5v14M19 12l-7 7-7-7" />
+       </svg>
       </Link>
+     </div>
+    </div>
+   </section>
+
+   {/* Promises — spec strip */}
+   <section className="container-custom pb-8">
+    <div className="mx-auto grid max-w-4xl grid-cols-2 overflow-hidden rounded-xl border border-white/10 md:grid-cols-4 divide-x divide-y divide-white/10 md:divide-y-0">
+     {PROMISES.map((promise) => (
+      <div key={promise.label} className="flex items-center gap-3 px-5 py-5">
+       <svg className="h-5 w-5 flex-shrink-0 text-neon-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d={promise.path} />
+       </svg>
+       <span className="text-sm font-semibold text-white/85">{promise.label}</span>
+      </div>
+     ))}
+    </div>
+   </section>
+
+   {/* How it works */}
+   <section id="ablauf" className="container-custom scroll-mt-20 py-20 md:py-28">
+    <div className="max-w-2xl">
+     <span className="eyebrow">Ablauf</span>
+     <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">
+      In vier Schritten zum Abenteuer
+     </h2>
+    </div>
+
+    <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+     {STEPS.map((step) => (
+      <div key={step.n} className="border-t border-white/15 pt-5">
+       <div className="font-mono text-sm tabular-nums text-neon-400">{step.n}</div>
+       <h3 className="mt-3 text-lg font-bold text-white">{step.title}</h3>
+       <p className="mt-2 text-base leading-relaxed text-white/60">{step.text}</p>
+      </div>
+     ))}
+    </div>
+   </section>
+
+   {/* FAQ */}
+   <section id="faq" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
+    <div className="container-custom">
+     <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <div className="lg:sticky lg:top-24 lg:self-start">
+       <span className="eyebrow">FAQ</span>
+       <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">
+        Gut zu wissen
+       </h2>
+       <p className="mt-4 max-w-sm text-base leading-relaxed text-white/60">
+        Alles, was ihr vor eurer Tour wissen müsst. Noch Fragen?{' '}
+        <Link href="/kontakt" className="text-neon-300 underline-offset-4 hover:underline">
+         Schreibt uns.
+        </Link>
+       </p>
+      </div>
+
+      <div>
+       <FaqAccordion items={FAQ_ITEMS} />
+      </div>
+     </div>
+    </div>
+   </section>
+
+   {/* Final CTA */}
+   <section className="container-custom py-24 md:py-32">
+    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] px-8 py-16 text-center md:py-20">
+     <div className="hero-beam" aria-hidden="true" />
+     <div className="relative">
+      <span className="eyebrow">Los geht&apos;s</span>
+      <h2 className="mx-auto mt-4 max-w-xl font-display text-4xl text-white md:text-5xl">
+       Bereit für euer Abenteuer?
+      </h2>
+      <p className="mx-auto mt-4 max-w-md text-lg text-white/65">
+       Wählt euren Standort und legt sofort los.
+      </p>
+      <div className="mt-8">
+       <Link href="#standort" className="btn btn-primary btn-lg">
+        Standort wählen
+       </Link>
+      </div>
      </div>
     </div>
    </section>
