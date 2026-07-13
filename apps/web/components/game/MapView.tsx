@@ -9,6 +9,7 @@ import { useLocationStore } from '@/stores/locationStore'
 import {
  haversineDistanceMeters,
  isWithinNavigationRange,
+ MAX_NAVIGATION_DISTANCE_M,
  WARNEMUENDE_CENTER_POINT,
 } from '@/lib/game/navigation'
 
@@ -489,7 +490,15 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   readonly totalDuration: number
  } | null>(null)
 
- const { userLocation, startWatching, stopWatching, error: locationError } = useLocationStore()
+ const { userLocation, startWatching, stopWatching, setLocation, error: locationError } = useLocationStore()
+
+ // Demo mode (?demo=1): simulate a live position walking through Warnemünde so
+ // the moving blue dot can be verified without physically being on site.
+ const [isDemoMode, setIsDemoMode] = useState(false)
+ useEffect(() => {
+  if (typeof window === 'undefined') return
+  setIsDemoMode(new URLSearchParams(window.location.search).get('demo') === '1')
+ }, [])
  const [routeError, setRouteError] = useState(false)
 
  // Derive station marker data immutably
@@ -536,6 +545,20 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
     : null,
   [distanceToCurrentStation],
  )
+
+ // Distance from Warnemünde centre — drives the "too far away" hint. The map
+ // stays locked on Warnemünde (maxBounds); we never zoom out to the user.
+ const distanceFromWarnemuende = useMemo(() => {
+  if (!effectiveUserLocation) return null
+  return haversineDistanceMeters(
+   { lat: effectiveUserLocation.lat, lng: effectiveUserLocation.lng },
+   WARNEMUENDE_CENTER_POINT,
+  )
+ }, [effectiveUserLocation])
+
+ const isFarFromWarnemuende =
+  distanceFromWarnemuende !== null &&
+  distanceFromWarnemuende > MAX_NAVIGATION_DISTANCE_M
 
  // Initialize map
  useEffect(() => {
@@ -628,11 +651,46 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
  // After a permission denial, startWatching is a no-op until the user
  // retries via the GPS button (prevents an endless error loop).
  useEffect(() => {
+  if (isDemoMode) return
   startWatching()
   return () => {
    stopWatching()
   }
- }, [startWatching, stopWatching])
+ }, [startWatching, stopWatching, isDemoMode])
+
+ // Demo driver: feed a simulated position that walks back and forth between a
+ // point ~300 m from the current station and the station itself, one step per
+ // second. The continuous motion makes the live blue dot easy to verify.
+ useEffect(() => {
+  if (!isDemoMode || !currentStation) return
+
+  const target = currentStation.location
+  const startLat = target.lat + 0.0022
+  const startLng = target.lng + 0.0034
+  let t = 0
+  let direction = 1
+
+  const step = () => {
+   t += direction * 0.06
+   if (t >= 1) {
+    t = 1
+    direction = -1
+   } else if (t <= 0) {
+    t = 0
+    direction = 1
+   }
+   setLocation({
+    lat: startLat + (target.lat - startLat) * t,
+    lng: startLng + (target.lng - startLng) * t,
+    accuracy: 8,
+    timestamp: Date.now(),
+   })
+  }
+
+  step()
+  const intervalId = setInterval(step, 1_000)
+  return () => clearInterval(intervalId)
+ }, [isDemoMode, currentStation, setLocation])
 
  // Place station markers
  useEffect(() => {
@@ -896,6 +954,36 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
          ? 'GPS-Fehler — erneut versuchen'
          : 'GPS aktivieren'}
      </button>
+    </div>
+   )}
+
+   {/* Too-far-away hint: GPS is working, but the player is outside Warnemünde.
+       The map stays on Warnemünde; we only inform the player. */}
+   {isMapLoaded && userLocation && isFarFromWarnemuende && (
+    <div className="absolute bottom-28 left-4 z-10 max-w-[17rem]">
+     <div
+      className="flex items-start gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
+      style={{
+       background: 'rgba(10, 10, 10, 0.85)',
+       border: '1px solid rgba(255,255,255,0.1)',
+       backdropFilter: 'blur(8px)',
+       color: 'rgba(255,255,255,0.75)',
+      }}
+     >
+      <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-neon-400" strokeWidth={1.5} />
+      <span>
+       Du bist zu weit entfernt
+       {distanceFromWarnemuende !== null && (
+        <span className="font-mono font-medium">
+         {' · '}
+         {formatDistance(distanceFromWarnemuende)}
+        </span>
+       )}
+       <span className="mt-0.5 block text-xs font-normal text-white/50">
+        Der blaue Punkt erscheint, sobald du in Warnemünde bist.
+       </span>
+      </span>
+     </div>
     </div>
    )}
 
