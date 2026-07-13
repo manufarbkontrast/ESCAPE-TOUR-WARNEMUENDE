@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
+import { LocationSelector } from '@/components/marketing/LocationSelector';
 
 /**
  * Tour variant card data type
@@ -238,14 +239,14 @@ export default function HomePage() {
        Geschichte des Ostseebades hautnah.
       </p>
 
-      {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-       <Link href="#touren" className="btn btn-primary text-lg px-8 py-4">
-        Tour buchen
-       </Link>
-       <Link href="#ablauf" className="btn btn-ghost text-lg px-8 py-4">
-        Mehr erfahren
-       </Link>
+      {/* Location selector + CTA */}
+      <div className="pt-4 space-y-4">
+       <LocationSelector />
+       <div className="flex justify-center">
+        <Link href="#ablauf" className="btn btn-ghost text-base px-6 py-3">
+         Mehr erfahren
+        </Link>
+       </div>
       </div>
 
       {/* Stats */}

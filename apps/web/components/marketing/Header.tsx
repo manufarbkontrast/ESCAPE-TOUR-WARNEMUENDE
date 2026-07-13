@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
+import { Logo } from './Logo';
 import { MobileMenu } from './MobileMenu';
 
 /**
@@ -37,11 +38,7 @@ export function Header() {
       {/* Logo */}
       <Link href="/" className="flex items-center space-x-2 group">
        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-dark-950 transition-transform group-hover:scale-105">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-         <circle cx="12" cy="5" r="3" />
-         <line x1="12" y1="8" x2="12" y2="22" />
-         <path d="M5 12H2a10 10 0 0 0 20 0h-3" />
-        </svg>
+        <Logo className="h-6 w-6" />
        </div>
        <div className="flex flex-col">
         <span className="font-display font-bold text-lg leading-none">
