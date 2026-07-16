@@ -190,7 +190,27 @@ export default function ConfirmationPage() {
        </button>
       </div>
       <p className="mt-3 text-xs text-white/40">
-       Gebt diesen Code auf der Spielseite ein, um zu starten.
+       Diesen Code gebt ihr vor Ort nach der Einweisung ein.
+      </p>
+     </div>
+
+     {/* Treffpunkt & Einweisung — important on-site info */}
+     <div
+      className="rounded-xl p-5 mb-6 text-left"
+      style={{
+       background: 'rgba(255, 255, 255, 0.025)',
+       border: '1px solid rgba(255, 255, 255, 0.075)',
+      }}
+     >
+      <p className="text-xs font-semibold uppercase tracking-wide text-neon-300 mb-2">
+       Treffpunkt &amp; Start
+      </p>
+      <p className="text-sm leading-relaxed text-white/70">
+       Kommt bitte{' '}
+       <span className="font-semibold text-white">20 Minuten vor eurem gebuchten Slot</span>{' '}
+       zu <span className="font-semibold text-white">Shoes Please am Leuchtturm</span> in
+       Warnemünde. Dort bekommt ihr eine kurze Einweisung — danach startet ihr die Tour und
+       beantwortet die Rätsel.
       </p>
      </div>
 

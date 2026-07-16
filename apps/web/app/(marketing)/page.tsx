@@ -16,8 +16,8 @@ const HERO_STATS = [
  */
 const PROMISES = [
  {
-  label: 'Sofort spielbar',
-  path: 'M12 8v4l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
+  label: 'Einweisung vor Ort',
+  path: 'M12 22s-8-5.5-8-12a8 8 0 1 1 16 0c0 6.5-8 12-8 12z M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4',
  },
  {
   label: 'Jedes Wetter',
@@ -50,7 +50,7 @@ const FAQ_ITEMS = [
  {
   question: 'Wie funktioniert eine Escape Tour?',
   answer:
-   'Ihr wählt euren Standort, bucht online und erhaltet einen Buchungscode. Am Startpunkt gebt ihr den Code ein und werdet per GPS von Station zu Station geleitet. An jeder Station wartet ein Rätsel, das ihr mit eurem Smartphone löst.',
+   'Ihr wählt euren Standort und bucht online — die Bestätigung mit eurem Code kommt sofort per E-Mail. Zu eurem gebuchten Termin kommt ihr etwas früher zum Treffpunkt, bekommt eine kurze Einweisung und startet dann. Per GPS werdet ihr von Station zu Station geleitet; an jeder wartet ein Rätsel, das ihr mit eurem Smartphone löst.',
  },
  {
   question: 'Wie lange dauert eine Tour?',
@@ -216,7 +216,7 @@ export default function HomePage() {
        Bereit für euer Abenteuer?
       </h2>
       <p className="mx-auto mt-4 max-w-md text-lg text-white/65">
-       Wählt euren Standort und legt sofort los.
+       Wählt euren Standort und sichert euch euren Termin.
       </p>
       <div className="mt-8">
        <Link href="#standort" className="btn btn-primary btn-lg">

@@ -77,8 +77,26 @@ export function buildBookingConfirmationEmail(data: BookingConfirmationData) {
                 ${data.bookingCode}
               </p>
               <p style="margin:12px 0 0;font-size:12px;color:#6b6158;">
-                Gebt diesen Code auf der Spielseite ein, um zu starten.
+                Diesen Code gebt ihr vor Ort nach der Einweisung ein.
               </p>
+            </td>
+          </tr>
+
+          <!-- Treffpunkt & Start -->
+          <tr>
+            <td style="padding:0 32px 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:rgba(255,255,255,0.03);border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
+                <tr>
+                  <td style="padding:18px 20px;">
+                    <p style="margin:0 0 8px;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#8a7f72;font-weight:600;">
+                      Treffpunkt &amp; Start
+                    </p>
+                    <p style="margin:0;font-size:14px;line-height:1.6;color:#d4c9b8;">
+                      Kommt bitte <strong style="color:#f5f0e8;">20 Minuten vor eurem gebuchten Slot</strong> zu <strong style="color:#f5f0e8;">Shoes Please am Leuchtturm</strong> in Warnemünde. Dort bekommt ihr eine kurze Einweisung – danach startet ihr die Tour und beantwortet die Rätsel.
+                    </p>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
@@ -179,7 +197,8 @@ Teilnehmer: ${data.participantCount}
 Datum: ${formatDate(data.scheduledDate)}${data.teamName ? `\nTeam: ${data.teamName}` : ''}
 Bezahlt: ${formatCurrency(data.amountCents)}
 
-Gebt diesen Code auf https://escape-tour-warnemuende.de/play ein, um zu starten.
+TREFFPUNKT & START
+Kommt bitte 20 Minuten vor eurem gebuchten Slot zu Shoes Please am Leuchtturm in Warnemünde. Dort bekommt ihr eine kurze Einweisung – danach startet ihr die Tour und beantwortet die Rätsel. Euren Code gebt ihr vor Ort ein.
 
 Bei Fragen schreibt uns an info@escape-tour-warnemuende.de`
 

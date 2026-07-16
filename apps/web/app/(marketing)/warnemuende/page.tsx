@@ -30,8 +30,8 @@ const HERO_STATS = [
  */
 const PROMISES = [
  {
-  label: 'Sofort spielbar',
-  path: 'M12 8v4l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
+  label: 'Einweisung vor Ort',
+  path: 'M12 22s-8-5.5-8-12a8 8 0 1 1 16 0c0 6.5-8 12-8 12z M12 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4',
  },
  {
   label: 'Jedes Wetter',
@@ -52,7 +52,7 @@ const PROMISES = [
  */
 const STEPS = [
  { n: '01', title: 'Buchen', text: 'Wählt eure Tour und bucht online.' },
- { n: '02', title: 'Starten', text: 'Startet am Leuchtturm, wann ihr wollt.' },
+ { n: '02', title: 'Treffen', text: '20 Min vor eurem Slot zu Shoes Please am Leuchtturm — kurze Einweisung, dann Start.' },
  { n: '03', title: 'Rätseln', text: 'Löst Rätsel an historischen Orten.' },
  { n: '04', title: 'Entdecken', text: 'Erlebt Warnemünde aus neuer Perspektive.' },
 ] as const;
@@ -181,7 +181,7 @@ const FAQ_ITEMS = [
  {
   question: 'Wie funktioniert die Escape Tour?',
   answer:
-   'Ihr bucht online eure Tour und erhaltet einen Buchungscode. Am Startpunkt gebt ihr den Code ein und werdet von Station zu Station geleitet. An jeder Station wartet ein Rätsel auf euch, das ihr mit eurem Smartphone löst.',
+   'Ihr bucht online eure Tour und erhaltet euren Buchungscode. Kommt 20 Minuten vor eurem gebuchten Slot zu Shoes Please am Leuchtturm in Warnemünde — dort bekommt ihr eine kurze Einweisung. Danach gebt ihr euren Code ein und werdet per GPS von Station zu Station geleitet. An jeder Station wartet ein Rätsel, das ihr mit eurem Smartphone löst.',
  },
  {
   question: 'Wie lange dauert die Tour?',
