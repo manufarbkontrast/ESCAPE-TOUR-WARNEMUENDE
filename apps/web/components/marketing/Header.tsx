@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { Logo } from './Logo';
 import { MobileMenu } from './MobileMenu';
+import { SITE, telHref } from '@/lib/config/site';
 
 /**
  * Navigation link data
@@ -12,7 +13,7 @@ import { MobileMenu } from './MobileMenu';
 const NAV_LINKS = [
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'Preise', href: '/#preise' },
- { label: 'FAQ', href: '/#faq' },
+ { label: 'FAQ', href: '/faq' },
 ] as const;
 
 /**
@@ -56,6 +57,14 @@ export function Header() {
          {link.label}
         </Link>
        ))}
+       {/* A local experience with a fixed meeting point needs a phone
+           number in reach — questions come up twenty minutes before a slot. */}
+       <a
+        href={telHref(SITE.phone.display)}
+        className="font-mono text-sm tabular-nums text-white/70 transition-colors hover:text-white"
+       >
+        {SITE.phone.display}
+       </a>
        <Link
         href="/buchen"
         className={cn('btn btn-primary', 'text-sm px-4 py-2')}

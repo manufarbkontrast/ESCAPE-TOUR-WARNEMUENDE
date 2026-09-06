@@ -35,13 +35,14 @@ describe('Footer', () => {
   render(<Footer />)
   expect(screen.getByText("So funktioniert's")).toBeInTheDocument()
   expect(screen.getByText('Preise')).toBeInTheDocument()
-  expect(screen.getByText('FAQ')).toBeInTheDocument()
+  expect(screen.getByText('Häufige Fragen')).toBeInTheDocument()
+  expect(screen.getByText('Kontakt')).toBeInTheDocument()
  })
 
  it('should have correct hrefs for quick links', () => {
   render(<Footer />)
-  const faqLink = screen.getByText('FAQ')
-  expect(faqLink.closest('a')).toHaveAttribute('href', '/#faq')
+  const faqLink = screen.getByText('Häufige Fragen')
+  expect(faqLink.closest('a')).toHaveAttribute('href', '/faq')
  })
 
  it('should render legal links', () => {

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
 import { TOUR_VARIANTS, formatPrice, type TourVariant } from '@/lib/config/tours';
+import { FAQ_ITEMS } from '@/lib/config/faq';
 
 export const metadata: Metadata = {
  title: 'Escape Tour Warnemünde – Das Vermächtnis des Lotsenkapitäns',
@@ -128,46 +129,7 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
  );
 }
 
-/**
- * FAQ items for the accordion section
- */
-const FAQ_ITEMS = [
- {
-  question: 'Wie funktioniert die Escape Tour?',
-  answer:
-   'Ihr bucht online eure Tour und erhaltet euren Buchungscode. Kommt 20 Minuten vor eurem gebuchten Slot zu Shoes Please am Leuchtturm in Warnemünde — dort bekommt ihr eine kurze Einweisung. Danach gebt ihr euren Code ein und werdet per GPS von Station zu Station geleitet. An jeder Station wartet ein Rätsel, das ihr auf dem iPad löst.',
- },
- {
-  question: 'Wie lange dauert die Tour?',
-  answer:
-   'Die Familien-Tour dauert ca. 2-3 Stunden, die Erwachsenen-Tour ca. 3-4 Stunden. Ihr könnt jederzeit Pausen einlegen und die Tour in eurem eigenen Tempo spielen.',
- },
- {
-  question: 'Ist die Tour auch bei Regen spielbar?',
-  answer:
-   'Die Tour ist grundsätzlich bei jedem Wetter spielbar. Bei starkem Regen empfehlen wir wetterfeste Kleidung. Einige Stationen bieten überdachte Bereiche.',
- },
- {
-  question: 'Für welches Alter ist die Tour geeignet?',
-  answer:
-   'Die Familien-Tour ist für Kinder ab 8 Jahren geeignet. Die Erwachsenen-Tour richtet sich an Jugendliche ab 14 Jahren und Erwachsene.',
- },
- {
-  question: 'Brauchen wir ein eigenes Handy oder eine App?',
-  answer:
-   'Nein. Ihr bekommt beim Briefing ein vorbereitetes iPad mit Karte, Rätseln und Story — inklusive Internetverbindung. Es gibt nichts zu installieren und kein Konto anzulegen.',
- },
- {
-  question: 'Kann ich die Tour pausieren?',
-  answer:
-   'Ja! Ihr könnt die Tour jederzeit pausieren und später fortsetzen. Der Timer wird angehalten und eure Fortschritte werden gespeichert.',
- },
- {
-  question: 'Was passiert wenn ich nicht weiterkomme?',
-  answer:
-   'Für jedes Rätsel stehen euch bis zu drei Hinweise zur Verfügung. Die Hinweise kosten zwar Punkte, aber sie helfen euch weiterzukommen. Als letzte Option könnt ihr die Lösung anzeigen lassen.',
- },
-] as const;
+
 
 /**
  * Verifiable facts about the booking, shown where testimonials used to sit.

@@ -102,6 +102,6 @@ describe('MobileMenu', () => {
  it('should have correct nav link hrefs', () => {
   render(<MobileMenu isOpen={true} onClose={mockOnClose} />)
   expect(screen.getByText('Preise')).toHaveAttribute('href', '/#preise')
-  expect(screen.getByText('FAQ')).toHaveAttribute('href', '/#faq')
+  expect(screen.getByText('FAQ')).toHaveAttribute('href', '/faq')
  })
 })

@@ -11,7 +11,7 @@ import type { Easing } from 'framer-motion';
 const MOBILE_NAV_LINKS = [
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'Preise', href: '/#preise' },
- { label: 'FAQ', href: '/#faq' },
+ { label: 'FAQ', href: '/faq' },
 ] as const;
 
 const EASE_OUT: Easing = 'easeOut';

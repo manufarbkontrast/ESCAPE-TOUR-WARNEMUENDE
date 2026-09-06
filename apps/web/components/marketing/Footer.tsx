@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Logo } from './Logo';
+import { SITE, telHref, mailHref } from '@/lib/config/site';
 
 /**
  * Quick links for footer navigation
@@ -7,7 +8,8 @@ import { Logo } from './Logo';
 const QUICK_LINKS = [
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'Preise', href: '/#preise' },
- { label: 'FAQ', href: '/#faq' },
+ { label: 'Häufige Fragen', href: '/faq' },
+ { label: 'Kontakt', href: '/kontakt' },
 ] as const;
 
 /**
@@ -86,12 +88,15 @@ export function Footer() {
 
     <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-base text-white/60 font-semibold">
      <p>© {currentYear} Escape Tour. Alle Rechte vorbehalten.</p>
-     <div className="flex items-center space-x-4">
+     <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
       <a
-       href="mailto:info@escape-tour-warnemuende.de"
-       className="hover:text-white transition-colors"
+       href={telHref(SITE.phone.display)}
+       className="font-mono tabular-nums transition-colors hover:text-white"
       >
-       info@escape-tour-warnemuende.de
+       {SITE.phone.display}
+      </a>
+      <a href={mailHref(SITE.email)} className="transition-colors hover:text-white">
+       {SITE.email}
       </a>
      </div>
     </div>

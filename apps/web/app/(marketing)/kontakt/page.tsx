@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { ContactForm } from './contact-form';
+import { SITE, telHref, mailHref } from '@/lib/config/site';
 
 export const metadata: Metadata = {
  title: 'Kontakt | Escape Tour Warnemünde',
@@ -33,8 +34,8 @@ const CONTACT_INFO: ReadonlyArray<ContactInfoItem> = [
    </svg>
   ),
   label: 'E-Mail',
-  value: 'info@escape-tour-warnemuende.de',
-  href: 'mailto:info@escape-tour-warnemuende.de',
+  value: SITE.email,
+  href: mailHref(SITE.email),
  },
  {
   icon: (
@@ -68,8 +69,8 @@ const CONTACT_INFO: ReadonlyArray<ContactInfoItem> = [
    </svg>
   ),
   label: 'Telefon',
-  value: '+49 381 123 4567',
-  href: 'tel:+493811234567',
+  value: SITE.phone.display,
+  href: telHref(SITE.phone.display),
  },
  {
   icon: (

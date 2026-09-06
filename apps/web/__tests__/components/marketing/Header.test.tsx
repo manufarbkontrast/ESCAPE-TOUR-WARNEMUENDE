@@ -54,7 +54,7 @@ describe('Header', () => {
   render(<Header />)
   expect(screen.getByText("So funktioniert's").closest('a')).toHaveAttribute('href', '/#ablauf')
   expect(screen.getByText('Preise').closest('a')).toHaveAttribute('href', '/#preise')
-  expect(screen.getByText('FAQ').closest('a')).toHaveAttribute('href', '/#faq')
+  expect(screen.getByText('FAQ').closest('a')).toHaveAttribute('href', '/faq')
  })
 
  it('should render booking CTA button', () => {
