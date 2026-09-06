@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import type { Certificate, ApiResponse, BadgeLevel } from '@escape-tour/shared'
 import { syncSessionProgress } from '@/lib/game/session-sync'
+import { useGameStore } from '@/stores/gameStore'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -72,7 +73,10 @@ async function callCertificateApi(
  * has the session as not-completed (older clients never synced completion),
  * self-heal once by marking it completed, then generate again.
  */
-async function requestCertificate(sessionId: string): Promise<CertificateResult> {
+async function requestCertificate(
+ sessionId: string,
+ reachedStationIndex: number,
+): Promise<CertificateResult> {
  const existing = await callCertificateApi(sessionId, 'GET')
  if (existing.data) return existing
 
@@ -81,7 +85,13 @@ async function requestCertificate(sessionId: string): Promise<CertificateResult>
 
  // 400 = session not (yet) marked completed server-side
  if (generated.status === 400) {
-  const sync = await syncSessionProgress(sessionId, { status: 'completed' })
+  // The station index has to travel with it: PATCH refuses to complete a
+  // session that has not reached the last station, and this path exists
+  // precisely because the earlier syncs did not land.
+  const sync = await syncSessionProgress(sessionId, {
+   status: 'completed',
+   currentStationIndex: reachedStationIndex,
+  })
   if (sync.ok) {
    return callCertificateApi(sessionId, 'POST')
   }
@@ -254,12 +264,16 @@ export default function CompletePage() {
  const [showConfetti, setShowConfetti] = useState(true)
  const [language] = useState<'de' | 'en'>('de')
 
+ // The tour is over, so the locally persisted index is the furthest the team
+ // got — used to self-heal a completion that never synced.
+ const reachedStationIndex = useGameStore((state) => state.session?.currentStationIndex ?? 0)
+
  // Fetch certificate data
  const fetchCertificate = useCallback(async () => {
   setLoadingState('loading')
   setErrorMessage(null)
 
-  const result = await requestCertificate(sessionId)
+  const result = await requestCertificate(sessionId, reachedStationIndex)
 
   if (!result.data) {
    setErrorMessage(result.error ?? 'Zertifikat konnte nicht geladen werden.')
@@ -269,7 +283,7 @@ export default function CompletePage() {
 
   setCertificate(result.data)
   setLoadingState('ready')
- }, [sessionId])
+ }, [sessionId, reachedStationIndex])
 
  useEffect(() => {
   fetchCertificate()

@@ -36,6 +36,18 @@ import { getClientIp } from '@/lib/utils/client-ip';
 
 const SESSION_COOKIE_MAX_AGE = 86_400; // 24 hours
 
+/** Values the session_status enum accepts. */
+const ALLOWED_STATUSES: ReadonlySet<string> = new Set([
+  'pending',
+  'active',
+  'paused',
+  'completed',
+  'expired',
+]);
+
+/** Upper bound for a station index — no tour comes near this. */
+const MAX_STATION_INDEX = 100;
+
 const bookingRateLimiter = createRateLimiter({
   windowMs: 60_000,
   maxRequests: 5,
@@ -399,6 +411,51 @@ export async function POST(request: NextRequest) {
 }
 
 /**
+ * Has this session at least reached the tour's final station?
+ *
+ * This raises the bar rather than closing the hole: the station index is also
+ * client-supplied, so it can be walked up before claiming completion. Closing
+ * it properly needs per-station progress recorded server-side by the
+ * validate-answer edge function.
+ */
+async function hasReachedLastStation(
+  supabase: ReturnType<typeof createAdminClient>,
+  sessionId: string,
+  requestedStationIndex: number | undefined,
+): Promise<boolean> {
+  const { data: sessionRow, error } = await supabase
+    .from('game_sessions')
+    .select('tour_id, current_station_index')
+    .eq('id', sessionId)
+    .single();
+
+  if (error || !sessionRow) {
+    return false;
+  }
+
+  const row = sessionRow as { tour_id: string; current_station_index: number | null };
+
+  const stationsResult = await supabase
+    .from('stations')
+    .select('id')
+    .eq('tour_id', row.tour_id);
+
+  const stationCount = (stationsResult.data ?? []).length;
+  if (stationsResult.error || stationCount === 0) {
+    // Without a station list there is nothing to check against; let it pass
+    // rather than block a real finish on a failed lookup.
+    return true;
+  }
+
+  const reachedIndex = Math.max(
+    row.current_station_index ?? 0,
+    requestedStationIndex ?? 0,
+  );
+
+  return reachedIndex >= stationCount - 1;
+}
+
+/**
  * PATCH /api/game/session
  * Update session state (pause/resume/complete)
  */
@@ -426,6 +483,43 @@ export async function PATCH(request: NextRequest) {
     // and echo the mock session back.
     if (isDemoSession(body.sessionId) || isStaffSession(body.sessionId)) {
       return toNextResponse(successResponse(createOfflineSession(body.sessionId)));
+    }
+
+    // Validate at the boundary. These values went straight into the UPDATE
+    // before, so a bad enum or a string in a numeric column produced a
+    // Postgres error and a 500 — which session-sync retries, sending it twice.
+    if (
+      body.status !== undefined &&
+      (typeof body.status !== 'string' || !ALLOWED_STATUSES.has(body.status))
+    ) {
+      return toNextResponse(errorResponse('Invalid status'), 400);
+    }
+
+    if (
+      body.currentStationIndex !== undefined &&
+      (!Number.isInteger(body.currentStationIndex) ||
+        body.currentStationIndex < 0 ||
+        body.currentStationIndex > MAX_STATION_INDEX)
+    ) {
+      return toNextResponse(errorResponse('Invalid currentStationIndex'), 400);
+    }
+
+    // A client could set 'completed' straight after starting and then collect
+    // a certificate for zero solved puzzles. Require that the last station has
+    // at least been reached.
+    if (body.status === 'completed') {
+      const reachedLastStation = await hasReachedLastStation(
+        supabase,
+        body.sessionId,
+        body.currentStationIndex,
+      );
+
+      if (!reachedLastStation) {
+        return toNextResponse(
+          errorResponse('Die Tour ist noch nicht an der letzten Station angekommen.'),
+          400,
+        );
+      }
     }
 
     // Build update object

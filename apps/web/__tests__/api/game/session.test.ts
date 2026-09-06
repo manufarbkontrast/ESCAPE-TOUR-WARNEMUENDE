@@ -635,6 +635,104 @@ describe('PATCH /api/game/session', () => {
     expect((body as any).data.status).toBe('paused')
   })
 
+  it.each([
+    ['unbekannter Status', { status: 'voellig-egal' }],
+    ['Status als Zahl', { status: 7 }],
+    ['Stationsindex als Text', { currentStationIndex: 'abc' }],
+    ['negativer Stationsindex', { currentStationIndex: -1 }],
+    ['gebrochener Stationsindex', { currentStationIndex: 2.5 }],
+    ['absurd hoher Stationsindex', { currentStationIndex: 9999 }],
+  ])('should reject %s with 400 instead of a database error', async (_label, payload) => {
+    // Unvalidated values went straight into the UPDATE. A bad enum or a
+    // string where a number belongs produced a Postgres error and a 500,
+    // which session-sync treats as retryable — so it sent it twice.
+    const request = new Request('http://localhost/api/game/session', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: TEST_SESSION_ID, ...payload }),
+    })
+    const response = await PATCH(request as any)
+    const { status } = await parseResponse(response)
+
+    expect(status).toBe(400)
+  })
+
+  it('should refuse to complete a tour that has not been played', async () => {
+    // Straight after starting: PATCH { status: 'completed' } followed by
+    // POST /api/game/certificate handed out a certificate for zero solved
+    // puzzles.
+    mockClient.from.mockImplementation((table: string) => {
+      if (table === 'game_sessions') {
+        return createMockQueryBuilder({
+          data: { ...SESSION_ROW, current_station_index: 0 },
+          error: null,
+        })
+      }
+      if (table === 'stations') {
+        return createMockQueryBuilder({
+          data: [STATION_ROW, { ...STATION_ROW, id: 'station-2', order_index: 1 }],
+          error: null,
+        })
+      }
+      return createMockQueryBuilder({ data: null, error: null })
+    })
+
+    const request = new Request('http://localhost/api/game/session', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: TEST_SESSION_ID, status: 'completed' }),
+    })
+    const response = await PATCH(request as any)
+    const { status, body } = await parseResponse(response)
+
+    expect(status).toBe(400)
+    expect((body as any).error).toMatch(/Station/i)
+  })
+
+  it('should allow completing once the last station is reached', async () => {
+    mockClient.from.mockImplementation((table: string) => {
+      if (table === 'game_sessions') {
+        return createMockQueryBuilder({
+          data: { ...SESSION_ROW, current_station_index: 1, status: 'completed' },
+          error: null,
+        })
+      }
+      if (table === 'stations') {
+        return createMockQueryBuilder({
+          data: [STATION_ROW, { ...STATION_ROW, id: 'station-2', order_index: 1 }],
+          error: null,
+        })
+      }
+      return createMockQueryBuilder({ data: null, error: null })
+    })
+
+    const request = new Request('http://localhost/api/game/session', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: TEST_SESSION_ID, status: 'completed' }),
+    })
+    const response = await PATCH(request as any)
+    const { status } = await parseResponse(response)
+
+    expect(status).toBe(200)
+  })
+
+  it('should accept a valid status change', async () => {
+    mockClient.from.mockImplementation(() =>
+      createMockQueryBuilder({ data: { ...SESSION_ROW, status: 'active' }, error: null }),
+    )
+
+    const request = new Request('http://localhost/api/game/session', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId: TEST_SESSION_ID, status: 'active' }),
+    })
+    const response = await PATCH(request as any)
+    const { status } = await parseResponse(response)
+
+    expect(status).toBe(200)
+  })
+
   it('should return 500 when update fails', async () => {
     const sessionsBuilder = createMockQueryBuilder({
       data: null,
@@ -642,10 +740,12 @@ describe('PATCH /api/game/session', () => {
     })
     mockClient.from.mockReturnValueOnce(sessionsBuilder)
 
+    // 'active' rather than 'completed': the latter now runs the
+    // last-station check first, which would answer 400 before the UPDATE.
     const request = new Request('http://localhost/api/game/session', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId: TEST_SESSION_ID, status: 'completed' }),
+      body: JSON.stringify({ sessionId: TEST_SESSION_ID, status: 'active' }),
     })
     const response = await PATCH(request as any)
     const { status, body } = await parseResponse(response)
