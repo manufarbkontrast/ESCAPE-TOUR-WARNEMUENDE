@@ -4,7 +4,7 @@
  * POST: Generate a new certificate via Supabase Edge Function
  */
 
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import {
   successResponse,
   errorResponse,
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
       return toNextResponse(successResponse(DEMO_CERTIFICATE));
     }
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Look up existing certificate
     const certResult = await supabase
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Parse and validate request body
     const body = (await request.json()) as GenerateCertificateRequest;

@@ -3,7 +3,7 @@
  * Fetches available hints for a specific puzzle
  */
 
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin';
 import {
   successResponse,
   errorResponse,
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
       return toNextResponse(successResponse(hints))
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     const { data: hints, error } = await supabase
       .from('hints')

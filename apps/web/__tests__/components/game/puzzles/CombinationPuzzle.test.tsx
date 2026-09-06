@@ -55,6 +55,26 @@ describe('CombinationPuzzle', () => {
   expect(mockOnSubmit).toHaveBeenCalledWith('130353')
  })
 
+ it('should size the code from correctAnswer.length when the value is withheld', () => {
+  // Real sessions never receive the solution — the API sends only its length.
+  const withheld = createMockPuzzle({
+   puzzleType: 'combination',
+   correctAnswer: { length: 5 },
+  })
+  render(
+   <CombinationPuzzle puzzle={withheld} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
+  )
+  expect(screen.getAllByRole('textbox')).toHaveLength(5)
+ })
+
+ it('should fall back to 4 fields when neither value nor length is present', () => {
+  const empty = createMockPuzzle({ puzzleType: 'combination', correctAnswer: {} })
+  render(
+   <CombinationPuzzle puzzle={empty} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,
+  )
+  expect(screen.getAllByRole('textbox')).toHaveLength(4)
+ })
+
  it('should have aria labels for each input', () => {
   render(
    <CombinationPuzzle puzzle={puzzle} language="de" onSubmit={mockOnSubmit} isSubmitting={false} />,

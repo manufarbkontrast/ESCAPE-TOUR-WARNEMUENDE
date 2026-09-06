@@ -3,7 +3,7 @@
  * Validates a puzzle answer via Supabase Edge Function
  */
 
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import {
   successResponse,
   errorResponse,
@@ -11,6 +11,7 @@ import {
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import { isDemoSession, isStaffSession, validateDemoAnswer } from '@/lib/demo/helpers';
+import { mapValidationResult } from '@/lib/game/mappers';
 import { verifyGameSession } from '@/lib/utils/verify-session';
 import { createRateLimiter } from '@/lib/utils/rate-limit';
 import { getClientIp } from '@/lib/utils/client-ip';
@@ -40,7 +41,7 @@ type ValidateAnswerResponse = {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     // Parse and validate request body
     const body = (await request.json()) as ValidateAnswerRequest;
@@ -129,7 +130,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return toNextResponse(successResponse(data));
+    // The edge function answers with { correct, points, timeBonus }; the
+    // client is written against the shared ValidationResult. Without this
+    // mapping every correct answer read as wrong and the error branch threw
+    // on feedback.messageDe.
+    return toNextResponse(successResponse(mapValidationResult(data)));
   } catch (error) {
     console.error('Validate answer error:', error);
     return toNextResponse(

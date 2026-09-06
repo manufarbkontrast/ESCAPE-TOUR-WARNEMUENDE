@@ -7,7 +7,7 @@
 import type { NextRequest } from 'next/server'
 import type { Database } from '@escape-tour/database/src/types/supabase'
 import { stripe } from '@/lib/stripe/server'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin';
 import { successResponse, errorResponse, toNextResponse } from '@/lib/utils/api-response'
 
 type BookingRow = Database['public']['Tables']['bookings']['Row']
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Look up booking by payment intent
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     const { data, error } = await supabase
       .from('bookings')

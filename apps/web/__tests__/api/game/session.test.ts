@@ -39,7 +39,11 @@ const { mockClient, createDefaultBuilder } = vi.hoisted(() => {
   }
 
   // Inline mock client creation (cannot import from helpers in hoisted scope)
-  const mockFrom = vi.fn(() => createDefaultBuilder())
+  // Takes the table name so tests can vary the builder per table.
+  const mockFrom = vi.fn((table: string) => {
+    void table
+    return createDefaultBuilder()
+  })
   const client = {
     from: mockFrom,
     functions: {
@@ -57,9 +61,10 @@ vi.mock('next/headers', () => ({
   }),
 }))
 
-// Mock the Supabase server client
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: vi.fn().mockResolvedValue(mockClient),
+// Mock the trusted server client. Guests never sign in, so the routes
+// connect as the service role rather than as `anon`.
+vi.mock('@/lib/supabase/admin', () => ({
+  createAdminClient: vi.fn(() => mockClient),
 }))
 
 // Mock verify-session to allow all requests by default
@@ -81,6 +86,50 @@ import { GET, POST, PATCH } from '@/app/api/game/session/route'
 // Valid UUID constants for tests
 const TEST_SESSION_ID = '00000000-0000-0000-0000-000000000001'
 const TEST_SESSION_ID_2 = '00000000-0000-0000-0000-000000000002'
+
+// Supabase rows as PostgREST actually returns them: snake_case, PostGIS
+// geography columns as EWKB hex.
+const SESSION_ROW = {
+  id: TEST_SESSION_ID,
+  booking_id: 'booking-1',
+  tour_id: 'tour-1',
+  status: 'active',
+  team_name: 'Die Lotsen',
+  total_points: 100,
+  current_station_index: 3,
+  hints_used: 0,
+  puzzles_skipped: 0,
+  total_pause_seconds: 0,
+  needs_sync: false,
+  started_at: '2026-07-01T10:00:00.000Z',
+  created_at: '2026-07-01T09:00:00.000Z',
+  updated_at: '2026-07-01T10:00:00.000Z',
+}
+
+const STATION_ROW = {
+  id: 'station-1',
+  tour_id: 'tour-1',
+  order_index: 0,
+  name_de: 'Der Leuchtturm',
+  name_en: 'The Lighthouse',
+  location: '0101000020E61000005DFE43FAED2B284048BF7D1D38174B40',
+  radius_meters: 50,
+}
+
+const PUZZLE_ROW = {
+  id: 'puzzle-1',
+  station_id: 'station-1',
+  order_index: 0,
+  puzzle_type: 'count',
+  difficulty: 'easy',
+  question_de: 'Wie viele Stufen?',
+  answer_type: 'number',
+  correct_answer: { value: 135 },
+  answer_validation_mode: 'exact',
+  base_points: 100,
+  time_bonus_enabled: true,
+  time_bonus_max_seconds: 300,
+}
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -125,23 +174,137 @@ describe('GET /api/game/session', () => {
     expect(body).toMatchObject({ success: false, error: 'Session not found' })
   })
 
-  it('should return session data on success', async () => {
-    const sessionData = { id: TEST_SESSION_ID, status: 'active', total_points: 100 }
-    const sessionsBuilder = createMockQueryBuilder({
-      data: sessionData,
-      error: null,
+  it('should return session, stations and puzzles for a real session', async () => {
+    // The play page destructures { session, stations, puzzles } and reads
+    // camelCase fields. Returning the raw Supabase row here is what made every
+    // paid booking fail with "Netzwerkfehler".
+    mockClient.from.mockImplementation((table: string) => {
+      if (table === 'game_sessions') {
+        return createMockQueryBuilder({ data: SESSION_ROW, error: null })
+      }
+      if (table === 'stations') {
+        return createMockQueryBuilder({ data: [STATION_ROW], error: null })
+      }
+      if (table === 'puzzles') {
+        return createMockQueryBuilder({ data: [PUZZLE_ROW], error: null })
+      }
+      return createMockQueryBuilder({ data: null, error: null })
     })
-    mockClient.from.mockReturnValueOnce(sessionsBuilder)
+
+    const request = new NextRequest(`http://localhost/api/game/session?id=${TEST_SESSION_ID}`)
+    const response = await GET(request)
+    const { status, body } = await parseResponse(response)
+    const data = (body as any).data
+
+    expect(status).toBe(200)
+    expect(data.session).toMatchObject({
+      id: TEST_SESSION_ID,
+      status: 'active',
+      totalPoints: 100,
+      currentStationIndex: 3,
+      tourId: 'tour-1',
+    })
+    expect(data.stations).toHaveLength(1)
+    expect(data.stations[0]).toMatchObject({ nameDe: 'Der Leuchtturm', orderIndex: 0 })
+    expect(data.puzzles).toHaveLength(1)
+    expect(data.puzzles[0]).toMatchObject({ questionDe: 'Wie viele Stufen?', basePoints: 100 })
+  })
+
+  it('should never ship puzzle solutions to the client', async () => {
+    // correct_answer is the anti-cheat secret. Selecting '*' would hand every
+    // solution to anyone who opens the network tab.
+    const puzzlesBuilder = createMockQueryBuilder({ data: [PUZZLE_ROW], error: null })
+    mockClient.from.mockImplementation((table: string) => {
+      if (table === 'game_sessions') {
+        return createMockQueryBuilder({ data: SESSION_ROW, error: null })
+      }
+      if (table === 'stations') {
+        return createMockQueryBuilder({ data: [STATION_ROW], error: null })
+      }
+      if (table === 'puzzles') {
+        return puzzlesBuilder
+      }
+      return createMockQueryBuilder({ data: null, error: null })
+    })
+
+    const request = new NextRequest(`http://localhost/api/game/session?id=${TEST_SESSION_ID}`)
+    const response = await GET(request)
+    const { body } = await parseResponse(response)
+
+    // The column must not even be requested from PostgREST.
+    const selectArg = puzzlesBuilder.select.mock.calls[0]?.[0] as string
+    expect(selectArg).toBeTypeOf('string')
+    expect(selectArg).not.toContain('correct_answer')
+    expect(selectArg).not.toBe('*')
+
+    // Only the answer's length reaches the client — CombinationPuzzle needs
+    // it to size its inputs, and it gives nothing away.
+    expect((body as any).data.puzzles[0].correctAnswer).toEqual({ length: 3 })
+    expect(JSON.stringify(body)).not.toContain('"value"')
+  })
+
+  it('should still answer with stations and puzzles when those queries return nothing', async () => {
+    mockClient.from.mockImplementation((table: string) => {
+      if (table === 'game_sessions') {
+        return createMockQueryBuilder({ data: SESSION_ROW, error: null })
+      }
+      return createMockQueryBuilder({ data: null, error: { message: 'boom' } })
+    })
 
     const request = new NextRequest(`http://localhost/api/game/session?id=${TEST_SESSION_ID}`)
     const response = await GET(request)
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
-    expect(body).toMatchObject({
-      success: true,
-      data: { id: TEST_SESSION_ID, status: 'active', total_points: 100 },
-    })
+    expect((body as any).data.stations).toEqual([])
+    expect((body as any).data.puzzles).toEqual([])
+  })
+
+  it('should accept a staff session id instead of rejecting it as malformed', async () => {
+    // The format guard only allowed demo ids and UUIDs, so every staff-...
+    // session died with 400 before reaching its own branch.
+    const request = new NextRequest('http://localhost/api/game/session?id=staff-1738000000000-ab12cd34')
+    const response = await GET(request)
+    const { status, body } = await parseResponse(response)
+
+    expect(status).toBe(200)
+    expect((body as any).data.session.id).toBe('staff-1738000000000-ab12cd34')
+    expect((body as any).data.stations.length).toBeGreaterThan(0)
+  })
+
+  it('should date an offline session from the request, not from process start', async () => {
+    // DEMO_SESSION.startedAt was a module-level constant. Under PM2 the
+    // process runs for days, so the timer showed thousands of hours and
+    // HintSystem unlocked every hint (including the solution) immediately.
+    // Advancing the clock between two requests is what tells the two apart:
+    // a module-level constant returns the same instant twice.
+    vi.useFakeTimers()
+    try {
+      vi.setSystemTime(new Date('2026-07-01T10:00:00.000Z'))
+      const first = await GET(
+        new NextRequest('http://localhost/api/game/session?id=demo-session-001'),
+      )
+      const firstBody = await parseResponse(first)
+
+      vi.setSystemTime(new Date('2026-07-04T10:00:00.000Z'))
+      const second = await GET(
+        new NextRequest('http://localhost/api/game/session?id=demo-session-001'),
+      )
+      const secondBody = await parseResponse(second)
+
+      expect((firstBody.body as any).data.session.startedAt).toBe('2026-07-01T10:00:00.000Z')
+      expect((secondBody.body as any).data.session.startedAt).toBe('2026-07-04T10:00:00.000Z')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('should reject a malformed staff id', async () => {
+    const request = new NextRequest('http://localhost/api/game/session?id=staff-')
+    const response = await GET(request)
+    const { status } = await parseResponse(response)
+
+    expect(status).toBe(400)
   })
 })
 
@@ -322,6 +485,9 @@ describe('POST /api/game/session', () => {
 
     expect(status).toBe(200)
     expect((body as any).data.id).toBe('existing-session')
+    // /play liest result.data.sessionId — ohne dieses Feld landet der Gast
+    // auf /play/undefined.
+    expect((body as any).data.sessionId).toBe('existing-session')
   })
 
   it('should create new session when no existing session', async () => {
@@ -366,7 +532,8 @@ describe('POST /api/game/session', () => {
 
     expect(status).toBe(201)
     expect((body as any).data.id).toBe('new-session')
-    expect((body as any).data.team_name).toBe('My Team')
+    expect((body as any).data.sessionId).toBe('new-session')
+    expect((body as any).data.status).toBe('pending')
   })
 
   it('should return 500 when session creation fails', async () => {

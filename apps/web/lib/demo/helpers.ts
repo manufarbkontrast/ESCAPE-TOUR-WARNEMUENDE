@@ -25,6 +25,20 @@ export function isStaffSession(sessionId: string): boolean {
 }
 
 /**
+ * Staff session IDs as `/api/staff/session` mints them:
+ * `staff-<epoch millis>-<base36 suffix>`.
+ *
+ * A bare `startsWith('staff-')` check is not enough at a system boundary —
+ * the ID reaches the API from the client, so the format is validated the same
+ * way a UUID is.
+ */
+const STAFF_SESSION_ID_PATTERN = /^staff-\d{10,14}-[0-9a-z]{1,12}$/
+
+export function isValidStaffSessionId(sessionId: string): boolean {
+  return STAFF_SESSION_ID_PATTERN.test(sessionId)
+}
+
+/**
  * Check if a session uses local/demo data (no Supabase).
  */
 export function isOfflineSession(sessionId: string): boolean {

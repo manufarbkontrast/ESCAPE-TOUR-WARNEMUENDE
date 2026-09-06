@@ -5,7 +5,7 @@
  * PATCH: Update session (pause/resume/complete)
  */
 
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/admin';
 import {
   successResponse,
   errorResponse,
@@ -14,8 +14,21 @@ import {
 } from '@/lib/utils/api-response';
 import type { NextRequest } from 'next/server';
 import type { Database } from '@escape-tour/database/src/types/supabase';
-import { isDemoBookingCode, isDemoSession, isStaffSession } from '@/lib/demo/helpers';
-import { DEMO_SESSION_ID, DEMO_SESSION, DEMO_STATIONS, DEMO_PUZZLES } from '@/lib/demo/data';
+import type { Puzzle, Station } from '@escape-tour/shared';
+import type { DatabaseRow } from '@/lib/game/mappers';
+import {
+  isDemoBookingCode,
+  isDemoSession,
+  isStaffSession,
+  isValidStaffSessionId,
+} from '@/lib/demo/helpers';
+import { mapSessionRow, mapStationRow, mapPuzzleRowForClient } from '@/lib/game/mappers';
+import {
+  DEMO_SESSION_ID,
+  DEMO_STATIONS,
+  DEMO_PUZZLES,
+  createOfflineSession,
+} from '@/lib/demo/data';
 import { createSessionToken, createDemoToken, SESSION_COOKIE_NAME } from '@/lib/utils/session-token';
 import { verifyGameSession } from '@/lib/utils/verify-session';
 import { createRateLimiter } from '@/lib/utils/rate-limit';
@@ -34,6 +47,102 @@ type SessionStatus = Database['public']['Enums']['session_status'];
 
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+/**
+ * A session ID is acceptable if it is the demo session, a well-formed staff
+ * session, or a UUID. Staff IDs used to fall through to the UUID check and
+ * were rejected with 400 before ever reaching their own branch.
+ */
+function isAcceptableSessionId(sessionId: string): boolean {
+  if (isDemoSession(sessionId)) {
+    return true;
+  }
+  if (isStaffSession(sessionId)) {
+    return isValidStaffSessionId(sessionId);
+  }
+  return UUID_REGEX.test(sessionId);
+}
+
+/**
+ * Puzzle columns the client is allowed to see.
+ *
+ * `correct_answer` is deliberately absent: answers are checked server-side,
+ * so shipping the column would hand every solution to anyone who opens the
+ * network tab.
+ */
+const CLIENT_PUZZLE_COLUMNS = [
+  'id',
+  'station_id',
+  'order_index',
+  'puzzle_type',
+  'difficulty',
+  'question_de',
+  'question_en',
+  'instruction_de',
+  'instruction_en',
+  'answer_type',
+  'answer_validation_mode',
+  'case_sensitive',
+  'options',
+  'ar_content',
+  'ar_marker_url',
+  'audio_url',
+  'image_url',
+  'target_location',
+  'target_radius_meters',
+  'base_points',
+  'time_bonus_enabled',
+  'time_bonus_max_seconds',
+  'created_at',
+  'updated_at',
+].join(',');
+
+/**
+ * Load the stations and puzzles belonging to a tour.
+ *
+ * The play page needs all three of session, stations and puzzles in one
+ * response. A failure here is not fatal — the client can still show the
+ * session — so both lists fall back to empty.
+ */
+async function fetchTourContent(
+  supabase: ReturnType<typeof createAdminClient>,
+  tourId: string,
+): Promise<{ stations: Station[]; puzzles: Puzzle[] }> {
+  const stationsResult = await supabase
+    .from('stations')
+    .select('*')
+    .eq('tour_id', tourId)
+    .order('order_index');
+
+  if (stationsResult.error) {
+    console.error('Stations fetch error:', stationsResult.error);
+    return { stations: [], puzzles: [] };
+  }
+
+  const stationRows = (stationsResult.data ?? []) as DatabaseRow[];
+  const stations = stationRows.map(mapStationRow);
+
+  if (stations.length === 0) {
+    return { stations, puzzles: [] };
+  }
+
+  const puzzlesResult = await supabase
+    .from('puzzles')
+    .select(CLIENT_PUZZLE_COLUMNS)
+    .in(
+      'station_id',
+      stations.map((station) => station.id),
+    )
+    .order('order_index');
+
+  if (puzzlesResult.error) {
+    console.error('Puzzles fetch error:', puzzlesResult.error);
+    return { stations, puzzles: [] };
+  }
+
+  const puzzleRows = (puzzlesResult.data ?? []) as DatabaseRow[];
+  return { stations, puzzles: puzzleRows.map(mapPuzzleRowForClient) };
+}
+
 type CreateSessionRequest = {
   readonly bookingCode: string;
   readonly teamName?: string;
@@ -51,15 +160,15 @@ type UpdateSessionRequest = {
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const sessionId = request.nextUrl.searchParams.get('id');
 
     if (!sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
     }
 
-    // Validate ID format (UUID or demo session)
-    if (!isDemoSession(sessionId) && !UUID_REGEX.test(sessionId)) {
+    // Validate ID format (UUID, demo session or staff session)
+    if (!isAcceptableSessionId(sessionId)) {
       return toNextResponse(errorResponse('Invalid session ID format'), 400);
     }
 
@@ -73,7 +182,7 @@ export async function GET(request: NextRequest) {
     if (isDemoSession(sessionId) || isStaffSession(sessionId)) {
       return toNextResponse(
         successResponse({
-          session: { ...DEMO_SESSION, id: sessionId },
+          session: createOfflineSession(sessionId),
           stations: DEMO_STATIONS,
           puzzles: DEMO_PUZZLES,
         })
@@ -92,7 +201,14 @@ export async function GET(request: NextRequest) {
       return toNextResponse(errorResponse('Session not found'), 404);
     }
 
-    return toNextResponse(successResponse(session));
+    // The client expects { session, stations, puzzles } in the shared
+    // camelCase shape — the same envelope the demo branch returns above.
+    const mappedSession = mapSessionRow(session as DatabaseRow);
+    const { stations, puzzles } = await fetchTourContent(supabase, mappedSession.tourId);
+
+    return toNextResponse(
+      successResponse({ session: mappedSession, stations, puzzles }),
+    );
   } catch (error) {
     console.error('GET session error:', error);
     return toNextResponse(
@@ -110,7 +226,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const body = (await request.json()) as CreateSessionRequest;
 
     if (!body.bookingCode) {
@@ -219,8 +335,14 @@ export async function POST(request: NextRequest) {
         path: '/',
         maxAge: SESSION_COOKIE_MAX_AGE,
       };
+      // /play navigates to result.data.sessionId; without that field the
+      // guest lands on /play/undefined.
       return toNextResponseWithCookies(
-        successResponse(existingSession),
+        successResponse({
+          sessionId: existingSession.id,
+          id: existingSession.id,
+          status: existingSession.status,
+        }),
         200,
         [sessionCookie],
       );
@@ -259,8 +381,9 @@ export async function POST(request: NextRequest) {
       path: '/',
       maxAge: SESSION_COOKIE_MAX_AGE,
     };
+    const mappedSession = mapSessionRow(createdSession as DatabaseRow);
     return toNextResponseWithCookies(
-      successResponse(createdSession),
+      successResponse({ ...mappedSession, sessionId: mappedSession.id }),
       201,
       [sessionCookie],
     );
@@ -281,15 +404,15 @@ export async function POST(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = await createClient();
+    const supabase = createAdminClient();
     const body = (await request.json()) as UpdateSessionRequest;
 
     if (!body.sessionId) {
       return toNextResponse(errorResponse('Missing session ID'), 400);
     }
 
-    // Validate ID format (UUID or demo session)
-    if (!isDemoSession(body.sessionId) && !UUID_REGEX.test(body.sessionId)) {
+    // Validate ID format (UUID, demo session or staff session)
+    if (!isAcceptableSessionId(body.sessionId)) {
       return toNextResponse(errorResponse('Invalid session ID format'), 400);
     }
 
@@ -299,9 +422,10 @@ export async function PATCH(request: NextRequest) {
       return toNextResponse(errorResponse(auth.error ?? 'Unauthorized'), 401);
     }
 
-    // Demo mode: accept update but return mock session
-    if (isDemoSession(body.sessionId)) {
-      return toNextResponse(successResponse(DEMO_SESSION));
+    // Demo and staff sessions live in localStorage only — accept the update
+    // and echo the mock session back.
+    if (isDemoSession(body.sessionId) || isStaffSession(body.sessionId)) {
+      return toNextResponse(successResponse(createOfflineSession(body.sessionId)));
     }
 
     // Build update object
@@ -346,7 +470,9 @@ export async function PATCH(request: NextRequest) {
       return toNextResponse(errorResponse('Failed to update session'), 500);
     }
 
-    return toNextResponse(successResponse(updateResult.data as GameSession));
+    return toNextResponse(
+      successResponse(mapSessionRow(updateResult.data as DatabaseRow)),
+    );
   } catch (error) {
     console.error('PATCH session error:', error);
     return toNextResponse(

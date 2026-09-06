@@ -53,9 +53,10 @@ vi.mock('next/headers', () => ({
   }),
 }))
 
-// Mock the Supabase server client
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: vi.fn().mockResolvedValue(mockClient),
+// Mock the trusted server client. Guests never sign in, so the routes
+// connect as the service role rather than as `anon`.
+vi.mock('@/lib/supabase/admin', () => ({
+  createAdminClient: vi.fn(() => mockClient),
 }))
 
 // Mock verify-session to allow all requests by default
@@ -239,9 +240,14 @@ describe('POST /api/game/validate-answer', () => {
     const { status, body } = await parseResponse(response)
 
     expect(status).toBe(200)
-    expect(body).toMatchObject({
-      success: true,
-      data: edgeResult,
+    // PuzzleRenderer reads isCorrect / pointsEarned / timeBonusEarned and
+    // feedback.messageDe. Passing the edge function's own shape through made
+    // every correct answer read as wrong.
+    expect((body as any).data).toMatchObject({
+      isCorrect: true,
+      pointsEarned: 100,
+      timeBonusEarned: 25,
+      feedback: { messageDe: 'Correct!', messageEn: 'Correct!', type: 'success' },
     })
     expect(mockClient.functions.invoke).toHaveBeenCalledWith(
       'validate-answer',
@@ -254,6 +260,34 @@ describe('POST /api/game/validate-answer', () => {
         },
       },
     )
+  })
+
+  it('should map an incorrect edge-function answer to the shared shape', async () => {
+    mockClient.functions.invoke.mockResolvedValueOnce({
+      data: { correct: false, points: 0, timeBonus: 0 },
+      error: null,
+    })
+
+    const request = new Request('http://localhost/api/game/validate-answer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId: 'real-session-1',
+        puzzleId: 'real-puzzle-1',
+        answer: 'wrong',
+        timeSeconds: 60,
+      }),
+    })
+    const response = await POST(request as any)
+    const { status, body } = await parseResponse(response)
+
+    expect(status).toBe(200)
+    expect((body as any).data.isCorrect).toBe(false)
+    expect((body as any).data.pointsEarned).toBe(0)
+    // The client renders feedback.messageDe directly — it must never be
+    // undefined, or the success path throws.
+    expect(typeof (body as any).data.feedback.messageDe).toBe('string')
+    expect((body as any).data.feedback.type).toBe('error')
   })
 
   it('should prefer timeSpentSeconds over timeSeconds', async () => {

@@ -15,7 +15,15 @@ const DEFAULT_CODE_LENGTH = 4
 export function CombinationPuzzle({ puzzle, language, onSubmit, isSubmitting }: CombinationPuzzleProps) {
  // Derive the number of input boxes from the expected answer length so codes
  // of any length work (e.g. 5 digits at station 8, 6 at station 12).
+ //
+ // Real sessions receive only `length` — the API withholds the solution — while
+ // demo data still carries `value`. Both are accepted.
  const codeLength = useMemo(() => {
+  const length = puzzle.correctAnswer?.length
+  if (typeof length === 'number' && length > 0) {
+   return length
+  }
+
   const value = String(puzzle.correctAnswer?.value ?? '')
   return value.length > 0 ? value.length : DEFAULT_CODE_LENGTH
  }, [puzzle])

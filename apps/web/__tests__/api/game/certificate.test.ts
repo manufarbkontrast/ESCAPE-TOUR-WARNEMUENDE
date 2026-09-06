@@ -55,9 +55,10 @@ vi.mock('next/headers', () => ({
   }),
 }))
 
-// Mock the Supabase server client
-vi.mock('@/lib/supabase/server', () => ({
-  createClient: vi.fn().mockResolvedValue(mockClient),
+// Mock the trusted server client. Guests never sign in, so the routes
+// connect as the service role rather than as `anon`.
+vi.mock('@/lib/supabase/admin', () => ({
+  createAdminClient: vi.fn(() => mockClient),
 }))
 
 // Mock verify-session to allow all requests by default

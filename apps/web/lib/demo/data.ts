@@ -28,6 +28,28 @@ const NOW = new Date().toISOString()
 // Session
 // ---------------------------------------------------------------------------
 
+/**
+ * Build a demo/staff session dated from the current request.
+ *
+ * `DEMO_SESSION` below carries a module-level timestamp, which is fixed for
+ * the whole lifetime of the Node process. Under PM2 that process runs for
+ * days, so serving it verbatim made the timer count from process start and
+ * unlocked every hint immediately. Always build offline sessions through
+ * this function.
+ */
+export function createOfflineSession(sessionId: string): GameSession {
+  const now = new Date().toISOString()
+  return {
+    ...DEMO_SESSION,
+    id: sessionId,
+    startedAt: now,
+    lastActivityAt: now,
+    createdAt: now,
+    updatedAt: now,
+  }
+}
+
+
 export const DEMO_SESSION: GameSession = {
   id: DEMO_SESSION_ID,
   bookingId: 'demo-booking-001',
