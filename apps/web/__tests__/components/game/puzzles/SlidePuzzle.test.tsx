@@ -74,17 +74,25 @@ describe('SlidePuzzle', () => {
       expect(screen.getByText('1')).toBeInTheDocument()
     })
 
-    // Find all tile buttons and click one (some will be adjacent to empty)
-    const buttons = screen.getAllByRole('button')
-    const enabledButtons = buttons.filter((b) => !b.hasAttribute('disabled'))
+    // Tiles adjacent to the empty cell are the only enabled buttons before the
+    // puzzle is solved. The shuffle always leaves at least two of them, so an
+    // empty list means the component is broken, not that there is nothing to
+    // test — assert it instead of silently skipping.
+    const enabledTiles = screen
+      .getAllByRole('button')
+      .filter((button) => !button.hasAttribute('disabled'))
+    expect(enabledTiles.length).toBeGreaterThan(0)
 
-    if (enabledButtons.length > 0) {
-      await user.click(enabledButtons[0])
-      // Move counter should have incremented
-      await waitFor(() => {
+    await user.click(enabledTiles[0])
+
+    // Rendering the 4x4 grid takes ~700ms on a loaded machine, which is close
+    // enough to waitFor's 1s default to make this flaky in a full-suite run.
+    await waitFor(
+      () => {
         expect(screen.getByText('Züge: 1')).toBeInTheDocument()
-      })
-    }
+      },
+      { timeout: 5000 },
+    )
   })
 
   it('should not show answer input before puzzle is solved', () => {
