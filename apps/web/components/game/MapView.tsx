@@ -6,6 +6,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import type { Station, GeoPoint } from '@escape-tour/shared'
 import { LocateFixed, MapPin, AlertTriangle, Navigation } from 'lucide-react'
 import { useLocationStore } from '@/stores/locationStore'
+import { classifyMapError } from '@/lib/map/errors'
 import {
  haversineDistanceMeters,
  isWithinNavigationRange,
@@ -484,6 +485,10 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
  const [isMapLoaded, setIsMapLoaded] = useState(false)
  const [mapError, setMapError] = useState<string | null>(null)
+ // Bumping this re-runs the init effect, whose cleanup disposes the old map.
+ const [mapInitAttempt, setMapInitAttempt] = useState(0)
+ // Read inside the error handler, which is registered once per init.
+ const isMapLoadedRef = useRef(false)
  const [navigationInfo, setNavigationInfo] = useState<{
   readonly steps: readonly RouteStep[]
   readonly totalDistance: number
@@ -565,6 +570,8 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   if (!mapContainerRef.current) return
   if (mapRef.current) return
 
+  isMapLoadedRef.current = false
+
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
   if (!token) {
    setMapError('Mapbox token is not configured. Please set NEXT_PUBLIC_MAPBOX_TOKEN.')
@@ -620,11 +627,23 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
     map.setConfigProperty('basemap', 'showPlaceLabels', false)
     map.setConfigProperty('basemap', 'showRoadLabels', false)
 
+    isMapLoadedRef.current = true
     setIsMapLoaded(true)
    })
 
    map.on('error', (e) => {
-    setMapError(`Map error: ${e.error?.message ?? 'Unknown error'}`)
+    // Mapbox fires this for every failed tile, sprite or DEM request. Only a
+    // genuinely dead map may replace the view — see lib/map/errors.ts.
+    const { severity, message } = classifyMapError(e, {
+     hasLoaded: isMapLoadedRef.current,
+    })
+
+    if (severity === 'recoverable') {
+     console.warn('Mapbox resource error (ignored):', message)
+     return
+    }
+
+    setMapError(message)
    })
 
    mapRef.current = map
@@ -643,8 +662,25 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
 
    mapRef.current?.remove()
    mapRef.current = null
+   isMapLoadedRef.current = false
   }
- }, [])
+ }, [mapInitAttempt])
+
+ // A fatal error swaps the map out for an error box. Without this the
+ // mapboxgl.Map keeps its WebGL context, holds the detached container and
+ // carries on fetching tiles until the page is left.
+ useEffect(() => {
+  if (!mapError) return
+
+  markersRef.current.forEach((marker) => marker.remove())
+  markersRef.current = []
+  userMarkerRef.current?.remove()
+  userMarkerRef.current = null
+  mapRef.current?.remove()
+  mapRef.current = null
+  isMapLoadedRef.current = false
+  setIsMapLoaded(false)
+ }, [mapError])
 
  // Start location tracking while the map is mounted, stop on unmount
  // so the GPS watch doesn't keep draining the battery afterwards.
@@ -862,13 +898,28 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   }
  }, [showRoute, effectiveUserLocation, currentStation, isMapLoaded])
 
- // Error state
+ // Error state — only reached for errors that leave no usable map.
  if (mapError) {
   return (
    <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl p-8" style={{ background: 'rgba(10, 10, 10, 0.5)' }}>
-    <div className="text-center">
+    <div className="max-w-sm text-center">
      <AlertTriangle className="mx-auto mb-4 h-10 w-10 text-red-400/70" strokeWidth={1.5} />
-     <p className="text-sm text-red-400/80">{mapError}</p>
+     <p className="text-base font-semibold text-white">Karte nicht verfügbar</p>
+     <p className="mt-2 text-sm text-white/60">{mapError}</p>
+     <button
+      type="button"
+      onClick={() => {
+       setMapError(null)
+       setMapInitAttempt((attempt) => attempt + 1)
+      }}
+      className="btn btn-secondary mt-6"
+     >
+      Karte neu laden
+     </button>
+     <p className="mt-4 text-xs text-white/40">
+      Ihr könnt weiterspielen — die Stationen erreicht ihr auch über die
+      Stationsansicht.
+     </p>
     </div>
    </div>
   )
