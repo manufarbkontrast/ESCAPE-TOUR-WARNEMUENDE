@@ -43,22 +43,17 @@ describe('Header', () => {
   expect(logoLink).toHaveAttribute('href', '/')
  })
 
- it('should render Warnemuende subtitle', () => {
-  render(<Header />)
-  expect(screen.getByText('Warnemünde')).toBeInTheDocument()
- })
-
  it('should render navigation links', () => {
   render(<Header />)
-  expect(screen.getByText('Touren')).toBeInTheDocument()
   expect(screen.getByText("So funktioniert's")).toBeInTheDocument()
+  expect(screen.getByText('Preise')).toBeInTheDocument()
   expect(screen.getByText('FAQ')).toBeInTheDocument()
  })
 
  it('should have correct href for nav links', () => {
   render(<Header />)
-  expect(screen.getByText('Touren').closest('a')).toHaveAttribute('href', '/#touren')
   expect(screen.getByText("So funktioniert's").closest('a')).toHaveAttribute('href', '/#ablauf')
+  expect(screen.getByText('Preise').closest('a')).toHaveAttribute('href', '/#preise')
   expect(screen.getByText('FAQ').closest('a')).toHaveAttribute('href', '/#faq')
  })
 

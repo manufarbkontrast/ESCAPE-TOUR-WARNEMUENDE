@@ -37,7 +37,7 @@ const TOUR_PRICING: ReadonlyArray<TourPricing> = [
    'Kinderfreundliche Rätsel ab 8 Jahren',
    'Kürzere, familienfreundliche Route',
    'Flexible Pausen möglich',
-   'GPS-Navigation auf eurem Smartphone',
+   'iPad mit GPS-Navigation inklusive',
    'Alle Rätsel und Hinweise inklusive',
    'Teilnahmezertifikat für die Familie',
   ],
@@ -54,7 +54,7 @@ const TOUR_PRICING: ReadonlyArray<TourPricing> = [
    'Anspruchsvolle Rätsel für Erwachsene',
    'Erweiterte Route mit Bonus-Stationen',
    'Historische Hintergrundinformationen',
-   'GPS-Navigation auf eurem Smartphone',
+   'iPad mit GPS-Navigation inklusive',
    'Alle Rätsel und Hinweise inklusive',
    'Exklusive Bonus-Inhalte und Extras',
   ],
@@ -93,7 +93,7 @@ const INCLUDED_ITEMS: ReadonlyArray<IncludedItem> = [
   ),
   title: 'GPS-Navigation',
   description:
-   'Euer Smartphone wird zum Navigator. Folgt der Route direkt auf der interaktiven Karte.',
+   'Das gestellte iPad wird zum Navigator. Folgt der Route direkt auf der interaktiven Karte.',
  },
  {
   icon: (

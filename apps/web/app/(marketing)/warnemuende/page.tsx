@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
+import { TOUR_VARIANTS, formatPrice, type TourVariant } from '@/lib/config/tours';
 
 export const metadata: Metadata = {
  title: 'Escape Tour Warnemünde – Das Vermächtnis des Lotsenkapitäns',
@@ -38,7 +39,7 @@ const PROMISES = [
   path: 'M18 10a4 4 0 0 0-4-4 4.08 4.08 0 0 0-2.16.6A6 6 0 0 0 6 10a4 4 0 0 0 0 8h12a4 4 0 0 0 0-8z',
  },
  {
-  label: 'Keine App nötig',
+  label: 'iPad inklusive',
   path: 'M5 2h14a0 0 0 0 1 0 0v20a0 0 0 0 1 0 0H5a0 0 0 0 1 0 0V2a0 0 0 0 1 0 0zM12 18h.01',
  },
  {
@@ -58,69 +59,16 @@ const STEPS = [
 ] as const;
 
 /**
- * Tour variant card data type
- */
-interface TourVariant {
- readonly id: string;
- readonly name: string;
- readonly description: string;
- readonly price: string;
- readonly duration: string;
- readonly difficulty: string;
- readonly features: ReadonlyArray<string>;
- readonly popular?: boolean;
-}
-
-/**
- * Tour variants configuration
- */
-const TOUR_VARIANTS: ReadonlyArray<TourVariant> = [
- {
-  id: 'family',
-  name: 'Familien-Tour',
-  description: 'Perfekt für Familien mit Kindern ab 8 Jahren. Leichtere Rätsel und kürzere Laufwege.',
-  price: '24,90',
-  duration: '2-3 Stunden',
-  difficulty: 'Leicht',
-  features: [
-   'Kinderfreundliche Rätsel',
-   'Kürzere Route (3 km)',
-   'Familienfreundliche Stationen',
-   'Flexible Pausen möglich',
-  ],
- },
- {
-  id: 'adult',
-  name: 'Erwachsenen-Tour',
-  description: 'Herausfordernde Rätsel und spannende historische Details für Erwachsene und Jugendliche ab 14 Jahren.',
-  price: '29,90',
-  duration: '3-4 Stunden',
-  difficulty: 'Mittel',
-  popular: true,
-  features: [
-   'Anspruchsvolle Rätsel',
-   'Erweiterte Route (5 km)',
-   'Historische Tiefe',
-   'Exklusive Bonus-Inhalte',
-  ],
- },
-] as const;
-
-/**
- * Tour variant card component
+ * Tour variant card — reads prices and facts from the shared tour config so
+ * the marketing pages and the checkout can never drift apart.
  */
 function TourCard({ variant }: { readonly variant: TourVariant }) {
  return (
-  <div
-   className={cn(
-    'card-hover relative',
-    variant.popular && 'ring-1 ring-neon-400/40'
-   )}
-  >
-   {variant.popular && (
+  <div className={cn('card-hover relative', variant.recommended && 'ring-1 ring-neon-400/40')}>
+   {variant.recommended && (
     <div className="absolute -top-3 left-6">
-     <span className="eyebrow rounded bg-white px-2.5 py-1 text-dark-950">
-      Beliebteste Wahl
+     <span className="rounded bg-white px-2.5 py-1 text-xs font-bold text-dark-950">
+      Am meisten gebucht
      </span>
     </div>
    )}
@@ -128,28 +76,34 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
    <div className="space-y-5">
     <div>
      <h3 className="text-2xl font-bold text-white">{variant.name}</h3>
-     <p className="mt-2 text-base leading-relaxed text-white/60">{variant.description}</p>
+     <p className="mt-2 text-base leading-relaxed text-white/60">{variant.ageLabel}</p>
     </div>
 
     <div className="flex items-baseline gap-2">
-     <span className="font-display text-4xl text-white">{variant.price}&euro;</span>
+     <span className="font-display text-4xl text-white">
+      {formatPrice(variant.priceCents)}&nbsp;&euro;
+     </span>
      <span className="text-sm font-semibold text-white/50">pro Person</span>
     </div>
 
-    <div className="grid grid-cols-2 gap-4 border-y border-white/10 py-4">
+    <div className="grid grid-cols-3 gap-3 border-y border-white/10 py-4">
      <div>
-      <div className="eyebrow text-[0.65rem]">Dauer</div>
-      <div className="mt-1.5 font-mono text-base tabular-nums text-white">{variant.duration}</div>
+      <div className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/45">Dauer</div>
+      <div className="mt-1.5 font-mono text-sm tabular-nums text-white">{variant.duration}</div>
      </div>
      <div>
-      <div className="eyebrow text-[0.65rem]">Schwierigkeit</div>
-      <div className="mt-1.5 font-mono text-base text-white">{variant.difficulty}</div>
+      <div className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/45">Weg</div>
+      <div className="mt-1.5 font-mono text-sm tabular-nums text-white">{variant.distance}</div>
+     </div>
+     <div>
+      <div className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/45">Rätsel</div>
+      <div className="mt-1.5 font-mono text-sm text-white">{variant.difficulty}</div>
      </div>
     </div>
 
     <ul className="space-y-3">
-     {variant.features.map((feature, index) => (
-      <li key={index} className="flex items-start gap-2.5">
+     {variant.features.map((feature) => (
+      <li key={feature} className="flex items-start gap-2.5">
        <svg
         className="mt-0.5 h-5 w-5 flex-shrink-0 text-neon-400"
         fill="none"
@@ -164,10 +118,10 @@ function TourCard({ variant }: { readonly variant: TourVariant }) {
     </ul>
 
     <Link
-     href={`/buchen?variant=${variant.id}`}
-     className={cn('btn w-full', variant.popular ? 'btn-primary' : 'btn-secondary')}
+     href={`/buchen?location=warnemuende&variant=${variant.id}`}
+     className={cn('btn w-full', variant.recommended ? 'btn-primary' : 'btn-secondary')}
     >
-     Tour buchen
+     {variant.name} buchen
     </Link>
    </div>
   </div>
@@ -181,7 +135,7 @@ const FAQ_ITEMS = [
  {
   question: 'Wie funktioniert die Escape Tour?',
   answer:
-   'Ihr bucht online eure Tour und erhaltet euren Buchungscode. Kommt 20 Minuten vor eurem gebuchten Slot zu Shoes Please am Leuchtturm in Warnemünde — dort bekommt ihr eine kurze Einweisung. Danach gebt ihr euren Code ein und werdet per GPS von Station zu Station geleitet. An jeder Station wartet ein Rätsel, das ihr mit eurem Smartphone löst.',
+   'Ihr bucht online eure Tour und erhaltet euren Buchungscode. Kommt 20 Minuten vor eurem gebuchten Slot zu Shoes Please am Leuchtturm in Warnemünde — dort bekommt ihr eine kurze Einweisung. Danach gebt ihr euren Code ein und werdet per GPS von Station zu Station geleitet. An jeder Station wartet ein Rätsel, das ihr auf dem iPad löst.',
  },
  {
   question: 'Wie lange dauert die Tour?',
@@ -199,9 +153,9 @@ const FAQ_ITEMS = [
    'Die Familien-Tour ist für Kinder ab 8 Jahren geeignet. Die Erwachsenen-Tour richtet sich an Jugendliche ab 14 Jahren und Erwachsene.',
  },
  {
-  question: 'Brauche ich eine Internetverbindung?',
+  question: 'Brauchen wir ein eigenes Handy oder eine App?',
   answer:
-   'Ja, ihr benötigt ein Smartphone mit Internetverbindung. Die App funktioniert auch offline für kurze Zeit, aber für die beste Erfahrung empfehlen wir eine stabile Verbindung.',
+   'Nein. Ihr bekommt beim Briefing ein vorbereitetes iPad mit Karte, Rätseln und Story — inklusive Internetverbindung. Es gibt nichts zu installieren und kein Konto anzulegen.',
  },
  {
   question: 'Kann ich die Tour pausieren?',
@@ -216,23 +170,24 @@ const FAQ_ITEMS = [
 ] as const;
 
 /**
- * Testimonial data
+ * Verifiable facts about the booking, shown where testimonials used to sit.
+ *
+ * There are no published guest reviews yet. Inventing them would be a UWG
+ * violation (§ 5b Abs. 3), so this section states things a guest can check
+ * against the AGB instead.
  */
-const TESTIMONIALS = [
+const BOOKING_FACTS = [
  {
-  quote: 'Eine fantastische Tour! Die Rätsel waren anspruchsvoll und die historischen Details super interessant. Absolut empfehlenswert!',
-  name: 'Familie Schneider',
-  city: 'Hamburg',
+  title: 'Kostenlose Stornierung',
+  text: 'Innerhalb von 24 Stunden nach der Buchung storniert ihr kostenlos und bekommt den vollen Betrag zurück.',
  },
  {
-  quote: 'Warnemünde mal ganz anders erleben. Perfekt für einen Tagesausflug, wir kommen definitiv wieder!',
-  name: 'Thomas & Lisa',
-  city: 'Berlin',
+  title: 'Code 12 Monate gültig',
+  text: 'Danach verfällt nichts: Euer Buchungscode bleibt ein Jahr gültig und ist auf andere Personen übertragbar.',
  },
  {
-  quote: 'Die Kinder waren begeistert! Endlich eine Aktivität, die der ganzen Familie Spaß macht. Top organisiert.',
-  name: 'Martina K.',
-  city: 'Rostock',
+  title: 'Gruppenrabatt',
+  text: 'Ab 6 Personen 10 %, ab 10 Personen 15 % — wird im Buchungsschritt automatisch abgezogen.',
  },
 ] as const;
 
@@ -249,15 +204,15 @@ export default function WarnemuendePage() {
 
     <div className="container-custom relative py-20 md:py-28">
      <div className="mx-auto max-w-3xl text-center">
-      {/* Back to locations */}
+      {/* Back to the start page */}
       <Link
-       href="/#standort"
+       href="/"
        className="inline-flex items-center gap-1.5 text-sm font-semibold text-white/55 transition-colors hover:text-white"
       >
        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M19 12H5M12 19l-7-7 7-7" />
        </svg>
-       Alle Standorte
+       Zur Startseite
       </Link>
 
       {/* Coordinate signature + eyebrow */}
@@ -329,7 +284,7 @@ export default function WarnemuendePage() {
      </p>
     </div>
 
-    <div className="mt-12 grid gap-8 md:grid-cols-2 lg:max-w-5xl">
+    <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
      {TOUR_VARIANTS.map((variant) => (
       <TourCard key={variant.id} variant={variant} />
      ))}
@@ -360,36 +315,29 @@ export default function WarnemuendePage() {
     </div>
    </section>
 
-   {/* Testimonials */}
+   {/* Booking conditions — verifiable, unlike testimonials we do not have yet */}
    <section className="border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
-     <div className="max-w-2xl">
-      <span className="eyebrow">Stimmen</span>
-      <h2 className="mt-4 font-display text-4xl text-white md:text-5xl">
-       Über 500 begeisterte Teilnehmer
-      </h2>
-     </div>
+     <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
+      Ohne Risiko buchen
+     </h2>
 
      <div className="mt-12 grid gap-6 md:grid-cols-3">
-      {TESTIMONIALS.map((testimonial) => (
-       <figure key={testimonial.name} className="card flex flex-col gap-4">
-        <div className="flex gap-0.5" aria-hidden="true">
-         {Array.from({ length: 5 }).map((_, i) => (
-          <svg key={i} className="h-4 w-4 text-neon-400" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-          </svg>
-         ))}
-        </div>
-        <blockquote className="text-base leading-relaxed text-white/85">
-         &ldquo;{testimonial.quote}&rdquo;
-        </blockquote>
-        <figcaption className="mt-auto border-t border-white/10 pt-4">
-         <div className="text-base font-bold text-white">{testimonial.name}</div>
-         <div className="font-mono text-xs text-white/45">{testimonial.city}</div>
-        </figcaption>
-       </figure>
+      {BOOKING_FACTS.map((fact) => (
+       <div key={fact.title} className="card">
+        <h3 className="text-xl font-bold text-white">{fact.title}</h3>
+        <p className="mt-3 text-base leading-relaxed text-white/65">{fact.text}</p>
+       </div>
       ))}
      </div>
+
+     <p className="mt-8 text-sm text-white/45">
+      Es gelten unsere{' '}
+      <Link href="/agb" className="text-neon-300 underline-offset-4 hover:underline">
+       AGB
+      </Link>
+      .
+     </p>
     </div>
    </section>
 

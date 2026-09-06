@@ -5,8 +5,8 @@ import { Logo } from './Logo';
  * Quick links for footer navigation
  */
 const QUICK_LINKS = [
- { label: 'Standorte', href: '/#standort' },
  { label: "So funktioniert's", href: '/#ablauf' },
+ { label: 'Preise', href: '/#preise' },
  { label: 'FAQ', href: '/#faq' },
 ] as const;
 
@@ -41,9 +41,9 @@ export function Footer() {
        </span>
       </div>
       <p className="text-base text-white/70 max-w-md font-semibold">
-       Erlebt eure Stadt als Escape-Abenteuer. Löst Rätsel an echten Orten,
-       entdeckt versteckte Ecken und erlebt GPS-Escape-Touren auf eine ganz
-       neue Art.
+       Rätseltouren an echten Orten. In Warnemünde führen euch zwölf
+       Stationen vom Leuchtturm über die Westmole bis zum Alten Strom —
+       das iPad bekommt ihr von uns.
       </p>
      </div>
 

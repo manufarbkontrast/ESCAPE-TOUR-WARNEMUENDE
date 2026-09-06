@@ -5,6 +5,12 @@ import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Minus, Plus } from 'lucide-react'
 import type { TourVariant } from '@escape-tour/shared'
+import {
+ TOUR_VARIANTS,
+ getTourVariant,
+ calculateGroupDiscount,
+ formatPrice,
+} from '@/lib/config/tours'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -28,43 +34,6 @@ interface FieldErrors {
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
-
-const TOUR_INFO = {
- family: {
-  name: 'Familien-Tour',
-  subtitle: 'Ab 8 Jahren',
-  priceCents: 2490,
-  duration: '2–3 Stunden',
-  distance: '3 km',
-  features: ['Kindgerechte Rätsel', 'Einfache Navigation', 'Spielerisches Lernen'],
- },
- adult: {
-  name: 'Erwachsenen-Tour',
-  subtitle: 'Ab 14 Jahren',
-  priceCents: 2990,
-  duration: '3–4 Stunden',
-  distance: '5 km',
-  features: ['Anspruchsvolle Rätsel', 'Historische Tiefe', 'Komplexe Logik'],
- },
- pro: {
-  name: 'Profi-Tour',
-  subtitle: 'Ab 16 Jahren',
-  priceCents: 3490,
-  duration: '4–5 Stunden',
-  distance: '5 km',
-  features: ['Keine Hinweise in Fragen', 'Caesar-Chiffren', 'Mehrstufige Berechnungen'],
- },
-} as const
-
-function calculateGroupDiscount(count: number): number {
- if (count >= 10) return 0.15
- if (count >= 6) return 0.10
- return 0
-}
-
-function formatPrice(cents: number): string {
- return (cents / 100).toFixed(2).replace('.', ',')
-}
 
 function getMinDate(): string {
  const tomorrow = new Date()
@@ -128,7 +97,7 @@ export default function BookingPage() {
  const [isSubmitting, setIsSubmitting] = useState(false)
  const [error, setError] = useState<string | null>(wasCancelled ? 'Zahlung abgebrochen. Versucht es erneut.' : null)
 
- const tourInfo = TOUR_INFO[form.tourVariant]
+ const tourInfo = getTourVariant(form.tourVariant) ?? TOUR_VARIANTS[0]
  const discount = calculateGroupDiscount(form.participantCount)
  const unitPrice = Math.round(tourInfo.priceCents * (1 - discount))
  const totalCents = unitPrice * form.participantCount
@@ -263,8 +232,8 @@ export default function BookingPage() {
        <h2 className="font-sans text-2xl font-bold text-white mb-5">Tour wählen</h2>
 
        <div className="grid gap-4 sm:grid-cols-2">
-        {(['family', 'adult', 'pro'] as const).map((variant) => {
-         const info = TOUR_INFO[variant]
+        {TOUR_VARIANTS.map((info) => {
+         const variant = info.id
          const isSelected = form.tourVariant === variant
 
          return (
@@ -285,7 +254,7 @@ export default function BookingPage() {
            <div className="flex items-start justify-between mb-4">
             <div>
              <h3 className="font-sans text-xl font-bold text-white">{info.name}</h3>
-             <p className="text-sm text-white/60 mt-0.5">{info.subtitle}</p>
+             <p className="text-sm text-white/60 mt-0.5">{info.ageLabel}</p>
             </div>
             <div
              className="h-6 w-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-1"

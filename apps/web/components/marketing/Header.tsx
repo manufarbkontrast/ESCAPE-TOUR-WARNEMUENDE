@@ -10,8 +10,8 @@ import { MobileMenu } from './MobileMenu';
  * Navigation link data
  */
 const NAV_LINKS = [
- { label: 'Standorte', href: '/#standort' },
  { label: "So funktioniert's", href: '/#ablauf' },
+ { label: 'Preise', href: '/#preise' },
  { label: 'FAQ', href: '/#faq' },
 ] as const;
 

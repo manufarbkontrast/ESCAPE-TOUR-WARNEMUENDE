@@ -122,11 +122,13 @@ export default function AGBPage() {
 
     <h3>Technische Voraussetzungen</h3>
     <p>
-     Für die Durchführung der Tour wird ein GPS-fähiges Smartphone mit
-     aktiver Internetverbindung und aktivierter Standortfreigabe im Browser
-     benötigt. Der Anbieter übernimmt keine Haftung für technische
-     Einschränkungen aufgrund des verwendeten Endgeräts oder der
-     Netzabdeckung.
+     Für die Durchführung der Tour stellt der Anbieter dem Kunden am
+     Treffpunkt ein vorbereitetes Tablet (iPad) mit aktiver
+     Internetverbindung leihweise zur Verfügung. Das Gerät ist nach Ende der
+     Tour am Treffpunkt zurückzugeben; für Beschädigung oder Verlust haftet
+     der Kunde nach den gesetzlichen Bestimmungen. Der Anbieter übernimmt
+     keine Haftung für technische Einschränkungen aufgrund der
+     Netzabdeckung vor Ort.
     </p>
 
     <h3>Mindestalter</h3>

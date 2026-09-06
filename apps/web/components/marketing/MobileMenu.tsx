@@ -9,8 +9,8 @@ import type { Easing } from 'framer-motion';
  * Navigation link data for mobile menu
  */
 const MOBILE_NAV_LINKS = [
- { label: 'Touren', href: '/#touren' },
  { label: "So funktioniert's", href: '/#ablauf' },
+ { label: 'Preise', href: '/#preise' },
  { label: 'FAQ', href: '/#faq' },
 ] as const;
 

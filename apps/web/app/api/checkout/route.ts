@@ -8,6 +8,7 @@ import { stripe } from '@/lib/stripe/server'
 import { successResponse, errorResponse, toNextResponse } from '@/lib/utils/api-response'
 import { createRateLimiter } from '@/lib/utils/rate-limit'
 import { getClientIp } from '@/lib/utils/client-ip'
+import { getTourVariant, calculateGroupDiscount } from '@/lib/config/tours'
 
 const checkoutRateLimiter = createRateLimiter({
   windowMs: 60_000,
@@ -20,31 +21,6 @@ interface CheckoutRequest {
   readonly contactEmail: string
   readonly teamName?: string
   readonly scheduledDate: string
-}
-
-// Tour configuration — must match database tours table
-const TOUR_CONFIG = {
-  family: {
-    name: 'Escape Tour Warnemünde – Familien-Tour',
-    priceCents: 2490,
-    description: 'Das Vermächtnis des Lotsenkapitäns (ab 8 Jahren)',
-  },
-  adult: {
-    name: 'Escape Tour Warnemünde – Erwachsenen-Tour',
-    priceCents: 2990,
-    description: 'Das Vermächtnis des Lotsenkapitäns (ab 14 Jahren)',
-  },
-  pro: {
-    name: 'Escape Tour Warnemünde – Profi-Tour',
-    priceCents: 3490,
-    description: 'Die letzte Spur des Lotsenkapitäns (ab 16 Jahren)',
-  },
-} as const
-
-function calculateGroupDiscount(count: number): number {
-  if (count >= 10) return 0.15
-  if (count >= 6) return 0.10
-  return 0
 }
 
 export async function POST(request: NextRequest) {
@@ -78,7 +54,7 @@ export async function POST(request: NextRequest) {
       return toNextResponse(errorResponse('Ungültige E-Mail-Adresse'), 400)
     }
 
-    const config = TOUR_CONFIG[body.tourVariant]
+    const config = getTourVariant(body.tourVariant)
     if (!config) {
       return toNextResponse(errorResponse('Ungültige Tour-Variante'), 400)
     }
@@ -102,8 +78,8 @@ export async function POST(request: NextRequest) {
             currency: 'eur',
             unit_amount: unitPrice,
             product_data: {
-              name: config.name,
-              description: config.description,
+              name: config.checkoutName,
+              description: config.checkoutDescription,
             },
           },
           quantity: body.participantCount,

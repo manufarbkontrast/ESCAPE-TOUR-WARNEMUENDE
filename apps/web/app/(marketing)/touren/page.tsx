@@ -150,7 +150,7 @@ const FEATURE_CARDS: ReadonlyArray<FeatureCard> = [
   ),
   title: 'Live GPS-Navigation',
   description:
-   'Euer Smartphone führt euch in Echtzeit von Station zu Station. Die interaktive Karte zeigt euch den Weg, sodass ihr euch voll auf die Rätsel konzentrieren könnt. Kein Verirren, kein Suchen nach dem nächsten Standort.',
+   'Das iPad führt euch in Echtzeit von Station zu Station. Die interaktive Karte zeigt euch den Weg, sodass ihr euch voll auf die Rätsel konzentrieren könnt. Kein Verirren, kein Suchen nach dem nächsten Standort.',
  },
  {
   icon: (

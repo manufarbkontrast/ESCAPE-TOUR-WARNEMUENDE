@@ -24,21 +24,17 @@ describe('Footer', () => {
  it('should render brand name', () => {
   render(<Footer />)
   expect(screen.getByText('Escape Tour')).toBeInTheDocument()
-  expect(screen.getByText('Warnemünde')).toBeInTheDocument()
  })
 
  it('should render brand description', () => {
   render(<Footer />)
-  expect(
-   screen.getByText(/Entdeckt Warnemünde auf eine ganz neue Art/),
-  ).toBeInTheDocument()
+  expect(screen.getByText(/Rätseltouren an echten Orten/)).toBeInTheDocument()
  })
 
  it('should render quick links', () => {
   render(<Footer />)
-  const tourenLinks = screen.getAllByText('Touren')
-  expect(tourenLinks.length).toBeGreaterThanOrEqual(1)
   expect(screen.getByText("So funktioniert's")).toBeInTheDocument()
+  expect(screen.getByText('Preise')).toBeInTheDocument()
   expect(screen.getByText('FAQ')).toBeInTheDocument()
  })
 
@@ -72,7 +68,7 @@ describe('Footer', () => {
   render(<Footer />)
   const currentYear = new Date().getFullYear()
   expect(
-   screen.getByText(`© ${currentYear} Escape Tour Warnemünde. Alle Rechte vorbehalten.`),
+   screen.getByText(`© ${currentYear} Escape Tour. Alle Rechte vorbehalten.`),
   ).toBeInTheDocument()
  })
 

@@ -52,7 +52,7 @@ describe('MobileMenu', () => {
 
  it('should render navigation when open', () => {
   render(<MobileMenu isOpen={true} onClose={mockOnClose} />)
-  expect(screen.getByText('Touren')).toBeInTheDocument()
+  expect(screen.getByText('Preise')).toBeInTheDocument()
   expect(screen.getByText("So funktioniert's")).toBeInTheDocument()
   expect(screen.getByText('FAQ')).toBeInTheDocument()
  })
@@ -83,7 +83,7 @@ describe('MobileMenu', () => {
  it('should call onClose when nav link clicked', async () => {
   const user = userEvent.setup()
   render(<MobileMenu isOpen={true} onClose={mockOnClose} />)
-  await user.click(screen.getByText('Touren'))
+  await user.click(screen.getByText('Preise'))
   expect(mockOnClose).toHaveBeenCalled()
  })
 
@@ -101,7 +101,7 @@ describe('MobileMenu', () => {
 
  it('should have correct nav link hrefs', () => {
   render(<MobileMenu isOpen={true} onClose={mockOnClose} />)
-  expect(screen.getByText('Touren')).toHaveAttribute('href', '/#touren')
+  expect(screen.getByText('Preise')).toHaveAttribute('href', '/#preise')
   expect(screen.getByText('FAQ')).toHaveAttribute('href', '/#faq')
  })
 })
