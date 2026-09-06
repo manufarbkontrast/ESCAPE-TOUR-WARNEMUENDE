@@ -8,6 +8,11 @@ import { LocateFixed, MapPin, AlertTriangle, Navigation } from 'lucide-react'
 import { useLocationStore } from '@/stores/locationStore'
 import { classifyMapError } from '@/lib/map/errors'
 import {
+ shouldRefetchRoute,
+ shouldRecenterCamera,
+ type RouteFetchState,
+} from '@/lib/map/route-refresh'
+import {
  haversineDistanceMeters,
  isWithinNavigationRange,
  MAX_NAVIGATION_DISTANCE_M,
@@ -55,6 +60,9 @@ const FLY_TO_DURATION_MS = 2_500
 const TERRAIN_EXAGGERATION = 1.5
 const DEM_MAX_ZOOM = 14
 const ROUTE_FETCH_DEBOUNCE_MS = 3_000
+/** How often the route is re-evaluated while walking. A check is cheap; only
+ *  a check that decides the guest has moved far enough costs a request. */
+const ROUTE_CHECK_INTERVAL_MS = 5_000
 
 const MARKER_COLORS: Record<StationStatus, string> = {
  completed: '#22c55e',
@@ -801,8 +809,26 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   }
  }, [isMapLoaded, centerOnCurrentStation, showRoute])
 
- // Walking route: fetch + draw when showRoute is active
- const lastRouteFetchRef = useRef<number>(0)
+ // Walking route: fetch + draw when showRoute is active.
+ //
+ // The position deliberately does NOT sit in this effect's dependencies. GPS
+ // reports about once a second, so depending on it rebuilt the effect every
+ // second and pushed a Directions request through every three — each one
+ // followed by a 2.5s camera flight that undid any manual pan. Instead the
+ // position is read from a ref on a slow interval, and a request only goes out
+ // once the guest has actually walked on (see lib/map/route-refresh.ts).
+ const userLocationRef = useRef(effectiveUserLocation)
+ userLocationRef.current = effectiveUserLocation
+
+ const lastRouteFetchRef = useRef<RouteFetchState | null>(null)
+ const lastCameraStationRef = useRef<string | null>(null)
+
+ // Depend on the id, not the object: `stations[i]` yields a new reference
+ // whenever the stations array is rebuilt, which would restart the effect for
+ // no reason.
+ const currentStationRef = useRef(currentStation)
+ currentStationRef.current = currentStation
+ const currentStationId = currentStation?.id ?? null
 
  useEffect(() => {
   if (!mapRef.current || !isMapLoaded) return
@@ -811,60 +837,68 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
   if (!showRoute) {
    setNavigationInfo(null)
    setRouteError(false)
+   lastRouteFetchRef.current = null
+   lastCameraStationRef.current = null
    return
   }
 
-  if (!currentStation) return
+  const station = currentStationRef.current
+  if (!station || !currentStationId) return
 
   const map = mapRef.current
-  const to = { lng: currentStation.location.lng, lat: currentStation.location.lat }
-
-  // Check if user is close enough to Warnemünde to show a walking route
-  const userIsNearby = effectiveUserLocation
-   ? isWithinNavigationRange({
-      lat: effectiveUserLocation.lat,
-      lng: effectiveUserLocation.lng,
-     })
-   : false
-
-  // If user is too far away or no location, just zoom to the station
-  if (!effectiveUserLocation || !userIsNearby) {
-   setNavigationInfo(null)
-   map.flyTo({
-    center: [to.lng, to.lat],
-    zoom: 17.5,
-    pitch: DEFAULT_PITCH,
-    bearing: DEFAULT_BEARING,
-    duration: FLY_TO_DURATION_MS,
-   })
-   return
-  }
-
+  const stationId = currentStationId
+  const to = { lng: station.location.lng, lat: station.location.lat }
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN
-  if (!token) return
-
-  const from = { lng: effectiveUserLocation.lng, lat: effectiveUserLocation.lat }
-
-  // Debounce with a trailing call: rapid position/station changes wait out
-  // the remaining window instead of being dropped entirely — otherwise a
-  // station switch within the window would never get a route.
-  const elapsed = Date.now() - lastRouteFetchRef.current
-  const debounceDelay = Math.max(0, ROUTE_FETCH_DEBOUNCE_MS - elapsed)
 
   let cancelled = false
-  const controller = new AbortController()
+  let controller: AbortController | null = null
 
-  const timeoutId = setTimeout(() => {
-   lastRouteFetchRef.current = Date.now()
+  const updateRoute = () => {
+   const from = userLocationRef.current
 
-   fetchWalkingRoute(from, to, token, controller.signal).then((result) => {
-    // Effect re-ran (station/position changed) or unmounted — discard
+   const userIsNearby = from
+    ? isWithinNavigationRange({ lat: from.lat, lng: from.lng })
+    : false
+
+   // Too far away (or no fix): show the destination instead of a route, but
+   // only move the camera when the destination actually changed.
+   if (!from || !userIsNearby) {
+    setNavigationInfo(null)
+    lastRouteFetchRef.current = null
+
+    if (shouldRecenterCamera(lastCameraStationRef.current, stationId)) {
+     lastCameraStationRef.current = stationId
+     map.flyTo({
+      center: [to.lng, to.lat],
+      zoom: 17.5,
+      pitch: DEFAULT_PITCH,
+      bearing: DEFAULT_BEARING,
+      duration: FLY_TO_DURATION_MS,
+     })
+    }
+    return
+   }
+
+   if (!token) return
+
+   const next: RouteFetchState = { stationId, from }
+   if (!shouldRefetchRoute(lastRouteFetchRef.current, next)) return
+
+   lastRouteFetchRef.current = next
+   const isNewDestination = shouldRecenterCamera(lastCameraStationRef.current, stationId)
+
+   controller?.abort()
+   controller = new AbortController()
+
+   void fetchWalkingRoute(from, to, token, controller.signal).then((result) => {
     if (cancelled || !mapRef.current) return
 
     if (!result.ok) {
      if (!result.aborted) {
       setNavigationInfo(null)
       setRouteError(true)
+      // Allow an immediate retry on the next tick.
+      lastRouteFetchRef.current = null
      }
      return
     }
@@ -876,7 +910,12 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
      totalDuration: result.route.totalDuration,
     })
 
-    // Fit map to show user + destination
+    // Frame the walk once per destination. Refreshing the route while the
+    // guest walks must not yank the camera back.
+    if (!isNewDestination) return
+
+    lastCameraStationRef.current = stationId
+
     const bounds = new mapboxgl.LngLatBounds()
     bounds.extend([from.lng, from.lat])
     bounds.extend([to.lng, to.lat])
@@ -889,14 +928,20 @@ export function MapView({ stations, currentStationIndex, onStationSelect, showRo
      duration: FLY_TO_DURATION_MS,
     })
    })
-  }, debounceDelay)
+  }
+
+  // Wait out one debounce window so a station switch does not race the GPS fix
+  // that follows it, then keep checking while the guest walks.
+  const initialTimeout = setTimeout(updateRoute, ROUTE_FETCH_DEBOUNCE_MS)
+  const interval = setInterval(updateRoute, ROUTE_CHECK_INTERVAL_MS)
 
   return () => {
    cancelled = true
-   controller.abort()
-   clearTimeout(timeoutId)
+   controller?.abort()
+   clearTimeout(initialTimeout)
+   clearInterval(interval)
   }
- }, [showRoute, effectiveUserLocation, currentStation, isMapLoaded])
+ }, [showRoute, currentStationId, isMapLoaded])
 
  // Error state — only reached for errors that leave no usable map.
  if (mapError) {
