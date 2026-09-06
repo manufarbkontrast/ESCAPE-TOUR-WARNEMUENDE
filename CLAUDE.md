@@ -100,10 +100,40 @@ const { data } = await supabase.from('bookings').select().eq('id', id).single()
 const booking = data as BookingRow | null
 ```
 
+## Admin-Bereich: Rollen
+
+`/dashboard` und `/buchungen` verlangen `app_metadata.role = 'admin'` — nicht bloß ein
+eingeloggtes Konto. Geprüft wird an drei Stellen, die denselben Wert lesen:
+
+- `lib/auth/roles.ts` (`isAdmin`) — von `middleware.ts` und `app/(admin)/layout.tsx` benutzt
+- RLS-Funktion `public.is_admin()` — liest `app_metadata.role` aus dem JWT
+
+Die Rolle steht bewusst in `app_metadata` und nicht in `user_metadata`: `user_metadata`
+schreibt der Client über `auth.updateUser()` selbst.
+
+Vergeben (braucht `SUPABASE_SERVICE_ROLE_KEY` in `apps/web/.env.local`):
+
+```bash
+cd apps/web
+node --env-file=.env.local --import tsx scripts/set-admin-role.ts chef@example.de
+node --env-file=.env.local --import tsx scripts/set-admin-role.ts chef@example.de --remove
+node --env-file=.env.local --import tsx scripts/set-admin-role.ts --list   # wer hat sie
+```
+
+Als `pnpm set-admin-role <email>` auch, aber `pnpm` liegt nicht überall auf dem PATH
+(dann `corepack pnpm`) — der `node`-Aufruf oben läuft ohne.
+
+Die Rolle steckt im JWT — betroffene Konten müssen sich danach einmal neu anmelden.
+
+Buchungen des Stripe-Webhooks haben `user_id = NULL` (Gäste loggen sich nie ein). Ohne die
+Admin-Policy aus `20260906200000_admin_role_and_dashboard_access.sql` sieht auch ein Admin
+davon keine einzige Zeile.
+
 ## Open Setup Tasks
 
 1. **Resend**: Create account, verify domain, set `RESEND_API_KEY`
 2. **Stripe Webhook**: Create endpoint → `/api/webhooks/stripe`, set `STRIPE_WEBHOOK_SECRET`
 3. **PostHog**: Create account, set `NEXT_PUBLIC_POSTHOG_KEY`
 4. **Domain + SSL**: DNS A-record → 188.245.121.230, then `certbot --nginx`
-5. **Supabase admin user**: Create via Supabase dashboard for /login access
+5. **Supabase admin user**: Create via Supabase dashboard, then grant the role:
+   `cd apps/web && pnpm set-admin-role <email>` (see „Admin-Bereich: Rollen")

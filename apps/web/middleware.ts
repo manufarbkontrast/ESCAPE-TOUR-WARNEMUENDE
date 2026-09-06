@@ -5,8 +5,9 @@
 
 import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
+import { isAdmin } from '@/lib/auth/roles';
 
-/** Routes that require an authenticated Supabase user */
+/** Routes that require a signed-in user with the admin role */
 const ADMIN_ROUTES = ['/dashboard', '/buchungen'];
 
 /**
@@ -17,13 +18,22 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
 
-  // Protect admin routes — redirect to /login if not authenticated
   const isAdminRoute = ADMIN_ROUTES.some((r) => pathname.startsWith(r));
 
-  if (isAdminRoute && !user) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    return NextResponse.redirect(loginUrl);
+  if (isAdminRoute) {
+    // Nicht eingeloggt — nach dem Login geht es an dieselbe Stelle weiter.
+    if (!user) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Eingeloggt, aber kein Admin. Ein Redirect auf /login liefe im Kreis,
+    // deshalb zurück auf die Startseite. Die Rolle steht in `app_metadata`
+    // und ist nur mit dem service_role-Key setzbar — siehe lib/auth/roles.ts.
+    if (!isAdmin(user)) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
   }
 
   return supabaseResponse;
