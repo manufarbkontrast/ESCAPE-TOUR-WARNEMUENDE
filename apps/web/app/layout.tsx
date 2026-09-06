@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Suspense } from 'react';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, JetBrains_Mono, Playfair_Display } from 'next/font/google';
 import { PostHogProvider } from '@/lib/analytics/provider';
 import { CookieConsent } from '@/components/CookieConsent';
 import './globals.css';
@@ -8,6 +8,12 @@ import './globals.css';
 const inter = Inter({
  subsets: ['latin'],
  variable: '--font-sans',
+ display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+ subsets: ['latin'],
+ variable: '--font-mono',
  display: 'swap',
 });
 
@@ -108,7 +114,7 @@ function Providers({ children }: { readonly children: React.ReactNode }) {
  */
 export default function RootLayout({ children }: RootLayoutProps) {
  return (
-  <html lang="de" className={`${inter.variable} ${playfairDisplay.variable}`}>
+  <html lang="de" className={`${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable}`}>
    <head>
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />

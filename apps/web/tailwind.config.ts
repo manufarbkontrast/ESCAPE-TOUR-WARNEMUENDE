@@ -45,9 +45,10 @@ const config: Config = {
         info: '#67e8f9',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        display: ['var(--font-playfair)', 'Georgia', 'serif'],
-        mono: ['var(--font-jetbrains)', 'monospace'],
+        // Variable names must match the next/font declarations in app/layout.tsx.
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
