@@ -2,24 +2,22 @@
 
 import { useState, useEffect } from 'react'
 import { useOnlineStatus } from '@/lib/hooks/useOnlineStatus'
-import { offlineSync } from '@/lib/offline/sync-manager'
 
+/**
+ * Offline banner.
+ *
+ * It used to claim "Daten werden lokal gespeichert" and count pending
+ * actions. Neither was true: `offlineSync.queueAction()` has no callers, so
+ * nothing is ever queued, and the endpoints the queue would sync to
+ * (/api/game/puzzle_attempt and friends) do not exist. The count therefore
+ * polled IndexedDB every two seconds only to read zero — battery spent on a
+ * promise the app could not keep.
+ *
+ * Until offline sync is actually built, the banner says what really happens.
+ */
 export function OfflineIndicator() {
  const { isOnline, wasOffline, resetWasOffline } = useOnlineStatus()
- const [pendingCount, setPendingCount] = useState(0)
  const [showReconnected, setShowReconnected] = useState(false)
-
- // Track pending actions
- useEffect(() => {
-  if (!isOnline) {
-   const interval = setInterval(async () => {
-    const count = await offlineSync.getPendingCount()
-    setPendingCount(count)
-   }, 2000)
-   return () => clearInterval(interval)
-  }
-  setPendingCount(0)
- }, [isOnline])
 
  // Show "back online" briefly after reconnect
  useEffect(() => {
@@ -47,15 +45,13 @@ export function OfflineIndicator() {
      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
       <path d="M20 6 9 17l-5-5" />
      </svg>
-     <span>Wieder online — Daten werden synchronisiert</span>
+     <span>Wieder online</span>
     </div>
    ) : (
     <div className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-dark-950"
      style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(8px)' }}>
      <OfflineIcon />
-     <span>
-      Offline{pendingCount > 0 ? ` — ${pendingCount} Aktion${pendingCount > 1 ? 'en' : ''} warten` : ' — Daten werden lokal gespeichert'}
-     </span>
+     <span>Offline — Antworten könnt ihr erst wieder mit Verbindung abschicken</span>
     </div>
    )}
   </div>
