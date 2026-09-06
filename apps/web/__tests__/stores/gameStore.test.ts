@@ -142,6 +142,77 @@ describe('gameStore', () => {
   // updateProgress
   // -----------------------------------------------------------------------
 
+  describe('activateSession', () => {
+    // The wake lock, the pause button and the server-side started_at all hang
+    // off status === 'active'. Sessions were created as 'pending' and nothing
+    // ever moved them on, so the iPad kept falling asleep mid-tour.
+    it('should move a pending session to active', () => {
+      const session = createMockSession({ status: 'pending', startedAt: null })
+      useGameStore.getState().setSession(session)
+
+      useGameStore.getState().activateSession()
+
+      expect(useGameStore.getState().session?.status).toBe('active')
+    })
+
+    it('should stamp startedAt when the session has none', () => {
+      useGameStore
+        .getState()
+        .setSession(createMockSession({ status: 'pending', startedAt: null }))
+
+      useGameStore.getState().activateSession()
+
+      const startedAt = useGameStore.getState().session?.startedAt
+      expect(startedAt).toBeTruthy()
+      expect(Date.now() - new Date(startedAt as string).getTime()).toBeLessThan(5000)
+    })
+
+    it('should keep an existing startedAt so the timer does not restart', () => {
+      const startedAt = '2026-07-01T10:00:00.000Z'
+      useGameStore.getState().setSession(createMockSession({ status: 'pending', startedAt }))
+
+      useGameStore.getState().activateSession()
+
+      expect(useGameStore.getState().session?.startedAt).toBe(startedAt)
+    })
+
+    it('should not resurrect a paused session', () => {
+      // Resuming is resumeSession's job — activating on every page load would
+      // silently undo a pause.
+      useGameStore.getState().setSession(createMockSession({ status: 'paused' }))
+
+      useGameStore.getState().activateSession()
+
+      expect(useGameStore.getState().session?.status).toBe('paused')
+    })
+
+    it('should not touch a completed session', () => {
+      useGameStore.getState().setSession(createMockSession({ status: 'completed' }))
+
+      useGameStore.getState().activateSession()
+
+      expect(useGameStore.getState().session?.status).toBe('completed')
+    })
+
+    it('should leave station progress untouched', () => {
+      // startSession() clears progress — that is why it cannot be reused here.
+      useGameStore.getState().setSession(createMockSession({ status: 'pending' }))
+      useGameStore.setState({
+        stationProgress: [{ stationId: 's1' } as unknown as StationProgress],
+      })
+
+      useGameStore.getState().activateSession()
+
+      expect(useGameStore.getState().stationProgress).toHaveLength(1)
+    })
+
+    it('should do nothing without a session', () => {
+      useGameStore.getState().clearSession()
+      expect(() => useGameStore.getState().activateSession()).not.toThrow()
+      expect(useGameStore.getState().session).toBeNull()
+    })
+  })
+
   describe('updateProgress', () => {
     it('should update session fields', () => {
       useGameStore.getState().startSession(createMockSession())

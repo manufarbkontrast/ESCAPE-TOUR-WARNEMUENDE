@@ -72,7 +72,7 @@ export default function GamePage() {
  const [showOnboarding, setShowOnboarding] = useState(false)
  const [showNavigationRoute, setShowNavigationRoute] = useState(false)
 
- const { session, setSession, updateProgress, completeSession } = useGameStore()
+ const { session, setSession, updateProgress, completeSession, activateSession } = useGameStore()
 
  // Fetch session data
  useEffect(() => {
@@ -115,6 +115,20 @@ export default function GamePage() {
     // If session is already completed, redirect to completion page
     if (fetchedSession.status === 'completed') {
      router.push(`/play/${sessionId}/complete`)
+     return
+    }
+
+    // Sessions are created as 'pending' and nothing moved them on, so the wake
+    // lock (which requires 'active') never engaged and the iPad fell asleep
+    // mid-tour. The pause button was inert for the same reason. Entering the
+    // play screen is the moment the tour actually starts.
+    if (fetchedSession.status === 'pending') {
+     activateSession()
+     void syncSessionProgress(sessionId, { status: 'active' }).then((result) => {
+      if (!result.ok) {
+       console.error('Failed to mark session active:', result.error)
+      }
+     })
     }
    } catch {
     setErrorMessage('Netzwerkfehler. Bitte prüft eure Verbindung.')
@@ -123,7 +137,7 @@ export default function GamePage() {
   }
 
   fetchSessionData()
- }, [sessionId, setSession, router])
+ }, [sessionId, setSession, router, activateSession])
 
  // Determine current station index from session
  const currentStationIndex = session?.currentStationIndex ?? 0

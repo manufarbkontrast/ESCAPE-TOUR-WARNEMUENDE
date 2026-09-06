@@ -14,6 +14,8 @@ interface GameState {
 
 interface GameActions {
   readonly startSession: (session: GameSession) => void
+  /** Moves a freshly loaded session from 'pending' to 'active'. */
+  readonly activateSession: () => void
   readonly updateProgress: (
     updates: Partial<
       Pick<
@@ -60,6 +62,28 @@ export const useGameStore = create<GameStore>()(
           },
           stationProgress: [],
           isInitialized: true,
+        })
+      },
+
+      activateSession: () => {
+        set((state) => {
+          // Only a freshly created session may be activated. Re-activating a
+          // paused one would silently undo the pause; resumeSession does that
+          // deliberately. Unlike startSession this keeps stationProgress.
+          if (!state.session || state.session.status !== 'pending') return state
+
+          const now = new Date().toISOString()
+
+          return {
+            session: {
+              ...state.session,
+              status: 'active' as SessionStatus,
+              // Keep an existing stamp so the timer does not restart on reload.
+              startedAt: state.session.startedAt ?? now,
+              lastActivityAt: now,
+              updatedAt: now,
+            },
+          }
         })
       },
 

@@ -14,6 +14,13 @@ export function useWakeLock(enabled: boolean): WakeLockResult {
 
   const acquire = useCallback(async () => {
     if (!isSupported) return
+
+    // A sentinel that is still holding the screen must not be replaced —
+    // overwriting the ref abandons the old lock without releasing it. This
+    // path runs on every visibilitychange, so over a long tour with app
+    // switches the abandoned locks would add up.
+    if (sentinelRef.current && !sentinelRef.current.released) return
+
     try {
       sentinelRef.current = await navigator.wakeLock.request('screen')
       sentinelRef.current.addEventListener('release', () => setIsActive(false))
