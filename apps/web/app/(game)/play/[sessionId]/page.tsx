@@ -11,6 +11,7 @@ import { StationView } from '@/components/game/StationView'
 import { Onboarding, hasSeenOnboarding } from '@/components/game/Onboarding'
 import { StoryIntro } from '@/components/game/StoryIntro'
 import { syncSessionProgress } from '@/lib/game/session-sync'
+import { mergeSession } from '@/lib/game/session-merge'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -107,13 +108,20 @@ export default function GamePage() {
 
     const { session: fetchedSession, stations: fetchedStations, puzzles: fetchedPuzzles } = result.data
 
-    setSession(fetchedSession)
+    // Never overwrite the persisted progress outright. Demo and staff
+    // sessions always come back with currentStationIndex 0, so a reload —
+    // iOS discarding the tab, a supervisor refreshing — used to throw a team
+    // at station 8 back to the start.
+    const localSession = useGameStore.getState().session
+    const mergedSession = mergeSession(localSession, fetchedSession)
+
+    setSession(mergedSession)
     setStations(fetchedStations)
     setPuzzles(fetchedPuzzles)
     setLoadingState('ready')
 
     // If session is already completed, redirect to completion page
-    if (fetchedSession.status === 'completed') {
+    if (mergedSession.status === 'completed') {
      router.push(`/play/${sessionId}/complete`)
      return
     }
@@ -122,7 +130,7 @@ export default function GamePage() {
     // lock (which requires 'active') never engaged and the iPad fell asleep
     // mid-tour. The pause button was inert for the same reason. Entering the
     // play screen is the moment the tour actually starts.
-    if (fetchedSession.status === 'pending') {
+    if (mergedSession.status === 'pending') {
      activateSession()
      void syncSessionProgress(sessionId, { status: 'active' }).then((result) => {
       if (!result.ok) {
