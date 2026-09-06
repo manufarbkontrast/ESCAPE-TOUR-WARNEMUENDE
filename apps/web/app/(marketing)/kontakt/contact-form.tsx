@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { CheckCircle2, AlertCircle, Send } from 'lucide-react'
+import { getEnquiryPrefill, getOccasion } from '@/lib/config/occasions'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -37,7 +39,17 @@ const SUBJECT_OPTIONS: ReadonlyArray<{ readonly value: string; readonly label: s
 // ---------------------------------------------------------------------------
 
 export function ContactForm() {
- const [form, setForm] = useState<ContactFormState>(INITIAL_FORM_STATE)
+ // The occasion pages link here as /kontakt?anlass=firmenevent. Pre-selecting
+ // the group subject and asking for headcount and date up front saves a
+ // round trip on every group enquiry.
+ const searchParams = useSearchParams()
+ const occasionSlug = searchParams.get('anlass')
+ const occasion = getOccasion(occasionSlug ?? '')
+ const prefill = getEnquiryPrefill(occasionSlug)
+
+ const [form, setForm] = useState<ContactFormState>(
+  prefill ? { ...INITIAL_FORM_STATE, ...prefill } : INITIAL_FORM_STATE,
+ )
  const [status, setStatus] = useState<FormStatus>('idle')
  const [errorMessage, setErrorMessage] = useState('')
 
@@ -122,6 +134,17 @@ export function ContactForm() {
 
  return (
   <form onSubmit={handleSubmit} className="card space-y-5 p-6 sm:p-8">
+   {/* The success state returns earlier, so no status check is needed here. */}
+   {occasion && (
+    <div className="rounded-xl border border-neon-400/25 bg-neon-500/[0.05] px-4 py-3">
+     <p className="text-sm text-white/80">
+      Anfrage für <strong className="font-semibold text-white">{occasion.navLabel}</strong>.
+      Sagt uns Personenzahl und Wunschtermin — dann melden wir uns mit einem
+      konkreten Vorschlag zurück.
+     </p>
+    </div>
+   )}
+
    {status === 'error' && errorMessage && (
     <div
      className="rounded-xl p-4 flex items-center gap-3"

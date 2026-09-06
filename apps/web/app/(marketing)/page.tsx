@@ -6,6 +6,7 @@ import { FaqAccordion } from '@/components/marketing/FaqAccordion';
 import { TOUR_VARIANTS, formatPrice, LOWEST_PRICE_CENTS } from '@/lib/config/tours';
 import { TOUR_LOCATIONS } from '@/lib/config/locations';
 import { FAQ_ITEMS } from '@/lib/config/faq';
+import { OCCASIONS } from '@/lib/config/occasions';
 
 export const metadata: Metadata = {
  title: 'Escape Tour Warnemünde – GPS-Rätseltour am Leuchtturm',
@@ -88,25 +89,7 @@ const ROUTE_PREVIEW = [
  { image: '/images/stations/11_fischmarkt.webp', name: 'Fischmarkt', n: '11' },
 ] as const;
 
-/** Group types the tour is built for — each with the concrete reason. */
-const AUDIENCES = [
- {
-  title: 'Familien',
-  text: 'Die Familien-Tour hat kindgerechte Rätsel ab 8 Jahren und einen kürzeren Weg von 3 km.',
- },
- {
-  title: 'Kreuzfahrt-Gäste',
-  text: 'Der Bahnhof liegt am Rundweg, das Terminal ist zu Fuß erreichbar. Die Familien-Tour passt in ein 3-Stunden-Zeitfenster an Land.',
- },
- {
-  title: 'Firmen & Teams',
-  text: 'Ab 6 Personen 10 % Rabatt, ab 10 Personen 15 %. Mehrere Teams können parallel starten.',
- },
- {
-  title: 'Freundesgruppen',
-  text: 'Die Profi-Tour verzichtet auf Hinweise in den Fragen und rechnet mit Chiffren und mehrstufigen Aufgaben.',
- },
-] as const;
+
 
 /** Other cities, listed honestly as not-yet-bookable. */
 const UPCOMING_LOCATIONS = TOUR_LOCATIONS.filter((location) => !location.available);
@@ -387,11 +370,21 @@ export default function HomePage() {
      </h2>
 
      <div className="mt-12 grid gap-6 sm:grid-cols-2">
-      {AUDIENCES.map((audience) => (
-       <div key={audience.title} className="card">
-        <h3 className="text-xl font-bold text-white">{audience.title}</h3>
-        <p className="mt-3 text-base leading-relaxed text-white/65">{audience.text}</p>
-       </div>
+      {OCCASIONS.map((occasion) => (
+       <Link
+        key={occasion.slug}
+        href={`/fuer/${occasion.slug}`}
+        className="card-hover block"
+       >
+        <h3 className="text-xl font-bold text-white">{occasion.navLabel}</h3>
+        <p className="mt-3 text-base leading-relaxed text-white/65">{occasion.intro}</p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-neon-300">
+         Mehr dazu
+         <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+         </svg>
+        </span>
+       </Link>
       ))}
      </div>
     </div>
