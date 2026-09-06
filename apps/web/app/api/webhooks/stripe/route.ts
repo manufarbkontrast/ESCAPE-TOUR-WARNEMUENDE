@@ -8,7 +8,7 @@ import type { NextRequest } from 'next/server'
 import Stripe from 'stripe'
 import type { Database } from '@escape-tour/database/src/types/supabase'
 import { stripe } from '@/lib/stripe/server'
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { generateBookingCode } from '@/lib/booking/generate-code'
 import { resend, EMAIL_FROM } from '@/lib/email/client'
 import { buildBookingConfirmationEmail } from '@/lib/email/templates/booking-confirmation'
@@ -47,9 +47,15 @@ export async function POST(request: NextRequest) {
       try {
         await handleCheckoutCompleted(session)
       } catch (error) {
-        console.error('Error handling checkout.session.completed:', error)
-        // Return 200 to acknowledge receipt — Stripe will retry on 5xx
-        return new Response('Error processing webhook, but acknowledged', { status: 200 })
+        // 5xx makes Stripe redeliver for up to three days. Acknowledging with
+        // 200 here meant a paid guest could end up with no booking at all and
+        // no second attempt. handleCheckoutCompleted is idempotent, so a
+        // redelivery cannot duplicate the booking.
+        console.error('Error handling checkout.session.completed:', {
+          eventId: event.id,
+          error,
+        })
+        return new Response('Processing failed', { status: 500 })
       }
       break
     }
@@ -68,7 +74,36 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     throw new Error('No metadata on checkout session')
   }
 
-  const supabase = await createClient()
+  // checkout.session.completed also fires for delayed payment methods (SEPA,
+  // Klarna, Sofort) before the money has arrived. Booking on 'unpaid' would
+  // hand out a free tour.
+  if (session.payment_status !== 'paid') {
+    console.log('Checkout session not paid yet, skipping', {
+      sessionId: session.id,
+      paymentStatus: session.payment_status,
+    })
+    return
+  }
+
+  const supabase = createAdminClient()
+  const paymentIntentId = session.payment_intent as string
+
+  // Stripe delivers at least once. Without this check a redelivery created a
+  // second booking with a second code for the same payment.
+  if (paymentIntentId) {
+    const { data: alreadyBooked } = await supabase
+      .from('bookings')
+      .select('id')
+      .eq('payment_intent_id', paymentIntentId)
+      .maybeSingle()
+
+    if (alreadyBooked) {
+      console.log('Checkout session already processed, skipping', {
+        eventPaymentIntent: paymentIntentId,
+      })
+      return
+    }
+  }
 
   const tourVariant = metadata.tourVariant as 'family' | 'adult' | 'pro'
   const participantCount = parseInt(metadata.participantCount, 10)
@@ -131,7 +166,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     team_name: teamName,
     amount_cents: totalCents,
     scheduled_date: scheduledDate,
-    payment_intent_id: session.payment_intent as string,
+    payment_intent_id: paymentIntentId,
     paid_at: new Date().toISOString(),
     valid_from: validFrom.toISOString(),
     valid_until: validUntil.toISOString(),
@@ -146,7 +181,13 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     throw new Error(`Failed to create booking: ${insertError.message}`)
   }
 
-  console.log(`Booking created: ${bookingCode} for ${contactEmail} (${tourVariant})`)
+  // The booking code is the only credential needed to start a paid tour, so
+  // it must not end up in long-lived PM2 logs. Same for the plain address.
+  console.log('Booking created', {
+    tourVariant,
+    participantCount,
+    paymentIntentId,
+  })
 
   // Send confirmation email (non-blocking — don't fail the webhook if email fails)
   try {
@@ -168,7 +209,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
       text,
     })
 
-    console.log(`Confirmation email sent to ${contactEmail}`)
+    console.log('Confirmation email sent', { paymentIntentId })
   } catch (emailError) {
     console.error('Failed to send confirmation email:', emailError)
   }

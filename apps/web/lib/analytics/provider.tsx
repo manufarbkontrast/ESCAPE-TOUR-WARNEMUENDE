@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { initPostHog, posthog } from './posthog'
+import { buildPageviewUrl } from './pageview-url'
 
 /**
  * PostHog analytics provider
@@ -19,9 +20,8 @@ export function PostHogProvider({ children }: { readonly children: React.ReactNo
   useEffect(() => {
     if (!pathname) return
 
-    const url = searchParams.toString()
-      ? `${pathname}?${searchParams.toString()}`
-      : pathname
+    // Strips session_id and friends — see pageview-url.ts.
+    const url = buildPageviewUrl(pathname, searchParams)
 
     posthog.capture('$pageview', { $current_url: url })
   }, [pathname, searchParams])
