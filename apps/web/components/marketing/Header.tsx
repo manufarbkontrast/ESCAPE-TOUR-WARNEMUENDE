@@ -13,6 +13,7 @@ import { SITE, telHref } from '@/lib/config/site';
 const NAV_LINKS = [
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'Preise', href: '/#preise' },
+ { label: 'Gutschein', href: '/gutschein' },
  { label: 'FAQ', href: '/faq' },
 ] as const;
 

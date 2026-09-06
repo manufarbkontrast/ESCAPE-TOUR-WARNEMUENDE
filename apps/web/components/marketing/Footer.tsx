@@ -8,6 +8,7 @@ import { SITE, telHref, mailHref } from '@/lib/config/site';
 const QUICK_LINKS = [
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'Preise', href: '/#preise' },
+ { label: 'Gutschein', href: '/gutschein' },
  { label: 'Häufige Fragen', href: '/faq' },
  { label: 'Kontakt', href: '/kontakt' },
 ] as const;

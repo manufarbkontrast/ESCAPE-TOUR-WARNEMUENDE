@@ -11,6 +11,7 @@ import type { Easing } from 'framer-motion';
 const MOBILE_NAV_LINKS = [
  { label: "So funktioniert's", href: '/#ablauf' },
  { label: 'Preise', href: '/#preise' },
+ { label: 'Gutschein', href: '/gutschein' },
  { label: 'FAQ', href: '/faq' },
 ] as const;
 

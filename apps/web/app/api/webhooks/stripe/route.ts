@@ -10,6 +10,8 @@ import type { Database } from '@escape-tour/database/src/types/supabase'
 import { stripe } from '@/lib/stripe/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { generateBookingCode } from '@/lib/booking/generate-code'
+import { generateVoucherCode, voucherValidUntil } from '@/lib/vouchers/voucher'
+import { buildVoucherEmail } from '@/lib/email/templates/voucher'
 import { resend, EMAIL_FROM } from '@/lib/email/client'
 import { buildBookingConfirmationEmail } from '@/lib/email/templates/booking-confirmation'
 
@@ -45,7 +47,12 @@ export async function POST(request: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session
 
       try {
-        await handleCheckoutCompleted(session)
+        // A voucher has no date and no booking — different row, different mail.
+        if (session.metadata?.kind === 'voucher') {
+          await handleVoucherCompleted(session)
+        } else {
+          await handleCheckoutCompleted(session)
+        }
       } catch (error) {
         // 5xx makes Stripe redeliver for up to three days. Acknowledging with
         // 200 here meant a paid guest could end up with no booking at all and
@@ -212,5 +219,104 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
     console.log('Confirmation email sent', { paymentIntentId })
   } catch (emailError) {
     console.error('Failed to send confirmation email:', emailError)
+  }
+}
+
+/**
+ * Creates the voucher after Stripe confirms the payment.
+ *
+ * Mirrors handleCheckoutCompleted: nothing is created before the money has
+ * arrived, and a redelivered event must not produce a second voucher.
+ */
+async function handleVoucherCompleted(session: Stripe.Checkout.Session): Promise<void> {
+  const metadata = session.metadata
+  if (!metadata) {
+    throw new Error('No metadata on voucher checkout session')
+  }
+
+  if (session.payment_status !== 'paid') {
+    console.log('Voucher session not paid yet, skipping', {
+      sessionId: session.id,
+      paymentStatus: session.payment_status,
+    })
+    return
+  }
+
+  const supabase = createAdminClient()
+  const paymentIntentId = session.payment_intent as string
+
+  if (paymentIntentId) {
+    const { data: existing } = await supabase
+      .from('vouchers')
+      .select('id')
+      .eq('payment_intent_id', paymentIntentId)
+      .maybeSingle()
+
+    if (existing) {
+      console.log('Voucher already issued for this payment, skipping', {
+        eventPaymentIntent: paymentIntentId,
+      })
+      return
+    }
+  }
+
+  const tourVariant = metadata.tourVariant
+  const participantCount = parseInt(metadata.participantCount, 10)
+  const purchaserEmail = metadata.purchaserEmail
+  const recipientName = metadata.recipientName || null
+  const giftMessage = metadata.giftMessage || null
+
+  if (!Number.isInteger(participantCount) || participantCount < 1) {
+    throw new Error(`Invalid participantCount on voucher session: ${metadata.participantCount}`)
+  }
+
+  const code = generateVoucherCode()
+
+  const insert = {
+    code,
+    tour_variant: tourVariant,
+    participant_count: participantCount,
+    // Source of truth is what Stripe actually charged, not our metadata.
+    amount_cents: session.amount_total ?? parseInt(metadata.totalCents, 10),
+    purchaser_email: purchaserEmail,
+    recipient_name: recipientName,
+    message: giftMessage,
+    payment_intent_id: paymentIntentId,
+    paid_at: new Date().toISOString(),
+    valid_until: voucherValidUntil(),
+  }
+
+  const { error: insertError } = await supabase.from('vouchers').insert(insert as never)
+
+  if (insertError) {
+    console.error('Voucher insert error:', insertError)
+    throw new Error(`Failed to create voucher: ${insertError.message}`)
+  }
+
+  console.log('Voucher issued', { tourVariant, participantCount, paymentIntentId })
+
+  // A failed email must not fail the webhook — the voucher exists, and a
+  // retry would be blocked by the idempotency check anyway.
+  try {
+    const { subject, html, text } = buildVoucherEmail({
+      code,
+      tourVariant,
+      participantCount,
+      recipientName,
+      giftMessage,
+      validUntil: insert.valid_until,
+    })
+
+    await resend.emails.send({
+      from: EMAIL_FROM,
+      to: purchaserEmail,
+      subject,
+      html,
+      text,
+    })
+
+    console.log('Voucher email sent', { paymentIntentId })
+  } catch (emailError) {
+    console.error('Failed to send voucher email:', emailError)
   }
 }

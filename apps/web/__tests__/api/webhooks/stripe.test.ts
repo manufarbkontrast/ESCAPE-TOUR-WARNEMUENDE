@@ -96,6 +96,31 @@ function checkoutEvent(overrides: Record<string, unknown> = {}) {
   }
 }
 
+function voucherEvent(overrides: Record<string, unknown> = {}) {
+  return {
+    id: 'evt_v1',
+    type: 'checkout.session.completed',
+    data: {
+      object: {
+        id: 'cs_test_v1',
+        payment_status: 'paid',
+        payment_intent: 'pi_test_v1',
+        amount_total: 4980,
+        metadata: {
+          kind: 'voucher',
+          tourVariant: 'family',
+          participantCount: '2',
+          purchaserEmail: 'kaeufer@example.de',
+          recipientName: 'Anna',
+          giftMessage: 'Alles Gute!',
+          totalCents: '4980',
+        },
+        ...overrides,
+      },
+    },
+  }
+}
+
 function webhookRequest(body = '{}') {
   return new Request('http://localhost/api/webhooks/stripe', {
     method: 'POST',
@@ -244,6 +269,93 @@ describe('POST /api/webhooks/stripe', () => {
 
     expect(response.status).toBe(200)
     expect(mockClient.from).not.toHaveBeenCalled()
+  })
+
+  it('should issue a voucher for a paid voucher checkout', async () => {
+    mockConstructEvent.mockReturnValue(voucherEvent())
+    const vouchersBuilder = createMockQueryBuilder({ data: null, error: null })
+    mockClient.from.mockImplementation((table: string) =>
+      table === 'vouchers' ? vouchersBuilder : createMockQueryBuilder({ data: null, error: null }),
+    )
+
+    const response = await POST(webhookRequest())
+
+    expect(response.status).toBe(200)
+    expect(vouchersBuilder.insert).toHaveBeenCalledTimes(1)
+    const row = vouchersBuilder.insert.mock.calls[0][0] as Record<string, unknown>
+    expect(row.tour_variant).toBe('family')
+    expect(row.participant_count).toBe(2)
+    expect(row.code).toMatch(/^GS-/)
+    // Stripe's own figure wins over our metadata.
+    expect(row.amount_cents).toBe(4980)
+    expect(mockSendEmail).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not create a booking for a voucher checkout', async () => {
+    // The two flows share the event type and differ only by metadata.kind.
+    mockConstructEvent.mockReturnValue(voucherEvent())
+    const bookingsBuilder = createMockQueryBuilder({ data: null, error: null })
+    mockClient.from.mockImplementation((table: string) =>
+      table === 'bookings' ? bookingsBuilder : createMockQueryBuilder({ data: null, error: null }),
+    )
+
+    await POST(webhookRequest())
+
+    expect(bookingsBuilder.insert).not.toHaveBeenCalled()
+  })
+
+  it('should not issue a second voucher when Stripe redelivers', async () => {
+    mockConstructEvent.mockReturnValue(voucherEvent())
+    const insertBuilder = createMockQueryBuilder({ data: null, error: null })
+    mockClient.from.mockImplementation((table: string) => {
+      if (table === 'vouchers') {
+        return createMockQueryBuilder({ data: { id: 'voucher-1' }, error: null })
+      }
+      return insertBuilder
+    })
+
+    const response = await POST(webhookRequest())
+
+    expect(response.status).toBe(200)
+    expect(insertBuilder.insert).not.toHaveBeenCalled()
+    expect(mockSendEmail).not.toHaveBeenCalled()
+  })
+
+  it('should not issue a voucher before the money arrived', async () => {
+    mockConstructEvent.mockReturnValue(voucherEvent({ payment_status: 'unpaid' }))
+    const vouchersBuilder = createMockQueryBuilder({ data: null, error: null })
+    mockClient.from.mockImplementation(() => vouchersBuilder)
+
+    const response = await POST(webhookRequest())
+
+    expect(response.status).toBe(200)
+    expect(vouchersBuilder.insert).not.toHaveBeenCalled()
+  })
+
+  it('should answer 500 when the voucher cannot be stored', async () => {
+    mockConstructEvent.mockReturnValue(voucherEvent())
+    mockClient.from.mockImplementation(() =>
+      createMockQueryBuilder({ data: null, error: { message: 'connection reset' } }),
+    )
+
+    const response = await POST(webhookRequest())
+
+    expect(response.status).toBe(500)
+  })
+
+  it('should not log the voucher code', async () => {
+    // The code is a payment instrument.
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+    mockConstructEvent.mockReturnValue(voucherEvent())
+    const vouchersBuilder = createMockQueryBuilder({ data: null, error: null })
+    mockClient.from.mockImplementation(() => vouchersBuilder)
+
+    await POST(webhookRequest())
+
+    const issued = (vouchersBuilder.insert.mock.calls[0]?.[0] as Record<string, unknown>)?.code
+    const logged = logSpy.mock.calls.flat().map((e) => JSON.stringify(e)).join(' ')
+    expect(logged).not.toContain(issued as string)
+    logSpy.mockRestore()
   })
 
   it('should not log the booking code or the plain email address', async () => {
