@@ -106,10 +106,10 @@ export function Header() {
        >
         {SITE.phone.display}
        </a>
-       <Link
-        href="/buchen"
-        className={cn('btn btn-primary', 'text-sm px-4 py-2')}
-       >
+       {/* Umriss statt gefüllt: der gefüllte weisse Button gehört dem
+           Haupt-Aufruf im Hero. `btn-sm` bringt die Masse mit, die hier
+           vorher als Einzelwerte danebenstanden. */}
+       <Link href="/buchen" className="btn btn-outline btn-sm">
         Tour buchen
        </Link>
       </nav>

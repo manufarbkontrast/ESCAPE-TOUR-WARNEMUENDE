@@ -108,6 +108,22 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   }
 
+  /* Umriss-Variante für Flächen, auf denen ein gefüllter Button zu schwer
+     wirkt — vor allem die Kopfzeile, die über dem Hero-Foto liegt. Dort sass
+     bisher derselbe weisse Block wie im Hero selbst: zwei gleich starke
+     Aufrufe nebeneinander, also keiner. Der gefüllte weisse Button bleibt
+     dem Haupt-Aufruf im Inhalt vorbehalten.
+
+     Bewusst weiss-basiert statt `dark-600` wie `btn-secondary`: der Rand muss
+     sowohl über dem Foto als auch über der abgedunkelten Leiste tragen. */
+  .btn-outline {
+    @apply border border-white/35 bg-transparent text-white focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
+  }
+
+  .btn-outline:hover {
+    @apply border-white/60 bg-white/10;
+  }
+
   .btn-ghost {
     @apply bg-transparent text-dark-100 hover:text-white hover:bg-white/5 rounded-lg focus-visible:ring-neon-500/60 focus-visible:ring-offset-dark-950;
   }
