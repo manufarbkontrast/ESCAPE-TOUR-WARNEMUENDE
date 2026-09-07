@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Header } from '@/components/marketing/Header'
 
@@ -93,5 +93,67 @@ describe('Header', () => {
   render(<Header />)
   const header = screen.getByRole('banner')
   expect(header.className).toContain('sticky')
+ })
+})
+
+describe('Header — Hintergrund beim Scrollen', () => {
+ /**
+  * Ganz oben soll die Kopfzeile durchsichtig sein, damit das Hero-Foto bis
+  * an den oberen Rand läuft. Sobald Inhalt darunter durchscrollt, braucht sie
+  * einen Hintergrund — sonst wird der Text über dem Inhalt unlesbar.
+  */
+ function banner() {
+  return document.querySelector('header') as HTMLElement
+ }
+
+ function scrollTo(y: number) {
+  Object.defineProperty(window, 'scrollY', { value: y, writable: true, configurable: true })
+  window.dispatchEvent(new Event('scroll'))
+ }
+
+ it('ist ganz oben ohne Hintergrund und ohne Rahmen', () => {
+  scrollTo(0)
+  render(<Header />)
+
+  expect(banner().className).toContain('bg-transparent')
+  expect(banner().className).not.toContain('bg-dark-950/95')
+ })
+
+ it('bekommt Hintergrund und Rahmen, sobald gescrollt wird', async () => {
+  scrollTo(0)
+  render(<Header />)
+
+  await act(async () => {
+   scrollTo(200)
+  })
+
+  expect(banner().className).toContain('bg-dark-950/95')
+  expect(banner().className).toContain('border-white/10')
+ })
+
+
+ it('hat schon beim Laden Hintergrund, wenn die Seite bereits gescrollt ist', async () => {
+  // Ankersprung (/#ablauf) oder wiederhergestellte Scrollposition: es folgt
+  // kein Scroll-Ereignis mehr, aus dem die Leiste ihren Zustand ableiten
+  // könnte — sie stünde sonst durchsichtig über dem Inhalt.
+  scrollTo(1300)
+  render(<Header />)
+
+  await act(async () => {
+   await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
+  })
+
+  expect(banner().className).toContain('bg-dark-950/95')
+ })
+
+ it('nimmt den Hintergrund zurück, wenn wieder ganz oben', async () => {
+  scrollTo(300)
+  render(<Header />)
+
+  await act(async () => {
+   scrollTo(0)
+  })
+
+  expect(banner().className).toContain('bg-transparent')
  })
 })

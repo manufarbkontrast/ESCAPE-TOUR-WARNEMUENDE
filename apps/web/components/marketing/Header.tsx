@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { Logo } from './Logo';
@@ -17,12 +17,16 @@ const NAV_LINKS = [
  { label: 'FAQ', href: '/faq' },
 ] as const;
 
+/** Wie weit gescrollt sein muss, bevor die Leiste einen Hintergrund bekommt. */
+const SCROLLED_AFTER_PX = 24;
+
 /**
  * Header component for marketing pages
  * Contains logo, desktop navigation, and mobile menu toggle
  */
 export function Header() {
  const [isMenuOpen, setIsMenuOpen] = useState(false);
+ const [isScrolled, setIsScrolled] = useState(false);
 
  const handleOpenMenu = () => {
   setIsMenuOpen(true);
@@ -32,9 +36,36 @@ export function Header() {
   setIsMenuOpen(false);
  };
 
+ /**
+  * At the very top the bar stays out of the way so the hero photo runs to
+  * the edge of the screen; a solid bar there cut the picture off. As soon as
+  * content scrolls underneath it, the bar needs a background or the links
+  * become unreadable over whatever passes below.
+  */
+ useEffect(() => {
+  const onScroll = () => setIsScrolled(window.scrollY > SCROLLED_AFTER_PX);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // A jump to /#ablauf can happen between mount and the listener being live;
+  // the scroll event that would have told us is then already gone, and the
+  // bar stays transparent over content. One extra look on the next frame.
+  const frame = requestAnimationFrame(onScroll);
+  return () => {
+   cancelAnimationFrame(frame);
+   window.removeEventListener('scroll', onScroll);
+  };
+ }, []);
+
  return (
   <>
-   <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-dark-950/95 backdrop-blur supports-[backdrop-filter]:bg-dark-950/75">
+   <header
+    className={cn(
+     'sticky top-0 z-50 w-full border-b transition-[background-color,border-color] duration-200 ease-[var(--ease-out)]',
+     isScrolled
+      ? 'border-white/10 bg-dark-950/95 backdrop-blur supports-[backdrop-filter]:bg-dark-950/75'
+      : 'border-transparent bg-transparent'
+    )}
+   >
     <div className="container-custom">
      <div className="flex h-16 items-center justify-between">
       {/* Logo */}

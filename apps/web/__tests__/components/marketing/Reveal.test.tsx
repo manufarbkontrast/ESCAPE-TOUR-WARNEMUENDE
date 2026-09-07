@@ -66,6 +66,7 @@ beforeEach(() => {
 
 afterEach(() => {
  vi.unstubAllGlobals()
+ vi.restoreAllMocks()
 })
 
 describe('Reveal', () => {
@@ -155,6 +156,145 @@ describe('Reveal', () => {
   )
 
   expect(container.firstElementChild).not.toHaveClass('reveal-pending')
+ })
+
+
+ it('zeigt einen Block, der beim Mounten schon im Viewport steht', async () => {
+  // Ankersprung (/#ablauf) und wiederhergestellte Scrollposition landen auf
+  // einem Block, bevor der Observer seinen ersten Callback liefert. Ohne
+  // eigene Prüfung bleibt der Abschnitt dann dauerhaft leer.
+  vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+   top: 120,
+   bottom: 400,
+   left: 0,
+   right: 0,
+   width: 800,
+   height: 280,
+   x: 0,
+   y: 120,
+   toJSON: () => ({}),
+  } as DOMRect)
+
+  const { container } = render(
+   <Reveal>
+    <p>Inhalt</p>
+   </Reveal>
+  )
+
+  await act(async () => {
+   await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
+  })
+
+  expect(container.firstElementChild).not.toHaveClass('reveal-pending')
+ })
+
+ it('lässt einen Block unterhalb der Faltkante versteckt', async () => {
+  vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+   top: 5000,
+   bottom: 5280,
+   left: 0,
+   right: 0,
+   width: 800,
+   height: 280,
+   x: 0,
+   y: 5000,
+   toJSON: () => ({}),
+  } as DOMRect)
+
+  const { container } = render(
+   <Reveal>
+    <p>Inhalt</p>
+   </Reveal>
+  )
+
+  await act(async () => {
+   await new Promise((resolve) => requestAnimationFrame(() => resolve(null)))
+  })
+
+  expect(container.firstElementChild).toHaveClass('reveal-pending')
+ })
+
+
+ it('deckt den Block per Scroll auf, auch wenn der Observer nie meldet', async () => {
+  // Beim Mounten unterhalb der Faltkante, also wird versteckt. Danach scrollt
+  // der Blockins Bild — ohne dass der Observer je etwas sagt. Die
+  // Rechteck-Prüfung am Scroll-Ereignis muss ihn trotzdem aufdecken.
+  const rect = (top: number) =>
+   ({ top, bottom: top + 280, left: 0, right: 0, width: 800, height: 280, x: 0, y: top, toJSON: () => ({}) }) as DOMRect
+
+  const spy = vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue(rect(5000))
+
+  const { container } = render(
+   <Reveal>
+    <p>Inhalt</p>
+   </Reveal>
+  )
+  expect(container.firstElementChild).toHaveClass('reveal-pending')
+
+  spy.mockReturnValue(rect(200))
+  await act(async () => {
+   window.dispatchEvent(new Event('scroll'))
+  })
+
+  expect(container.firstElementChild).not.toHaveClass('reveal-pending')
+  // Der Observer wurde angelegt, hat aber nie gefeuert.
+  expect(observers).toHaveLength(1)
+ })
+
+ it('deckt einen hereingescrollten Block spätestens per Zeitgeber auf', async () => {
+  vi.useFakeTimers()
+  const rect = (top: number) =>
+   ({ top, bottom: top + 280, left: 0, right: 0, width: 800, height: 280, x: 0, y: top, toJSON: () => ({}) }) as DOMRect
+  const spy = vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue(rect(5000))
+
+  const { container } = render(
+   <Reveal>
+    <p>Inhalt</p>
+   </Reveal>
+  )
+
+  spy.mockReturnValue(rect(200))
+  await act(async () => {
+   vi.advanceTimersByTime(2100)
+  })
+
+  expect(container.firstElementChild).not.toHaveClass('reveal-pending')
+  vi.useRealTimers()
+ })
+
+ it('räumt Zuhörer und Zeitgeber beim Abbauen wieder ab', () => {
+  const remove = vi.spyOn(window, 'removeEventListener')
+
+  const { unmount } = render(
+   <Reveal>
+    <p>Inhalt</p>
+   </Reveal>
+  )
+  unmount()
+
+  const abgeraeumt = remove.mock.calls.map((c) => c[0])
+  expect(abgeraeumt).toContain('scroll')
+  expect(abgeraeumt).toContain('resize')
+ })
+
+
+ it('versteckt einen Block gar nicht erst, der beim Mounten schon im Bild steht', () => {
+  // Der Kern der Absicherung: kein Verstecken heisst kein Risiko, dass er
+  // versteckt bleibt. Betrifft Ankersprünge und wiederhergestellte
+  // Scrollpositionen.
+  vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+   top: 100, bottom: 380, left: 0, right: 0, width: 800, height: 280, x: 0, y: 100,
+   toJSON: () => ({}),
+  } as DOMRect)
+
+  const { container } = render(
+   <Reveal>
+    <p>Inhalt</p>
+   </Reveal>
+  )
+
+  expect(container.firstElementChild).not.toHaveClass('reveal-pending')
+  expect(observers).toHaveLength(0)
  })
 
  it('offsets the transition when a delay is given, for staggering siblings', () => {

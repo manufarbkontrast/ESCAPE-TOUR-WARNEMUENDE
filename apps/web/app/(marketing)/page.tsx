@@ -129,22 +129,20 @@ export default function HomePage() {
       fill
       priority
       sizes="100vw"
-      className="object-cover"
+      className="photo-drift object-cover"
      />
-     {/* Two scrims, because one direction cannot serve both layouts.
-         Wide: text sits left, photo stays readable on the right — so the
-         gradient runs sideways. Narrow: text spans the full width, so a
-         sideways gradient would black the photo out completely (it did).
-         There the gradient runs downwards and leaves the sky visible. */}
+     {/* One scrim, running sideways: the text sits left, so that is where the
+         darkening belongs, and the photo stays readable on the right.
+
+         A vertical scrim was tried for narrow windows and dropped again. This
+         hero carries a lot of low-contrast text — the coordinate line and the
+         second headline line are white/60 — and all of it needs a dark ground.
+         Lightening the top far enough to show the sky made them unreadable;
+         keeping them readable made the photo black anyway. The sideways
+         gradient is the better answer at every width: it darkens where the
+         words are instead of everywhere. */}
      <div
-      className="absolute inset-0 md:hidden"
-      style={{
-       background:
-        'linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.72) 42%, rgba(10,10,10,0.92) 100%)',
-      }}
-     />
-     <div
-      className="absolute inset-0 hidden md:block"
+      className="absolute inset-0"
       style={{
        background:
         'linear-gradient(100deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.88) 38%, rgba(10,10,10,0.55) 70%, rgba(10,10,10,0.4) 100%)',
@@ -156,8 +154,10 @@ export default function HomePage() {
      />
      {/* The lighthouse beam — the one intentional light source on the site,
          and the hero photo is the lighthouse itself. Already used on
-         /warnemuende; the home page had been the only page without it. */}
-     <div className="hero-beam" />
+         /warnemuende; the home page had been the only page without it.
+         `beam-live` gives it a light characteristic instead of leaving it a
+         painted-on glow. */}
+     <div className="hero-beam beam-live" />
     </div>
 
     <div className="container-custom relative py-20 md:py-28">
@@ -254,10 +254,11 @@ export default function HomePage() {
          border-top grid — repeating it here made the two read as one
          undifferentiated block. */}
      <div className="relative mt-14">
-      <div
-       className="rule-fade absolute inset-x-0 top-[0.4375rem] hidden lg:block"
-       aria-hidden="true"
-      />
+      {/* In its own Reveal so the line can draw itself once the block
+          arrives — the draw is keyed off Reveal dropping .reveal-pending. */}
+      <Reveal className="absolute inset-x-0 top-[0.4375rem] hidden lg:block">
+       <div className="rule-fade route-line" aria-hidden="true" />
+      </Reveal>
 
       <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
        {STEPS.map((step, index) => (
@@ -265,7 +266,7 @@ export default function HomePage() {
          <div className="flex items-center gap-3">
           {/* Opaque centre so the marker sits on the line, not under it. */}
           <span
-           className="h-3.5 w-3.5 flex-shrink-0 rounded-full border border-neon-400/60 bg-dark-950"
+           className="route-marker h-3.5 w-3.5 flex-shrink-0 rounded-full border border-neon-400/60 bg-dark-950"
            aria-hidden="true"
           />
           <span className="font-mono text-sm tabular-nums text-neon-400">{step.n}</span>
@@ -405,7 +406,7 @@ export default function HomePage() {
           alt={`Station ${station.n}: ${station.name} in Warnemünde`}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
+          className="photo-settle object-cover"
          />
          <div className="absolute inset-x-0 bottom-0 bg-dark-950/85 px-4 py-3">
           <figcaption className="flex items-baseline gap-2.5">

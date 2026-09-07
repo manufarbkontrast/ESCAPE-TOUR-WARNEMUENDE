@@ -338,9 +338,138 @@
       transform 0.36s var(--ease-out);
   }
 
+  /* The hidden state is an animation, not a static rule, and that is the whole
+     point: it ends visible on its own.
+
+     A plain `opacity: 0` here meant the content depended on JavaScript to ever
+     come back — and it did not always come back. Landing on /#ablauf, which
+     the site's own menu links to, left every step invisible. Whatever the
+     observer does or fails to do, this keyframe hands the block back after
+     2.4s. Normally JS drops the class long before that and the transition
+     above takes over. */
   .reveal-pending {
+    animation: reveal-failsafe 2.4s var(--ease-out) forwards;
+  }
+
+  @keyframes reveal-failsafe {
+    0%,
+    62% {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ---- Motion that belongs to this product ----
+     Not decoration for its own sake: a lighthouse light breathes, a route
+     gets drawn, a GPS fix pings. Each of these says something the page is
+     already about.
+
+     The four below fall into two kinds. The *ambient* ones run forever and
+     are therefore behind a no-preference query — the global reduced-motion
+     block only shortens animations, and a shortened infinite loop would
+     freeze on whatever keyframe happened to be last. The *triggered* ones
+     run once when Reveal un-hides their block, so the global block already
+     neutralises them correctly. */
+
+  /* Triggered: the route line draws itself from the first marker outwards. */
+  .route-line {
+    transform-origin: left center;
+  }
+
+  .reveal:not(.reveal-pending) .route-line {
+    animation: draw-line 0.85s var(--ease-out) 0.12s both;
+  }
+
+  @keyframes draw-line {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Triggered: one ring per marker, like a position fix landing. */
+  .route-marker {
+    position: relative;
+  }
+
+  .route-marker::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 9999px;
+    border: 1px solid rgba(34, 211, 238, 0.75);
     opacity: 0;
-    transform: translateY(0.5rem);
+    pointer-events: none;
+  }
+
+  .reveal:not(.reveal-pending) .route-marker::after {
+    animation: fix-ping 1.15s var(--ease-out) 0.3s 1;
+  }
+
+  @keyframes fix-ping {
+    from {
+      opacity: 0.85;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(2.8);
+    }
+  }
+
+  /* Triggered: station photos settle instead of snapping into place. */
+  .reveal:not(.reveal-pending) .photo-settle {
+    animation: photo-settle 1.4s var(--ease-out) both;
+  }
+
+  @keyframes photo-settle {
+    from {
+      transform: scale(1.07);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Ambient: the light characteristic. Slow and shallow on purpose — it
+       should register at the edge of vision, never pull the eye off the
+       headline. */
+    .beam-live {
+      animation: beam-breathe 7s ease-in-out infinite;
+    }
+
+    @keyframes beam-breathe {
+      0%,
+      100% {
+        opacity: 0.55;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Ambient: keeps the hero photo from reading as a flat backdrop. Half a
+       minute for 4% of scale — slow enough that you notice the place, not
+       the movement. */
+    .photo-drift {
+      animation: photo-drift 32s ease-in-out infinite alternate;
+    }
+
+    @keyframes photo-drift {
+      from {
+        transform: scale(1) translate3d(0, 0, 0);
+      }
+      to {
+        transform: scale(1.04) translate3d(0, -0.6%, 0);
+      }
+    }
   }
 }
 
