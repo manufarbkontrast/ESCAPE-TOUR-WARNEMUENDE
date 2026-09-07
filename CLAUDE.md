@@ -76,7 +76,10 @@ app/
 - **App path**: `/var/www/escape-tour/app`
 - **Process**: PM2 with `ecosystem.config.cjs` (liegt nur auf Server, nicht im Repo) — runs `npx next start -p 3000`
 - **Proxy**: Nginx on port 80 → localhost:3000
-- **SSL**: Not yet — needs domain DNS A-record, then `certbot --nginx`
+- **Domain**: `myescapetour.com` (+ `www`), DNS zeigt auf den Server
+- **SSL**: eingerichtet (Certbot, Port 443); Port 80 leitet auf https um.
+  Aufrufe der **nackten IP** liefern absichtlich 404 — das ist der
+  `default_server`-Block von Certbot, kein Defekt. Zum Prüfen immer die Domain nehmen.
 
 ### Deploy workflow
 
@@ -134,6 +137,11 @@ davon keine einzige Zeile.
 1. **Resend**: Create account, verify domain, set `RESEND_API_KEY`
 2. **Stripe Webhook**: Create endpoint → `/api/webhooks/stripe`, set `STRIPE_WEBHOOK_SECRET`
 3. **PostHog**: Create account, set `NEXT_PUBLIC_POSTHOG_KEY`
-4. **Domain + SSL**: DNS A-record → 188.245.121.230, then `certbot --nginx`
+4. ~~**Domain + SSL**~~ — erledigt, `myescapetour.com` läuft über https.
+   **Offen:** `NEXT_PUBLIC_APP_URL` steht auf dem Server noch auf
+   `http://188.245.121.230`. Daraus baut `app/api/checkout/route.ts` die
+   Stripe-Rücksprungadressen — die landen damit auf dem 404. Umstellen auf
+   `https://myescapetour.com`, dann **neu bauen** (`NEXT_PUBLIC_*` wird beim
+   Build eingebacken, ein Reload allein genügt nicht).
 5. **Supabase admin user**: Create via Supabase dashboard, then grant the role:
    `cd apps/web && pnpm set-admin-role <email>` (see „Admin-Bereich: Rollen")
