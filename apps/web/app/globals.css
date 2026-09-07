@@ -437,6 +437,59 @@
     }
   }
 
+  /* ---- An die Scrollposition gekoppelt ----
+     Reines CSS über `animation-timeline`. Kein Scroll-Listener, kein State,
+     nichts, das hängen bleiben kann: Browser ohne Unterstützung überspringen
+     den ganzen Block, und beide Elemente sind im Ruhezustand unsichtbar
+     beziehungsweise unverschoben. Deshalb steht der Ausgangszustand
+     ausserhalb des @supports und nicht darin. */
+
+  /* Fortschritt durch die Seite, als Linie unter der Kopfzeile. Bei einem
+     Produkt, das eine Route verkauft, ist das keine Zierde: die Seite läuft
+     vom Buchen bis zum Rückweg. */
+  .scroll-progress {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  /* Das Hero-Foto läuft langsamer als die Seite. */
+  .hero-parallax {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .scroll-progress {
+        animation: scroll-progress linear both;
+        animation-timeline: scroll(root block);
+      }
+
+      @keyframes scroll-progress {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      .hero-parallax {
+        animation: hero-parallax linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 100vh;
+      }
+
+      @keyframes hero-parallax {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(9%);
+        }
+      }
+    }
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     /* Ambient: the light characteristic. Slow and shallow on purpose — it
        should register at the edge of vision, never pull the eye off the

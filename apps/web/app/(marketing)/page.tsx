@@ -123,14 +123,20 @@ export default function HomePage() {
     {/* The photo carries the place; the scrims exist only so the text stays
         legible on top of it — they are not decoration. */}
     <div className="absolute inset-0" aria-hidden="true">
-     <Image
-      src="/images/stations/01_leuchtturm.webp"
-      alt=""
-      fill
-      priority
-      sizes="100vw"
-      className="photo-drift object-cover"
-     />
+     {/* Eigener Kasten, damit das Foto beim Scrollen nachlaufen kann, ohne
+         oben oder unten den Hintergrund freizugeben — daher 120 % Höhe und
+         der Versatz nach oben. Die Verläufe bleiben bewusst draussen: sie
+         sollen an der Kante kleben, nicht mitwandern. */}
+     <div className="hero-parallax absolute inset-x-0 -top-[10%] h-[120%]">
+      <Image
+       src="/images/stations/01_leuchtturm.webp"
+       alt=""
+       fill
+       priority
+       sizes="100vw"
+       className="photo-drift object-cover"
+      />
+     </div>
      {/* One scrim, running sideways: the text sits left, so that is where the
          darkening belongs, and the photo stays readable on the right.
 

@@ -66,6 +66,13 @@ export function Header() {
       : 'border-transparent bg-transparent'
     )}
    >
+    {/* Fortschritt durch die Seite. Ohne Scroll-Timeline im Browser bleibt
+        die Linie auf scaleX(0) und ist damit schlicht nicht da — kein
+        halbfertiger Balken. */}
+    <div
+     className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 bg-neon-400/70"
+     aria-hidden="true"
+    />
     <div className="container-custom">
      <div className="flex h-16 items-center justify-between">
       {/* Logo */}
