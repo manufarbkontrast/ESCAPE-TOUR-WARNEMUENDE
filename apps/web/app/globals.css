@@ -375,13 +375,29 @@
      run once when Reveal un-hides their block, so the global block already
      neutralises them correctly. */
 
-  /* Triggered: the route line draws itself from the first marker outwards. */
+  /* Die Route: gestrichelt statt durchgezogen, und die Striche wandern
+     dauerhaft nach rechts — der Weg wird gegangen, nicht nur gezeigt.
+     Ausgefranst an beiden Enden über eine Maske, damit sie nicht hart
+     abbricht. */
   .route-line {
+    height: 1px;
+    width: 100%;
     transform-origin: left center;
+    background-image: repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.26) 0 7px,
+      transparent 7px 15px
+    );
+    background-size: 15px 1px;
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
   }
 
+  /* Zeichnen beim Erscheinen; das Wandern läuft danach weiter. */
   .reveal:not(.reveal-pending) .route-line {
-    animation: draw-line 0.85s var(--ease-out) 0.12s both;
+    animation:
+      draw-line 0.85s var(--ease-out) 0.12s both,
+      route-travel 1.6s linear 0.9s infinite;
   }
 
   @keyframes draw-line {
@@ -390,6 +406,12 @@
     }
     to {
       transform: scaleX(1);
+    }
+  }
+
+  @keyframes route-travel {
+    to {
+      background-position-x: 15px;
     }
   }
 
@@ -423,17 +445,40 @@
     }
   }
 
-  /* Triggered: station photos settle instead of snapping into place. */
-  .reveal:not(.reveal-pending) .photo-settle {
-    animation: photo-settle 1.4s var(--ease-out) both;
+  /* Die Stationsfotos wandern, während sie durchs Bild laufen. Ruhezustand
+     ist der leicht vergrösserte Ausschnitt — ohne Scroll-Timeline steht das
+     Bild einfach still und formatfüllend da. */
+  .photo-parallax {
+    transform: scale(1.14);
   }
 
-  @keyframes photo-settle {
-    from {
-      transform: scale(1.07);
-    }
+  /* Ein Strich unter jeder Abschnittsüberschrift, der beim Erscheinen
+     ausfährt. Ruhezustand ist unsichtbar, deshalb steht scaleX(0) hier und
+     nicht in der Animation. */
+  .heading-rule {
+    position: relative;
+    padding-bottom: 0.95rem;
+  }
+
+  .heading-rule::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 4.5rem;
+    background: rgba(34, 211, 238, 0.6);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .reveal:not(.reveal-pending) .heading-rule::after {
+    animation: draw-heading-rule 0.55s var(--ease-out) 0.18s forwards;
+  }
+
+  @keyframes draw-heading-rule {
     to {
-      transform: scale(1);
+      transform: scaleX(1);
     }
   }
 
@@ -485,6 +530,26 @@
         }
         to {
           transform: translateY(9%);
+        }
+      }
+    }
+
+    /* Die Stationsfotos wandern in ihrem Rahmen, während sie durchs Bild
+       laufen. `view()` misst den Durchlauf des Elements selbst, nicht die
+       Seite — jedes Foto hat damit seine eigene Zeitachse. */
+    @supports (animation-timeline: view()) {
+      .photo-parallax {
+        animation: photo-parallax linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+      }
+
+      @keyframes photo-parallax {
+        from {
+          transform: translateY(-5.5%) scale(1.14);
+        }
+        to {
+          transform: translateY(5.5%) scale(1.14);
         }
       }
     }

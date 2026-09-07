@@ -250,7 +250,7 @@ export default function HomePage() {
    <section id="ablauf" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
      <Reveal>
-      <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
+      <h2 className="heading-rule max-w-2xl font-display text-4xl text-white md:text-5xl">
        Vom Buchen bis zum Rückweg
       </h2>
      </Reveal>
@@ -263,7 +263,7 @@ export default function HomePage() {
       {/* In its own Reveal so the line can draw itself once the block
           arrives — the draw is keyed off Reveal dropping .reveal-pending. */}
       <Reveal className="absolute inset-x-0 top-[0.4375rem] hidden lg:block">
-       <div className="rule-fade route-line" aria-hidden="true" />
+       <div className="route-line" aria-hidden="true" />
       </Reveal>
 
       <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
@@ -276,6 +276,10 @@ export default function HomePage() {
            aria-hidden="true"
           />
           <span className="font-mono text-sm tabular-nums text-neon-400">{step.n}</span>
+          {/* Unterhalb von `lg` gibt es die lange Verbindungslinie nicht —
+              jeder Schritt bekommt deshalb sein eigenes kurzes Stück, damit
+              die wandernden Striche auf jeder Breite zu sehen sind. */}
+          <span className="route-line ml-1 flex-1 lg:hidden" aria-hidden="true" />
          </div>
          <h3 className="mt-4 text-lg font-bold text-white">{step.title}</h3>
          <p className="mt-2 text-base leading-relaxed text-white/60">{step.text}</p>
@@ -290,7 +294,7 @@ export default function HomePage() {
    <section id="preise" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
      <Reveal className="max-w-2xl">
-      <h2 className="font-display text-4xl text-white md:text-5xl">
+      <h2 className="heading-rule font-display text-4xl text-white md:text-5xl">
        Drei Varianten, eine Route
       </h2>
       <p className="mt-4 text-lg leading-relaxed text-white/65">
@@ -393,7 +397,7 @@ export default function HomePage() {
    <section className="border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
      <Reveal className="max-w-2xl">
-      <h2 className="font-display text-4xl text-white md:text-5xl">
+      <h2 className="heading-rule font-display text-4xl text-white md:text-5xl">
        Der Rundweg
       </h2>
       <p className="mt-4 text-lg leading-relaxed text-white/65">
@@ -412,7 +416,7 @@ export default function HomePage() {
           alt={`Station ${station.n}: ${station.name} in Warnemünde`}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="photo-settle object-cover"
+          className="photo-parallax object-cover"
          />
          <div className="absolute inset-x-0 bottom-0 bg-dark-950/85 px-4 py-3">
           <figcaption className="flex items-baseline gap-2.5">
@@ -431,7 +435,7 @@ export default function HomePage() {
    <section className="border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
      <Reveal>
-      <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
+      <h2 className="heading-rule max-w-2xl font-display text-4xl text-white md:text-5xl">
        Für wen sich das lohnt
       </h2>
      </Reveal>
@@ -481,7 +485,7 @@ export default function HomePage() {
     <div className="container-custom">
      <Reveal className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
       <div className="max-w-xl">
-       <h2 className="font-display text-4xl text-white md:text-5xl">
+       <h2 className="heading-rule font-display text-4xl text-white md:text-5xl">
         Wann wollt ihr los?
        </h2>
        <p className="mt-4 text-lg leading-relaxed text-white/65">
