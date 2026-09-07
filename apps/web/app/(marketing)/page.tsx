@@ -119,12 +119,17 @@ export default function HomePage() {
  return (
   <div className="w-full">
    {/* Hero — the tour, its price and the way in, all above the fold */}
-   {/* -mt-16 zieht den Hero unter die Kopfzeile: die ist sticky und liegt im
-       normalen Fluss, nahm also bisher eigene 64 px ein — das Foto begann
-       erst darunter und die Leiste sass als schwarzer Balken davor. Die
-       Innenabstände holen die 64 px wieder auf, damit der Text steht wie
-       vorher. */}
-   <section className="relative -mt-16 overflow-hidden">
+   {/* Der negative Rand zieht den Hero unter die Kopfzeile. Die ist sticky
+       und liegt damit im normalen Fluss — ohne den Versatz nähme sie eigene
+       Höhe ein, das Foto begänne erst darunter und die Leiste sässe als
+       schwarzer Balken davor.
+
+       Höhe und Versatz gehören zusammen: die Leiste ist 80 px hoch (h-16
+       plus pt-4 in Header.tsx), also -mt-20. Wer eines ändert, ändert beides,
+       sonst klafft über dem Foto ein Streifen Hintergrund. Die
+       Innenabstände (pt-40 / md:pt-48) holen die 80 px wieder auf, damit der
+       Text so steht wie ohne den Versatz. */}
+   <section className="relative -mt-20 overflow-hidden">
     {/* The photo carries the place; the scrims exist only so the text stays
         legible on top of it — they are not decoration. */}
     <div className="absolute inset-0" aria-hidden="true">
@@ -171,7 +176,7 @@ export default function HomePage() {
      <div className="hero-beam beam-live" />
     </div>
 
-    <div className="container-custom relative pb-20 pt-36 md:pb-28 md:pt-44">
+    <div className="container-custom relative pb-20 pt-40 md:pb-28 md:pt-48">
      <div className="max-w-3xl">
       {/* Staggered on load rather than on scroll: above the fold an observer
           would fire instantly anyway, and this needs no JavaScript. */}
@@ -190,13 +195,21 @@ export default function HomePage() {
        <span className="mt-1 block text-white/60">ein Ostseebad</span>
       </h1>
 
+      {/* Der Absatz nannte vorher nur, was man bekommt — iPad, Stationen,
+          Wegstrecke. Das steht ohnehin eine Zeile tiefer in den Eckdaten und
+          im Abschnitt „Was ist dabei". Hier steht deshalb jetzt die
+          Geschichte: Scheel, sein Vermächtnis und die Jahreszahl sind der
+          kanonische Erzählstrang aus `lib/demo/data.ts`, nicht neu erfunden.
+          Der praktische Haken bleibt am Ende, damit der Absatz nicht nur
+          Stimmung ist. */}
       <p
        className="rise mt-6 max-w-xl text-lg leading-relaxed text-white/75"
        style={{ animationDelay: '180ms' }}
       >
-       Eine Rätseltour durch Warnemünde — vom Leuchtturm über die Westmole bis
-       zum Alten Strom. Ihr bekommt ein iPad, eine Geschichte und zwölf
-       Stationen. Den Rest macht ihr selbst.
+       1928 ließ Lotsenkapitän Friedrich Scheel sein Vermächtnis in Stein
+       schlagen. Die Spur dorthin liegt bis heute in Warnemünde, auf zwölf
+       Stationen zwischen Leuchtturm und Altem Strom. Ihr bekommt ein iPad und
+       den ersten Hinweis — den Rest macht ihr selbst.
       </p>
 
       <div

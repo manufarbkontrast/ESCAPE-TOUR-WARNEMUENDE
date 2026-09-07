@@ -73,7 +73,11 @@ export function Header() {
      className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 bg-neon-400/70"
      aria-hidden="true"
     />
-    <div className="container-custom">
+    {/* pt-4 setzt den Inhalt tiefer und lässt oben Luft zum Bildrand. Die
+        Leiste ist damit 80 px hoch statt 64 — der `-mt-20`-Versatz des Heros
+        in app/(marketing)/page.tsx muss dazu passen, sonst klafft über dem
+        Foto ein Streifen Hintergrund. */}
+    <div className="container-custom pt-4">
      <div className="flex h-16 items-center justify-between">
       {/* Logo */}
       {/* Kein weisses Kästchen mehr hinter der Marke: der helle Block war das
