@@ -11,6 +11,15 @@ const COUNTRY_CODE = '49'
 
 export const SITE = {
   name: 'Escape Tour',
+  /**
+   * Der Erzählstrang der Tour, als Zeile neben der Wortmarke.
+   *
+   * Bewusst der kanonische Tourname aus `lib/demo/data.ts` und den
+   * Checkout-Beschreibungen in `lib/config/tours.ts` — hier wird keine neue
+   * Hintergrundgeschichte erfunden. „Vermächtnis" trägt die Spannung: es
+   * verspricht etwas Hinterlassenes, ohne zu verraten was.
+   */
+  story: 'Das Vermächtnis des Lotsenkapitäns',
   email: 'info@escape-tour-warnemuende.de',
   privacyEmail: 'datenschutz@escape-tour-warnemuende.de',
   phone: {

@@ -4,6 +4,7 @@ import { useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import type { Easing } from 'framer-motion';
+import { SITE } from '@/lib/config/site';
 
 /**
  * Navigation link data for mobile menu
@@ -114,6 +115,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
        </svg>
       </button>
      </div>
+
+     {/* Der Erzählstrang, den die Kopfzeile unterhalb von `lg` weglässt —
+         hier ist Platz dafür, und im geöffneten Menü hat er Ruhe zu wirken. */}
+     <p className="px-6 text-center font-mono text-xs leading-relaxed tracking-wide text-white/45">
+      {SITE.story}
+     </p>
 
      {/* Navigation Links */}
      <nav className="flex flex-1 flex-col items-center justify-center space-y-8">

@@ -81,9 +81,18 @@ export function Header() {
           Aufmerksamkeit auf sich. Die Zeichnung steht jetzt direkt auf dem
           Grund, wie die übrigen Linienzeichnungen der Seite. */}
       <Link href="/" className="group flex items-center gap-2.5">
-       <Logo className="h-7 w-7 text-white" />
-       <span className="font-display text-lg font-bold leading-none text-white">
-        Escape Tour
+       <Logo className="h-8 w-8 shrink-0 text-white" />
+       <span className="flex flex-col justify-center">
+        <span className="font-display text-lg font-bold leading-none text-white">
+         {SITE.name}
+        </span>
+        {/* Der Erzählstrang direkt an der Marke: wer die Leiste liest, weiss,
+            dass es hier etwas zu holen gibt, bevor er den ersten Absatz
+            sieht. Unterhalb von `lg` weggelassen — dort wird die Leiste vom
+            Burger-Menü übernommen und der Platz ist weg. */}
+        <span className="mt-1 hidden font-mono text-[0.65rem] leading-none tracking-wide text-white/45 lg:block">
+         {SITE.story}
+        </span>
        </span>
       </Link>
 
