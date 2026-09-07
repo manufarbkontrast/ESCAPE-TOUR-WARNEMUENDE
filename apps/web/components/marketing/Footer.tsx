@@ -35,11 +35,9 @@ export function Footer() {
     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
      {/* Brand Column */}
      <div className="col-span-1 md:col-span-2">
-      <div className="flex items-center space-x-2 mb-4">
-       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-dark-950">
-        <Logo className="h-6 w-6" />
-       </div>
-       <span className="font-display font-bold text-lg leading-none">
+      <div className="mb-4 flex items-center gap-2.5">
+       <Logo className="h-7 w-7 text-white" />
+       <span className="font-display text-lg font-bold leading-none text-white">
         Escape Tour
        </span>
       </div>

@@ -1,32 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
-  <!-- Background -->
-  <circle cx="256" cy="256" r="256" fill="#0a1628"/>
-  <circle cx="256" cy="256" r="240" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.15"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" role="img" aria-label="Escape Tour">
+  <!--
+    Gleiche Zeichnung wie components/marketing/Logo.tsx, nur skaliert: die
+    24er-Pfade sitzen in einer Gruppe mit Faktor 17, damit Strichstaerke und
+    Proportionen exakt der Kopfzeile entsprechen. Wer den Mark aendert,
+    aendert ihn hier mit.
+  -->
+  <circle cx="256" cy="256" r="256" fill="#0a0a0a"/>
+  <circle cx="256" cy="256" r="242" fill="none" stroke="#ffffff" stroke-width="4" opacity="0.14"/>
 
-  <g stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <!-- Light rays -->
-    <g stroke="#67e8f9" stroke-width="10" opacity="0.85">
-      <path d="M188 150 128 120"/>
-      <path d="M182 188 118 214"/>
-      <path d="M324 150 384 120"/>
-      <path d="M330 188 394 214"/>
-    </g>
-
-    <g stroke="#ffffff" stroke-width="12">
-      <!-- Lantern roof -->
-      <path d="M206 146 256 96 306 146"/>
-      <!-- Lantern room -->
-      <path d="M214 146v56M298 146v56M256 138v64"/>
-      <!-- Gallery platform -->
-      <path d="M196 202h120"/>
-      <!-- Tower -->
-      <path d="M214 202 178 402M298 202 334 402"/>
-      <!-- Tower bands -->
-      <path d="M204 268h104M192 336h128"/>
-      <!-- Door -->
-      <path d="M232 402v-34a24 24 0 0 1 48 0v34"/>
-      <!-- Base / plinth -->
-      <path d="M170 402h172M156 440h200M182 402v38M330 402v38"/>
+  <g transform="translate(256 256) scale(17) translate(-12 -11)">
+    <path d="M14.6 7.4 21.8 3.9v7.6z" fill="#22d3ee" fill-opacity="0.22"/>
+    <path d="M15.4 5.9 21.6 3.6" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <g fill="none" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.5 6.1 12 2.7l3.5 3.4"/>
+      <path d="M9.5 6.1v2.8m5-2.8v2.8"/>
+      <path d="M8 8.9h8"/>
+      <path d="M9.6 8.9 7.7 19.3m6.7-10.4 1.9 10.4"/>
+      <path d="M6.4 19.3h11.2"/>
     </g>
   </g>
 </svg>

@@ -76,11 +76,13 @@ export function Header() {
     <div className="container-custom">
      <div className="flex h-16 items-center justify-between">
       {/* Logo */}
-      <Link href="/" className="flex items-center space-x-2 group">
-       <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-dark-950 transition-transform group-hover:scale-105">
-        <Logo className="h-6 w-6" />
-       </div>
-       <span className="font-display font-bold text-lg leading-none">
+      {/* Kein weisses Kästchen mehr hinter der Marke: der helle Block war das
+          generische App-Icon-Muster und zog in einer dunklen Leiste alle
+          Aufmerksamkeit auf sich. Die Zeichnung steht jetzt direkt auf dem
+          Grund, wie die übrigen Linienzeichnungen der Seite. */}
+      <Link href="/" className="group flex items-center gap-2.5">
+       <Logo className="h-7 w-7 text-white" />
+       <span className="font-display text-lg font-bold leading-none text-white">
         Escape Tour
        </span>
       </Link>
