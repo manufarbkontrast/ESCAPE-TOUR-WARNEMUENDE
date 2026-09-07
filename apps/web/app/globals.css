@@ -303,6 +303,43 @@
       transform: translateX(0);
     }
   }
+
+  /* ---- Entrances ----
+     Two mechanisms, on purpose:
+
+     .rise runs on page load, needs no JavaScript, and is used above the fold
+     where an observer would fire immediately anyway.
+
+     .reveal is driven by components/marketing/Reveal.tsx for everything below
+     the fold. The hidden state (.reveal-pending) is only ever added by that
+     component after mount — never server-rendered — so a visitor without
+     JavaScript and every crawler get the whole page. */
+
+  .rise {
+    animation: rise 0.7s var(--ease-out) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal {
+    transition:
+      opacity 0.6s var(--ease-out),
+      transform 0.6s var(--ease-out);
+  }
+
+  .reveal-pending {
+    opacity: 0;
+    transform: translateY(0.875rem);
+  }
 }
 
 /* Accessibility: Reduced Motion — Bewegung raus, Opacity/Farbe bleibt (siehe plans/001) */

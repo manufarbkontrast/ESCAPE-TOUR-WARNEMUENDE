@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils/cn';
 import { FaqAccordion } from '@/components/marketing/FaqAccordion';
+import { Reveal } from '@/components/marketing/Reveal';
 import { TOUR_VARIANTS, formatPrice, LOWEST_PRICE_CENTS } from '@/lib/config/tours';
 import { TOUR_LOCATIONS } from '@/lib/config/locations';
 import { FAQ_ITEMS } from '@/lib/config/faq';
@@ -141,26 +142,44 @@ export default function HomePage() {
       className="absolute inset-x-0 bottom-0 h-32"
       style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0), #0a0a0a)' }}
      />
+     {/* The lighthouse beam — the one intentional light source on the site,
+         and the hero photo is the lighthouse itself. Already used on
+         /warnemuende; the home page had been the only page without it. */}
+     <div className="hero-beam" />
     </div>
 
     <div className="container-custom relative py-20 md:py-28">
      <div className="max-w-3xl">
-      <span className="font-mono text-xs tabular-nums text-neon-400/80">
+      {/* Staggered on load rather than on scroll: above the fold an observer
+          would fire instantly anyway, and this needs no JavaScript. */}
+      <span
+       className="rise block font-mono text-xs tabular-nums text-neon-400/80"
+       style={{ animationDelay: '0ms' }}
+      >
        54.1766° N · 12.0837° E · Warnemünde
       </span>
 
-      <h1 className="mt-5 font-display text-5xl leading-[1.03] text-white md:text-7xl">
+      <h1
+       className="rise mt-5 font-display text-5xl leading-[1.03] text-white md:text-7xl"
+       style={{ animationDelay: '90ms' }}
+      >
        Zwölf Rätsel,
        <span className="mt-1 block text-white/60">ein Ostseebad</span>
       </h1>
 
-      <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
+      <p
+       className="rise mt-6 max-w-xl text-lg leading-relaxed text-white/75"
+       style={{ animationDelay: '180ms' }}
+      >
        Eine Rätseltour durch Warnemünde — vom Leuchtturm über die Westmole bis
        zum Alten Strom. Ihr bekommt ein iPad, eine Geschichte und zwölf
        Stationen. Den Rest macht ihr selbst.
       </p>
 
-      <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+      <div
+       className="rise mt-9 flex flex-col gap-3 sm:flex-row"
+       style={{ animationDelay: '260ms' }}
+      >
        <Link href={BOOKING_HREF} className="btn btn-primary btn-lg">
         Termin buchen
        </Link>
@@ -169,7 +188,10 @@ export default function HomePage() {
        </Link>
       </div>
 
-      <div className="mt-12 grid max-w-xl grid-cols-1 divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-dark-950/60 backdrop-blur-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <div
+       className="rise mt-12 grid max-w-xl grid-cols-1 divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-dark-950/60 backdrop-blur-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+       style={{ animationDelay: '340ms' }}
+      >
        {HERO_FACTS.map((fact) => (
         <FactReadout key={fact.label} {...fact} />
        ))}
@@ -181,8 +203,12 @@ export default function HomePage() {
    {/* What is included — the device promise sits first on purpose */}
    <section className="container-custom py-16 md:py-20">
     <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-     {INCLUDED.map((item) => (
-      <div key={item.title} className="border-t border-white/15 pt-5">
+     {INCLUDED.map((item, index) => (
+      <Reveal
+       key={item.title}
+       className="border-t border-white/15 pt-5"
+       delay={index * 70}
+      >
        <svg
         className="h-6 w-6 text-neon-400"
         viewBox="0 0 24 24"
@@ -197,7 +223,7 @@ export default function HomePage() {
        </svg>
        <h2 className="mt-4 text-lg font-bold text-white">{item.title}</h2>
        <p className="mt-2 text-base leading-relaxed text-white/60">{item.text}</p>
-      </div>
+      </Reveal>
      ))}
     </div>
    </section>
@@ -205,18 +231,38 @@ export default function HomePage() {
    {/* How it works */}
    <section id="ablauf" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
-     <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
-      Vom Buchen bis zum Rückweg
-     </h2>
+     <Reveal>
+      <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
+       Vom Buchen bis zum Rückweg
+      </h2>
+     </Reveal>
 
-     <div className="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-      {STEPS.map((step) => (
-       <div key={step.n} className="border-t border-white/15 pt-5">
-        <div className="font-mono text-sm tabular-nums text-neon-400">{step.n}</div>
-        <h3 className="mt-3 text-lg font-bold text-white">{step.title}</h3>
-        <p className="mt-2 text-base leading-relaxed text-white/60">{step.text}</p>
-       </div>
-      ))}
+     {/* Drawn as a route with markers, not as another card row. The four
+         steps are a sequence, and the section above already uses the
+         border-top grid — repeating it here made the two read as one
+         undifferentiated block. */}
+     <div className="relative mt-14">
+      <div
+       className="rule-fade absolute inset-x-0 top-[0.4375rem] hidden lg:block"
+       aria-hidden="true"
+      />
+
+      <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+       {STEPS.map((step, index) => (
+        <Reveal key={step.n} delay={index * 70}>
+         <div className="flex items-center gap-3">
+          {/* Opaque centre so the marker sits on the line, not under it. */}
+          <span
+           className="h-3.5 w-3.5 flex-shrink-0 rounded-full border border-neon-400/60 bg-dark-950"
+           aria-hidden="true"
+          />
+          <span className="font-mono text-sm tabular-nums text-neon-400">{step.n}</span>
+         </div>
+         <h3 className="mt-4 text-lg font-bold text-white">{step.title}</h3>
+         <p className="mt-2 text-base leading-relaxed text-white/60">{step.text}</p>
+        </Reveal>
+       ))}
+      </div>
      </div>
     </div>
    </section>
@@ -224,7 +270,7 @@ export default function HomePage() {
    {/* Variants and prices */}
    <section id="preise" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
-     <div className="max-w-2xl">
+     <Reveal className="max-w-2xl">
       <h2 className="font-display text-4xl text-white md:text-5xl">
        Drei Varianten, eine Route
       </h2>
@@ -232,12 +278,13 @@ export default function HomePage() {
        Gleiche Stationen, unterschiedlich harte Rätsel. Preis pro Person, iPad
        inklusive.
       </p>
-     </div>
+     </Reveal>
 
      <div className="mt-12 grid gap-6 lg:grid-cols-3">
-      {TOUR_VARIANTS.map((variant) => (
-       <div
+      {TOUR_VARIANTS.map((variant, index) => (
+       <Reveal
         key={variant.id}
+        delay={index * 80}
         className={cn(
          'card relative flex flex-col',
          variant.recommended && 'ring-1 ring-neon-400/40'
@@ -312,7 +359,7 @@ export default function HomePage() {
         >
          {variant.name} buchen
         </Link>
-       </div>
+       </Reveal>
       ))}
      </div>
 
@@ -326,7 +373,7 @@ export default function HomePage() {
    {/* Route preview */}
    <section className="border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
-     <div className="max-w-2xl">
+     <Reveal className="max-w-2xl">
       <h2 className="font-display text-4xl text-white md:text-5xl">
        Der Rundweg
       </h2>
@@ -335,28 +382,27 @@ export default function HomePage() {
        Strand, Kirchplatz, Heimatmuseum, Vogtei, Edvard-Munch-Haus, Alter Strom,
        Fischmarkt und Bahnhof.
       </p>
-     </div>
+     </Reveal>
 
      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {ROUTE_PREVIEW.map((station) => (
-       <figure
-        key={station.n}
-        className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10"
-       >
-        <Image
-         src={station.image}
-         alt={`Station ${station.n}: ${station.name} in Warnemünde`}
-         fill
-         sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-         className="object-cover"
-        />
-        <div className="absolute inset-x-0 bottom-0 bg-dark-950/85 px-4 py-3">
-         <figcaption className="flex items-baseline gap-2.5">
-          <span className="font-mono text-xs tabular-nums text-neon-400">{station.n}</span>
-          <span className="text-base font-bold text-white">{station.name}</span>
-         </figcaption>
-        </div>
-       </figure>
+      {ROUTE_PREVIEW.map((station, index) => (
+       <Reveal key={station.n} delay={index * 70}>
+        <figure className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10">
+         <Image
+          src={station.image}
+          alt={`Station ${station.n}: ${station.name} in Warnemünde`}
+          fill
+          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover"
+         />
+         <div className="absolute inset-x-0 bottom-0 bg-dark-950/85 px-4 py-3">
+          <figcaption className="flex items-baseline gap-2.5">
+           <span className="font-mono text-xs tabular-nums text-neon-400">{station.n}</span>
+           <span className="text-base font-bold text-white">{station.name}</span>
+          </figcaption>
+         </div>
+        </figure>
+       </Reveal>
       ))}
      </div>
     </div>
@@ -365,26 +411,26 @@ export default function HomePage() {
    {/* Who it is for */}
    <section className="border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
-     <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
-      Für wen sich das lohnt
-     </h2>
+     <Reveal>
+      <h2 className="max-w-2xl font-display text-4xl text-white md:text-5xl">
+       Für wen sich das lohnt
+      </h2>
+     </Reveal>
 
      <div className="mt-12 grid gap-6 sm:grid-cols-2">
-      {OCCASIONS.map((occasion) => (
-       <Link
-        key={occasion.slug}
-        href={`/fuer/${occasion.slug}`}
-        className="card-hover block"
-       >
-        <h3 className="text-xl font-bold text-white">{occasion.navLabel}</h3>
-        <p className="mt-3 text-base leading-relaxed text-white/65">{occasion.intro}</p>
-        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-neon-300">
-         Mehr dazu
-         <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7" />
-         </svg>
-        </span>
-       </Link>
+      {OCCASIONS.map((occasion, index) => (
+       <Reveal key={occasion.slug} delay={index * 70}>
+        <Link href={`/fuer/${occasion.slug}`} className="card-hover block h-full">
+         <h3 className="text-xl font-bold text-white">{occasion.navLabel}</h3>
+         <p className="mt-3 text-base leading-relaxed text-white/65">{occasion.intro}</p>
+         <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-neon-300">
+          Mehr dazu
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+           <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+         </span>
+        </Link>
+       </Reveal>
       ))}
      </div>
     </div>
@@ -414,7 +460,7 @@ export default function HomePage() {
    {/* Final CTA */}
    <section className="border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
-     <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+     <Reveal className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
       <div className="max-w-xl">
        <h2 className="font-display text-4xl text-white md:text-5xl">
         Wann wollt ihr los?
@@ -427,7 +473,7 @@ export default function HomePage() {
       <Link href={BOOKING_HREF} className="btn btn-primary btn-lg self-start md:self-auto">
        Termin buchen
       </Link>
-     </div>
+     </Reveal>
     </div>
    </section>
 

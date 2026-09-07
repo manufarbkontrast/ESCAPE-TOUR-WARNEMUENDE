@@ -129,7 +129,7 @@ Als `pnpm set-admin-role <email>` auch, aber `pnpm` liegt nicht überall auf dem
 Die Rolle steckt im JWT — betroffene Konten müssen sich danach einmal neu anmelden.
 
 Buchungen des Stripe-Webhooks haben `user_id = NULL` (Gäste loggen sich nie ein). Ohne die
-Admin-Policy aus `20260906200000_admin_role_and_dashboard_access.sql` sieht auch ein Admin
+Admin-Policy aus `20260906170600_admin_role_and_dashboard_access.sql` sieht auch ein Admin
 davon keine einzige Zeile.
 
 ## Open Setup Tasks
@@ -138,10 +138,10 @@ davon keine einzige Zeile.
 2. **Stripe Webhook**: Create endpoint → `/api/webhooks/stripe`, set `STRIPE_WEBHOOK_SECRET`
 3. **PostHog**: Create account, set `NEXT_PUBLIC_POSTHOG_KEY`
 4. ~~**Domain + SSL**~~ — erledigt, `myescapetour.com` läuft über https.
-   **Offen:** `NEXT_PUBLIC_APP_URL` steht auf dem Server noch auf
-   `http://188.245.121.230`. Daraus baut `app/api/checkout/route.ts` die
-   Stripe-Rücksprungadressen — die landen damit auf dem 404. Umstellen auf
-   `https://myescapetour.com`, dann **neu bauen** (`NEXT_PUBLIC_*` wird beim
-   Build eingebacken, ein Reload allein genügt nicht).
+   ~~**`NEXT_PUBLIC_APP_URL`**~~ — erledigt am 2026-09-07: steht auf dem Server
+   auf `https://myescapetour.com`, danach neu gebaut. Der Wert wird beim Build
+   fest in `app/api/checkout/route.ts` und `app/api/checkout/voucher/route.ts`
+   eingebacken (im gebauten Bundle steht kein `process.env`-Zugriff mehr) —
+   **nach jeder Änderung daran neu bauen**, `pm2 reload` allein genügt nicht.
 5. **Supabase admin user**: Create via Supabase dashboard, then grant the role:
    `cd apps/web && pnpm set-admin-role <email>` (see „Admin-Bereich: Rollen")
