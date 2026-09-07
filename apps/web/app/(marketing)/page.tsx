@@ -250,8 +250,15 @@ export default function HomePage() {
        heruntergenommen, dass es Fläche gibt statt Muster. Bewusst nur auf den drei
        langen Textabschnitten zwischen Hero und Rundweg-Fotos — überall wäre
        es Tapete. */}
-   <section className="chart-grid container-custom py-16 md:py-20">
-    <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+   <section className="relative py-16 md:py-20">
+    {/* Eigenes Div, nicht am <section>: `chart-grid` bringt eine
+        `mask-image` mit, und eine Maske wirkt auf das ganze Element
+        samt Inhalt. Am Abschnitt verblasste dadurch der Text an den
+        Rändern mit. So liegt sie hinter dem Inhalt, wie auf
+        /warnemuende. */}
+    <div className="chart-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+    <div className="container-custom relative">
+     <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
      {INCLUDED.map((item, index) => (
       <Reveal
        key={item.title}
@@ -274,12 +281,19 @@ export default function HomePage() {
        <p className="mt-2 text-base leading-relaxed text-white/60">{item.text}</p>
       </Reveal>
      ))}
+     </div>
     </div>
    </section>
 
    {/* How it works */}
-   <section id="ablauf" className="chart-grid scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
-    <div className="container-custom">
+   <section id="ablauf" className="relative scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
+    {/* Eigenes Div, nicht am <section>: `chart-grid` bringt eine
+        `mask-image` mit, und eine Maske wirkt auf das ganze Element
+        samt Inhalt. Am Abschnitt verblasste dadurch der Text an den
+        Rändern mit. So liegt sie hinter dem Inhalt, wie auf
+        /warnemuende. */}
+    <div className="chart-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+    <div className="container-custom relative">
      <Reveal>
       <h2 className="heading-rule max-w-2xl font-display text-4xl text-white md:text-5xl">
        Vom Buchen bis zum Rückweg
@@ -322,8 +336,14 @@ export default function HomePage() {
    </section>
 
    {/* Variants and prices */}
-   <section id="preise" className="chart-grid scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
-    <div className="container-custom">
+   <section id="preise" className="relative scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
+    {/* Eigenes Div, nicht am <section>: `chart-grid` bringt eine
+        `mask-image` mit, und eine Maske wirkt auf das ganze Element
+        samt Inhalt. Am Abschnitt verblasste dadurch der Text an den
+        Rändern mit. So liegt sie hinter dem Inhalt, wie auf
+        /warnemuende. */}
+    <div className="chart-grid pointer-events-none absolute inset-0" aria-hidden="true" />
+    <div className="container-custom relative">
      <Reveal className="max-w-2xl">
       <h2 className="heading-rule font-display text-4xl text-white md:text-5xl">
        Drei Varianten, eine Route
