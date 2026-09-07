@@ -10,9 +10,16 @@ interface RevealProps {
  readonly delay?: number;
 }
 
-/** How far above the viewport edge the reveal starts, so it is already
- *  underway by the time the block is properly on screen. */
-const ROOT_MARGIN = '0px 0px -12% 0px';
+/**
+ * Grows the observed area *downwards*, so a block starts fading in while it is
+ * still below the fold and is done by the time it is properly on screen.
+ *
+ * This was a negative value first, which held the reveal back until the block
+ * was already well inside the viewport — scrolling then landed you on a section
+ * that was still half empty. Trigger early; the animation should be over before
+ * anyone looks at it.
+ */
+const ROOT_MARGIN = '0px 0px 18% 0px';
 
 function prefersReducedMotion(): boolean {
  return (

@@ -48,7 +48,7 @@ export function Header() {
       </Link>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center space-x-6">
+      <nav className="hidden lg:flex items-center space-x-6">
        {NAV_LINKS.map((link) => (
         <Link
          key={link.href}
@@ -77,7 +77,7 @@ export function Header() {
       {/* Mobile Menu Button */}
       <button
        type="button"
-       className="md:hidden btn btn-ghost p-2"
+       className="lg:hidden btn btn-ghost p-2"
        aria-label="Menü öffnen"
        onClick={handleOpenMenu}
       >

@@ -330,15 +330,17 @@
     }
   }
 
+  /* Deliberately short. A long reveal plus a stagger means a section is still
+     half empty while you are already reading it — worse than no animation. */
   .reveal {
     transition:
-      opacity 0.6s var(--ease-out),
-      transform 0.6s var(--ease-out);
+      opacity 0.36s var(--ease-out),
+      transform 0.36s var(--ease-out);
   }
 
   .reveal-pending {
     opacity: 0;
-    transform: translateY(0.875rem);
+    transform: translateY(0.5rem);
   }
 }
 

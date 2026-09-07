@@ -131,8 +131,20 @@ export default function HomePage() {
       sizes="100vw"
       className="object-cover"
      />
+     {/* Two scrims, because one direction cannot serve both layouts.
+         Wide: text sits left, photo stays readable on the right — so the
+         gradient runs sideways. Narrow: text spans the full width, so a
+         sideways gradient would black the photo out completely (it did).
+         There the gradient runs downwards and leaves the sky visible. */}
      <div
-      className="absolute inset-0"
+      className="absolute inset-0 md:hidden"
+      style={{
+       background:
+        'linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.72) 42%, rgba(10,10,10,0.92) 100%)',
+      }}
+     />
+     <div
+      className="absolute inset-0 hidden md:block"
       style={{
        background:
         'linear-gradient(100deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.88) 38%, rgba(10,10,10,0.55) 70%, rgba(10,10,10,0.4) 100%)',
@@ -207,7 +219,7 @@ export default function HomePage() {
       <Reveal
        key={item.title}
        className="border-t border-white/15 pt-5"
-       delay={index * 70}
+       delay={index * 45}
       >
        <svg
         className="h-6 w-6 text-neon-400"
@@ -249,7 +261,7 @@ export default function HomePage() {
 
       <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
        {STEPS.map((step, index) => (
-        <Reveal key={step.n} delay={index * 70}>
+        <Reveal key={step.n} delay={index * 45}>
          <div className="flex items-center gap-3">
           {/* Opaque centre so the marker sits on the line, not under it. */}
           <span
@@ -284,7 +296,7 @@ export default function HomePage() {
       {TOUR_VARIANTS.map((variant, index) => (
        <Reveal
         key={variant.id}
-        delay={index * 80}
+        delay={index * 50}
         className={cn(
          'card relative flex flex-col',
          variant.recommended && 'ring-1 ring-neon-400/40'
@@ -386,7 +398,7 @@ export default function HomePage() {
 
      <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {ROUTE_PREVIEW.map((station, index) => (
-       <Reveal key={station.n} delay={index * 70}>
+       <Reveal key={station.n} delay={index * 45}>
         <figure className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10">
          <Image
           src={station.image}
@@ -419,7 +431,7 @@ export default function HomePage() {
 
      <div className="mt-12 grid gap-6 sm:grid-cols-2">
       {OCCASIONS.map((occasion, index) => (
-       <Reveal key={occasion.slug} delay={index * 70}>
+       <Reveal key={occasion.slug} delay={index * 45}>
         <Link href={`/fuer/${occasion.slug}`} className="card-hover block h-full">
          <h3 className="text-xl font-bold text-white">{occasion.navLabel}</h3>
          <p className="mt-3 text-base leading-relaxed text-white/65">{occasion.intro}</p>
