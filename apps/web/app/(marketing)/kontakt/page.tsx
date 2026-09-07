@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { ContactForm } from './contact-form';
 import { SITE, telHref, mailHref } from '@/lib/config/site';
 
@@ -149,7 +150,11 @@ export default function KontaktPage() {
        <h2 className="text-2xl font-bold text-white mb-6">
         Schreibt uns
        </h2>
-       <ContactForm />
+       {/* Grenze eng um das Formular — der Rest der Seite bleibt im
+           Server-HTML. Siehe __tests__/app/marketing/suspense-grenzen.test.tsx */}
+       <Suspense fallback={<div className="min-h-[32rem]" />}>
+        <ContactForm />
+       </Suspense>
       </div>
 
       {/* Right: Contact Info Cards */}

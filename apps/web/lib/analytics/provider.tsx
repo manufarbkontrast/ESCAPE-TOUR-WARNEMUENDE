@@ -8,8 +8,14 @@ import { buildPageviewUrl } from './pageview-url'
 /**
  * PostHog analytics provider
  * Initializes PostHog and captures page views on route changes
+ *
+ * Rendert bewusst **nichts** und umschließt bewusst **keine** Kinder:
+ * `useSearchParams()` steigt beim Prerender aus dem Server-Rendering aus, und
+ * alles innerhalb derselben Suspense-Grenze fällt damit aus dem HTML. Wer hier
+ * wieder `children` einführt, nimmt der ganzen Seite das SSR — siehe
+ * `app/layout.tsx` und `__tests__/app/layout.test.tsx`.
  */
-export function PostHogProvider({ children }: { readonly children: React.ReactNode }) {
+export function PostHogProvider() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -26,5 +32,5 @@ export function PostHogProvider({ children }: { readonly children: React.ReactNo
     posthog.capture('$pageview', { $current_url: url })
   }, [pathname, searchParams])
 
-  return <>{children}</>
+  return null
 }

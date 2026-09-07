@@ -97,13 +97,20 @@ interface RootLayoutProps {
 }
 
 /**
- * Providers component placeholder
- * Will wrap the app with context providers (theme, auth, etc.)
+ * Analytics, in einer eigenen Suspense-Grenze **neben** dem Seiteninhalt.
+ *
+ * `PostHogProvider` ruft `useSearchParams()`. Das steigt beim statischen
+ * Prerender aus dem Server-Rendering aus, und React ersetzt dafür die nächste
+ * umschließende Suspense-Grenze durch ihren `fallback`. Umschloss diese
+ * Grenze auch `{children}`, lieferte **jede** Seite einen leeren `<body>`.
+ *
+ * Die Grenze muss deshalb eng um Analytics liegen und darf niemals wieder
+ * Seiteninhalt aufnehmen. Abgesichert durch `__tests__/app/layout.test.tsx`.
  */
-function Providers({ children }: { readonly children: React.ReactNode }) {
+function Analytics() {
  return (
   <Suspense fallback={null}>
-   <PostHogProvider>{children}</PostHogProvider>
+   <PostHogProvider />
   </Suspense>
  );
 }
@@ -122,7 +129,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <link rel="manifest" href="/manifest.json" />
    </head>
    <body className="min-h-screen bg-dark-950 text-white font-sans antialiased">
-    <Providers>{children}</Providers>
+    {children}
+    <Analytics />
     <CookieConsent />
    </body>
   </html>

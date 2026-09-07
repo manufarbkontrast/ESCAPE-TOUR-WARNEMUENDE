@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { Suspense, useState, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ChevronRight, ChevronLeft, Minus, Plus } from 'lucide-react'
@@ -80,7 +80,7 @@ function validateDetailsStep(form: BookingFormState): FieldErrors {
 // BookingPage
 // ---------------------------------------------------------------------------
 
-export default function BookingPage() {
+function BookingForm() {
  const searchParams = useSearchParams()
  const initialVariant = (searchParams.get('variant') as TourVariant) ?? 'adult'
  const wasCancelled = searchParams.get('cancelled') === 'true'
@@ -556,5 +556,21 @@ export default function BookingPage() {
     </div>
    )}
   </div>
+ )
+}
+
+/**
+ * Eigene Suspense-Grenze, weil `BookingForm` `useSearchParams()` ruft.
+ *
+ * Das Root-Layout fängt das **nicht** mehr ab — seine Grenze liegt seit der
+ * SSR-Korrektur eng um Analytics. Ohne die Grenze hier reißt das Aussetzen
+ * beim Prerender nach oben durch und der Build bricht.
+ * Abgesichert durch `__tests__/app/marketing/suspense-grenzen.test.tsx`.
+ */
+export default function BookingPage() {
+ return (
+  <Suspense fallback={<div className="min-h-screen" />}>
+   <BookingForm />
+  </Suspense>
  )
 }

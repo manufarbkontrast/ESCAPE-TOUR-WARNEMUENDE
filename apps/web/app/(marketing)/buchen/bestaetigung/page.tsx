@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { Suspense, useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -40,7 +40,7 @@ const checkVariants = {
 // ConfirmationPage
 // ---------------------------------------------------------------------------
 
-export default function ConfirmationPage() {
+function ConfirmationDetails() {
  const searchParams = useSearchParams()
  const stripeSessionId = searchParams.get('session_id')
 
@@ -270,5 +270,21 @@ export default function ConfirmationPage() {
     </div>
    </motion.div>
   </div>
+ )
+}
+
+/**
+ * Eigene Suspense-Grenze, weil `ConfirmationDetails` `useSearchParams()` ruft.
+ *
+ * Das Root-Layout fängt das **nicht** mehr ab — seine Grenze liegt seit der
+ * SSR-Korrektur eng um Analytics. Ohne die Grenze hier reißt das Aussetzen
+ * beim Prerender nach oben durch und der Build bricht.
+ * Abgesichert durch `__tests__/app/marketing/suspense-grenzen.test.tsx`.
+ */
+export default function ConfirmationPage() {
+ return (
+  <Suspense fallback={<div className="min-h-screen" />}>
+   <ConfirmationDetails />
+  </Suspense>
  )
 }
