@@ -164,6 +164,9 @@ export default function HomePage() {
         'linear-gradient(100deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.88) 38%, rgba(10,10,10,0.55) 70%, rgba(10,10,10,0.4) 100%)',
       }}
      />
+     {/* 256 px wurden probiert und wieder verworfen: der weichere Übergang
+         kostete die untere Hälfte des Fotos — die Strandkörbe verschwanden
+         im Verlauf. Die harte Kante war ohnehin nicht das Problem. */}
      <div
       className="absolute inset-x-0 bottom-0 h-32"
       style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0), #0a0a0a)' }}
@@ -240,7 +243,14 @@ export default function HomePage() {
    </section>
 
    {/* What is included — the device promise sits first on purpose */}
-   <section className="container-custom py-16 md:py-20">
+   {/* `chart-grid` gibt es in globals.css längst, auf der Startseite lag es
+       brach: unter dem Hero begann eine lange, völlig flache schwarze Bahn.
+       Das Raster ist ein Seekarten-Motiv, passt also zu einer Tour, die sich
+       über Koordinaten erklärt — und es ist über eine Maske so weit
+       heruntergenommen, dass es Fläche gibt statt Muster. Bewusst nur auf den drei
+       langen Textabschnitten zwischen Hero und Rundweg-Fotos — überall wäre
+       es Tapete. */}
+   <section className="chart-grid container-custom py-16 md:py-20">
     <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
      {INCLUDED.map((item, index) => (
       <Reveal
@@ -268,7 +278,7 @@ export default function HomePage() {
    </section>
 
    {/* How it works */}
-   <section id="ablauf" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
+   <section id="ablauf" className="chart-grid scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
      <Reveal>
       <h2 className="heading-rule max-w-2xl font-display text-4xl text-white md:text-5xl">
@@ -312,7 +322,7 @@ export default function HomePage() {
    </section>
 
    {/* Variants and prices */}
-   <section id="preise" className="scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
+   <section id="preise" className="chart-grid scroll-mt-20 border-t border-white/[0.06] py-20 md:py-28">
     <div className="container-custom">
      <Reveal className="max-w-2xl">
       <h2 className="heading-rule font-display text-4xl text-white md:text-5xl">
