@@ -482,6 +482,36 @@
     }
   }
 
+  /* Oberlinie, die sich zeichnet, statt eines statischen `border-t`. Seit die
+     Kacheln raus sind, tragen diese Linien die Gliederung — also dürfen sie
+     auch die Bewegung tragen. Ruhezustand ist scaleX(0), damit ohne
+     Animation nichts halb Gezeichnetes stehen bleibt: die Linie ist dann
+     schlicht nicht da, und die Spalte steht trotzdem korrekt. */
+  .rule-in {
+    position: relative;
+  }
+
+  .rule-in::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .rule-in-accent::before {
+    background: rgba(34, 211, 238, 0.7);
+  }
+
+  .reveal:not(.reveal-pending).rule-in::before,
+  .reveal:not(.reveal-pending) .rule-in::before {
+    animation: draw-heading-rule 0.7s var(--ease-out) forwards;
+  }
+
   /* ---- An die Scrollposition gekoppelt ----
      Reines CSS über `animation-timeline`. Kein Scroll-Listener, kein State,
      nichts, das hängen bleiben kann: Browser ohne Unterstützung überspringen

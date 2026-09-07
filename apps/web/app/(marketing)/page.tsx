@@ -105,7 +105,7 @@ function FactReadout({
  readonly note: string;
 }) {
  return (
-  <div className="px-5 py-4">
+  <div>
    <div className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-white/45">
     {label}
    </div>
@@ -119,7 +119,12 @@ export default function HomePage() {
  return (
   <div className="w-full">
    {/* Hero — the tour, its price and the way in, all above the fold */}
-   <section className="relative overflow-hidden">
+   {/* -mt-16 zieht den Hero unter die Kopfzeile: die ist sticky und liegt im
+       normalen Fluss, nahm also bisher eigene 64 px ein — das Foto begann
+       erst darunter und die Leiste sass als schwarzer Balken davor. Die
+       Innenabstände holen die 64 px wieder auf, damit der Text steht wie
+       vorher. */}
+   <section className="relative -mt-16 overflow-hidden">
     {/* The photo carries the place; the scrims exist only so the text stays
         legible on top of it — they are not decoration. */}
     <div className="absolute inset-0" aria-hidden="true">
@@ -166,7 +171,7 @@ export default function HomePage() {
      <div className="hero-beam beam-live" />
     </div>
 
-    <div className="container-custom relative py-20 md:py-28">
+    <div className="container-custom relative pb-20 pt-36 md:pb-28 md:pt-44">
      <div className="max-w-3xl">
       {/* Staggered on load rather than on scroll: above the fold an observer
           would fire instantly anyway, and this needs no JavaScript. */}
@@ -206,8 +211,11 @@ export default function HomePage() {
        </Link>
       </div>
 
+      {/* Kein Kasten mehr: der gerahmte, abgerundete Block mit Trennstrichen
+          las sich wie ein Formularfeld. Drei Ablesungen unter einer
+          Haarlinie passen zur Instrumentensprache der Seite. */}
       <div
-       className="rise mt-12 grid max-w-xl grid-cols-1 divide-y divide-white/10 overflow-hidden rounded-xl border border-white/10 bg-dark-950/60 backdrop-blur-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+       className="rise mt-12 grid max-w-xl grid-cols-1 gap-y-5 border-t border-white/20 pt-5 sm:grid-cols-3 sm:gap-x-8"
        style={{ animationDelay: '340ms' }}
       >
        {HERO_FACTS.map((fact) => (
@@ -224,7 +232,7 @@ export default function HomePage() {
      {INCLUDED.map((item, index) => (
       <Reveal
        key={item.title}
-       className="border-t border-white/15 pt-5"
+       className="rule-in pt-5"
        delay={index * 45}
       >
        <svg
@@ -303,25 +311,30 @@ export default function HomePage() {
       </p>
      </Reveal>
 
-     <div className="mt-12 grid gap-6 lg:grid-cols-3">
+     {/* Drei Spalten unter Haarlinien statt drei schwebender Kacheln. Die
+         gerundeten Rechtecke mit Rahmen und dem über die Kante hängenden
+         Abzeichen waren das Muster, das die Seite billig wirken liess. Die
+         Empfehlung steht jetzt in der Zeile, nicht als Aufkleber darüber,
+         und wird durch die kräftigere Oberlinie getragen. */}
+     <div className="mt-12 grid gap-x-10 gap-y-14 lg:grid-cols-3">
       {TOUR_VARIANTS.map((variant, index) => (
        <Reveal
         key={variant.id}
         delay={index * 50}
         className={cn(
-         'card relative flex flex-col',
-         variant.recommended && 'ring-1 ring-neon-400/40'
+         'rule-in flex flex-col pt-6',
+         variant.recommended && 'rule-in-accent'
         )}
        >
-        {/* Absolute so the badge cannot reflow the heading and knock the three
-            cards out of alignment. */}
-        {variant.recommended && (
-         <span className="absolute -top-3 left-6 whitespace-nowrap rounded-md bg-white px-2.5 py-1 text-xs font-bold text-dark-950">
-          Am meisten gebucht
-         </span>
-        )}
+        <div className="flex min-h-[1.25rem] items-center">
+         {variant.recommended && (
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-neon-400">
+           Am meisten gebucht
+          </span>
+         )}
+        </div>
 
-        <div>
+        <div className="mt-3">
          <h3 className="text-2xl font-bold text-white">{variant.name}</h3>
          <p className="mt-1 text-sm font-semibold text-white/50">{variant.ageLabel}</p>
         </div>
@@ -333,7 +346,7 @@ export default function HomePage() {
          <span className="text-sm font-semibold text-white/50">pro Person</span>
         </div>
 
-        <div className="mt-6 grid grid-cols-3 gap-3 border-y border-white/10 py-4">
+        <div className="mt-6 grid grid-cols-3 gap-3 border-y border-white/12 py-4">
          <div>
           <div className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/45">
            Dauer
@@ -440,13 +453,21 @@ export default function HomePage() {
       </h2>
      </Reveal>
 
-     <div className="mt-12 grid gap-6 sm:grid-cols-2">
+     <div className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2">
       {OCCASIONS.map((occasion, index) => (
-       <Reveal key={occasion.slug} delay={index * 45}>
-        <Link href={`/fuer/${occasion.slug}`} className="card-hover block h-full">
+       <Reveal key={occasion.slug} delay={index * 45} className="rule-in">
+        {/* Wie die Preisspalten: Linie statt Kasten. Der Hover ändert nur
+            Farbe und Deckkraft — die Projektregeln schliessen
+            Transform-Effekte beim Überfahren aus. */}
+        <Link
+         href={`/fuer/${occasion.slug}`}
+         className="group block h-full pt-6 transition-colors duration-200"
+        >
          <h3 className="text-xl font-bold text-white">{occasion.navLabel}</h3>
-         <p className="mt-3 text-base leading-relaxed text-white/65">{occasion.intro}</p>
-         <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-neon-300">
+         <p className="mt-3 text-base leading-relaxed text-white/65 transition-colors duration-200 group-hover:text-white/80">
+          {occasion.intro}
+         </p>
+         <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-neon-300 transition-colors duration-200 group-hover:text-neon-200">
           Mehr dazu
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
            <path d="M5 12h14M12 5l7 7-7 7" />
