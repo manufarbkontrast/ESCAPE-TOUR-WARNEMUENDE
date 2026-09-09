@@ -1,0 +1,1034 @@
+.maritime-site {
+  --ink: #173c43;
+  --muted: #586c6c;
+  --paper: #f7f5ef;
+  --line: #d8ded6;
+  --sea: #215b5c;
+  --accent: #dce9be;
+}
+.maritime-site * {
+  box-sizing: border-box;
+}
+.maritime-site {
+  scroll-behavior: smooth;
+  scroll-padding-top: 95px;
+}
+.maritime-site {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Avenir Next', 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.maritime-site button,
+.maritime-site input,
+.maritime-site select {
+  font: inherit;
+}
+.maritime-site a {
+  color: inherit;
+  text-decoration: none;
+}
+.maritime-site button,
+.maritime-site a,
+.maritime-site input,
+.maritime-site select,
+.maritime-site summary {
+  -webkit-tap-highlight-color: transparent;
+}
+.maritime-site a:focus-visible,
+.maritime-site button:focus-visible,
+.maritime-site summary:focus-visible,
+.maritime-site input:focus-visible,
+.maritime-site select:focus-visible {
+  outline: 3px solid #b47932;
+  outline-offset: 5px;
+}
+.maritime-site button {
+  cursor: pointer;
+}
+.maritime-site .et-home h1,
+.maritime-site .et-home h2,
+.maritime-site .et-home h3,
+.maritime-site .et-home p {
+  margin: 0;
+}
+.maritime-site .et-home h1,
+.maritime-site .et-home h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+.maritime-site .et-home h1 {
+  font-size: clamp(44px, 5.6vw, 80px);
+}
+.maritime-site .et-home h2 {
+  font-size: clamp(36px, 4vw, 54px);
+}
+.maritime-site .et-home h3 {
+  font-size: 21px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+.maritime-site .et-home p {
+  color: var(--muted);
+}
+.maritime-site .et-wrap {
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 56px;
+}
+.maritime-site .et-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.maritime-site .et-eyebrow:before {
+  content: '';
+  width: 23px;
+  height: 1px;
+  background: currentColor;
+}
+.maritime-site .et-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  padding: 14px 23px;
+  border-radius: 5px;
+  background: var(--ink);
+  color: white;
+  border: 1px solid var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.maritime-site .et-btn:hover {
+  background: #2c6065;
+  transform: translateY(-2px);
+}
+.maritime-site .et-btn.et-light {
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent);
+}
+.maritime-site .et-btn.et-outline {
+  background: transparent;
+  color: var(--ink);
+  border-color: #a8b8b4;
+}
+.maritime-site .et-btn.et-outline:hover {
+  background: #e8eee4;
+}
+.maritime-site .et-arrow {
+  font-size: 21px;
+  font-weight: 400;
+  line-height: 1;
+}
+.maritime-site .et-skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  background: white;
+  padding: 12px;
+}
+.maritime-site .et-skip:focus {
+  top: 10px;
+}
+.maritime-site header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #f7f5eff5;
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(15px);
+}
+.maritime-site .et-nav {
+  height: 86px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+.maritime-site .et-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.maritime-site .et-brand svg {
+  width: 30px;
+  height: 43px;
+}
+.maritime-site .et-brand strong {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+.maritime-site .et-brand small {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.maritime-site .et-navlinks {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.maritime-site .et-navlinks a:not(.et-btn):hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.maritime-site .et-menu {
+  display: none;
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 8px 13px;
+  border-radius: 4px;
+  color: var(--ink);
+}
+.maritime-site .et-hero {
+  padding-top: 44px;
+  padding-bottom: 45px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 55px;
+  align-items: center;
+}
+.maritime-site .et-hero-copy {
+  padding: 24px 0;
+}
+.maritime-site .et-hero h1 {
+  margin: 23px 0;
+}
+.maritime-site .et-hero h1 em {
+  font-weight: 400;
+  color: #648071;
+}
+.maritime-site .et-intro {
+  max-width: 425px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.maritime-site .et-actions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin: 28px 0 25px;
+}
+.maritime-site .et-textlink {
+  font-size: 13px;
+  border-bottom: 1px solid #8c9c91;
+  padding-bottom: 3px;
+}
+.maritime-site .et-facts {
+  display: flex;
+  gap: 23px;
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.maritime-site .et-facts b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.maritime-site .et-hero-visual {
+  position: relative;
+  height: 570px;
+}
+.maritime-site .et-hero-visual > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 51% center;
+  border-radius: 130px 5px 5px 5px;
+}
+.maritime-site .et-photo-label {
+  position: absolute;
+  left: 25px;
+  top: 24px;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  color: white;
+  background: #173c4380;
+  border: 1px solid #ffffff55;
+  padding: 7px 11px;
+  border-radius: 20px;
+}
+.maritime-site .et-compass {
+  position: absolute;
+  right: 22px;
+  top: 25px;
+  color: white;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1.2;
+}
+.maritime-site .et-compass span {
+  display: block;
+  font-size: 37px;
+}
+.maritime-site .et-photo-note {
+  position: absolute;
+  bottom: 22px;
+  left: 22px;
+  right: 22px;
+  background: var(--paper);
+  padding: 18px 21px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-radius: 4px;
+}
+.maritime-site .et-photo-note .et-number {
+  font-family: Georgia, serif;
+  font-size: 39px;
+  border-right: 1px solid var(--line);
+  padding-right: 20px;
+  line-height: 1;
+}
+.maritime-site .et-photo-note strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+.maritime-site .et-photo-note small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.maritime-site .et-benefits {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding-top: 25px;
+  padding-bottom: 25px;
+  gap: 22px;
+}
+.maritime-site .et-benefit {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+.maritime-site .et-benefit svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  stroke: var(--sea);
+  fill: none;
+  stroke-width: 1.4;
+}
+.maritime-site .et-benefit strong {
+  font-size: 13px;
+  font-weight: 600;
+  display: block;
+}
+.maritime-site .et-benefit small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.maritime-site .et-section {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+.maritime-site .et-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  margin-bottom: 37px;
+}
+.maritime-site .et-section-head h2 {
+  margin-top: 16px;
+}
+.maritime-site .et-section-head > p {
+  max-width: 330px;
+  font-size: 14px;
+}
+.maritime-site .et-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 46px;
+}
+.maritime-site .et-step {
+  border-top: 1px solid #a9b8af;
+  padding-top: 20px;
+}
+.maritime-site .et-step .et-n {
+  font-family: Georgia, serif;
+  font-size: 30px;
+  color: #738775;
+}
+.maritime-site .et-step h3 {
+  margin: 18px 0 10px;
+}
+.maritime-site .et-step p {
+  font-size: 14px;
+  max-width: 300px;
+}
+.maritime-site .et-tours {
+  background: #eaf0e5;
+}
+.maritime-site .et-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.maritime-site .et-card {
+  background: var(--paper);
+  padding: 29px;
+  border: 1px solid #ccd6c8;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.maritime-site .et-card.et-featured {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.maritime-site .et-card .et-tag {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  color: var(--muted);
+}
+.maritime-site .et-card.et-featured .et-tag,
+.maritime-site .et-card.et-featured p {
+  color: #bfd1c9;
+}
+.maritime-site .et-card p {
+  font-size: 13px;
+  margin-top: 10px;
+  min-height: 44px;
+}
+.maritime-site .et-price {
+  margin-top: 23px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.maritime-site .et-price strong {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-size: 40px;
+  letter-spacing: -0.04em;
+}
+.maritime-site .et-price small {
+  font-size: 11px;
+}
+.maritime-site .et-card .et-spec {
+  display: flex;
+  gap: 15px;
+  padding: 18px 0;
+  margin-top: 16px;
+  border-top: 1px solid #a5b6a54d;
+  border-bottom: 1px solid #a5b6a54d;
+  font-size: 12px;
+}
+.maritime-site .et-card ul {
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 2.2;
+  margin: 19px 0 26px;
+}
+.maritime-site .et-card li:before {
+  content: '✓';
+  margin-right: 10px;
+  color: #738c62;
+}
+.maritime-site .et-featured li:before {
+  color: var(--accent);
+}
+.maritime-site .et-card .et-btn {
+  width: 100%;
+  margin-top: auto;
+}
+.maritime-site .et-group-note {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 12px;
+}
+.maritime-site .et-route {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 65px;
+  align-items: center;
+}
+.maritime-site .et-route-img {
+  position: relative;
+}
+.maritime-site .et-route-img img {
+  width: 100%;
+  height: 375px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+}
+.maritime-site .et-caption {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 13px;
+}
+.maritime-site .et-route h2 {
+  margin: 18px 0 23px;
+}
+.maritime-site .et-route p {
+  font-size: 14px;
+}
+.maritime-site .et-stops {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.maritime-site .et-stops span:not(.et-dot) {
+  white-space: nowrap;
+}
+.maritime-site .et-dot {
+  flex: 1;
+  border-top: 1px dashed #95a796;
+}
+.maritime-site .et-faq {
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 70px;
+}
+.maritime-site .et-faq h2 {
+  margin: 17px 0 22px;
+}
+.maritime-site .et-faq p {
+  font-size: 14px;
+}
+.maritime-site .et-faq a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.maritime-site .et-accordion details {
+  border-bottom: 1px solid var(--line);
+}
+.maritime-site .et-accordion details:first-child {
+  border-top: 1px solid var(--line);
+}
+.maritime-site summary {
+  padding: 22px 25px 22px 0;
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 14px;
+  font-weight: 600;
+}
+.maritime-site summary::-webkit-details-marker {
+  display: none;
+}
+.maritime-site summary:after {
+  content: '+';
+  position: absolute;
+  right: 3px;
+  font-size: 22px;
+  font-weight: 400;
+  top: 17px;
+}
+.maritime-site details[open] summary:after {
+  content: '−';
+}
+.maritime-site details p {
+  padding: 0 25px 22px 0;
+}
+.maritime-site .et-closing {
+  background: var(--ink);
+  color: var(--paper);
+  text-align: center;
+  padding: 66px 20px;
+}
+.maritime-site .et-closing .et-eyebrow {
+  justify-content: center;
+  color: #bdceb7;
+}
+.maritime-site .et-closing h2 {
+  margin: 19px auto 18px;
+}
+.maritime-site .et-closing p {
+  color: #c6d5cf;
+  font-size: 14px;
+  margin-bottom: 26px;
+}
+.maritime-site footer {
+  padding-top: 33px !important;
+  padding-bottom: 26px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  font-size: 12px;
+}
+.maritime-site footer p {
+  font-size: 11px;
+}
+.maritime-site .et-footer-contact {
+  display: flex;
+  gap: 20px;
+}
+.maritime-site .et-hero-copy {
+  animation: enter 0.7s ease both;
+}
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1500px) {
+  .maritime-site .et-hero-visual {
+    height: 610px;
+  }
+}
+@media (max-width: 1050px) {
+  .maritime-site .et-wrap {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .maritime-site .et-navlinks {
+    gap: 18px;
+  }
+  .maritime-site .et-hero {
+    gap: 30px;
+  }
+  .maritime-site .et-hero-visual {
+    height: 530px;
+  }
+  .maritime-site .et-actions {
+    gap: 17px;
+  }
+  .maritime-site .et-benefits {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .maritime-site .et-card {
+    padding: 23px;
+  }
+  .maritime-site .et-route {
+    gap: 35px;
+  }
+}
+@media (max-width: 760px) {
+  .maritime-site .et-wrap {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .maritime-site .et-nav {
+    height: 73px;
+  }
+  .maritime-site .et-brand strong {
+    font-size: 23px;
+  }
+  .maritime-site .et-brand small {
+    font-size: 8px;
+  }
+  .maritime-site .et-menu {
+    display: block;
+  }
+  .maritime-site .et-navlinks {
+    display: none;
+    position: absolute;
+    top: 73px;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    padding: 22px;
+    border-bottom: 1px solid var(--line);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .maritime-site .et-navlinks.et-open {
+    display: flex;
+  }
+  .maritime-site .et-hero {
+    grid-template-columns: 1fr;
+    padding-top: 13px;
+    gap: 12px;
+    padding-bottom: 30px;
+  }
+  .maritime-site .et-hero-copy {
+    padding: 24px 0 14px;
+  }
+  .maritime-site .et-hero h1 {
+    font-size: 53px;
+    max-width: 480px;
+    margin: 18px 0;
+  }
+  .maritime-site .et-intro {
+    font-size: 15px;
+  }
+  .maritime-site .et-actions {
+    margin: 23px 0;
+  }
+  .maritime-site .et-facts {
+    gap: 14px;
+    font-size: 11px;
+  }
+  .maritime-site .et-hero-visual {
+    height: 360px;
+  }
+  .maritime-site .et-hero-visual > img {
+    border-radius: 75px 5px 5px 5px;
+    object-position: center 52%;
+  }
+  .maritime-site .et-photo-note {
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
+    padding: 13px 16px;
+  }
+  .maritime-site .et-photo-label {
+    left: 22px;
+    font-size: 9px;
+  }
+  .maritime-site .et-benefits {
+    gap: 22px 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .maritime-site .et-benefit {
+    gap: 9px;
+  }
+  .maritime-site .et-benefit strong {
+    font-size: 11px;
+  }
+  .maritime-site .et-benefit small {
+    font-size: 10px;
+  }
+  .maritime-site .et-benefit svg {
+    width: 22px;
+  }
+  .maritime-site .et-section {
+    padding-top: 58px;
+    padding-bottom: 58px;
+  }
+  .maritime-site .et-section-head {
+    display: block;
+    margin-bottom: 28px;
+  }
+  .maritime-site .et-section-head > p {
+    margin-top: 20px;
+  }
+  .maritime-site .et-steps {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .maritime-site .et-step {
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    column-gap: 20px;
+    padding-top: 18px;
+  }
+  .maritime-site .et-step .et-n {
+    grid-row: span 2;
+  }
+  .maritime-site .et-step h3 {
+    margin: 4px 0 8px;
+    font-size: 19px;
+  }
+  .maritime-site .et-step p {
+    max-width: 100%;
+  }
+  .maritime-site .et-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .maritime-site .et-card {
+    padding: 26px;
+  }
+  .maritime-site .et-card .et-tag {
+    margin-bottom: 14px;
+  }
+  .maritime-site .et-card p {
+    min-height: 0;
+  }
+  .maritime-site .et-price {
+    margin-top: 17px;
+  }
+  .maritime-site .et-card ul {
+    margin: 17px 0;
+  }
+  .maritime-site .et-route {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+  .maritime-site .et-route-img img {
+    height: 290px;
+  }
+  .maritime-site .et-faq {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+  .maritime-site .et-closing h2 {
+    font-size: 40px;
+  }
+  .maritime-site footer {
+    align-items: start;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .maritime-site .et-footer-contact {
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  .maritime-site .et-group-note {
+    font-size: 11px;
+  }
+  .maritime-site .et-stops {
+    font-size: 10px;
+    gap: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .maritime-site {
+    scroll-behavior: auto;
+  }
+  .maritime-site *,
+  .maritime-site *:before,
+  .maritime-site *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Shared marketing theme. Game and admin retain their own appearance. */
+.maritime-site {
+  font-weight: 400;
+  min-width: 0;
+  color-scheme: light;
+}
+.maritime-site .et-home :is(h1, h2) {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+.maritime-site .et-home h3 {
+  font-family: inherit;
+  letter-spacing: 0;
+}
+.maritime-site .et-home .et-btn {
+  color: var(--paper);
+}
+.maritime-site .et-home .et-btn:is(.et-light, .et-outline) {
+  color: var(--ink);
+}
+.maritime-site :is(section[id], main[id]) {
+  scroll-margin-top: 100px;
+}
+.maritime-site .et-menu {
+  align-items: center;
+  gap: 9px;
+}
+.maritime-site .et-navlinks {
+  position: static;
+}
+.maritime-site .et-header {
+  background: #f7f5eff5;
+}
+.maritime-site .et-brand svg {
+  height: 38px;
+  width: 34px;
+}
+.maritime-site .et-footer {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding: 50px 0 24px !important;
+}
+.maritime-site .et-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.7fr 0.7fr 1fr;
+  gap: 35px;
+}
+.maritime-site .et-footer h3 {
+  font-size: 13px;
+  margin-bottom: 14px;
+  font-family: inherit;
+}
+.maritime-site .et-footer ul {
+  padding: 0;
+  list-style: none;
+  line-height: 2.2;
+}
+.maritime-site .et-footer-description {
+  max-width: 260px;
+  margin-top: 20px;
+  font-size: 13px;
+}
+.maritime-site .et-footer-email {
+  display: block;
+  margin-top: 15px;
+  overflow-wrap: anywhere;
+}
+.maritime-site .et-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 35px;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+.maritime-site .et-footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.maritime-site .btn {
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  border-radius: 5px;
+  padding: 12px 22px;
+}
+.maritime-site .btn:hover {
+  background: #2c6065;
+}
+.maritime-site .btn:is(.btn-outline, .btn-secondary, .btn-ghost) {
+  background: transparent;
+  color: var(--ink);
+  border-color: #a8b8b4;
+}
+.maritime-site :is(.card, .card-glass) {
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.maritime-site .pattern-grid,
+.maritime-site .pattern-waves {
+  background-image: none;
+}
+.maritime-site input,
+.maritime-site textarea,
+.maritime-site select {
+  color-scheme: light;
+}
+.maritime-site .et-booking-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1152px;
+  margin: 0 auto 32px;
+  padding: 23px 26px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #eaf0e5;
+}
+.maritime-site .et-booking-summary strong {
+  display: block;
+  font-size: 19px;
+}
+.maritime-site .et-booking-summary p,
+.maritime-site .et-booking-summary span {
+  font-size: 13px;
+}
+.maritime-site .et-booking-summary > div:last-child {
+  text-align: right;
+  flex-shrink: 0;
+}
+.maritime-site .et-booking .card > div {
+  gap: 16px;
+  overflow-wrap: anywhere;
+}
+.maritime-site .et-booking h1 {
+  font-weight: 400;
+}
+.maritime-site .et-booking button[aria-pressed] {
+  display: flex;
+  flex-direction: column;
+}
+.maritime-site .et-booking button[aria-pressed] > div:last-child {
+  margin-top: auto;
+}
+.maritime-site .et-booking button[aria-pressed]:hover {
+  box-shadow: 0 3px 16px #173c4310;
+}
+@media (max-width: 1000px) {
+  .maritime-site .et-footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .maritime-site .et-navlinks {
+    gap: 17px;
+  }
+}
+@media (max-width: 760px) {
+  .maritime-site .et-menu {
+    display: flex;
+  }
+  .maritime-site .et-footer-grid {
+    gap: 28px;
+  }
+  .maritime-site .et-footer-grid > div:first-child {
+    grid-column: 1/-1;
+  }
+  .maritime-site .et-footer-bottom {
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .maritime-site .et-booking-summary {
+    padding: 18px;
+    gap: 15px;
+  }
+  .maritime-site .et-booking-summary strong {
+    font-size: 16px;
+  }
+  .maritime-site .et-booking-summary p {
+    font-size: 12px;
+  }
+  .maritime-site .et-hero h1 {
+    font-size: clamp(40px, 12.5vw, 53px);
+  }
+}
+.maritime-site .card-hover {
+  background: white;
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.maritime-site .card-hover:hover {
+  background: #eef2e9;
+  border-color: #a8b8b4;
+}
+.maritime-site .legal-prose a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.maritime-site :is(input, textarea, select):focus-visible {
+  outline-color: var(--sea);
+}
+.maritime-site .et-home :is(.et-btn, .et-textlink) {
+  text-decoration: none;
+}
+.maritime-site :is(.btn-icon, .btn-icon-md) {
+  background: var(--panel, #eaf0e5);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.maritime-site :is(.btn-icon, .btn-icon-md):hover:not(:disabled) {
+  background: #dce9be;
+}

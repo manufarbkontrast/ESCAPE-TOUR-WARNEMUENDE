@@ -73,26 +73,26 @@ export function VoucherForm() {
   }
 
   const inputClass =
-    'w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-base text-white placeholder:text-white/30 transition-colors focus:border-white/25 focus:outline-none focus:ring-1 focus:ring-white/20'
+    'w-full rounded-xl border border-coast-line bg-coast-ink/[0.03] px-4 py-3 text-base text-coast-ink placeholder:text-coast-muted transition-colors focus:border-white/25 focus:outline-none focus:ring-1 focus:ring-white/20'
 
   return (
     <form onSubmit={handleSubmit} className="card space-y-6 p-6 sm:p-8">
       <div>
-        <h2 className="text-2xl font-bold text-white">Gutschein zusammenstellen</h2>
-        <p className="mt-2 text-sm text-white/60">
+        <h2 className="text-2xl font-bold text-coast-ink">Gutschein zusammenstellen</h2>
+        <p className="mt-2 text-sm text-coast-muted">
           Der Termin wird später gewählt — ihr braucht jetzt keinen.
         </p>
       </div>
 
       {error && (
         <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/[0.06] p-4">
-          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-400/80" strokeWidth={1.5} />
-          <p className="text-sm text-white/80">{error}</p>
+          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-700/80" strokeWidth={1.5} />
+          <p className="text-sm text-coast-muted">{error}</p>
         </div>
       )}
 
       <fieldset>
-        <legend className="mb-3 text-sm font-semibold text-white/60">Tour</legend>
+        <legend className="mb-3 text-sm font-semibold text-coast-muted">Tour</legend>
         <div className="space-y-2">
           {TOUR_VARIANTS.map((option) => (
             <label
@@ -100,7 +100,7 @@ export function VoucherForm() {
               className={`flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 transition-colors ${
                 option.id === variantId
                   ? 'border-neon-400/50 bg-neon-500/[0.06]'
-                  : 'border-white/10 bg-white/[0.02] hover:border-white/25'
+                  : 'border-coast-line bg-coast-ink/[0.02] hover:border-white/25'
               }`}
             >
               <span className="flex items-center gap-3">
@@ -113,11 +113,11 @@ export function VoucherForm() {
                   className="sr-only"
                 />
                 <span>
-                  <span className="block text-base font-bold text-white">{option.name}</span>
-                  <span className="block text-sm text-white/50">{option.ageLabel}</span>
+                  <span className="block text-base font-bold text-coast-ink">{option.name}</span>
+                  <span className="block text-sm text-coast-muted">{option.ageLabel}</span>
                 </span>
               </span>
-              <span className="font-mono text-sm tabular-nums text-white">
+              <span className="font-mono text-sm tabular-nums text-coast-ink">
                 {formatPrice(option.priceCents)}&nbsp;€
               </span>
             </label>
@@ -126,7 +126,10 @@ export function VoucherForm() {
       </fieldset>
 
       <div>
-        <label htmlFor="voucher-people" className="mb-2 block text-sm font-semibold text-white/60">
+        <label
+          htmlFor="voucher-people"
+          className="mb-2 block text-sm font-semibold text-coast-muted"
+        >
           Für wie viele Personen?
         </label>
         <div className="flex items-center gap-4">
@@ -135,13 +138,13 @@ export function VoucherForm() {
             onClick={() => changeCount(-1)}
             disabled={participantCount <= MIN_PARTICIPANTS}
             aria-label="Personenzahl verringern"
-            className="btn-icon h-11 w-11 border border-white/10 text-white disabled:opacity-30"
+            className="btn-icon h-11 w-11 border border-coast-line text-coast-ink disabled:opacity-30"
           >
             <Minus className="h-4 w-4" />
           </button>
           <output
             id="voucher-people"
-            className="min-w-[3ch] text-center font-mono text-2xl tabular-nums text-white"
+            className="min-w-[3ch] text-center font-mono text-2xl tabular-nums text-coast-ink"
           >
             {participantCount}
           </output>
@@ -150,7 +153,7 @@ export function VoucherForm() {
             onClick={() => changeCount(1)}
             disabled={participantCount >= MAX_PARTICIPANTS}
             aria-label="Personenzahl erhöhen"
-            className="btn-icon h-11 w-11 border border-white/10 text-white disabled:opacity-30"
+            className="btn-icon h-11 w-11 border border-coast-line text-coast-ink disabled:opacity-30"
           >
             <Plus className="h-4 w-4" />
           </button>
@@ -158,7 +161,10 @@ export function VoucherForm() {
       </div>
 
       <div>
-        <label htmlFor="voucher-email" className="mb-2 block text-sm font-semibold text-white/60">
+        <label
+          htmlFor="voucher-email"
+          className="mb-2 block text-sm font-semibold text-coast-muted"
+        >
           Eure E-Mail-Adresse
         </label>
         <input
@@ -171,12 +177,15 @@ export function VoucherForm() {
           placeholder="ihr@beispiel.de"
           className={inputClass}
         />
-        <p className="mt-2 text-xs text-white/45">Hierhin schicken wir den Gutschein.</p>
+        <p className="mt-2 text-xs text-coast-muted">Hierhin schicken wir den Gutschein.</p>
       </div>
 
       <div>
-        <label htmlFor="voucher-recipient" className="mb-2 block text-sm font-semibold text-white/60">
-          Für wen? <span className="font-normal text-white/35">(optional)</span>
+        <label
+          htmlFor="voucher-recipient"
+          className="mb-2 block text-sm font-semibold text-coast-muted"
+        >
+          Für wen? <span className="font-normal text-coast-ink/35">(optional)</span>
         </label>
         <input
           id="voucher-recipient"
@@ -190,8 +199,11 @@ export function VoucherForm() {
       </div>
 
       <div>
-        <label htmlFor="voucher-message" className="mb-2 block text-sm font-semibold text-white/60">
-          Grußwort <span className="font-normal text-white/35">(optional)</span>
+        <label
+          htmlFor="voucher-message"
+          className="mb-2 block text-sm font-semibold text-coast-muted"
+        >
+          Grußwort <span className="font-normal text-coast-ink/35">(optional)</span>
         </label>
         <textarea
           id="voucher-message"
@@ -204,16 +216,18 @@ export function VoucherForm() {
         />
       </div>
 
-      <div className="flex items-baseline justify-between border-t border-white/10 pt-5">
-        <span className="text-base text-white/60">Gesamt</span>
-        <span className="font-display text-3xl text-white">{formatPrice(totalCents)}&nbsp;€</span>
+      <div className="flex items-baseline justify-between border-t border-coast-line pt-5">
+        <span className="text-base text-coast-muted">Gesamt</span>
+        <span className="font-display text-3xl text-coast-ink">
+          {formatPrice(totalCents)}&nbsp;€
+        </span>
       </div>
 
       <button type="submit" disabled={isSubmitting} className="btn btn-primary w-full btn-lg">
         {isSubmitting ? 'Einen Moment…' : 'Gutschein kaufen'}
       </button>
 
-      <p className="text-center text-xs text-white/45">
+      <p className="text-center text-xs text-coast-muted">
         Sichere Zahlung über Stripe. Ihr werdet weitergeleitet.
       </p>
     </form>

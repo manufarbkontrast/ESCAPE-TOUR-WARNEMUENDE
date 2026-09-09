@@ -17,6 +17,12 @@
 
 ## Design Rules (IMPORTANT)
 
+**Marketing-Redesign (2026-09-09):** Der vom Nutzer freigegebene HTML-Entwurf
+verwendet Sand/Marinegrün. `app/(marketing)/maritime.css` und die `coast`-Tokens
+gelten nur für öffentliche Marketingseiten. Die folgenden dunklen Designregeln
+gelten weiterhin für Spiel und Administration.
+
+
 - **NO brass/gold/orange colors** — the entire site uses white and sand-grey tones as accents
 - **NO emojis** — use SVG line drawings instead
 - **NO decorative Lucide icons** on form labels — only functional icons (arrows, plus/minus, close)
@@ -70,6 +76,11 @@ app/
 ```
 
 ## Deployment
+
+**Aktueller Veröffentlichungsweg:** siehe `docs/DEPLOYMENT.md`. Seit dem maritimen
+Redesign werden Releases separat gebaut und über den `cwd` in der PM2-Konfiguration
+aktiviert. Der frühere In-place-Build unten ist damit abgelöst.
+
 
 - **Server**: Hetzner, IP `188.245.121.230`, Ubuntu 24.04 (hostname `escapetour`)
 - **SSH**: `ssh -i ~/.ssh/hetzner_escape_tour_new root@188.245.121.230`

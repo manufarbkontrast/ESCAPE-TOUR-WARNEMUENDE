@@ -14,12 +14,9 @@ import { TOUR_LOCATIONS, DEFAULT_LOCATION } from '@/lib/config/locations'
  */
 export function LocationSelector() {
   const router = useRouter()
-  const [selectedId, setSelectedId] = useState<string | null>(
-    DEFAULT_LOCATION?.id ?? null
-  )
+  const [selectedId, setSelectedId] = useState<string | null>(DEFAULT_LOCATION?.id ?? null)
 
-  const selected =
-    TOUR_LOCATIONS.find((location) => location.id === selectedId) ?? null
+  const selected = TOUR_LOCATIONS.find((location) => location.id === selectedId) ?? null
 
   const handleSelect = (id: string, available: boolean) => {
     if (!available) {
@@ -39,7 +36,7 @@ export function LocationSelector() {
     <div className="card-glass mx-auto max-w-2xl text-left">
       <div className="mb-4 flex items-center gap-2">
         <svg
-          className="h-4 w-4 text-white/60"
+          className="h-4 w-4 text-coast-muted"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -67,30 +64,26 @@ export function LocationSelector() {
               aria-pressed={isSelected}
               className={cn(
                 'relative flex flex-col items-start gap-1 rounded-lg border p-3 text-left transition-colors',
-                location.available
-                  ? 'cursor-pointer'
-                  : 'cursor-not-allowed opacity-50',
+                location.available ? 'cursor-pointer' : 'cursor-not-allowed opacity-50',
                 isSelected
                   ? 'border-neon-400/60 bg-neon-500/[0.06]'
-                  : 'border-white/10 bg-white/[0.03] hover:border-white/25'
+                  : 'border-coast-line bg-coast-ink/[0.03] hover:border-white/25',
               )}
             >
-              <span className="text-base font-bold text-white">
-                {location.name}
-              </span>
-              <span className="font-mono text-[11px] tracking-tight text-white/45">
+              <span className="text-base font-bold text-coast-ink">{location.name}</span>
+              <span className="font-mono text-[11px] tracking-tight text-coast-muted">
                 {location.region}
               </span>
 
               {!location.available && (
-                <span className="mt-1 inline-flex rounded-md border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white/55">
+                <span className="mt-1 inline-flex rounded-md border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-coast-ink/55">
                   Bald
                 </span>
               )}
 
               {isSelected && location.available && (
                 <svg
-                  className="absolute right-2.5 top-2.5 h-4 w-4 text-neon-300"
+                  className="absolute right-2.5 top-2.5 h-4 w-4 text-coast-sea"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -113,9 +106,7 @@ export function LocationSelector() {
         disabled={!selected?.available}
         className="btn btn-primary mt-5 w-full text-lg"
       >
-        {selected?.available
-          ? `Tour in ${selected.name} entdecken`
-          : 'Standort wählen'}
+        {selected?.available ? `Tour in ${selected.name} entdecken` : 'Standort wählen'}
       </button>
     </div>
   )

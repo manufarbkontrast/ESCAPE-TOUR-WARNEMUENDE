@@ -1,105 +1,70 @@
-import Link from 'next/link';
-import { Logo } from './Logo';
-import { SITE, telHref, mailHref } from '@/lib/config/site';
+import Link from 'next/link'
+import { Logo } from './Logo'
+import { SITE, telHref, mailHref } from '@/lib/config/site'
 
-/**
- * Quick links for footer navigation
- */
 const QUICK_LINKS = [
- { label: "So funktioniert's", href: '/#ablauf' },
- { label: 'Preise', href: '/#preise' },
- { label: 'Gutschein', href: '/gutschein' },
- { label: 'Häufige Fragen', href: '/faq' },
- { label: 'Kontakt', href: '/kontakt' },
-] as const;
-
-/**
- * Legal links for footer
- */
+  { label: "So funktioniert's", href: '/#ablauf' },
+  { label: 'Preise', href: '/#preise' },
+  { label: 'Gutschein', href: '/gutschein' },
+  { label: 'Häufige Fragen', href: '/faq' },
+  { label: 'Kontakt', href: '/kontakt' },
+]
 const LEGAL_LINKS = [
- { label: 'Impressum', href: '/impressum' },
- { label: 'Datenschutz', href: '/datenschutz' },
- { label: 'AGB', href: '/agb' },
-] as const;
+  { label: 'Impressum', href: '/impressum' },
+  { label: 'Datenschutz', href: '/datenschutz' },
+  { label: 'AGB', href: '/agb' },
+]
 
-/**
- * Footer component for marketing pages
- * Server component - contains links and copyright information
- */
 export function Footer() {
- const currentYear = new Date().getFullYear();
-
- return (
-  <footer className="w-full border-t border-white/10">
-   <div className="container-custom py-12">
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-     {/* Brand Column */}
-     <div className="col-span-1 md:col-span-2">
-      <div className="mb-4 flex items-center gap-2.5">
-       <Logo className="h-7 w-7 text-white" />
-       <span className="font-display text-lg font-bold leading-none text-white">
-        Escape Tour
-       </span>
+  return (
+    <footer className="et-footer">
+      <div className="et-wrap et-footer-grid">
+        <div>
+          <Link href="/" className="et-brand">
+            <Logo />
+            <span>
+              <strong>{SITE.name}</strong>
+              <small>Ein Ort. Unzählige Entdeckungen.</small>
+            </span>
+          </Link>
+          <p className="et-footer-description">
+            Rätseltouren an echten Orten. Zwölf Stationen durch Warnemünde – das iPad bekommt ihr
+            von uns.
+          </p>
+        </div>
+        <div>
+          <h3>Navigation</h3>
+          <ul>
+            {QUICK_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3>Rechtliches</h3>
+          <ul>
+            {LEGAL_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href}>{link.label}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3>Persönlich für euch da</h3>
+          <a href={telHref(SITE.phone.display)}>{SITE.phone.display}</a>
+          <p>{SITE.phone.hours}</p>
+          <a className="et-footer-email" href={mailHref(SITE.email)}>
+            {SITE.email}
+          </a>
+        </div>
       </div>
-      <p className="text-base text-white/70 max-w-md font-semibold">
-       Rätseltouren an echten Orten. In Warnemünde führen euch zwölf
-       Stationen vom Leuchtturm über die Westmole bis zum Alten Strom —
-       das iPad bekommt ihr von uns.
-      </p>
-     </div>
-
-     {/* Navigation */}
-     <div>
-      <h3 className="font-semibold mb-4 text-white">Navigation</h3>
-      <ul className="space-y-2">
-       {QUICK_LINKS.map((link) => (
-        <li key={link.href}>
-         <Link
-          href={link.href}
-          className="text-base text-white/70 hover:text-white transition-colors font-semibold"
-         >
-          {link.label}
-         </Link>
-        </li>
-       ))}
-      </ul>
-     </div>
-
-     {/* Legal */}
-     <div>
-      <h3 className="font-semibold mb-4 text-white">Rechtliches</h3>
-      <ul className="space-y-2">
-       {LEGAL_LINKS.map((link) => (
-        <li key={link.href}>
-         <Link
-          href={link.href}
-          className="text-base text-white/70 hover:text-white transition-colors font-semibold"
-         >
-          {link.label}
-         </Link>
-        </li>
-       ))}
-      </ul>
-     </div>
-    </div>
-
-    <div className="border-t border-white/10 my-8" />
-
-    <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-base text-white/60 font-semibold">
-     <p>© {currentYear} Escape Tour. Alle Rechte vorbehalten.</p>
-     <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
-      <a
-       href={telHref(SITE.phone.display)}
-       className="font-mono tabular-nums transition-colors hover:text-white"
-      >
-       {SITE.phone.display}
-      </a>
-      <a href={mailHref(SITE.email)} className="transition-colors hover:text-white">
-       {SITE.email}
-      </a>
-     </div>
-    </div>
-   </div>
-  </footer>
- );
+      <div className="et-wrap et-footer-bottom">
+        <p>© {new Date().getFullYear()} Escape Tour. Alle Rechte vorbehalten.</p>
+        <p>Warnemünde · Ostsee</p>
+      </div>
+    </footer>
+  )
 }

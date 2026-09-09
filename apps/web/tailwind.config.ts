@@ -1,15 +1,19 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './lib/**/*.{ts,tsx}',
-  ],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
+        coast: {
+          ink: '#173c43',
+          muted: '#586c6c',
+          paper: '#f7f5ef',
+          panel: '#eaf0e5',
+          line: '#d8ded6',
+          sea: '#215b5c',
+        },
         // Dark theme — true blacks
         dark: {
           50: '#f5f5f5',
@@ -70,7 +74,7 @@ const config: Config = {
         },
       },
       boxShadow: {
-        'neon': '0 0 5px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
+        neon: '0 0 5px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
         'neon-lg': '0 0 10px rgba(0, 240, 255, 0.4), 0 0 40px rgba(0, 240, 255, 0.15)',
       },
     },

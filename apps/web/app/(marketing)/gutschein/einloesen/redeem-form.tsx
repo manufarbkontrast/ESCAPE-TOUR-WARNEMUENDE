@@ -36,7 +36,7 @@ function tomorrow(): string {
 }
 
 const inputClass =
-  'w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-base text-white placeholder:text-white/30 transition-colors focus:border-white/25 focus:outline-none focus:ring-1 focus:ring-white/20'
+  'w-full rounded-xl border border-coast-line bg-coast-ink/[0.03] px-4 py-3 text-base text-coast-ink placeholder:text-coast-muted transition-colors focus:border-white/25 focus:outline-none focus:ring-1 focus:ring-white/20'
 
 export function RedeemForm() {
   const [step, setStep] = useState<Step>('code')
@@ -116,27 +116,26 @@ export function RedeemForm() {
     return (
       <div className="card space-y-5 p-6 sm:p-8">
         <div>
-          <h2 className="text-2xl font-bold text-white">Termin steht</h2>
-          <p className="mt-2 text-base leading-relaxed text-white/65">
+          <h2 className="text-2xl font-bold text-coast-ink">Termin steht</h2>
+          <p className="mt-2 text-base leading-relaxed text-coast-ink/65">
             {booking.tourName} für {booking.participantCount}{' '}
             {booking.participantCount === 1 ? 'Person' : 'Personen'} am{' '}
             {formatDate(booking.scheduledDate)}. Die Bestätigung ist unterwegs.
           </p>
         </div>
 
-        <div className="rounded-xl bg-dark-950 px-5 py-6 text-center">
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/45">
+        <div className="rounded-xl bg-coast-paper px-5 py-6 text-center">
+          <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-coast-muted">
             Euer Startcode
           </p>
-          <p className="mt-2 font-mono text-3xl tracking-[0.15em] text-white">
+          <p className="mt-2 font-mono text-3xl tracking-[0.15em] text-coast-ink">
             {booking.bookingCode}
           </p>
         </div>
 
-        <p className="text-sm leading-relaxed text-white/60">
-          Kommt {SITE.meetingPoint.minutesBefore} Minuten vor dem Termin zu{' '}
-          {SITE.meetingPoint.name} {SITE.meetingPoint.detail}. Dort bekommt ihr
-          das iPad und eine kurze Einweisung.
+        <p className="text-sm leading-relaxed text-coast-muted">
+          Kommt {SITE.meetingPoint.minutesBefore} Minuten vor dem Termin zu {SITE.meetingPoint.name}{' '}
+          {SITE.meetingPoint.detail}. Dort bekommt ihr das iPad und eine kurze Einweisung.
         </p>
       </div>
     )
@@ -146,22 +145,25 @@ export function RedeemForm() {
     <div className="card space-y-6 p-6 sm:p-8">
       {error && (
         <div className="flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/[0.06] p-4">
-          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-400/80" strokeWidth={1.5} />
-          <p className="text-sm text-white/80">{error}</p>
+          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-red-700/80" strokeWidth={1.5} />
+          <p className="text-sm text-coast-muted">{error}</p>
         </div>
       )}
 
       {step === 'code' && (
         <form onSubmit={lookUpCode} className="space-y-5">
           <div>
-            <h2 className="text-2xl font-bold text-white">Gutschein einlösen</h2>
-            <p className="mt-2 text-sm text-white/60">
+            <h2 className="text-2xl font-bold text-coast-ink">Gutschein einlösen</h2>
+            <p className="mt-2 text-sm text-coast-muted">
               Den Code findet ihr in der Gutschein-E-Mail.
             </p>
           </div>
 
           <div>
-            <label htmlFor="voucher-code" className="mb-2 block text-sm font-semibold text-white/60">
+            <label
+              htmlFor="voucher-code"
+              className="mb-2 block text-sm font-semibold text-coast-muted"
+            >
               Gutscheincode
             </label>
             <input
@@ -188,15 +190,18 @@ export function RedeemForm() {
       {step === 'date' && voucher && (
         <form onSubmit={redeem} className="space-y-5">
           <div>
-            <h2 className="text-2xl font-bold text-white">Termin wählen</h2>
-            <p className="mt-2 text-sm text-white/60">
+            <h2 className="text-2xl font-bold text-coast-ink">Termin wählen</h2>
+            <p className="mt-2 text-sm text-coast-muted">
               {voucher.tourName} für bis zu {voucher.participantCount}{' '}
               {voucher.participantCount === 1 ? 'Person' : 'Personen'} — bereits bezahlt.
             </p>
           </div>
 
           <div>
-            <label htmlFor="redeem-date" className="mb-2 block text-sm font-semibold text-white/60">
+            <label
+              htmlFor="redeem-date"
+              className="mb-2 block text-sm font-semibold text-coast-muted"
+            >
               Datum
             </label>
             <input
@@ -211,7 +216,10 @@ export function RedeemForm() {
           </div>
 
           <div>
-            <label htmlFor="redeem-people" className="mb-2 block text-sm font-semibold text-white/60">
+            <label
+              htmlFor="redeem-people"
+              className="mb-2 block text-sm font-semibold text-coast-muted"
+            >
               Personen
             </label>
             <select
@@ -221,18 +229,21 @@ export function RedeemForm() {
               className={inputClass}
             >
               {Array.from({ length: voucher.participantCount }, (_, i) => i + 1).map((count) => (
-                <option key={count} value={count} className="bg-dark-900">
+                <option key={count} value={count} className="bg-coast-panel">
                   {count} {count === 1 ? 'Person' : 'Personen'}
                 </option>
               ))}
             </select>
-            <p className="mt-2 text-xs text-white/45">
+            <p className="mt-2 text-xs text-coast-muted">
               Weniger geht, mehr nicht — dafür meldet euch bitte kurz bei uns.
             </p>
           </div>
 
           <div>
-            <label htmlFor="redeem-email" className="mb-2 block text-sm font-semibold text-white/60">
+            <label
+              htmlFor="redeem-email"
+              className="mb-2 block text-sm font-semibold text-coast-muted"
+            >
               E-Mail für die Bestätigung
             </label>
             <input
@@ -248,8 +259,11 @@ export function RedeemForm() {
           </div>
 
           <div>
-            <label htmlFor="redeem-team" className="mb-2 block text-sm font-semibold text-white/60">
-              Teamname <span className="font-normal text-white/35">(optional)</span>
+            <label
+              htmlFor="redeem-team"
+              className="mb-2 block text-sm font-semibold text-coast-muted"
+            >
+              Teamname <span className="font-normal text-coast-ink/35">(optional)</span>
             </label>
             <input
               id="redeem-team"
