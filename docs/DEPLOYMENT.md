@@ -17,13 +17,18 @@ Build a detached Git worktree under `releases` using the intended commit. Run
 there. Use the actual server environment: public environment variables are embedded
 at build time. Never deploy the local preview build (it uses dummy payment/mail keys).
 
-Only after a successful build, back up `ecosystem.config.cjs`, update the app's `cwd`
-to `<release>/apps/web`, and run `pm2 reload ecosystem.config.cjs --update-env`.
+Only after a successful build, back up `ecosystem.config.cjs`, set the app's `cwd`
+to `<release>/apps/web` and its `script` to
+`<release>/apps/web/node_modules/next/dist/bin/next`. Use `interpreter: node`,
+`exec_mode: fork`, `instances: 1` and `args: start -p 3000 --hostname 127.0.0.1`.
+Start Next directly: the old `npx` wrapper did not switch releases reliably on reload.
+For a release path change, recreate the process with
+`pm2 delete escape-tour && pm2 start ecosystem.config.cjs` (brief restart).
 Check the public homepage, booking selection, static assets and process health;
 then run `pm2 save`. Keep the previous release and configuration available.
 
 Rollback: restore the previous `ecosystem.config.cjs` and run
-`pm2 reload ecosystem.config.cjs --update-env && pm2 save` from the checkout.
+`pm2 delete escape-tour && pm2 start ecosystem.config.cjs && pm2 save` from the checkout.
 No database migration is part of the maritime redesign.
 
 ## Payment configuration observed on 2026-09-09
